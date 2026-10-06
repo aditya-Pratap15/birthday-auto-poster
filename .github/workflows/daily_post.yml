@@ -4,8 +4,8 @@ on:
     - cron: '30 0 * * *'  # 6:00 AM IST daily
   workflow_dispatch:
   push:
-    paths:
-      - 'today_posts.json'
+    branches:
+      - main
 
 jobs:
   post-to-facebook:
