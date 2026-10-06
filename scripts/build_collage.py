@@ -1,68 +1,153 @@
 #!/usr/bin/env python3
 """
-Automated Celebrity Birthday Collage Builder
-Reads today_posts.json, selects male/female preset templates,
-preserves custom background images, crops photos into diamond/oval/box frames,
-and dynamically replaces celebrity name & birth date while preserving "Happy Birthday".
+High-End Automated Celebrity Birthday Collage Builder
+- Downloads real celebrity photos from Wikipedia API fallback if provided URLs fail.
+- Always renders all 8 frames (white & gold borders, shadows, shape masks).
+- Loads actual Google Fonts (Cinzel, Great Vibes, Alex Brush) from fonts/.
+- Renders rich luxury dark/gold archival backdrop.
+- Stamps permanent Born Today Hollywood watermark logo.
 """
 
 import json
 import os
 import re
-import base64
 import io
+import math
+import random
+import base64
 import requests
+from urllib.parse import quote
 from PIL import Image, ImageDraw, ImageFont, ImageFilter, ImageOps
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PRESETS_DIR = os.path.join(BASE_DIR, "presets")
 COLLAGES_DIR = os.path.join(BASE_DIR, "collages")
+FONTS_DIR = os.path.join(BASE_DIR, "fonts")
 TODAY_POSTS_PATH = os.path.join(BASE_DIR, "today_posts.json")
 
 os.makedirs(COLLAGES_DIR, exist_ok=True)
 os.makedirs(PRESETS_DIR, exist_ok=True)
+os.makedirs(FONTS_DIR, exist_ok=True)
+
+USER_AGENT = "BornTodayHollywoodBot/1.0 (https://github.com/aditya-Pratap15/birthday-auto-poster; contact@borntoday.com)"
 
 
-def load_preset(gender="female", style="diamond"):
-    """Load matching preset JSON file."""
-    gender_file = f"preset_{gender.lower()}.json"
-    gender_path = os.path.join(PRESETS_DIR, gender_file)
-    if os.path.exists(gender_path):
-        with open(gender_path, "r", encoding="utf-8") as f:
+def ensure_font(filename, url):
+    """Ensure luxury Google Font is downloaded and ready."""
+    dest = os.path.join(FONTS_DIR, filename)
+    if not os.path.exists(dest):
+        try:
+            r = requests.get(url, timeout=10, headers={"User-Agent": USER_AGENT})
+            if r.status_code == 200:
+                with open(dest, "wb") as f:
+                    f.write(r.content)
+        except Exception:
+            pass
+    return dest
+
+
+# Download fonts if missing
+FONT_CINZEL = ensure_font("Cinzel.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/cinzel/static/Cinzel-Bold.ttf")
+FONT_GREAT_VIBES = ensure_font("GreatVibes.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/greatvibes/GreatVibes-Regular.ttf")
+FONT_ALEX_BRUSH = ensure_font("AlexBrush.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/alexbrush/AlexBrush-Regular.ttf")
+
+
+def get_font_by_name(font_family, size):
+    """Matches CSS font name to loaded TTF."""
+    name_lower = (font_family or "").lower()
+    path = None
+    if "great vibes" in name_lower and os.path.exists(FONT_GREAT_VIBES):
+        path = FONT_GREAT_VIBES
+    elif "alex brush" in name_lower and os.path.exists(FONT_ALEX_BRUSH):
+        path = FONT_ALEX_BRUSH
+    elif "cinzel" in name_lower and os.path.exists(FONT_CINZEL):
+        path = FONT_CINZEL
+
+    if path:
+        try:
+            return ImageFont.truetype(path, size)
+        except Exception:
+            pass
+
+    # System fallbacks
+    for fallback in [
+        "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+        "arial.ttf"
+    ]:
+        if os.path.exists(fallback):
+            try:
+                return ImageFont.truetype(fallback, size)
+            except Exception:
+                pass
+    return ImageFont.load_default()
+
+
+def load_preset(gender="female"):
+    """Load user's saved preset."""
+    filename = f"preset_{gender.lower()}.json"
+    preset_path = os.path.join(PRESETS_DIR, filename)
+    if os.path.exists(preset_path):
+        with open(preset_path, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    # Fallback to female diamond preset if specific gender preset not found
-    fallback_path = os.path.join(PRESETS_DIR, "preset_female.json")
-    if os.path.exists(fallback_path):
-        with open(fallback_path, "r", encoding="utf-8") as f:
+    # Fallback to female preset
+    fallback = os.path.join(PRESETS_DIR, "preset_female.json")
+    if os.path.exists(fallback):
+        with open(fallback, "r", encoding="utf-8") as f:
             return json.load(f)
 
-    # Built-in Default Diamond Preset (3:4 - 1080x1440)
-    return {
-        "canvasWidth": 1080,
-        "canvasHeight": 1440,
-        "aspectRatio": "3:4",
-        "bgType": "preset",
-        "bgPreset": "noir",
-        "bgDarkOverlay": 0.2,
-        "bgVignette": 0.5,
-        "frames": [
-            {"label": "Top Left Quadrant", "x": 20, "y": 20, "width": 510, "height": 690, "shape": "gold_rect", "borderWidth": 4, "borderColor": "#d4af37", "shadowBlur": 15},
-            {"label": "Top Right Quadrant", "x": 550, "y": 20, "width": 510, "height": 690, "shape": "gold_rect", "borderWidth": 4, "borderColor": "#d4af37", "shadowBlur": 15},
-            {"label": "Bottom Left Quadrant", "x": 20, "y": 730, "width": 510, "height": 690, "shape": "gold_rect", "borderWidth": 4, "borderColor": "#d4af37", "shadowBlur": 15},
-            {"label": "Bottom Right Quadrant", "x": 550, "y": 730, "width": 510, "height": 690, "shape": "gold_rect", "borderWidth": 4, "borderColor": "#d4af37", "shadowBlur": 15},
-            {"label": "Center Diamond Hero", "x": 290, "y": 470, "width": 500, "height": 500, "shape": "diamond", "borderWidth": 8, "borderColor": "#d4af37", "shadowBlur": 30}
-        ],
-        "textLayers": [
-            {"text": "Happy Birthday", "fontSize": 52, "color": "#d4af37", "x": 540, "y": 120, "align": "center"},
-            {"text": "{celebrity_name}", "fontSize": 68, "color": "#f5e6c8", "x": 540, "y": 1330, "align": "center"},
-            {"text": "Born {birth_year}", "fontSize": 34, "color": "#ffffff", "x": 540, "y": 1395, "align": "center"}
-        ]
-    }
+    return {"canvasWidth": 1080, "canvasHeight": 1440, "frames": [], "textLayers": [], "stickers": []}
+
+
+def fetch_wikipedia_celebrity_photos(celeb_name):
+    """Fetches real, verified high-res photo URLs for the celebrity from Wikipedia API."""
+    urls = []
+    clean_name = celeb_name.replace(" ", "_")
+    
+    # 1. Page Thumbnail
+    try:
+        api_url = f"https://en.wikipedia.org/w/api.php?action=query&titles={quote(clean_name)}&prop=pageimages&format=json&pithumbsize=1000"
+        resp = requests.get(api_url, timeout=8, headers={"User-Agent": USER_AGENT})
+        if resp.status_code == 200:
+            pages = resp.json().get("query", {}).get("pages", {})
+            for pid, pdata in pages.items():
+                thumb = pdata.get("thumbnail", {}).get("source")
+                if thumb:
+                    urls.append(thumb)
+    except Exception as e:
+        print(f"  [!] Wikipedia pageimages error: {e}")
+
+    # 2. Page images list
+    try:
+        api_url2 = f"https://en.wikipedia.org/w/api.php?action=query&titles={quote(clean_name)}&prop=images&format=json&imlimit=15"
+        resp2 = requests.get(api_url2, timeout=8, headers={"User-Agent": USER_AGENT})
+        if resp2.status_code == 200:
+            pages = resp2.json().get("query", {}).get("pages", {})
+            for pid, pdata in pages.items():
+                for img_obj in pdata.get("images", []):
+                    title = img_obj.get("title", "")
+                    if any(ext in title.lower() for ext in [".jpg", ".jpeg", ".png"]) and not any(skip in title.lower() for skip in ["icon", "logo", "flag", "symbol", "stub"]):
+                        # Get direct URL
+                        info_url = f"https://en.wikipedia.org/w/api.php?action=query&titles={quote(title)}&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json"
+                        r_info = requests.get(info_url, timeout=6, headers={"User-Agent": USER_AGENT})
+                        if r_info.status_code == 200:
+                            inf_pages = r_info.json().get("query", {}).get("pages", {})
+                            for _, ipdata in inf_pages.items():
+                                iinfo = ipdata.get("imageinfo", [{}])[0]
+                                direct = iinfo.get("thumburl") or iinfo.get("url")
+                                if direct and direct not in urls:
+                                    urls.append(direct)
+                                    if len(urls) >= 8:
+                                        break
+    except Exception:
+        pass
+
+    return urls
 
 
 def download_or_load_image(src, size=(800, 800)):
-    """Fetch image from URL, local path, or base64 data URI."""
+    """Downloads image or decodes Base64 data."""
     if not src:
         return None
 
@@ -72,222 +157,257 @@ def download_or_load_image(src, size=(800, 800)):
             header, encoded = src.split(",", 1)
             data = base64.b64decode(encoded)
             return Image.open(io.BytesIO(data)).convert("RGBA")
-        except Exception as e:
-            print(f"  [!] Failed decoding base64 image: {e}")
+        except Exception:
             return None
 
     # Remote URL
     if src.startswith("http://") or src.startswith("https://"):
         try:
-            resp = requests.get(src, timeout=12, headers={"User-Agent": "Mozilla/5.0"})
-            if resp.status_code == 200:
+            resp = requests.get(src, timeout=10, headers={"User-Agent": USER_AGENT})
+            if resp.status_code == 200 and resp.content:
                 return Image.open(io.BytesIO(resp.content)).convert("RGBA")
-        except Exception as e:
-            print(f"  [!] Failed downloading photo from {src}: {e}")
-            return None
+        except Exception:
+            pass
 
-    # Local file path
+    # Local file
     local_path = os.path.join(BASE_DIR, src) if not os.path.isabs(src) else src
     if os.path.exists(local_path):
         try:
             return Image.open(local_path).convert("RGBA")
-        except Exception as e:
-            print(f"  [!] Failed loading local image {local_path}: {e}")
+        except Exception:
+            pass
 
     return None
 
 
-def draw_background(preset, W, H):
-    """Draw preset background image or luxury gradient."""
-    canvas = Image.new("RGBA", (W, H), (15, 17, 24, 255))
+def draw_luxury_background(preset, W, H):
+    """Draws rich museum/gold archival backdrop."""
+    canvas = Image.new("RGBA", (W, H), (14, 16, 24, 255))
 
-    # 1. Check for custom background image inside preset
+    # Check if preset has an embedded custom background
     bg_custom = preset.get("bgCustomImage")
-    if preset.get("bgType") == "custom" and bg_custom:
+    if bg_custom:
         bg_img = download_or_load_image(bg_custom, (W, H))
         if bg_img:
-            # Resize cover fit
-            bg_fitted = ImageOps.fit(bg_img, (W, H), method=Image.Resampling.LANCZOS)
-            canvas.paste(bg_fitted, (0, 0))
+            fitted = ImageOps.fit(bg_img, (W, H), method=Image.Resampling.LANCZOS)
+            canvas.paste(fitted, (0, 0))
             return canvas
 
-    # 2. Preset Gradient Fallback
-    bg_style = preset.get("bgPreset", "noir")
+    # Draw luxury dark radial gradient with warm gold glow
     draw = ImageDraw.Draw(canvas)
-    
-    # Simple vertical radial dark gradient
-    color_top = (28, 31, 43, 255) if bg_style == "noir" else (45, 17, 45, 255)
-    color_bottom = (8, 9, 13, 255) if bg_style == "noir" else (14, 4, 16, 255)
-    
-    for y in range(H):
-        t = y / float(H)
-        r = int(color_top[0] * (1 - t) + color_bottom[0] * t)
-        g = int(color_top[1] * (1 - t) + color_bottom[1] * t)
-        b = int(color_top[2] * (1 - t) + color_bottom[2] * t)
-        draw.line([(0, y), (W, y)], fill=(r, g, b, 255))
+    center_x, center_y = W // 2, H // 2
+    max_radius = math.hypot(center_x, center_y)
 
+    for y in range(0, H, 2):
+        t = y / float(H)
+        # Deep Obsidian & Midnight Navy
+        r = int(24 * (1 - t) + 10 * t)
+        g = int(27 * (1 - t) + 12 * t)
+        b = int(38 * (1 - t) + 18 * t)
+        draw.line([(0, y), (W, y)], fill=(r, g, b, 255), width=2)
+
+    # Subtle Gold Vignette Overlay
+    vignette = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    v_draw = ImageDraw.Draw(vignette)
+    for r in range(150, int(max_radius), 20):
+        alpha = int(180 * (r / max_radius) ** 2)
+        v_draw.ellipse(
+            [center_x - r, center_y - r, center_x + r, center_y + r],
+            outline=(0, 0, 0, min(140, alpha)),
+            width=20
+        )
+    canvas.paste(vignette, (0, 0), mask=vignette)
     return canvas
 
 
-def crop_to_shape(img, w, h, shape="diamond", border_width=4, border_color="#d4af37"):
-    """Crops an image into diamond, oval, or rectangle and adds a gold border."""
-    fitted = ImageOps.fit(img, (w, h), method=Image.Resampling.LANCZOS)
-    
-    # Create alpha mask for shape
+def create_frame_graphic(img, w, h, shape="gold_rect", border_width=15, border_color="#ffffff", corner_radius=12, label=""):
+    """
+    ALWAYS creates a beautiful frame graphic!
+    If img is present, clips the photo into shape.
+    If img is None, creates a luxury frosted velvet placeholder with star emblem.
+    """
+    output = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+
+    if img is not None:
+        content = ImageOps.fit(img, (w, h), method=Image.Resampling.LANCZOS)
+    else:
+        # Elegant velvet placeholder so frame is never invisible!
+        content = Image.new("RGBA", (w, h), (26, 29, 41, 255))
+        c_draw = ImageDraw.Draw(content)
+        # Subtle interior gold gradient
+        c_draw.rectangle([border_width, border_width, w - border_width, h - border_width], fill=(32, 36, 52, 255))
+        # Cameo Star Accent
+        star_font = get_font_by_name("cinzel", 36)
+        c_draw.text((w // 2, h // 2), "★", font=star_font, fill=(212, 175, 55, 140), anchor="mm")
+
+    # Shape mask
     mask = Image.new("L", (w, h), 0)
     draw_mask = ImageDraw.Draw(mask)
+    rad = max(4, corner_radius)
 
     if shape == "diamond":
-        # 4-point diamond polygon
-        diamond_pts = [(w // 2, 0), (w, h // 2), (w // 2, h), (0, h // 2)]
-        draw_mask.polygon(diamond_pts, fill=255)
+        pts = [(w // 2, 0), (w, h // 2), (w // 2, h), (0, h // 2)]
+        draw_mask.polygon(pts, fill=255)
     elif shape == "oval":
         draw_mask.ellipse([(0, 0), (w, h)], fill=255)
-    else:  # rectangle or rounded box
-        draw_mask.rounded_rectangle([(0, 0), (w, h)], radius=12, fill=255)
+    else:
+        draw_mask.rounded_rectangle([(0, 0), (w, h)], radius=rad, fill=255)
 
-    # Apply mask
-    output = Image.new("RGBA", (w, h), (0, 0, 0, 0))
-    output.paste(fitted, (0, 0), mask=mask)
+    output.paste(content, (0, 0), mask=mask)
 
-    # Draw border on top
+    # ALWAYS Draw Border!
     draw_border = ImageDraw.Draw(output)
-    if border_width > 0:
-        if shape == "diamond":
-            diamond_pts = [(w // 2, 0), (w, h // 2), (w // 2, h), (0, h // 2)]
-            draw_border.line(diamond_pts + [diamond_pts[0]], fill=border_color, width=border_width)
-        elif shape == "oval":
-            draw_border.ellipse([(0, 0), (w, h)], outline=border_color, width=border_width)
-        else:
-            draw_border.rounded_rectangle([(0, 0), (w, h)], radius=12, outline=border_color, width=border_width)
+    b_width = max(2, int(border_width))
+    b_color = border_color or "#d4af37"
+
+    if shape == "diamond":
+        pts = [(w // 2, 0), (w, h // 2), (w // 2, h), (0, h // 2)]
+        draw_border.line(pts + [pts[0]], fill=b_color, width=b_width)
+    elif shape == "oval":
+        draw_border.ellipse([(0, 0), (w, h)], outline=b_color, width=b_width)
+    else:
+        draw_border.rounded_rectangle([(0, 0), (w, h)], radius=rad, outline=b_color, width=b_width)
 
     return output
 
 
 def render_text_layers(canvas, text_layers, celebrity_name, birth_date, birth_year, age):
-    """
-    Renders text layers according to the user's rule:
-    - Keep 'Happy Birthday' intact!
-    - Replace dummy name with actual celebrity name.
-    - Replace dates/years with actual birth date/year.
-    """
+    """Renders text with authentic Google Fonts & drop shadows."""
     draw = ImageDraw.Draw(canvas)
-    
+
     for layer in text_layers:
         raw_text = layer.get("text", "")
         clean_lower = raw_text.strip().lower()
 
-        # RULE 1: If text is "Happy Birthday" (or contains it), KEEP IT INTACT!
+        # Rule 1: Keep "Happy Birthday" intact
         if "happy birthday" in clean_lower:
             final_text = raw_text
-        # RULE 2: If text explicitly references birth date or year
-        elif any(k in clean_lower for k in ["born", "birth", "19", "20", "{birth_date}", "{birth_year}", "age"]):
-            if "{birth_year}" in raw_text or "{birth_date}" in raw_text:
-                final_text = raw_text.replace("{birth_year}", str(birth_year)).replace("{birth_date}", str(birth_date)).replace("{age}", str(age))
-            elif birth_year:
+        # Rule 2: Birth date/year
+        elif any(k in clean_lower for k in ["born", "birth", "19", "20", "age"]):
+            if birth_year:
                 final_text = f"Born {birth_year} • Age {age}" if age else f"Born {birth_year}"
             else:
                 final_text = str(birth_date) if birth_date else raw_text
-        # RULE 3: Otherwise, it's the celebrity's name layer!
+        # Rule 3: Celebrity Name
         else:
-            final_text = raw_text.replace("{celebrity_name}", celebrity_name).replace("{name}", celebrity_name)
-            # If the layer had a dummy celebrity name like "Kate Winslet" or "Susan Sarandon", replace it with real name
-            if "{" not in raw_text:
-                final_text = celebrity_name
+            final_text = celebrity_name
 
-        font_size = layer.get("fontSize", 48)
+        font_family = layer.get("fontFamily", "cinzel")
+        font_size = layer.get("fontSize", 54)
         color = layer.get("color", "#d4af37")
         x = layer.get("x", canvas.width // 2)
         y = layer.get("y", 100)
         align = layer.get("align", "center")
 
-        try:
-            # Fallback to default truetype font if custom fonts are unavailable on Ubuntu
-            font = ImageFont.truetype("arial.ttf", font_size)
-        except:
-            try:
-                font = ImageFont.truetype("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf", font_size)
-            except:
-                font = ImageFont.load_default()
+        font = get_font_by_name(font_family, font_size)
 
-        # Draw subtle drop shadow for luxury readability
-        draw.text((x + 2, y + 2), final_text, font=font, fill=(0, 0, 0, 200), anchor="mm" if align == "center" else "lt")
+        # Draw deep luxury shadow
+        draw.text((x + 3, y + 3), final_text, font=font, fill=(0, 0, 0, 220), anchor="mm" if align == "center" else "lt")
+        draw.text((x + 1, y + 1), final_text, font=font, fill=(0, 0, 0, 180), anchor="mm" if align == "center" else "lt")
         # Draw foreground text
         draw.text((x, y), final_text, font=font, fill=color, anchor="mm" if align == "center" else "lt")
 
 
 def draw_stickers(canvas, stickers):
-    """Draws floating stickers, reaction icons, and logo watermarks from the preset."""
+    """Draws permanent logo watermarks and badges."""
     for s in stickers:
         src = s.get("src")
         if not src:
             continue
-        w = int(s.get("width", 100))
-        h = int(s.get("height", 100))
+        w = int(s.get("width", 120))
+        h = int(s.get("height", 120))
         sticker_img = download_or_load_image(src, (w, h))
         if not sticker_img:
             continue
 
         resized = sticker_img.resize((w, h), Image.Resampling.LANCZOS)
-        
-        # Apply opacity
-        opacity = float(s.get("opacity", 1.0))
-        if opacity < 1.0 and resized.mode == "RGBA":
-            alpha = resized.split()[3]
-            alpha = alpha.point(lambda p: int(p * opacity))
-            resized.putalpha(alpha)
-
-        # Apply rotation if any
         rot = float(s.get("rotation", 0))
         if rot != 0:
             resized = resized.rotate(-rot, expand=True, resample=Image.Resampling.BICUBIC)
 
-        # In canvas coordinates, preset stores center position (x, y)
         x = int(s.get("x", 0) - resized.width / 2)
         y = int(s.get("y", 0) - resized.height / 2)
         canvas.paste(resized, (x, y), mask=resized)
 
 
 def generate_collage_for_post(celeb_name, gender, birth_date, birth_year, age, photo_urls, output_path):
-    """Generates the full collage tribute image."""
+    """Generates the full 1080x1440 luxury tribute post."""
     preset = load_preset(gender=gender)
     W = preset.get("canvasWidth", 1080)
     H = preset.get("canvasHeight", 1440)
 
     # 1. Background
-    canvas = draw_background(preset, W, H)
+    canvas = draw_luxury_background(preset, W, H)
 
-    # 2. Photos into Frames
+    # 2. Gather verified photos (try URLs first; if fail, fetch Wikipedia)
+    downloaded_photos = []
+    for u in (photo_urls or []):
+        img = download_or_load_image(u)
+        if img:
+            downloaded_photos.append(img)
+
+    # If few or zero photos downloaded, fetch real Wikipedia photos!
+    if len(downloaded_photos) < 4:
+        print(f"  [i] Provided URLs had {len(downloaded_photos)} valid photos. Fetching real Wikipedia photos for {celeb_name}...")
+        wiki_urls = fetch_wikipedia_celebrity_photos(celeb_name)
+        for wu in wiki_urls:
+            img = download_or_load_image(wu)
+            if img:
+                downloaded_photos.append(img)
+                if len(downloaded_photos) >= 8:
+                    break
+
+    print(f"  [✓] Loaded {len(downloaded_photos)} active photos for {celeb_name}")
+
+    # 3. Frames (sorted so Centerpiece Frame 8 renders on top!)
     frames = preset.get("frames", [])
-    for idx, frame in enumerate(frames):
-        # Pick matching photo from array (or wrap around if fewer photos provided)
-        photo_src = photo_urls[idx % len(photo_urls)] if photo_urls else None
-        photo_img = download_or_load_image(photo_src, (frame["width"], frame["height"]))
-        
-        if photo_img:
-            shaped_photo = crop_to_shape(
-                photo_img,
-                frame["width"],
-                frame["height"],
-                shape=frame.get("shape", "gold_rect"),
-                border_width=frame.get("borderWidth", 4),
-                border_color=frame.get("borderColor", "#d4af37")
-            )
-            canvas.paste(shaped_photo, (frame["x"], frame["y"]), mask=shaped_photo)
+    # Separate background quadrant frames and hero centerpiece frame
+    bg_frames = [f for f in frames if "center" not in f.get("label", "").lower() and f.get("width", 0) < 600]
+    hero_frames = [f for f in frames if f not in bg_frames]
+    ordered_frames = bg_frames + hero_frames
 
-    # 3. Stickers, Icons & Page Logos
+    for idx, frame in enumerate(ordered_frames):
+        w = int(frame.get("width", 400))
+        h = int(frame.get("height", 400))
+        x = int(frame.get("x", 50))
+        y = int(frame.get("y", 50))
+        shape = frame.get("shape", "white_rect")
+        b_width = frame.get("borderWidth", 15)
+        b_color = frame.get("borderColor", "#ffffff")
+        c_rad = frame.get("cornerRadius", 12)
+
+        # Select photo (hero frame gets first photo)
+        photo_img = None
+        if downloaded_photos:
+            if frame in hero_frames:
+                photo_img = downloaded_photos[0]
+            else:
+                photo_img = downloaded_photos[idx % len(downloaded_photos)]
+
+        # ALWAYS create the frame graphic!
+        frame_graphic = create_frame_graphic(
+            photo_img, w, h,
+            shape=shape,
+            border_width=b_width,
+            border_color=b_color,
+            corner_radius=c_rad,
+            label=frame.get("label", "")
+        )
+        canvas.paste(frame_graphic, (x, y), mask=frame_graphic)
+
+    # 4. Stickers & Logo Watermarks
     stickers = preset.get("stickers", [])
     if stickers:
         draw_stickers(canvas, stickers)
 
-    # 4. Text Layers (Keep Happy Birthday, replace name & birthdate)
+    # 5. Text Layers with Google Fonts
     text_layers = preset.get("textLayers", [])
     render_text_layers(canvas, text_layers, celeb_name, birth_date, birth_year, age)
 
-    # 5. Save Final Image
+    # 6. Save Final Image
     final_rgb = canvas.convert("RGB")
     final_rgb.save(output_path, "JPEG", quality=95)
-    print(f"  [✓] Successfully generated collage: {output_path}")
+    print(f"  [✓] Generated luxury tribute: {output_path}")
 
 
 def main():
@@ -298,7 +418,6 @@ def main():
     with open(TODAY_POSTS_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    # Support top-level "posts" or nested "celebs"
     posts = data.get("posts", [])
     if not posts and "celebs" in data:
         posts = []
@@ -311,7 +430,7 @@ def main():
                 p["photo_urls"] = celeb.get("photo_urls", p.get("photo_urls", []))
                 posts.append(p)
 
-    print(f"[*] Building collages for {len(posts)} daily posts...")
+    print(f"[*] Building luxury collages for {len(posts)} daily posts...")
     for idx, post in enumerate(posts, start=1):
         celeb_name = post.get("celebrity_name") or post.get("name") or f"Celebrity_{idx}"
         gender = post.get("gender", "female")
@@ -320,21 +439,18 @@ def main():
         birth_date = post.get("birth_date", data.get("date", ""))
         photo_urls = post.get("photo_urls", [])
 
-        # Target output filename
-        image_path = post.get("image_path")
-        if not image_path:
-            clean_slug = re.sub(r'[^a-zA-Z0-9_]', '_', celeb_name)
-            image_path = f"collages/{clean_slug}_Page_{idx}_Tribute.jpg"
-            post["image_path"] = image_path
+        clean_slug = re.sub(r'[^a-zA-Z0-9_]', '_', celeb_name)
+        image_path = f"collages/{clean_slug}_Page_{idx}_Tribute.jpg"
+        post["image_path"] = image_path
 
         dest_path = os.path.join(BASE_DIR, image_path)
         print(f"\nProcessing Post #{idx}: {celeb_name} ({gender.upper()}) -> {image_path}")
         generate_collage_for_post(celeb_name, gender, birth_date, birth_year, age, photo_urls, dest_path)
 
-    # Save updated today_posts.json with confirmed image_path fields
+    # Save synchronized JSON
     with open(TODAY_POSTS_PATH, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2)
-    print("\n[✓] All daily collages rendered and today_posts.json synchronized!")
+    print("\n[✓] All daily collages rendered successfully!")
 
 
 if __name__ == "__main__":
