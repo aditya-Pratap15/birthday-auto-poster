@@ -1,0 +1,24 @@
+name: Daily Birthday Poster
+on:
+  schedule:
+    - cron: '30 0 * * *'
+  workflow_dispatch:
+  push:
+    paths:
+      - 'today_posts.json'
+
+jobs:
+  post-to-facebook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+      - name: Install
+        run: pip install requests Pillow
+      - name: Post to Facebook
+        env:
+          FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY }}
+        run: python scripts/post_to_facebook.py
