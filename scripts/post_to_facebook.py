@@ -24,23 +24,56 @@ def create_fallback_image(image_path, celeb_name):
     img.save(image_path, quality=92)
     print(f"Created fallback collage image: {image_path}")
 
-for celeb in data.get('celebs', []):
-    celeb_name = celeb.get('name', 'Celebrity')
-    print(f"\n=== {celeb_name} ===")
-    for post in celeb.get('posts', []):
-        page_id_env = post.get('page_id_env')
-        token_env = post.get('token_env')
-        page_id = os.environ.get(page_id_env)
-        token = os.environ.get(token_env)
+post_list = []
+if "posts" in data and data["posts"]:
+    for p in data["posts"]:
+        celeb_name = p.get("celebrity_name", "Celebrity")
+        ts = p.get("unix_timestamp", 0)
+        if not ts and p.get("scheduled_time_utc"):
+            try:
+                import datetime
+                dt = datetime.datetime.fromisoformat(p["scheduled_time_utc"].replace("Z", "+00:00"))
+                ts = int(dt.timestamp())
+            except Exception:
+                pass
         
-        if not page_id or not token:
-            print(f"Skipping {post.get('page_name')} - missing env {page_id_env}/{token_env}")
-            continue
-        
-        image_path = post.get('image_path', '')
-        if not os.path.exists(image_path):
-            print(f"Image '{image_path}' not found locally, auto-generating tribute graphic...")
-            create_fallback_image(image_path, celeb_name)
+        post_list.append({
+            "celeb_name": celeb_name,
+            "page_name": p.get("page_name", "Born Today Hollywood"),
+            "page_id_env": p.get("page_id_env", "FB_PAGE_ID_BORN"),
+            "token_env": p.get("token_env", "FB_TOKEN_BORN"),
+            "caption": f"{p.get('caption', '')}\n\n{p.get('hashtags', '')}".strip(),
+            "image_path": p.get("image_path", ""),
+            "unix_timestamp": ts
+        })
+elif "celebs" in data:
+    for celeb in data["celebs"]:
+        celeb_name = celeb.get("name", "Celebrity")
+        for p in celeb.get("posts", []):
+            p["celeb_name"] = celeb_name
+            post_list.append(p)
+
+print(f"Total posts ready to process: {len(post_list)}")
+
+for post in post_list:
+    celeb_name = post.get("celeb_name", "Celebrity")
+    page_id_env = post.get('page_id_env', 'FB_PAGE_ID_BORN')
+    token_env = post.get('token_env', 'FB_TOKEN_BORN')
+    page_id = os.environ.get(page_id_env)
+    token = os.environ.get(token_env)
+    
+    if not page_id or not token:
+        print(f"Skipping {post.get('page_name')} - missing env {page_id_env}/{token_env}")
+        continue
+    
+    image_path = post.get('image_path', '')
+    if not image_path or not os.path.exists(image_path):
+        print(f"Image '{image_path}' not found locally, auto-generating tribute graphic...")
+        if not image_path:
+            import re
+            clean_slug = re.sub(r'[^a-zA-Z0-9_]', '_', celeb_name)
+            image_path = f"collages/{clean_slug}_Page1_Tribute.jpg"
+        create_fallback_image(image_path, celeb_name)
         
         url = f"https://graph.facebook.com/v19.0/{page_id}/photos"
         
