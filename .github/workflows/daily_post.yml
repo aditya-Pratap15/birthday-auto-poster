@@ -20,5 +20,10 @@ jobs:
         run: pip install requests Pillow
       - name: Post to Facebook
         env:
-          FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY }}
+          FB_PAGE_ID_BORN: ${{ secrets.FB_PAGE_ID_BORN }}
+          FB_TOKEN_BORN: ${{ secrets.FB_TOKEN_BORN }}
+          FB_PAGE_ID_STAR: ${{ secrets.FB_PAGE_ID_STAR }}
+          FB_TOKEN_STAR: ${{ secrets.FB_TOKEN_STAR }}
+          FB_PAGE_ID_VAULT: ${{ secrets.FB_PAGE_ID_VAULT }}
+          FB_TOKEN_VAULT: ${{ secrets.FB_TOKEN_VAULT }}
         run: python scripts/post_to_facebook.py
