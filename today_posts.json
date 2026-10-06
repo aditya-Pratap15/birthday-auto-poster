@@ -1,0 +1,41 @@
+{
+  "date": "2026-10-07",
+  "celebs": [
+    {
+      "name": "Elisabeth Shue",
+      "age": 63,
+      "posts": [
+        {
+          "page_name": "Born Today Hollywood",
+          "page_id_env": "FB_PAGE_ID_BORN",
+          "token_env": "FB_TOKEN_BORN",
+          "scheduled_time": "8:00 AM EST (5:30 PM IST)",
+          "unix_timestamp": 1728307200,
+          "caption": "Happy Birthday to Elisabeth Shue who turns 63 today... (700-800 words here)",
+          "image_path": "collages/Elisabeth_Shue_Page1_Diamond.jpg",
+          "frame_style": "diamond_gold"
+        },
+        {
+          "page_name": "Starborn Today",
+          "page_id_env": "FB_PAGE_ID_STAR",
+          "token_env": "FB_TOKEN_STAR",
+          "scheduled_time": "12:00 PM EST (9:30 PM IST)",
+          "unix_timestamp": 1728321600,
+          "caption": "Which Elisabeth Shue era you love most?...",
+          "image_path": "collages/Elisabeth_Shue_Page2_Oval.jpg",
+          "frame_style": "oval_white"
+        },
+        {
+          "page_name": "Birthday Vault",
+          "page_id_env": "FB_PAGE_ID_VAULT",
+          "token_env": "FB_TOKEN_VAULT",
+          "scheduled_time": "4:00 PM EST (1:30 AM IST next day)",
+          "unix_timestamp": 1728336000,
+          "caption": "Happy 63th Birthday to Elisabeth Shue! From $200 to Estimated $15M...",
+          "image_path": "collages/Elisabeth_Shue_Page3_Square.jpg",
+          "frame_style": "square_gold_green"
+        }
+      ]
+    }
+  ]
+}
