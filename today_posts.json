@@ -13,9 +13,9 @@
       "teaserCard": {
         "enabled": true,
         "x": 45,
-        "y": 1010,
+        "y": 1161,
         "width": 990,
-        "height": 185,
+        "height": 200,
         "bgColor": "#0d0f14",
         "borderColor": "#b68c43",
         "borderWidth": 2,

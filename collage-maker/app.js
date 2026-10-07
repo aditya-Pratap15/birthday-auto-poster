@@ -3868,7 +3868,7 @@
       state.bgCustomImageData = null;
     }
 
-    // Stickers (logo watermarks)
+    // Stickers (logo watermarks & vector emblems)
     state.stickers = [];
     (presetData.stickers || []).forEach(s => {
       if (s.src) {
@@ -3882,6 +3882,8 @@
           img.src = s.src;
         });
         loadPromises.push(p);
+      } else {
+        state.stickers.push({ ...s, id: uid('sticker'), imgElement: null });
       }
     });
 
