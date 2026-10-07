@@ -1,4 +1,1 @@
-{
-  "date": "",
-  "posts": []
-}
+{  "date": "2026-10-07",  "posts": [    {      "celebrity_name": "Simon Cowell",      "birth_year": 1959,      "age": 67,      "gender": "male",      "country": "United Kingdom",      "scheduled_time_utc": "2026-10-07T06:30:00.000Z",      "photo_urls": [        "https://upload.wikimedia.org/wikipedia/commons/9/9f/Simon_Cowell.jpg",        "https://upload.wikimedia.org/wikipedia/commons/e/ec/Simon_Cowell_The_X_Factor_-_press_launch_2014_%28cropped%29.jpg",        "https://upload.wikimedia.org/wikipedia/commons/c/c9/Simon_Cowell_at_Greater_Together_LA_2026_%28cropped%29_2.jpg"      ],      "caption": "Celebrating the iconic Simon Cowell on his birthday! Mastermind behind The X Factor, Got Talent, and American Idol.",      "hashtags": "#SimonCowell #BornToday #HappyBirthday #AGT #XFactor #HollywoodIcons"    }  ]}
