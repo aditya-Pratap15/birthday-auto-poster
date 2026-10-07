@@ -3,6 +3,38 @@
    Luxury Dark Cinematic Theme with Gilded Gold Accents
    ========================================================= */
 
+@font-face {
+  font-family: 'Great Vibes';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/GreatVibes.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Dancing Script';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/DancingScript.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Cinzel';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/Cinzel.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Alex Brush';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/AlexBrush.ttf') format('truetype');
+  font-display: block;
+}
+
 :root {
   --bg-core: #090a0f;
   --bg-surface: #12141c;

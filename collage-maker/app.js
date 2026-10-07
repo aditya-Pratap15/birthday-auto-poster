@@ -795,8 +795,13 @@
 
   function drawTextLayer(t) {
     ctx.save();
-    const weight = t.fontWeight || 600;
-    ctx.font = `${weight} ${t.fontSize}px ${t.fontFamily}`;
+    let weight = t.fontWeight || 600;
+    const fam = t.fontFamily || "'Cinzel', serif";
+    const famLower = fam.toLowerCase();
+    if (famLower.includes('great vibes') || famLower.includes('alex brush') || famLower.includes('sacramento') || famLower.includes('allura')) {
+      weight = 400;
+    }
+    ctx.font = `${weight} ${t.fontSize}px ${fam}`;
     ctx.fillStyle = t.color;
     ctx.textAlign = t.align || 'center';
     ctx.textBaseline = 'middle';
@@ -3071,6 +3076,13 @@
     await Promise.all(loadPromises);
     if (document.fonts) {
       try {
+        for (const t of state.textLayers) {
+          const famClean = (t.fontFamily || '').replace(/['"]/g, '').split(',')[0].trim();
+          const w = t.fontWeight || 600;
+          try { await document.fonts.load(`${w} ${t.fontSize}px "${famClean}"`); } catch (e) {}
+          try { await document.fonts.load(`400 ${t.fontSize}px "${famClean}"`); } catch (e) {}
+          try { await document.fonts.load(`700 ${t.fontSize}px "${famClean}"`); } catch (e) {}
+        }
         await document.fonts.ready;
       } catch (e) {}
     }
