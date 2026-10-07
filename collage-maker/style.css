@@ -35,6 +35,46 @@
   font-display: block;
 }
 
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/Montserrat.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Bodoni Moda';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/BodoniModa.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'DM Serif Display';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/DMSerifDisplay.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Allura';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/Allura.ttf') format('truetype');
+  font-display: block;
+}
+
+@font-face {
+  font-family: 'Ballet';
+  font-style: normal;
+  font-weight: 100 900;
+  src: url('fonts/Ballet.ttf') format('truetype');
+  font-display: block;
+}
+
 :root {
   --bg-core: #090a0f;
   --bg-surface: #12141c;

@@ -49,7 +49,13 @@ def ensure_font(filename, url):
 # Download fonts if missing
 FONT_CINZEL = ensure_font("Cinzel.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/cinzel/static/Cinzel-Bold.ttf")
 FONT_GREAT_VIBES = ensure_font("GreatVibes.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/greatvibes/GreatVibes-Regular.ttf")
+FONT_DANCING_SCRIPT = ensure_font("DancingScript.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/dancingscript/DancingScript%5Bwght%5D.ttf")
 FONT_ALEX_BRUSH = ensure_font("AlexBrush.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/alexbrush/AlexBrush-Regular.ttf")
+FONT_MONTSERRAT = ensure_font("Montserrat.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/montserrat/Montserrat%5Bwght%5D.ttf")
+FONT_BODONI_MODA = ensure_font("BodoniModa.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/bodonimoda/BodoniModa%5Bopsz%2Cwght%5D.ttf")
+FONT_DM_SERIF = ensure_font("DMSerifDisplay.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/dmserifdisplay/DMSerifDisplay-Regular.ttf")
+FONT_ALLURA = ensure_font("Allura.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/allura/Allura-Regular.ttf")
+FONT_BALLET = ensure_font("Ballet.ttf", "https://raw.githubusercontent.com/google/fonts/main/ofl/ballet/Ballet%5Bopsz%5D.ttf")
 
 
 def get_font_by_name(font_family, size):
@@ -58,10 +64,22 @@ def get_font_by_name(font_family, size):
     path = None
     if "great vibes" in name_lower and os.path.exists(FONT_GREAT_VIBES):
         path = FONT_GREAT_VIBES
+    elif "dancing script" in name_lower and os.path.exists(FONT_DANCING_SCRIPT):
+        path = FONT_DANCING_SCRIPT
     elif "alex brush" in name_lower and os.path.exists(FONT_ALEX_BRUSH):
         path = FONT_ALEX_BRUSH
     elif "cinzel" in name_lower and os.path.exists(FONT_CINZEL):
         path = FONT_CINZEL
+    elif "montserrat" in name_lower and os.path.exists(FONT_MONTSERRAT):
+        path = FONT_MONTSERRAT
+    elif "bodoni" in name_lower and os.path.exists(FONT_BODONI_MODA):
+        path = FONT_BODONI_MODA
+    elif "dm serif" in name_lower and os.path.exists(FONT_DM_SERIF):
+        path = FONT_DM_SERIF
+    elif "allura" in name_lower and os.path.exists(FONT_ALLURA):
+        path = FONT_ALLURA
+    elif "ballet" in name_lower and os.path.exists(FONT_BALLET):
+        path = FONT_BALLET
 
     if path:
         try:

@@ -805,7 +805,7 @@
     let weight = t.fontWeight || 600;
     const fam = t.fontFamily || "'Cinzel', serif";
     const famLower = fam.toLowerCase();
-    if (famLower.includes('great vibes') || famLower.includes('alex brush') || famLower.includes('sacramento') || famLower.includes('allura')) {
+    if (famLower.includes('great vibes') || famLower.includes('alex brush') || famLower.includes('sacramento') || famLower.includes('allura') || famLower.includes('ballet')) {
       weight = 400;
     }
     ctx.font = `${weight} ${t.fontSize}px ${fam}`;
@@ -3087,7 +3087,9 @@
           const famClean = (t.fontFamily || '').replace(/['"]/g, '').split(',')[0].trim();
           const w = t.fontWeight || 600;
           try { await document.fonts.load(`${w} ${t.fontSize}px "${famClean}"`); } catch (e) {}
+          try { await document.fonts.load(`300 ${t.fontSize}px "${famClean}"`); } catch (e) {}
           try { await document.fonts.load(`400 ${t.fontSize}px "${famClean}"`); } catch (e) {}
+          try { await document.fonts.load(`500 ${t.fontSize}px "${famClean}"`); } catch (e) {}
           try { await document.fonts.load(`700 ${t.fontSize}px "${famClean}"`); } catch (e) {}
         }
         await document.fonts.ready;
