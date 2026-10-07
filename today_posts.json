@@ -8,7 +8,7 @@
       "age": 59,
       "gender": "female",
       "country": "USA",
-      "scheduled_time_utc": "2026-10-07T13:00:00Z",
+      "scheduled_time_utc": "",
       "photo_urls": [
         "day_1_post1/frame1_color1.webp",
         "day_1_post1/frame2_color2.webp",
