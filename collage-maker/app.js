@@ -770,7 +770,14 @@
     }
 
     const drawX = frameX + (frameW - drawW) / 2 + panX;
-    const drawY = frameY + (frameH - drawH) / 2 + panY;
+    
+    // Top-align vertical portrait photos so heads, hair, and faces are never cut off from the top
+    let drawY;
+    if (drawH > frameH) {
+      drawY = frameY + panY;
+    } else {
+      drawY = frameY + (frameH - drawH) / 2 + panY;
+    }
 
     context.drawImage(img, drawX, drawY, drawW, drawH);
   }

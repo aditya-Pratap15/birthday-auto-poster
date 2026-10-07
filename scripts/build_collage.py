@@ -228,7 +228,7 @@ def create_frame_graphic(img, w, h, shape="gold_rect", border_width=15, border_c
     output = Image.new("RGBA", (w, h), (0, 0, 0, 0))
 
     if img is not None:
-        content = ImageOps.fit(img, (w, h), method=Image.Resampling.LANCZOS)
+        content = ImageOps.fit(img, (w, h), method=Image.Resampling.LANCZOS, centering=(0.5, 0.0))
     else:
         # Elegant velvet placeholder so frame is never invisible!
         content = Image.new("RGBA", (w, h), (26, 29, 41, 255))
