@@ -1,28 +1,46 @@
 {
-  "date": "2026-10-07",
+  "date": "2026-10-08",
+  "generated_at": "2026-10-07T20:51:56.283Z",
   "posts": [
     {
-      "id": "2026-10-07_02_SimonCowell",
-      "celebrity_name": "Simon Cowell",
-      "birth_year": 1959,
-      "age": 67,
+      "id": "2026-10-08_01_Bruno_Mars",
+      "celebrity_name": "Bruno Mars",
+      "birth_year": 1985,
+      "age": 41,
       "gender": "male",
-      "country": "United Kingdom",
-      "scheduled_time_utc": "",
+      "country": "United States",
+      "preset": "preset_viral_teaser",
+      "teaserCard": {
+        "enabled": true,
+        "x": 45,
+        "y": 1010,
+        "width": 990,
+        "height": 185,
+        "bgColor": "#0d0f14",
+        "borderColor": "#b68c43",
+        "borderWidth": 2,
+        "cornerRadius": 14,
+        "badgeIcon": "crown",
+        "line1": "At just 4 years old,",
+        "line2": "he was already",
+        "line2Highlight": "impersonating",
+        "line3Highlight": "Elvis...",
+        "ctaText": "Read the full story in caption →"
+      },
       "photo_urls": [
-        "day_1_post2/Frame1_beige_young_mailroom.webp",
-        "day_1_post2/Frame2_pink_teenage.webp",
-        "day_1_post2/Frame3_lavender_20s.webp",
-        "day_1_post2/Frame4_mint_30s.webp",
-        "day_1_post2/Frame5_peach_40s_Idol.webp",
-        "day_1_post2/Frame6_gray-blue_50s_XFactor.webp",
-        "day_1_post2/Frame7_sage_early2020s.webp",
-        "day_1_post2/Frame8_white_current_67_FIXED.webp"
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/BrunoMars24KMagicWorldTourLive_%28cropped%29.jpg/250px-BrunoMars24KMagicWorldTourLive_%28cropped%29.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/f/fa/Bruno_Mars%2C_Las_Vegas_2010.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/a/af/Bruno_Mars_2010.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/BrunoMars24KMagicWorldTourLive_%28cropped%29.jpg/250px-BrunoMars24KMagicWorldTourLive_%28cropped%29.jpg",
+        "https://live.staticflickr.com/1571/24385425824_9202e95c2f_o.jpg"
       ],
-      "caption": "**He was fired from his own label and told he would NEVER make it on television because he was too rude and too ugly for camera...** That rejection letter still sits in his office drawer. But this is how a **mailroom boy became the most feared and loved man on TV.**\n\nBorn October 7, 1959, today he turns **67**, and his journey started nowhere near a stage. Simon Cowell grew up in Elstree, raised by an estate agent father and a dancer mother, dropping out at 16, floating between dead-end jobs. His first break wasn't talent — it was **carrying mail at EMI**. He was earning pennies, fetching coffee, watching from the bottom while others made decisions.\n\nThen came the first real chance. He started his own label **Fanfare**, signed a few hits, and watched it collapse. Creditors called. He moved back in with his parents. He was **broke, embarrassed, and labeled a failure before he was 30**. Most people would have quit.\n\nBut Simon had something no one else had — he knew what the public actually wanted, not what executives thought they wanted. He returned to BMG as an A&R, quietly signing novelty records that made millions, saving his name while everyone laughed at his music taste.\n\nThen **American Idol** happened. In 2001, he walked into an audition room, looked at a hopeful singer and said what everyone else was too polite to say. America hated him instantly — and couldn't stop watching. That bluntness became a brand. **He wasn't trying to be nice. He was trying to be honest.**\n\nWhat people didn't see was the hidden cost. Behind the suits and the smirk, Simon was crumbling. The American version of X Factor flopped. **He lost $20 million in one year.** Tabloids mocked him. Then in 2020 and 2022, **two horrific e-bike accidents nearly broke his back**, left him with metal rods, unable to walk for months. Doctors said he might never stand straight again.\n\nHe almost walked away from television completely. He told his close team he was done — the pain, the pressure, the years of being the villain were too much.\n\n**But he stayed. He rebuilt.** He became a father, softened without losing his edge, returned to **Britain's Got Talent** and **America's Got Talent**, creating stars instead of just judging them.\n\nLook at him now — no gimmicks, no apologies. At 67, he is still the man who says what we are all thinking. **He went from mailroom to mogul because he never tried to be liked — he tried to be right.**\n\n**Which Simon moment made you laugh or gasp the most? Drop it below. The most mentioned will be our story tomorrow. 👇**",
-      "comment": "**The secret behind Simon's brutal honesty that ITV tried to bury for years...** His first ever TV pilot was rejected by every network for being too mean, and his contract originally had a clause that he couldn't speak directly to contestants without a script — but he ripped it up on day one, and that unscripted insult is what made Idol explode! And did you know he was secretly terrified of singing himself because he was told as a teen his voice was unrecordable? He only started Fanfare Records with money he borrowed from his dad after pawning his own car, and the e-bike accident that almost ended him was hidden from press for 48 hours because he didn't want pity votes on BGT. Which fact shocked you most?",
-      "hashtags": "#SimonCowell #BornToday #October7 #HollywoodLegend #Icon #BGT #AmericanIdol",
-      "image_path": "collages/Simon_Cowell_Page_1_Tribute.jpg"
+      "caption": "Sample caption test",
+      "comment": "Sample comment test",
+      "hashtags": "#BrunoMars #BornToday",
+      "image_path": "collages/Bruno_Mars_Page_1_Tribute.jpg",
+      "page_name": "Born Today Hollywood",
+      "page_id_env": "FB_PAGE_ID_BORN",
+      "token_env": "FB_TOKEN_BORN"
     }
   ]
 }

@@ -3915,6 +3915,8 @@
       const lower = txt.toLowerCase();
       if (lower.includes('happy birthday')) {
         // keep Happy Birthday
+      } else if (txt.startsWith('•') || txt.includes('•')) {
+        txt = age ? `• ${age}` : '';
       } else if (lower.includes('born') || lower.includes('birth') || lower.includes('age') || lower.includes('19') || lower.includes('20')) {
         if (birthYear) {
           txt = age ? `Born ${birthYear} • Age ${age}` : `Born ${birthYear}`;
