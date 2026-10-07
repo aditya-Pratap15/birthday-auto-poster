@@ -24,6 +24,27 @@ def create_fallback_image(image_path, celeb_name):
     img.save(image_path, quality=92)
     print(f"Created fallback collage image: {image_path}")
 
+def format_facebook_text(text):
+    """Converts markdown **bold** into native Facebook Unicode Bold characters."""
+    if not text or not isinstance(text, str):
+        return text
+    import re
+    def _to_unicode_bold(match):
+        s = match.group(1)
+        res = []
+        for c in s:
+            code = ord(c)
+            if 65 <= code <= 90:    # A-Z -> 𝗔-𝗭
+                res.append(chr(0x1D5D4 + code - 65))
+            elif 97 <= code <= 122: # a-z -> 𝗮-𝘇
+                res.append(chr(0x1D5EE + code - 97))
+            elif 48 <= code <= 57:  # 0-9 -> 𝟬-𝟵
+                res.append(chr(0x1D7EC + code - 48))
+            else:
+                res.append(c)
+        return ''.join(res)
+    return re.sub(r'\*\*(.+?)\*\*', _to_unicode_bold, text)
+
 post_list = []
 if "posts" in data and data["posts"]:
     for idx, p in enumerate(data["posts"], start=1):
@@ -41,13 +62,16 @@ if "posts" in data and data["posts"]:
         clean_slug = re.sub(r'[^a-zA-Z0-9_]', '_', celeb_name)
         expected_img = p.get("image_path") or f"collages/{clean_slug}_Page_{idx}_Tribute.jpg"
         
+        raw_caption = f"{p.get('caption', '')}\n\n{p.get('hashtags', '')}".strip() if isinstance(p.get('hashtags'), str) else f"{p.get('caption', '')}\n\n{' '.join(p.get('hashtags', []))}".strip()
+        raw_comment = p.get("comment", "")
+
         post_list.append({
             "celeb_name": celeb_name,
             "page_name": p.get("page_name", "Born Today Hollywood"),
             "page_id_env": p.get("page_id_env", "FB_PAGE_ID_BORN"),
             "token_env": p.get("token_env", "FB_TOKEN_BORN"),
-            "caption": f"{p.get('caption', '')}\n\n{p.get('hashtags', '')}".strip() if isinstance(p.get('hashtags'), str) else f"{p.get('caption', '')}\n\n{' '.join(p.get('hashtags', []))}".strip(),
-            "comment": p.get("comment", ""),
+            "caption": format_facebook_text(raw_caption),
+            "comment": format_facebook_text(raw_comment),
             "image_path": expected_img,
             "unix_timestamp": ts
         })
