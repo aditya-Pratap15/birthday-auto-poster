@@ -269,6 +269,14 @@ async function main() {
 
     const presetData = loadPreset(gender);
 
+    if (presetData.bgCustomImage && !presetData.bgCustomImage.startsWith('data:')) {
+      const bgFullPath = path.join(STUDIO_DIR, presetData.bgCustomImage);
+      if (fs.existsSync(bgFullPath)) {
+        const bgBuf = fs.readFileSync(bgFullPath);
+        presetData.bgCustomImage = `data:image/png;base64,${bgBuf.toString('base64')}`;
+      }
+    }
+
     const payload = {
       presetData,
       celebName,
