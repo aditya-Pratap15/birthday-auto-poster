@@ -194,6 +194,21 @@ async function main() {
     }
   }
 
+  // Purge any stale collage images so only fresh scheduled posts are kept
+  if (fs.existsSync(COLLAGES_DIR)) {
+    const files = fs.readdirSync(COLLAGES_DIR);
+    for (const f of files) {
+      if (f !== '.gitkeep') {
+        try { fs.unlinkSync(path.join(COLLAGES_DIR, f)); } catch (e) {}
+      }
+    }
+  }
+
+  if (posts.length === 0) {
+    console.log(`[i] today_posts.json is empty (0 posts). Clean slate waiting for new schedule.`);
+    process.exit(0);
+  }
+
   console.log(`[*] Launching Studio Collage Engine for ${posts.length} daily posts...`);
   const server = await startServer(3000);
 
