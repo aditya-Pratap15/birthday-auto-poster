@@ -198,7 +198,18 @@ def download_or_load_image(src, size=(800, 800)):
 
 
 def draw_luxury_background(preset, W, H):
-    """Draws rich museum/gold archival backdrop."""
+    """Draws rich museum/gold archival backdrop or clean ivory editorial."""
+    if preset.get("bgPreset") in ["ivory_editorial", "ivory"]:
+        canvas = Image.new("RGBA", (W, H), (255, 255, 255, 255))
+        draw = ImageDraw.Draw(canvas)
+        for y in range(0, H, 2):
+            t = y / float(H)
+            r = int(255 * (1 - t) + 243 * t)
+            g = int(255 * (1 - t) + 237 * t)
+            b = int(255 * (1 - t) + 226 * t)
+            draw.line([(0, y), (W, y)], fill=(r, g, b, 255), width=2)
+        return canvas
+
     canvas = Image.new("RGBA", (W, H), (14, 16, 24, 255))
 
     # Check if preset has an embedded custom background
@@ -325,14 +336,138 @@ def render_text_layers(canvas, text_layers, celebrity_name, birth_date, birth_ye
         draw.text((x, y), final_text, font=font, fill=color, anchor="mm" if align == "center" else "lt")
 
 
+def draw_crown_vector(canvas, cx, cy, w, h, stroke_color=(229, 169, 60, 255), with_rays=False):
+    """Draws clean line-art gold crown vector."""
+    draw = ImageDraw.Draw(canvas)
+    if with_rays:
+        ray_dist = w * 0.72
+        angles = [-150, -115, -90, -65, -30]
+        for deg in angles:
+            rad = math.radians(deg)
+            x1 = cx + math.cos(rad) * (ray_dist * 0.70)
+            y1 = cy + math.sin(rad) * (ray_dist * 0.70)
+            x2 = cx + math.cos(rad) * ray_dist
+            y2 = cy + math.sin(rad) * ray_dist
+            draw.line([(int(x1), int(y1)), (int(x2), int(y2))], fill=stroke_color, width=3)
+
+    bw = w * 0.68
+    bh = h * 0.54
+    top_y = cy - bh / 2
+    bot_y = cy + bh / 2
+    left_x = cx - bw / 2
+    right_x = cx + bw / 2
+    mid_x = cx
+
+    draw.line([(int(left_x), int(bot_y)), (int(right_x), int(bot_y))], fill=stroke_color, width=3)
+    pts = [
+        (int(left_x), int(bot_y)),
+        (int(left_x - 3), int(top_y + 4)),
+        (int(cx - bw * 0.22), int(bot_y - bh * 0.35)),
+        (int(mid_x), int(top_y - 3)),
+        (int(cx + bw * 0.22), int(bot_y - bh * 0.35)),
+        (int(right_x + 3), int(top_y + 4)),
+        (int(right_x), int(bot_y))
+    ]
+    draw.line(pts, fill=stroke_color, width=3)
+    for dot_x, dot_y in [(left_x - 3, top_y + 4), (mid_x, top_y - 3), (right_x + 3, top_y + 4)]:
+        draw.ellipse([int(dot_x - 3), int(dot_y - 3), int(dot_x + 3), int(dot_y + 3)], fill=stroke_color)
+
+
+def draw_teaser_card(canvas, card):
+    """Renders the high-RPM viral teaser hook card (Bruno Mars style)."""
+    if not card or not card.get("enabled", True):
+        return
+
+    x = int(card.get("x", 45))
+    y = int(card.get("y", 1010))
+    w = int(card.get("width", 990))
+    h = int(card.get("height", 185))
+    r = int(card.get("cornerRadius", 14))
+
+    card_img = Image.new("RGBA", (w + 20, h + 20), (0, 0, 0, 0))
+    c_draw = ImageDraw.Draw(card_img)
+
+    bg_color = card.get("bgColor", "#0d0f14")
+    border_color = card.get("borderColor", "#b68c43")
+    c_draw.rounded_rectangle([10, 10, 10 + w, 10 + h], radius=r, fill=bg_color, outline=border_color, width=2)
+    canvas.paste(card_img, (x - 10, y - 10), mask=card_img)
+
+    draw = ImageDraw.Draw(canvas)
+
+    badge_icon = card.get("badgeIcon", "crown")
+    has_badge = badge_icon != "none"
+    text_start_x = x + 40
+
+    if has_badge:
+        badge_cx = x + 85
+        badge_cy = y + h // 2
+        if badge_icon == "crown":
+            draw_crown_vector(canvas, badge_cx, badge_cy, 52, 42, stroke_color=(229, 169, 60, 255), with_rays=True)
+        else:
+            font_star = get_font_by_name("dm serif", 34)
+            draw.text((badge_cx, badge_cy), "★", font=font_star, fill=(229, 169, 60, 255), anchor="mm")
+
+        div_x = x + 160
+        draw.line([(div_x, y + 25), (div_x, y + h - 25)], fill=(229, 169, 60, 110), width=2)
+        text_start_x = div_x + 32
+
+    font_lead = get_font_by_name("dm serif", 36)
+    font_climax = get_font_by_name("dm serif", 40)
+    font_cta = get_font_by_name("montserrat", 22)
+
+    line1 = card.get("line1", "At just 4 years old,")
+    line2 = card.get("line2", "he was already")
+    line2_hl = card.get("line2Highlight", "impersonating")
+    line3_hl = card.get("line3Highlight", "Elvis...")
+    cta_text = card.get("ctaText", "Read the full story in caption →")
+
+    line_spacing = 44 if h >= 170 else 38
+    start_y = y + 36
+
+    if line1:
+        draw.text((text_start_x, start_y), line1, font=font_lead, fill=(255, 255, 255, 255), anchor="la")
+
+    line2_y = start_y + line_spacing
+    if line2:
+        draw.text((text_start_x, line2_y), line2 + " ", font=font_lead, fill=(255, 255, 255, 255), anchor="la")
+        bbox = draw.textbbox((text_start_x, line2_y), line2 + " ", font=font_lead, anchor="la")
+        lead_w = bbox[2] - bbox[0]
+    else:
+        lead_w = 0
+
+    if line2_hl:
+        draw.text((text_start_x + lead_w, line2_y), line2_hl, font=font_lead, fill=(229, 169, 60, 255), anchor="la")
+
+    if line3_hl:
+        line3_y = line2_y + line_spacing + 2
+        draw.text((text_start_x, line3_y), line3_hl, font=font_climax, fill=(229, 169, 60, 255), anchor="la")
+
+    if cta_text:
+        cta_y = y + h + 42
+        cx = x + w // 2
+        draw.text((cx, cta_y), cta_text, font=font_cta, fill=(45, 45, 45, 255), anchor="mm")
+        bbox = draw.textbbox((cx, cta_y), cta_text, font=font_cta, anchor="mm")
+        half_w = (bbox[2] - bbox[0]) // 2
+        rule_offset = 24
+        rule_len = 110
+        draw.line([(cx - half_w - rule_offset - rule_len, cta_y), (cx - half_w - rule_offset, cta_y)], fill=(120, 120, 120, 90), width=1)
+        draw.line([(cx + half_w + rule_offset, cta_y), (cx + half_w + rule_offset + rule_len, cta_y)], fill=(120, 120, 120, 90), width=1)
+
+
 def draw_stickers(canvas, stickers):
     """Draws permanent logo watermarks and badges."""
     for s in stickers:
         src = s.get("src")
-        if not src:
-            continue
         w = int(s.get("width", 120))
         h = int(s.get("height", 120))
+        sx = int(s.get("x", 0))
+        sy = int(s.get("y", 0))
+
+        if not src:
+            if s.get("iconType") == "crown" or "crown" in s.get("label", "").lower():
+                draw_crown_vector(canvas, sx, sy, w, h, stroke_color=(223, 177, 91, 240), with_rays=False)
+            continue
+
         sticker_img = download_or_load_image(src, (w, h))
         if not sticker_img:
             continue
@@ -342,7 +477,9 @@ def draw_stickers(canvas, stickers):
         if rot != 0:
             resized = resized.rotate(-rot, expand=True, resample=Image.Resampling.BICUBIC)
 
-        x = int(s.get("x", 0) - resized.width / 2)
+        x = int(sx - resized.width / 2)
+        y = int(sy - resized.height / 2)
+        canvas.paste(resized, (x, y), mask=resized)
         y = int(s.get("y", 0) - resized.height / 2)
         canvas.paste(resized, (x, y), mask=resized)
 
@@ -428,6 +565,11 @@ def generate_collage_for_post(celeb_name, gender, birth_date, birth_year, age, p
     # 5. Text Layers with Google Fonts
     text_layers = preset.get("textLayers", [])
     render_text_layers(canvas, text_layers, celeb_name, birth_date, birth_year, age)
+
+    # 5.5 Story Teaser Hook Card
+    teaser_card = preset.get("teaserCard")
+    if teaser_card and teaser_card.get("enabled", True):
+        draw_teaser_card(canvas, teaser_card)
 
     # 6. Save Final Image
     final_rgb = canvas.convert("RGB")

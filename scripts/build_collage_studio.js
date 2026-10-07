@@ -178,10 +178,18 @@ async function fetchWikipediaPhotos(celebName) {
   return urls;
 }
 
-function loadPreset(gender = 'female') {
+function loadPreset(gender = 'female', presetName = null) {
+  if (presetName) {
+    const custom = path.join(PRESETS_DIR, presetName.endsWith('.json') ? presetName : `${presetName}.json`);
+    if (fs.existsSync(custom)) return JSON.parse(fs.readFileSync(custom, 'utf8'));
+  }
   const mainTemplate = path.join(PRESETS_DIR, 'main_template.json');
   if (fs.existsSync(mainTemplate)) {
     return JSON.parse(fs.readFileSync(mainTemplate, 'utf8'));
+  }
+  const viralTeaser = path.join(PRESETS_DIR, 'preset_viral_teaser.json');
+  if (fs.existsSync(viralTeaser)) {
+    return JSON.parse(fs.readFileSync(viralTeaser, 'utf8'));
   }
   const fallback = path.join(PRESETS_DIR, 'preset_female.json');
   if (fs.existsSync(fallback)) {
@@ -283,7 +291,10 @@ async function main() {
       }
     }
 
-    const presetData = loadPreset(gender);
+    const presetData = loadPreset(gender, post.preset || post.preset_name);
+    if (post.teaserCard) {
+      presetData.teaserCard = { ...(presetData.teaserCard || {}), ...post.teaserCard };
+    }
 
     if (presetData.bgCustomImage && !presetData.bgCustomImage.startsWith('data:')) {
       const bgFullPath = path.join(STUDIO_DIR, presetData.bgCustomImage);

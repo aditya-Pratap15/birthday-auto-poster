@@ -33,12 +33,15 @@
     stickers: [],
     selectedStickerId: null,
 
+    // Story Teaser Hook Card
+    teaserCard: null,
+
     // Undo / Redo stacks
     history: [],
     historyIndex: -1,
 
     // Interaction tracking
-    dragTarget: null, // { type: 'frame'|'text'|'sticker', id, startX, startY, origX, origY, origW, origH, handle }
+    dragTarget: null, // { type: 'frame'|'text'|'sticker'|'teaserCard', id, startX, startY, origX, origY, origW, origH, handle }
     isDragging: false,
     isResizing: false,
     isRotating: false,
@@ -95,7 +98,8 @@
       // For frames, serialize properties and image references
       frames: state.frames.map(f => ({ ...f, imgElement: f.imgElement })),
       textLayers: state.textLayers.map(t => ({ ...t })),
-      stickers: state.stickers.map(s => ({ ...s, imgElement: s.imgElement }))
+      stickers: state.stickers.map(s => ({ ...s, imgElement: s.imgElement })),
+      teaserCard: state.teaserCard ? { ...state.teaserCard } : null
     };
 
     state.history.push(snapshot);
@@ -139,6 +143,7 @@
     state.frames = snapshot.frames.map(f => ({ ...f }));
     state.textLayers = snapshot.textLayers.map(t => ({ ...t }));
     state.stickers = (snapshot.stickers || []).map(s => ({ ...s }));
+    state.teaserCard = snapshot.teaserCard ? { ...snapshot.teaserCard } : null;
 
     state.selectedFrameId = null;
     state.selectedTextId = null;
@@ -433,6 +438,206 @@
     showToast('Loaded 6-Photo Classic Grid');
   }
 
+  function loadPresetViralTeaser() {
+    const W = state.canvasWidth;
+    const H = state.canvasHeight;
+    state.bgType = 'preset';
+    state.bgPreset = 'ivory_editorial';
+    state.bgDarkOverlay = 0.0;
+    state.bgVignette = 0.0;
+
+    // 1 Hero Half-Body Photo + 4 Milestone Polaroid Cards with realistic tilts
+    state.frames = [
+      {
+        id: uid('frame'),
+        label: '★ Hero Portrait',
+        x: 0,
+        y: 140,
+        width: 1080,
+        height: 530,
+        shape: 'white_rect',
+        borderWidth: 0,
+        borderColor: '#ffffff',
+        cornerRadius: 0,
+        shadowBlur: 10,
+        rotation: 0,
+        imgElement: null,
+        imgScale: 1,
+        imgPanX: 0,
+        imgPanY: 0
+      },
+      {
+        id: uid('frame'),
+        label: 'Milestone 1 (Childhood)',
+        x: 16,
+        y: 640,
+        width: 265,
+        height: 325,
+        shape: 'white_rect',
+        borderWidth: 12,
+        borderColor: '#ffffff',
+        cornerRadius: 3,
+        shadowBlur: 24,
+        rotation: -4,
+        imgElement: null,
+        imgScale: 1,
+        imgPanX: 0,
+        imgPanY: 0
+      },
+      {
+        id: uid('frame'),
+        label: 'Milestone 2 (Teen/Debut)',
+        x: 275,
+        y: 665,
+        width: 255,
+        height: 310,
+        shape: 'white_rect',
+        borderWidth: 12,
+        borderColor: '#ffffff',
+        cornerRadius: 3,
+        shadowBlur: 20,
+        rotation: -1,
+        imgElement: null,
+        imgScale: 1,
+        imgPanX: 0,
+        imgPanY: 0
+      },
+      {
+        id: uid('frame'),
+        label: 'Milestone 3 (Peak Era)',
+        x: 520,
+        y: 670,
+        width: 250,
+        height: 305,
+        shape: 'white_rect',
+        borderWidth: 12,
+        borderColor: '#ffffff',
+        cornerRadius: 3,
+        shadowBlur: 20,
+        rotation: 2,
+        imgElement: null,
+        imgScale: 1,
+        imgPanX: 0,
+        imgPanY: 0
+      },
+      {
+        id: uid('frame'),
+        label: 'Milestone 4 (Legend Now)',
+        x: 760,
+        y: 655,
+        width: 285,
+        height: 325,
+        shape: 'white_rect',
+        borderWidth: 12,
+        borderColor: '#ffffff',
+        cornerRadius: 3,
+        shadowBlur: 25,
+        rotation: 3,
+        imgElement: null,
+        imgScale: 1,
+        imgPanX: 0,
+        imgPanY: 0
+      }
+    ];
+
+    // Top Header & Cursive Signature
+    state.textLayers = [
+      {
+        id: uid('text'),
+        text: '—  HAPPY BIRTHDAY  —',
+        fontFamily: "'Cinzel', serif",
+        fontSize: 22,
+        fontWeight: 700,
+        color: '#b68c43',
+        x: 540,
+        y: 48,
+        align: 'center',
+        glow: 0,
+        letterSpacing: 8
+      },
+      {
+        id: uid('text'),
+        text: 'BRUNO MARS',
+        fontFamily: "'DM Serif Display', serif",
+        fontSize: 66,
+        fontWeight: 700,
+        color: '#0d0d0d',
+        x: 435,
+        y: 102,
+        align: 'right',
+        glow: 0,
+        letterSpacing: 2
+      },
+      {
+        id: uid('text'),
+        text: '• 41',
+        fontFamily: "'DM Serif Display', serif",
+        fontSize: 66,
+        fontWeight: 700,
+        color: '#b68c43',
+        x: 455,
+        y: 102,
+        align: 'left',
+        glow: 0,
+        letterSpacing: 2
+      },
+      {
+        id: uid('text'),
+        text: 'Bruno Mars',
+        fontFamily: "'Allura', cursive",
+        fontSize: 72,
+        fontWeight: 700,
+        color: '#dfb15b',
+        x: 880,
+        y: 480,
+        align: 'center',
+        glow: 12,
+        letterSpacing: 1
+      }
+    ];
+
+    // Crown Sticker Emblem
+    state.stickers = [
+      {
+        id: uid('sticker'),
+        label: 'Crown Emblem',
+        x: 855,
+        y: 395,
+        width: 60,
+        height: 45,
+        rotation: 0,
+        opacity: 0.95,
+        shadowBlur: 10,
+        iconType: 'crown'
+      }
+    ];
+
+    // Teaser Card Hook Box
+    state.teaserCard = {
+      enabled: true,
+      x: 45,
+      y: 1010,
+      width: 990,
+      height: 185,
+      bgColor: '#0d0f14',
+      borderColor: '#b68c43',
+      borderWidth: 2,
+      cornerRadius: 14,
+      badgeIcon: 'crown',
+      line1: 'At just 4 years old,',
+      line2: 'he was already',
+      line2Highlight: 'impersonating',
+      line3Highlight: 'Elvis...',
+      ctaText: 'Read the full story in caption →'
+    };
+
+    state.selectedFrameId = state.frames[0].id;
+    pushState();
+    updateUI();
+    renderCanvas();
+    showToast('Loaded Viral Story & Teaser Preset (Bruno Mars Style)');
+  }
+
   // --- Dynamic Quick Frame Count Generator (4, 6, 8, 10) ---
   function setQuickFrameCount(count) {
     const W = state.canvasWidth;
@@ -589,6 +794,11 @@
       drawSticker(sticker);
     });
 
+    // 3.5 Draw Story Teaser Hook Card
+    if (state.teaserCard && state.teaserCard.enabled) {
+      drawTeaserCard(state.teaserCard);
+    }
+
     // 4. Draw Text Layers
     state.textLayers.forEach(text => {
       drawTextLayer(text);
@@ -607,6 +817,16 @@
       drawCoverImage(ctx, state.bgCustomImage, 0, 0, W, H);
     } else {
       // Draw preset backgrounds
+      if (state.bgPreset === 'ivory_editorial' || state.bgPreset === 'ivory') {
+        const linGrad = ctx.createLinearGradient(0, 0, 0, H);
+        linGrad.addColorStop(0, '#ffffff');
+        linGrad.addColorStop(0.25, '#faf8f2');
+        linGrad.addColorStop(1, '#f3ede2');
+        ctx.fillStyle = linGrad;
+        ctx.fillRect(0, 0, W, H);
+        return;
+      }
+
       const grad = ctx.createRadialGradient(W / 2, H / 2, W * 0.1, W / 2, H / 2, W * 0.85);
       if (state.bgPreset === 'noir') {
         grad.addColorStop(0, '#1c1f2b');
@@ -792,7 +1012,6 @@
   }
 
   function drawSticker(s) {
-    if (!s.imgElement) return;
     ctx.save();
     ctx.translate(s.x, s.y);
     ctx.rotate(((s.rotation || 0) * Math.PI) / 180);
@@ -805,7 +1024,240 @@
       ctx.shadowOffsetY = 4;
     }
 
-    ctx.drawImage(s.imgElement, -s.width / 2, -s.height / 2, s.width, s.height);
+    if (s.imgElement) {
+      ctx.drawImage(s.imgElement, -s.width / 2, -s.height / 2, s.width, s.height);
+    } else if (s.iconType === 'crown' || (s.label && s.label.toLowerCase().includes('crown'))) {
+      drawCrownIcon(ctx, 0, 0, s.width, s.height, '#dfb15b', false);
+    }
+    ctx.restore();
+  }
+
+  // --- Line-Art Gold Crown Vector Renderer ---
+  function drawCrownIcon(context, cx, cy, w, h, strokeColor = '#dfb15b', withRays = false) {
+    context.save();
+    context.strokeStyle = strokeColor;
+    context.fillStyle = strokeColor;
+    context.lineWidth = 2.4;
+    context.lineJoin = 'round';
+    context.lineCap = 'round';
+
+    if (withRays) {
+      // 5 radiant rays around crown
+      const rayDist = w * 0.72;
+      const angles = [-150, -115, -90, -65, -30];
+      angles.forEach(deg => {
+        const rad = (deg * Math.PI) / 180;
+        const x1 = cx + Math.cos(rad) * (rayDist * 0.70);
+        const y1 = cy + Math.sin(rad) * (rayDist * 0.70);
+        const x2 = cx + Math.cos(rad) * rayDist;
+        const y2 = cy + Math.sin(rad) * rayDist;
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2);
+        context.stroke();
+      });
+    }
+
+    const bw = w * 0.68;
+    const bh = h * 0.54;
+    const topY = cy - bh / 2;
+    const botY = cy + bh / 2;
+    const leftX = cx - bw / 2;
+    const rightX = cx + bw / 2;
+    const midX = cx;
+
+    // Crown base line
+    context.beginPath();
+    context.moveTo(leftX, botY);
+    context.lineTo(rightX, botY);
+    context.stroke();
+
+    // Crown peaks
+    context.beginPath();
+    context.moveTo(leftX, botY);
+    context.lineTo(leftX - 3, topY + 4);
+    context.lineTo(cx - bw * 0.22, botY - bh * 0.35);
+    context.lineTo(midX, topY - 3);
+    context.lineTo(cx + bw * 0.22, botY - bh * 0.35);
+    context.lineTo(rightX + 3, topY + 4);
+    context.lineTo(rightX, botY);
+    context.stroke();
+
+    // Peak jewels
+    [
+      { x: leftX - 3, y: topY + 4 },
+      { x: midX, y: topY - 3 },
+      { x: rightX + 3, y: topY + 4 }
+    ].forEach(pt => {
+      context.beginPath();
+      context.arc(pt.x, pt.y, 2.5, 0, Math.PI * 2);
+      context.fill();
+    });
+
+    context.restore();
+  }
+
+  // --- Story Teaser Hook Card Renderer ---
+  function drawTeaserCard(card) {
+    if (!card || !card.enabled) return;
+
+    ctx.save();
+
+    const x = card.x || 45;
+    const y = card.y || 1010;
+    const w = card.width || 990;
+    const h = card.height || 185;
+    const r = card.cornerRadius || 14;
+
+    // 1. Drop shadow for dark card
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 8;
+
+    // 2. Card background: dark matte slate/black
+    const cardBg = card.bgColor || '#0d0f14';
+    ctx.fillStyle = cardBg;
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(x, y, w, h, r);
+    } else {
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+    }
+    ctx.fill();
+
+    // Reset shadow for stroke
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+
+    // 3. Subtle Gold Border outline
+    ctx.strokeStyle = card.borderColor || '#b68c43';
+    ctx.lineWidth = card.borderWidth || 2;
+    ctx.stroke();
+
+    // 4. Left Badge / Icon & Divider
+    const badgeType = card.badgeIcon || 'crown';
+    const hasBadge = badgeType !== 'none';
+    let textStartX = x + 40;
+
+    if (hasBadge) {
+      const badgeCenterX = x + 85;
+      const badgeCenterY = y + h / 2;
+
+      if (badgeType === 'crown') {
+        drawCrownIcon(ctx, badgeCenterX, badgeCenterY, 52, 42, '#e5a93c', true);
+      } else if (badgeType === 'star') {
+        ctx.save();
+        ctx.fillStyle = '#e5a93c';
+        ctx.font = '36px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('★', badgeCenterX, badgeCenterY);
+        ctx.restore();
+      } else if (badgeType === 'fire') {
+        ctx.save();
+        ctx.font = '34px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('🔥', badgeCenterX, badgeCenterY);
+        ctx.restore();
+      }
+
+      // Vertical subtle gold divider
+      const dividerX = x + 160;
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(229, 169, 60, 0.4)';
+      ctx.lineWidth = 1.5;
+      ctx.moveTo(dividerX, y + 25);
+      ctx.lineTo(dividerX, y + h - 25);
+      ctx.stroke();
+
+      textStartX = dividerX + 32;
+    }
+
+    // 5. Text Hook Content
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'alphabetic';
+
+    const fontSerif = "'DM Serif Display', Georgia, serif";
+    const line1 = card.line1 !== undefined ? card.line1 : 'At just 4 years old,';
+    const line2 = card.line2 !== undefined ? card.line2 : 'he was already';
+    const line2Hl = card.line2Highlight !== undefined ? card.line2Highlight : 'impersonating';
+    const line3Hl = card.line3Highlight !== undefined ? card.line3Highlight : 'Elvis...';
+
+    // Calculate Y offsets based on height and number of lines
+    const lineSpacing = h < 160 ? 38 : 46;
+    const startY = y + (h - (line3Hl ? lineSpacing * 2.2 : lineSpacing * 1.2)) / 2 + 28;
+
+    // Line 1 (White Context)
+    if (line1) {
+      ctx.font = `700 36px ${fontSerif}`;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(line1, textStartX, startY);
+    }
+
+    // Line 2 (White lead + Gold highlight)
+    const line2Y = startY + lineSpacing;
+    if (line2 || line2Hl) {
+      ctx.font = `700 36px ${fontSerif}`;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(line2 ? line2 + ' ' : '', textStartX, line2Y);
+
+      if (line2Hl) {
+        const leadWidth = line2 ? ctx.measureText(line2 + ' ').width : 0;
+        ctx.fillStyle = '#e5a93c'; // rich vibrant gold
+        ctx.fillText(line2Hl, textStartX + leadWidth, line2Y);
+      }
+    }
+
+    // Line 3 Climax (Big Gold Highlight)
+    if (line3Hl) {
+      const line3Y = line2Y + lineSpacing + 2;
+      ctx.font = `700 40px ${fontSerif}`;
+      ctx.fillStyle = '#e5a93c';
+      ctx.fillText(line3Hl, textStartX, line3Y);
+    }
+
+    // 6. Footer CTA below card (e.g. — Read the full story in caption → —)
+    if (card.ctaText) {
+      const ctaY = y + h + 42;
+      const centerX = x + w / 2;
+      ctx.font = "500 22px 'Montserrat', sans-serif";
+      ctx.fillStyle = '#2d2d2d';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(card.ctaText, centerX, ctaY);
+
+      // Fine horizontal accent lines left and right of CTA
+      const textMetrics = ctx.measureText(card.ctaText);
+      const halfTextW = textMetrics.width / 2;
+      const ruleOffset = 24;
+      const ruleLength = 120;
+
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.28)';
+      ctx.lineWidth = 1;
+
+      // Left rule
+      ctx.beginPath();
+      ctx.moveTo(centerX - halfTextW - ruleOffset - ruleLength, ctaY);
+      ctx.lineTo(centerX - halfTextW - ruleOffset, ctaY);
+      ctx.stroke();
+
+      // Right rule
+      ctx.beginPath();
+      ctx.moveTo(centerX + halfTextW + ruleOffset, ctaY);
+      ctx.lineTo(centerX + halfTextW + ruleOffset + ruleLength, ctaY);
+      ctx.stroke();
+    }
+
     ctx.restore();
   }
 
@@ -967,6 +1419,14 @@
       const halfH = (t.fontSize * 1.3) / 2;
       if (x >= t.x - halfW && x <= t.x + halfW && y >= t.y - halfH && y <= t.y + halfH) {
         return { type: 'text', item: t };
+      }
+    }
+
+    // 2.5 Check Story Teaser Card
+    if (state.teaserCard && state.teaserCard.enabled) {
+      const tc = state.teaserCard;
+      if (x >= tc.x && x <= tc.x + tc.width && y >= tc.y && y <= tc.y + tc.height + 60) {
+        return { type: 'teaserCard', item: tc };
       }
     }
 
@@ -1139,6 +1599,38 @@
       if (stickerEditorControls) stickerEditorControls.style.display = 'none';
       if (noStickerSelectedHint) noStickerSelectedHint.style.display = 'block';
     }
+
+    // 5. Teaser Card Tab Sync
+    if (state.teaserCard) {
+      const tc = state.teaserCard;
+      const toggle = document.getElementById('teaserCardEnabledToggle');
+      if (toggle) toggle.checked = tc.enabled !== false;
+      const l1 = document.getElementById('teaserLine1Input');
+      if (l1) l1.value = tc.line1 || '';
+      const l2 = document.getElementById('teaserLine2Input');
+      if (l2) l2.value = tc.line2 || '';
+      const l2hl = document.getElementById('teaserLine2HighlightInput');
+      if (l2hl) l2hl.value = tc.line2Highlight || '';
+      const l3hl = document.getElementById('teaserLine3HighlightInput');
+      if (l3hl) l3hl.value = tc.line3Highlight || '';
+      const cta = document.getElementById('teaserCtaInput');
+      if (cta) cta.value = tc.ctaText || '';
+      const yS = document.getElementById('teaserYSlider');
+      if (yS) {
+        yS.value = tc.y || 1010;
+        const yV = document.getElementById('teaserYVal');
+        if (yV) yV.textContent = `${tc.y || 1010}px`;
+      }
+      const hS = document.getElementById('teaserHeightSlider');
+      if (hS) {
+        hS.value = tc.height || 185;
+        const hV = document.getElementById('teaserHeightVal');
+        if (hV) hV.textContent = `${tc.height || 185}px`;
+      }
+      document.querySelectorAll('.badge-icon-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.icon === (tc.badgeIcon || 'crown'));
+      });
+    }
   }
 
   function selectFrame(id) {
@@ -1219,6 +1711,20 @@
           origX: hit.item.x,
           origY: hit.item.y
         };
+      } else if (hit.type === 'teaserCard') {
+        const teaserTabBtn = document.querySelector('[data-tab="tab-teaser"]');
+        if (teaserTabBtn) teaserTabBtn.click();
+        state.selectedFrameId = null;
+        state.selectedTextId = null;
+        state.selectedStickerId = null;
+        updateUI();
+        state.dragTarget = {
+          type: 'teaserCard',
+          startX: coords.x,
+          startY: coords.y,
+          origX: hit.item.x,
+          origY: hit.item.y
+        };
       }
       state.isDragging = true;
     } else {
@@ -1252,6 +1758,15 @@
       if (text) {
         text.x = Math.round(state.dragTarget.origX + dx);
         text.y = Math.round(state.dragTarget.origY + dy);
+        renderCanvas();
+      }
+    } else if (state.dragTarget.type === 'teaserCard') {
+      if (state.teaserCard) {
+        state.teaserCard.y = Math.round(state.dragTarget.origY + dy);
+        const ySlider = document.getElementById('teaserYSlider');
+        const yVal = document.getElementById('teaserYVal');
+        if (ySlider) ySlider.value = state.teaserCard.y;
+        if (yVal) yVal.textContent = `${state.teaserCard.y}px`;
         renderCanvas();
       }
     }
@@ -2368,6 +2883,180 @@
     loadPreset6Grid();
   });
 
+  const presetViralBtn = document.getElementById('presetViralTeaserBtn');
+  if (presetViralBtn) {
+    presetViralBtn.addEventListener('click', e => {
+      document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      loadPresetViralTeaser();
+    });
+  }
+
+  // --- Story Teaser Card Tab Event Handlers ---
+  function ensureTeaserCard() {
+    if (!state.teaserCard) {
+      state.teaserCard = {
+        enabled: true,
+        x: 45,
+        y: 1010,
+        width: 990,
+        height: 185,
+        bgColor: '#0d0f14',
+        borderColor: '#b68c43',
+        borderWidth: 2,
+        cornerRadius: 14,
+        badgeIcon: 'crown',
+        line1: 'At just 4 years old,',
+        line2: 'he was already',
+        line2Highlight: 'impersonating',
+        line3Highlight: 'Elvis...',
+        ctaText: 'Read the full story in caption →'
+      };
+    }
+  }
+
+  const teaserToggle = document.getElementById('teaserCardEnabledToggle');
+  if (teaserToggle) {
+    teaserToggle.addEventListener('change', e => {
+      ensureTeaserCard();
+      state.teaserCard.enabled = e.target.checked;
+      pushState();
+      renderCanvas();
+    });
+  }
+
+  const teaserL1 = document.getElementById('teaserLine1Input');
+  if (teaserL1) {
+    teaserL1.addEventListener('input', e => {
+      ensureTeaserCard();
+      state.teaserCard.line1 = e.target.value;
+      renderCanvas();
+    });
+    teaserL1.addEventListener('change', pushState);
+  }
+
+  const teaserL2 = document.getElementById('teaserLine2Input');
+  if (teaserL2) {
+    teaserL2.addEventListener('input', e => {
+      ensureTeaserCard();
+      state.teaserCard.line2 = e.target.value;
+      renderCanvas();
+    });
+    teaserL2.addEventListener('change', pushState);
+  }
+
+  const teaserL2Hl = document.getElementById('teaserLine2HighlightInput');
+  if (teaserL2Hl) {
+    teaserL2Hl.addEventListener('input', e => {
+      ensureTeaserCard();
+      state.teaserCard.line2Highlight = e.target.value;
+      renderCanvas();
+    });
+    teaserL2Hl.addEventListener('change', pushState);
+  }
+
+  const teaserL3Hl = document.getElementById('teaserLine3HighlightInput');
+  if (teaserL3Hl) {
+    teaserL3Hl.addEventListener('input', e => {
+      ensureTeaserCard();
+      state.teaserCard.line3Highlight = e.target.value;
+      renderCanvas();
+    });
+    teaserL3Hl.addEventListener('change', pushState);
+  }
+
+  const teaserCta = document.getElementById('teaserCtaInput');
+  if (teaserCta) {
+    teaserCta.addEventListener('input', e => {
+      ensureTeaserCard();
+      state.teaserCard.ctaText = e.target.value;
+      renderCanvas();
+    });
+    teaserCta.addEventListener('change', pushState);
+  }
+
+  const teaserYS = document.getElementById('teaserYSlider');
+  if (teaserYS) {
+    teaserYS.addEventListener('input', e => {
+      ensureTeaserCard();
+      state.teaserCard.y = parseInt(e.target.value, 10);
+      document.getElementById('teaserYVal').textContent = `${state.teaserCard.y}px`;
+      renderCanvas();
+    });
+    teaserYS.addEventListener('change', pushState);
+  }
+
+  const teaserHS = document.getElementById('teaserHeightSlider');
+  if (teaserHS) {
+    teaserHS.addEventListener('input', e => {
+      ensureTeaserCard();
+      state.teaserCard.height = parseInt(e.target.value, 10);
+      document.getElementById('teaserHeightVal').textContent = `${state.teaserCard.height}px`;
+      renderCanvas();
+    });
+    teaserHS.addEventListener('change', pushState);
+  }
+
+  document.querySelectorAll('.badge-icon-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.badge-icon-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      ensureTeaserCard();
+      state.teaserCard.badgeIcon = btn.dataset.icon;
+      pushState();
+      renderCanvas();
+    });
+  });
+
+  // Celebrity Hook Preset Buttons
+  const hookElvisBtn = document.getElementById('presetTeaserElvisBtn');
+  if (hookElvisBtn) {
+    hookElvisBtn.addEventListener('click', () => {
+      ensureTeaserCard();
+      state.teaserCard.line1 = 'At just 4 years old,';
+      state.teaserCard.line2 = 'he was already';
+      state.teaserCard.line2Highlight = 'impersonating';
+      state.teaserCard.line3Highlight = 'Elvis...';
+      state.teaserCard.badgeIcon = 'crown';
+      updateUI();
+      pushState();
+      renderCanvas();
+      showToast('Applied Bruno Mars / Elvis hook');
+    });
+  }
+
+  const hookSimonBtn = document.getElementById('presetTeaserSimonBtn');
+  if (hookSimonBtn) {
+    hookSimonBtn.addEventListener('click', () => {
+      ensureTeaserCard();
+      state.teaserCard.line1 = 'Fired from his own label,';
+      state.teaserCard.line2 = 'he was told he was';
+      state.teaserCard.line2Highlight = 'too rude and ugly';
+      state.teaserCard.line3Highlight = 'for television...';
+      state.teaserCard.badgeIcon = 'star';
+      updateUI();
+      pushState();
+      renderCanvas();
+      showToast('Applied Simon Cowell hook');
+    });
+  }
+
+  const hookToniBtn = document.getElementById('presetTeaserToniBtn');
+  if (hookToniBtn) {
+    hookToniBtn.addEventListener('click', () => {
+      ensureTeaserCard();
+      state.teaserCard.line1 = 'Singing at a gas station,';
+      state.teaserCard.line2 = 'she was discovered by';
+      state.teaserCard.line2Highlight = 'a chance encounter';
+      state.teaserCard.line3Highlight = 'that changed music...';
+      state.teaserCard.badgeIcon = 'crown';
+      updateUI();
+      pushState();
+      renderCanvas();
+      showToast('Applied Toni Braxton hook');
+    });
+  }
+
   // --- Quick Frame Count Selector (4, 6, 8, 10 Photos) ---
   document.querySelectorAll('.count-btn').forEach(btn => {
     btn.addEventListener('click', e => {
@@ -2413,6 +3102,50 @@
 
   function getDefaultPresets() {
     return [
+      {
+        id: 'usr_default_viral_teaser',
+        name: 'Viral Story & Teaser (Bruno Mars Style)',
+        createdAt: Date.now() - 3600000 * 2,
+        canvasWidth: 1080,
+        canvasHeight: 1440,
+        aspectRatio: '3:4',
+        bgPreset: 'ivory_editorial',
+        bgDarkOverlay: 0.0,
+        bgVignette: 0.0,
+        frames: [
+          { label: '★ Hero Portrait', x: 0, y: 140, width: 1080, height: 530, shape: 'white_rect', borderWidth: 0, borderColor: '#ffffff', cornerRadius: 0, shadowBlur: 10, rotation: 0 },
+          { label: 'Milestone 1 (Childhood)', x: 16, y: 640, width: 265, height: 325, shape: 'white_rect', borderWidth: 12, borderColor: '#ffffff', cornerRadius: 3, shadowBlur: 24, rotation: -4 },
+          { label: 'Milestone 2 (Teen/Debut)', x: 275, y: 665, width: 255, height: 310, shape: 'white_rect', borderWidth: 12, borderColor: '#ffffff', cornerRadius: 3, shadowBlur: 20, rotation: -1 },
+          { label: 'Milestone 3 (Peak Era)', x: 520, y: 670, width: 250, height: 305, shape: 'white_rect', borderWidth: 12, borderColor: '#ffffff', cornerRadius: 3, shadowBlur: 20, rotation: 2 },
+          { label: 'Milestone 4 (Legend Now)', x: 760, y: 655, width: 285, height: 325, shape: 'white_rect', borderWidth: 12, borderColor: '#ffffff', cornerRadius: 3, shadowBlur: 25, rotation: 3 }
+        ],
+        textLayers: [
+          { text: '—  HAPPY BIRTHDAY  —', fontFamily: "'Cinzel', serif", fontSize: 22, fontWeight: 700, color: '#b68c43', x: 540, y: 48, align: 'center', glow: 0, letterSpacing: 8 },
+          { text: 'BRUNO MARS', fontFamily: "'DM Serif Display', serif", fontSize: 66, fontWeight: 700, color: '#0d0d0d', x: 435, y: 102, align: 'right', glow: 0, letterSpacing: 2 },
+          { text: '• 41', fontFamily: "'DM Serif Display', serif", fontSize: 66, fontWeight: 700, color: '#b68c43', x: 455, y: 102, align: 'left', glow: 0, letterSpacing: 2 },
+          { text: 'Bruno Mars', fontFamily: "'Allura', cursive", fontSize: 72, fontWeight: 700, color: '#dfb15b', x: 880, y: 480, align: 'center', glow: 12, letterSpacing: 1 }
+        ],
+        stickers: [
+          { label: 'Crown Emblem', x: 855, y: 395, width: 60, height: 45, rotation: 0, opacity: 0.95, shadowBlur: 10, iconType: 'crown' }
+        ],
+        teaserCard: {
+          enabled: true,
+          x: 45,
+          y: 1010,
+          width: 990,
+          height: 185,
+          bgColor: '#0d0f14',
+          borderColor: '#b68c43',
+          borderWidth: 2,
+          cornerRadius: 14,
+          badgeIcon: 'crown',
+          line1: 'At just 4 years old,',
+          line2: 'he was already',
+          line2Highlight: 'impersonating',
+          line3Highlight: 'Elvis...',
+          ctaText: 'Read the full story in caption →'
+        }
+      },
       {
         id: 'usr_default_1',
         name: 'Kate Winslet 5-Frame Diamond Hero',
@@ -2594,7 +3327,8 @@
         opacity: s.opacity,
         shadowBlur: s.shadowBlur,
         src: s.imgElement ? s.imgElement.src : null
-      }))
+      })),
+      teaserCard: state.teaserCard ? { ...state.teaserCard } : null
     };
 
     presets.push(newPreset);
@@ -2694,6 +3428,7 @@
     state.selectedFrameId = state.frames[0] ? state.frames[0].id : null;
     state.selectedTextId = null;
     state.selectedStickerId = null;
+    state.teaserCard = target.teaserCard ? { ...target.teaserCard } : null;
 
     // Highlight active preset in topbar and dropdown list
     document.querySelectorAll('.preset-pill').forEach(b => b.classList.remove('active'));
@@ -2882,7 +3617,8 @@
         opacity: s.opacity,
         shadowBlur: s.shadowBlur,
         src: s.imgElement ? s.imgElement.src : null
-      }))
+      })),
+      teaserCard: state.teaserCard ? { ...state.teaserCard } : null
     };
 
     const blob = new Blob([JSON.stringify(templateData, null, 2)], { type: 'application/json' });
@@ -2936,6 +3672,7 @@
             state.bgCustomImage = null;
             state.bgCustomImageData = null;
           }
+          state.teaserCard = data.teaserCard ? { ...data.teaserCard } : null;
           pushState();
           updateUI();
           renderCanvas();
@@ -3076,6 +3813,7 @@
       else if (selectedHomeStarter === 'rect') loadPresetBoxCenterpiece();
       else if (selectedHomeStarter === 'oval') loadPresetOvalCameo();
       else if (selectedHomeStarter === 'grid6') loadPreset6Grid();
+      else if (selectedHomeStarter === 'viral_teaser') loadPresetViralTeaser();
       else loadPresetDiamond();
 
       hideHomePage();
@@ -3104,6 +3842,13 @@
     state.bgPreset = presetData.bgPreset || 'noir';
     state.bgDarkOverlay = presetData.bgDarkOverlay !== undefined ? presetData.bgDarkOverlay : 0.2;
     state.bgVignette = presetData.bgVignette !== undefined ? presetData.bgVignette : 0.5;
+
+    // Teaser Hook Card
+    if (presetData.teaserCard) {
+      state.teaserCard = { ...presetData.teaserCard };
+    } else {
+      state.teaserCard = null;
+    }
 
     const loadPromises = [];
 

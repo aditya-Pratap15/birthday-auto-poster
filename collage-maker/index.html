@@ -121,6 +121,14 @@
                 </div>
                 <span class="starter-radio"></span>
               </div>
+              <div class="starter-card" data-preset="viral_teaser">
+                <div class="starter-badge">👑</div>
+                <div class="starter-details">
+                  <h4>Viral Story & Teaser (Bruno Mars Style)</h4>
+                  <p>Hero Portrait + 4 Milestones + Dark Story Teaser Hook Box</p>
+                </div>
+                <span class="starter-radio"></span>
+              </div>
             </div>
 
             <div class="home-launch-actions">
@@ -163,6 +171,9 @@
         <button id="presetGrid6Btn" class="preset-pill" title="Clean 6-Frame Layout">
           <span class="icon">▦</span> 6-Photo Classic
         </button>
+        <button id="presetViralTeaserBtn" class="preset-pill highlight-pill" title="Viral Story & Teaser (Bruno Mars Style with Hero, 4 Polaroids & Teaser Card)">
+          <span class="icon">👑</span> Story & Teaser
+        </button>
         <!-- Saved Presets Dropdown Menu -->
         <div class="preset-dropdown-wrap" id="presetDropdownWrap">
           <button id="presetDropdownTrigger" class="preset-pill dropdown-trigger" title="View your saved custom presets">
@@ -204,6 +215,7 @@
           <button class="tab-btn" data-tab="tab-frames">Frames (<span id="frameCountBadge">6</span>)</button>
           <button class="tab-btn" data-tab="tab-style">Style</button>
           <button class="tab-btn" data-tab="tab-text">Text</button>
+          <button class="tab-btn" data-tab="tab-teaser">Teaser Card</button>
           <button class="tab-btn" data-tab="tab-stickers">Stickers & Icons</button>
           <button class="tab-btn" data-tab="tab-bg">Background</button>
         </div>
@@ -499,6 +511,70 @@
               <button id="addYearsPresetBtn" class="tool-btn">
                 <span>📅 Add Birth / Milestone Year (e.g., 1943 - 1970)</span>
               </button>
+            </div>
+          </div>
+
+          <!-- TAB: Teaser Hook Card -->
+          <div id="tab-teaser" class="tab-panel">
+            <div class="panel-header">
+              <span class="section-title">Story Teaser Card</span>
+              <label class="switch-wrap" title="Toggle Teaser Card on canvas">
+                <input type="checkbox" id="teaserCardEnabledToggle" checked>
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <p class="section-hint">High-RPM viral hook card (Bruno Mars style) that teases the story and drives viewers into the caption.</p>
+
+            <div class="form-group mt-sm">
+              <label>Hook Line 1 (Context)</label>
+              <input type="text" id="teaserLine1Input" class="text-input" placeholder="e.g. At just 4 years old," value="At just 4 years old,">
+            </div>
+
+            <div class="form-group mt-sm">
+              <label>Hook Line 2 (Leading text)</label>
+              <input type="text" id="teaserLine2Input" class="text-input" placeholder="e.g. he was already" value="he was already">
+            </div>
+
+            <div class="form-group mt-sm">
+              <label>Line 2 Highlight Keyword <span class="gold-badge">Gold Text</span></label>
+              <input type="text" id="teaserLine2HighlightInput" class="text-input" placeholder="e.g. impersonating" value="impersonating">
+            </div>
+
+            <div class="form-group mt-sm">
+              <label>Line 3 Big Climax Keyword <span class="gold-badge">Big Gold Text</span></label>
+              <input type="text" id="teaserLine3HighlightInput" class="text-input" placeholder="e.g. Elvis..." value="Elvis...">
+            </div>
+
+            <div class="form-group mt-md">
+              <label>Left Badge Icon</label>
+              <div class="badge-icon-selector">
+                <button type="button" class="badge-icon-btn active" data-icon="crown">👑 Crown</button>
+                <button type="button" class="badge-icon-btn" data-icon="star">★ Star</button>
+                <button type="button" class="badge-icon-btn" data-icon="fire">🔥 Fire</button>
+                <button type="button" class="badge-icon-btn" data-icon="none">None</button>
+              </div>
+            </div>
+
+            <div class="form-group mt-md">
+              <label>Footer Call-To-Action (Below Card)</label>
+              <input type="text" id="teaserCtaInput" class="text-input" placeholder="e.g. Read the full story in caption →" value="Read the full story in caption →">
+            </div>
+
+            <div class="section-title mt-md">Card Vertical Position & Size</div>
+            <div class="range-group">
+              <label>Vertical Position Y: <span id="teaserYVal">1010px</span></label>
+              <input type="range" id="teaserYSlider" min="700" max="1300" step="5" value="1010">
+            </div>
+            <div class="range-group mt-xs">
+              <label>Card Height: <span id="teaserHeightVal">185px</span></label>
+              <input type="range" id="teaserHeightSlider" min="120" max="260" step="5" value="185">
+            </div>
+
+            <div class="section-title mt-md">Quick Celebrity Hook Presets</div>
+            <div class="quick-size-presets mt-xs">
+              <button type="button" class="btn-micro" id="presetTeaserElvisBtn" title="Bruno Mars / Elvis Impersonator Hook">Bruno Mars (Elvis 4yo)</button>
+              <button type="button" class="btn-micro" id="presetTeaserSimonBtn" title="Simon Cowell / Mailroom Boy Hook">Simon Cowell (Mailroom)</button>
+              <button type="button" class="btn-micro" id="presetTeaserToniBtn" title="Toni Braxton / Gas Station Hook">Toni Braxton (Gas Station)</button>
             </div>
           </div>
 

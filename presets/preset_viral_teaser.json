@@ -1,0 +1,157 @@
+{
+  "version": 1,
+  "canvasWidth": 1080,
+  "canvasHeight": 1440,
+  "aspectRatio": "3:4",
+  "bgType": "preset",
+  "bgPreset": "ivory_editorial",
+  "bgDarkOverlay": 0.0,
+  "bgVignette": 0.0,
+  "frames": [
+    {
+      "label": "★ Hero Portrait",
+      "x": 0,
+      "y": 140,
+      "width": 1080,
+      "height": 530,
+      "shape": "white_rect",
+      "borderWidth": 0,
+      "borderColor": "#ffffff",
+      "cornerRadius": 0,
+      "shadowBlur": 10,
+      "rotation": 0
+    },
+    {
+      "label": "Milestone 1 (Childhood)",
+      "x": 16,
+      "y": 640,
+      "width": 265,
+      "height": 325,
+      "shape": "white_rect",
+      "borderWidth": 12,
+      "borderColor": "#ffffff",
+      "cornerRadius": 3,
+      "shadowBlur": 24,
+      "rotation": -4
+    },
+    {
+      "label": "Milestone 2 (Teen/Debut)",
+      "x": 275,
+      "y": 665,
+      "width": 255,
+      "height": 310,
+      "shape": "white_rect",
+      "borderWidth": 12,
+      "borderColor": "#ffffff",
+      "cornerRadius": 3,
+      "shadowBlur": 20,
+      "rotation": -1
+    },
+    {
+      "label": "Milestone 3 (Peak Era)",
+      "x": 520,
+      "y": 670,
+      "width": 250,
+      "height": 305,
+      "shape": "white_rect",
+      "borderWidth": 12,
+      "borderColor": "#ffffff",
+      "cornerRadius": 3,
+      "shadowBlur": 20,
+      "rotation": 2
+    },
+    {
+      "label": "Milestone 4 (Legend Now)",
+      "x": 760,
+      "y": 655,
+      "width": 285,
+      "height": 325,
+      "shape": "white_rect",
+      "borderWidth": 12,
+      "borderColor": "#ffffff",
+      "cornerRadius": 3,
+      "shadowBlur": 25,
+      "rotation": 3
+    }
+  ],
+  "textLayers": [
+    {
+      "text": "—  HAPPY BIRTHDAY  —",
+      "fontFamily": "'Cinzel', serif",
+      "fontSize": 22,
+      "fontWeight": 700,
+      "color": "#b68c43",
+      "x": 540,
+      "y": 48,
+      "align": "center",
+      "glow": 0,
+      "letterSpacing": 8
+    },
+    {
+      "text": "BRUNO MARS",
+      "fontFamily": "'DM Serif Display', serif",
+      "fontSize": 66,
+      "fontWeight": 700,
+      "color": "#0d0d0d",
+      "x": 435,
+      "y": 102,
+      "align": "right",
+      "glow": 0,
+      "letterSpacing": 2
+    },
+    {
+      "text": "• 41",
+      "fontFamily": "'DM Serif Display', serif",
+      "fontSize": 66,
+      "fontWeight": 700,
+      "color": "#b68c43",
+      "x": 455,
+      "y": 102,
+      "align": "left",
+      "glow": 0,
+      "letterSpacing": 2
+    },
+    {
+      "text": "Bruno Mars",
+      "fontFamily": "'Allura', cursive",
+      "fontSize": 72,
+      "fontWeight": 700,
+      "color": "#dfb15b",
+      "x": 880,
+      "y": 480,
+      "align": "center",
+      "glow": 12,
+      "letterSpacing": 1
+    }
+  ],
+  "stickers": [
+    {
+      "label": "Crown Emblem",
+      "x": 855,
+      "y": 395,
+      "width": 60,
+      "height": 45,
+      "rotation": 0,
+      "opacity": 0.95,
+      "shadowBlur": 10,
+      "iconType": "crown"
+    }
+  ],
+  "teaserCard": {
+    "enabled": true,
+    "x": 45,
+    "y": 1010,
+    "width": 990,
+    "height": 185,
+    "bgColor": "#0d0f14",
+    "borderColor": "#b68c43",
+    "borderWidth": 2,
+    "cornerRadius": 14,
+    "badgeIcon": "crown",
+    "line1": "At just 4 years old,",
+    "line2": "he was already",
+    "line2Highlight": "impersonating",
+    "line3Highlight": "Elvis...",
+    "ctaText": "Read the full story in caption →"
+  }
+}
