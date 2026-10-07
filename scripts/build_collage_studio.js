@@ -89,6 +89,22 @@ function downloadAsDataUri(url) {
   if (!url || typeof url !== 'string') return Promise.resolve(null);
   if (url.startsWith('data:image')) return Promise.resolve(url);
 
+  // Support local relative or absolute image files
+  let localPath = url;
+  if (!path.isAbsolute(localPath)) {
+    localPath = path.resolve(BASE_DIR, localPath);
+  }
+  if (fs.existsSync(localPath) && fs.statSync(localPath).isFile()) {
+    try {
+      const ext = path.extname(localPath).toLowerCase();
+      const mime = MIME_TYPES[ext] || 'image/jpeg';
+      const buf = fs.readFileSync(localPath);
+      return Promise.resolve(`data:${mime};base64,${buf.toString('base64')}`);
+    } catch (e) {
+      return Promise.resolve(null);
+    }
+  }
+
   return new Promise((resolve) => {
     try {
       const headers = { 'User-Agent': 'BornTodayHollywoodBot/1.0 (contact@borntoday.com)' };

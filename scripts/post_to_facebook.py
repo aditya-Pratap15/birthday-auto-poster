@@ -46,7 +46,8 @@ if "posts" in data and data["posts"]:
             "page_name": p.get("page_name", "Born Today Hollywood"),
             "page_id_env": p.get("page_id_env", "FB_PAGE_ID_BORN"),
             "token_env": p.get("token_env", "FB_TOKEN_BORN"),
-            "caption": f"{p.get('caption', '')}\n\n{p.get('hashtags', '')}".strip(),
+            "caption": f"{p.get('caption', '')}\n\n{p.get('hashtags', '')}".strip() if isinstance(p.get('hashtags'), str) else f"{p.get('caption', '')}\n\n{' '.join(p.get('hashtags', []))}".strip(),
+            "comment": p.get("comment", ""),
             "image_path": expected_img,
             "unix_timestamp": ts
         })
@@ -107,8 +108,25 @@ for post in post_list:
         
         res = r.json()
         if r.status_code == 200:
+            photo_id = res.get('id')
+            post_id = res.get('post_id')
             print(f"🎉 SUCCESS! Posted {celeb_name} to {post['page_name']}!")
-            print(f"Photo ID: {res.get('id')}, Post ID: {res.get('post_id')}")
+            print(f"Photo ID: {photo_id}, Post ID: {post_id}")
+            
+            # Auto-comment if comment text is provided
+            comment_text = post.get('comment', '').strip()
+            target_id = post_id or photo_id
+            if comment_text and target_id and payload.get('published', True):
+                print(f"💬 Posting automated first comment for {celeb_name}...")
+                try:
+                    c_url = f"https://graph.facebook.com/v19.0/{target_id}/comments"
+                    c_res = requests.post(c_url, data={"message": comment_text, "access_token": token})
+                    if c_res.status_code == 200:
+                        print(f"✅ Comment published! ID: {c_res.json().get('id')}")
+                    else:
+                        print(f"⚠️ Comment API response ({c_res.status_code}): {c_res.text}")
+                except Exception as ce:
+                    print(f"⚠️ Error posting comment: {ce}")
         else:
             print(f"❌ Facebook API Error ({r.status_code}): {r.text}")
     except Exception as e:

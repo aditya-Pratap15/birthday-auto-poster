@@ -1,0 +1,90 @@
+{
+  "id": "2026-10-07_01_ToniBraxton",
+  "celebrity_name": "Toni Braxton",
+  "birth_year": 1967,
+  "age": 59,
+  "gender": "female",
+  "country": "USA",
+  "scheduled_time_utc": "2026-10-07T06:48:00Z",
+  "images": [
+    {
+      "frame": 1,
+      "era": "late 70s",
+      "bg": "#F5F1E8",
+      "path": "/mnt/data/resource/image_20261007_162644.webp",
+      "validation": "solo_face_only front_straight beige simple"
+    },
+    {
+      "frame": 2,
+      "era": "1990",
+      "bg": "#F9E4E4",
+      "path": "/mnt/data/resource/image_20261007_162624.webp",
+      "validation": "solo_face_only front_straight pink simple"
+    },
+    {
+      "frame": 3,
+      "era": "1996",
+      "bg": "#E8E0F0",
+      "path": "/mnt/data/resource/image_20261007_162645.webp",
+      "validation": "solo_face_only front_straight lavender simple"
+    },
+    {
+      "frame": 4,
+      "era": "early 2000s",
+      "bg": "#DFF0E8",
+      "path": "/mnt/data/resource/image_20261007_162652.webp",
+      "validation": "solo_face_only front_straight mint simple"
+    },
+    {
+      "frame": 5,
+      "era": "2010s",
+      "bg": "#FFE8D6",
+      "path": "/mnt/data/resource/image_20261007_162627.webp",
+      "validation": "solo_face_only front_straight peach simple"
+    },
+    {
+      "frame": 6,
+      "era": "late 2010s",
+      "bg": "#D6E4F0",
+      "path": "/mnt/data/resource/image_20261007_162644_1.webp",
+      "validation": "solo_face_only front_straight gray-blue simple no golden line"
+    },
+    {
+      "frame": 7,
+      "era": "early 2020s",
+      "bg": "#E2E8D5",
+      "path": "/mnt/data/resource/image_20261007_162630.webp",
+      "validation": "solo_face_only front_straight sage simple"
+    },
+    {
+      "frame": 8,
+      "era": "CURRENT 2024-25",
+      "bg": "#FFFFFF ONLY WHITE BG",
+      "path": "/mnt/data/resource/image_20261007_163746.webp",
+      "validation": "half-body shoulders chest torso visible NOT just face, white BG clear, NO golden frame, solo_face_only, front_straight, cleaned fix"
+    }
+  ],
+  "caption": "**She was told her voice was TOO DEEP to be a female star in the 90s...** Record labels actually said **\"women should sound soft and sweet.\"** Toni Braxton sounded like **velvet thunder**. And that **\"flaw\" made her sell over 70 MILLION records.** Born October 7, 1967, today she turns **59**. But her story isn't about age — it's about a **church girl from Severn, Maryland**, who grew up in a strict household where even wearing pants was debated. Her first stage was **church choir**. Her first break? **A gas station.** She was pumping gas, singing to herself, when someone overheard that **low, smoky contralto** and realized they'd never heard anything like it. Her debut album went **8x Platinum**. **Best New Artist Grammy at 26**. Then came the song that still makes people cry in grocery stores at 2 AM. **\"Un-Break My Heart\" was rejected by Tina Turner first.** Toni took that **rejection and turned it into 11 weeks at number one**, into a **Diamond record**, into the **biggest ballad of the entire decade.** But while the world heard the glory, **her life was collapsing quietly.** **Bankruptcy. Twice.** Despite millions sold, **bad contracts left her with less than a thousand dollars** in her account. She kept performing. Then her body started fighting her — **lupus, heart complications, hospital stays** that should have ended her touring forever. Most would have quit. She recorded **\"Sex & Cigarettes\" in her late 40s** and proved that voice only gets **richer, more lived-in, more dangerous with age.** If you watched **Braxton Family Values**, you saw the other side — not the Grammys and feather dresses, but the **sister laughing too loud in the kitchen**, the mom trying to hold a family together while holding herself together. And look at her now. **Shoulders back, diamond necklace, that same feather dress energy, white background, no filter needed at 59.** From **\"too deep\" to one and only.** From **bankruptcy to 7 Grammys.** From **church choir to legend.** She **almost quit in 2018.** She was literally about to become an **insurance agent.** Imagine if she had. **She stayed.** That's why she can still hit that **low note no one else can.** What was your **Toni moment?** The slow dance to **\"Breathe Again\"?** The tears to **\"Un-Break My Heart\"?** Or seeing her now and thinking — **if she came back from all that, maybe I can too?** **Drop your song below. The most mentioned will be our story tomorrow.** #ToniBraxton #BornToday #October7 #HollywoodLegend #90sRnB #UnBreakMyHeart #Icon",
+  "comment": "**The secret behind \"Un-Break My Heart\" that labels tried to bury...** It was rejected by Tina Turner first for being too sad, Toni recorded it in one take crying in the booth and that crack at 2:43 is real tears not acting, her voice is contralto which only 2% of women have so no one can cover her properly, she filed bankruptcy twice while selling 70M records, and in 2018 she almost quit music to become an insurance agent. Which secret shocked you most?",
+  "hashtags": [
+    "#ToniBraxton",
+    "#BornToday",
+    "#October7",
+    "#HollywoodLegend",
+    "#90sRnB",
+    "#UnBreakMyHeart",
+    "#Icon"
+  ],
+  "image_qc": {
+    "distinct_check": "pHash all 8 different verified distinct no duplicates",
+    "face_count": 1,
+    "solo_face_only": true,
+    "front_face_straight": true,
+    "background_clear_white_frame8": true,
+    "half_body_visible_frame8": "shoulders chest torso visible NOT just face",
+    "no_golden_frame": "Frame 8 golden ornate frame removed fix applied",
+    "no_other_humans": true,
+    "no_crowd": true,
+    "resolution": "1200px+ enhanced sharp"
+  }
+}
