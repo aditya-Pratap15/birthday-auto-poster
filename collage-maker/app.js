@@ -645,7 +645,16 @@
   function drawFrame(f) {
     ctx.save();
 
-    const { x, y, width: w, height: h, shape, borderWidth, borderColor, shadowBlur, cornerRadius } = f;
+    const { x, y, width: w, height: h, shape, borderWidth, borderColor, shadowBlur, cornerRadius, rotation } = f;
+
+    const rot = rotation || 0;
+    if (rot !== 0) {
+      const cx = x + w / 2;
+      const cy = y + h / 2;
+      ctx.translate(cx, cy);
+      ctx.rotate((rot * Math.PI) / 180);
+      ctx.translate(-cx, -cy);
+    }
 
     // Apply shadow
     if (shadowBlur > 0) {
@@ -900,8 +909,10 @@
       selectionOverlay.style.width = `${selectedFrame.width}px`;
       selectionOverlay.style.height = `${selectedFrame.height}px`;
       selectionOverlay.style.border = selectedFrame.shape === 'diamond' ? '2px dashed #d4af37' : '2px solid #d4af37';
-      selectionOverlay.style.transform = 'none';
-      if (rotHandle) rotHandle.style.display = 'none';
+      const rot = selectedFrame.rotation || 0;
+      selectionOverlay.style.transform = rot !== 0 ? `rotate(${rot}deg)` : 'none';
+      selectionOverlay.style.transformOrigin = 'center center';
+      if (rotHandle) rotHandle.style.display = 'block';
     } else if (selectedText) {
       // Estimate text bounding box
       ctx.font = `${selectedText.fontSize}px ${selectedText.fontFamily}`;
@@ -959,27 +970,36 @@
       }
     }
 
-    // 2. Check frames in reverse order (topmost first)
+    // 3. Check frames in reverse order (topmost first)
     for (let i = state.frames.length - 1; i >= 0; i--) {
       const f = state.frames[i];
+      const cx = f.x + f.width / 2;
+      const cy = f.y + f.height / 2;
+      const rot = f.rotation || 0;
+      let testX = x;
+      let testY = y;
+      if (rot !== 0) {
+        const rad = (-rot * Math.PI) / 180;
+        const dx = x - cx;
+        const dy = y - cy;
+        testX = cx + (dx * Math.cos(rad) - dy * Math.sin(rad));
+        testY = cy + (dx * Math.sin(rad) + dy * Math.cos(rad));
+      }
+
       if (f.shape === 'diamond') {
-        // Diamond point inside check: |x-cx|/w + |y-cy|/h <= 0.5
-        const cx = f.x + f.width / 2;
-        const cy = f.y + f.height / 2;
-        const normalizedDist = Math.abs(x - cx) / f.width + Math.abs(y - cy) / f.height;
+        // Diamond point inside check: |testX-cx|/w + |testY-cy|/h <= 0.5
+        const normalizedDist = Math.abs(testX - cx) / f.width + Math.abs(testY - cy) / f.height;
         if (normalizedDist <= 0.5) return { type: 'frame', item: f };
       } else if (f.shape === 'oval') {
-        // Oval inside check: (x-cx)^2/(w/2)^2 + (y-cy)^2/(h/2)^2 <= 1
-        const cx = f.x + f.width / 2;
-        const cy = f.y + f.height / 2;
+        // Oval inside check: (testX-cx)^2/(w/2)^2 + (testY-cy)^2/(h/2)^2 <= 1
         const rx = f.width / 2;
         const ry = f.height / 2;
-        if (Math.pow(x - cx, 2) / Math.pow(rx, 2) + Math.pow(y - cy, 2) / Math.pow(ry, 2) <= 1) {
+        if (Math.pow(testX - cx, 2) / Math.pow(rx, 2) + Math.pow(testY - cy, 2) / Math.pow(ry, 2) <= 1) {
           return { type: 'frame', item: f };
         }
       } else {
         // Standard rectangle check
-        if (x >= f.x && x <= f.x + f.width && y >= f.y && y <= f.y + f.height) {
+        if (testX >= f.x && testX <= f.x + f.width && testY >= f.y && testY <= f.y + f.height) {
           return { type: 'frame', item: f };
         }
       }
@@ -1032,6 +1052,15 @@
       if (fHeightSlider) {
         fHeightSlider.value = selFrame.height;
         document.getElementById('frameHeightVal').textContent = `${selFrame.height}px`;
+      }
+
+      // Frame Rotation slider
+      const fRotSlider = document.getElementById('frameRotSlider');
+      if (fRotSlider) {
+        const rot = selFrame.rotation || 0;
+        fRotSlider.value = rot;
+        const valEl = document.getElementById('frameRotVal');
+        if (valEl) valEl.textContent = `${rot}°`;
       }
 
       // Border & Image sliders
@@ -1365,22 +1394,40 @@
     rotHandleEl.addEventListener('mousedown', e => {
       e.stopPropagation();
       const selSticker = state.stickers.find(s => s.id === state.selectedStickerId);
-      if (!selSticker) return;
+      const selFrame = state.frames.find(f => f.id === state.selectedFrameId);
+      if (!selSticker && !selFrame) return;
 
       state.isRotating = true;
 
       const onRotateMove = moveEvent => {
         if (!state.isRotating) return;
         const coords = getCanvasCoords(moveEvent);
-        const angleRad = Math.atan2(coords.y - selSticker.y, coords.x - selSticker.x);
-        let deg = Math.round((angleRad * 180) / Math.PI) + 90;
-        while (deg > 180) deg -= 360;
-        while (deg < -180) deg += 360;
-        selSticker.rotation = deg;
-        const rotSlider = document.getElementById('stickerRotSlider');
-        if (rotSlider) rotSlider.value = deg;
-        const rotVal = document.getElementById('stickerRotVal');
-        if (rotVal) rotVal.textContent = `${deg}°`;
+
+        if (selSticker) {
+          const angleRad = Math.atan2(coords.y - selSticker.y, coords.x - selSticker.x);
+          let deg = Math.round((angleRad * 180) / Math.PI) + 90;
+          while (deg > 180) deg -= 360;
+          while (deg < -180) deg += 360;
+          selSticker.rotation = deg;
+          const rotSlider = document.getElementById('stickerRotSlider');
+          if (rotSlider) rotSlider.value = deg;
+          const rotVal = document.getElementById('stickerRotVal');
+          if (rotVal) rotVal.textContent = `${deg}°`;
+        } else if (selFrame) {
+          const cx = selFrame.x + selFrame.width / 2;
+          const cy = selFrame.y + selFrame.height / 2;
+          const angleRad = Math.atan2(coords.y - cy, coords.x - cx);
+          let deg = Math.round((angleRad * 180) / Math.PI) + 90;
+          while (deg > 180) deg -= 360;
+          while (deg < -180) deg += 360;
+          selFrame.rotation = deg;
+          const rotSlider = document.getElementById('frameRotSlider');
+          if (rotSlider) rotSlider.value = deg;
+          const rotVal = document.getElementById('frameRotVal');
+          if (rotVal) rotVal.textContent = `${deg}°`;
+        }
+
+        updateSelectionOverlay();
         renderCanvas();
       };
 
@@ -1590,6 +1637,60 @@
       showToast('Set to Wide Diamond (Width > Length)');
     });
   }
+
+  // Frame Rotation Slider & Quick Angle Presets
+  const frameRotSlider = document.getElementById('frameRotSlider');
+  if (frameRotSlider) {
+    frameRotSlider.addEventListener('input', e => {
+      const frame = state.frames.find(f => f.id === state.selectedFrameId);
+      if (!frame) return;
+      frame.rotation = parseInt(e.target.value, 10);
+      const valEl = document.getElementById('frameRotVal');
+      if (valEl) valEl.textContent = `${frame.rotation}°`;
+      updateSelectionOverlay();
+      renderCanvas();
+    });
+    frameRotSlider.addEventListener('change', pushState);
+  }
+
+  function setFrameRotation(deg) {
+    const frame = state.frames.find(f => f.id === state.selectedFrameId);
+    if (!frame) return;
+    let normalized = deg;
+    while (normalized > 180) normalized -= 360;
+    while (normalized < -180) normalized += 360;
+    frame.rotation = normalized;
+    const slider = document.getElementById('frameRotSlider');
+    if (slider) slider.value = normalized;
+    const valEl = document.getElementById('frameRotVal');
+    if (valEl) valEl.textContent = `${normalized}°`;
+    pushState();
+    updateSelectionOverlay();
+    renderCanvas();
+  }
+
+  const btnRotReset = document.getElementById('rotResetBtn');
+  if (btnRotReset) btnRotReset.addEventListener('click', () => { setFrameRotation(0); showToast('Rotation reset to 0°'); });
+  const btnRot45 = document.getElementById('rot45Btn');
+  if (btnRot45) btnRot45.addEventListener('click', () => { setFrameRotation(45); showToast('Rotated +45°'); });
+  const btnRot90 = document.getElementById('rot90Btn');
+  if (btnRot90) btnRot90.addEventListener('click', () => { setFrameRotation(90); showToast('Rotated +90°'); });
+  const btnRotMinus45 = document.getElementById('rotMinus45Btn');
+  if (btnRotMinus45) btnRotMinus45.addEventListener('click', () => { setFrameRotation(-45); showToast('Rotated -45°'); });
+  const btnRotMinus90 = document.getElementById('rotMinus90Btn');
+  if (btnRotMinus90) btnRotMinus90.addEventListener('click', () => { setFrameRotation(-90); showToast('Rotated -90°'); });
+  const btnRot180 = document.getElementById('rot180Btn');
+  if (btnRot180) btnRot180.addEventListener('click', () => { setFrameRotation(180); showToast('Rotated 180°'); });
+  const btnRotNudgeLeft = document.getElementById('rotNudgeLeftBtn');
+  if (btnRotNudgeLeft) btnRotNudgeLeft.addEventListener('click', () => {
+    const frame = state.frames.find(f => f.id === state.selectedFrameId);
+    if (frame) setFrameRotation((frame.rotation || 0) - 5);
+  });
+  const btnRotNudgeRight = document.getElementById('rotNudgeRightBtn');
+  if (btnRotNudgeRight) btnRotNudgeRight.addEventListener('click', () => {
+    const frame = state.frames.find(f => f.id === state.selectedFrameId);
+    if (frame) setFrameRotation((frame.rotation || 0) + 5);
+  });
 
   // Sliders
   document.getElementById('borderWidthSlider').addEventListener('input', e => {
@@ -2467,7 +2568,8 @@
         borderWidth: f.borderWidth,
         borderColor: f.borderColor,
         cornerRadius: f.cornerRadius,
-        shadowBlur: f.shadowBlur
+        shadowBlur: f.shadowBlur,
+        rotation: f.rotation || 0
       })),
       textLayers: state.textLayers.map(t => ({
         text: t.text,
@@ -2756,7 +2858,8 @@
         borderWidth: f.borderWidth,
         borderColor: f.borderColor,
         cornerRadius: f.cornerRadius,
-        shadowBlur: f.shadowBlur
+        shadowBlur: f.shadowBlur,
+        rotation: f.rotation || 0
       })),
       textLayers: state.textLayers.map(t => ({
         text: t.text,

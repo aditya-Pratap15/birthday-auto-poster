@@ -316,6 +316,23 @@
                 <button type="button" class="btn-micro" id="sizeWideBtn" title="Set Wide Horizontal Diamond/Oval (Width > Length)">Wide Diamond</button>
               </div>
 
+              <div class="section-title mt-md">Frame Rotation & Tilt</div>
+              <p class="section-hint">Drag the top gold handle on canvas to rotate, or adjust angle below:</p>
+              <div class="range-group">
+                <label>Rotation Angle: <span id="frameRotVal">0°</span></label>
+                <input type="range" id="frameRotSlider" min="-180" max="180" step="1" value="0">
+              </div>
+              <div class="quick-size-presets mt-xs">
+                <button type="button" class="btn-micro" id="rotResetBtn" title="Reset angle to 0°">0° (Reset)</button>
+                <button type="button" class="btn-micro" id="rot45Btn" title="Set to +45°">+45°</button>
+                <button type="button" class="btn-micro" id="rot90Btn" title="Set to +90°">+90°</button>
+                <button type="button" class="btn-micro" id="rotMinus45Btn" title="Set to -45°">-45°</button>
+                <button type="button" class="btn-micro" id="rotMinus90Btn" title="Set to -90°">-90°</button>
+                <button type="button" class="btn-micro" id="rot180Btn" title="Set to 180°">180°</button>
+                <button type="button" class="btn-micro" id="rotNudgeLeftBtn" title="Nudge counter-clockwise by 5°">⟲ -5°</button>
+                <button type="button" class="btn-micro" id="rotNudgeRightBtn" title="Nudge clockwise by 5°">⟳ +5°</button>
+              </div>
+
               <div class="section-title mt-md">Replace Photo</div>
               <div class="photo-replace-group">
                 <label for="singlePhotoInput" class="upload-btn-full">

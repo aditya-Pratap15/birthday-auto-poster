@@ -410,7 +410,15 @@ def generate_collage_for_post(celeb_name, gender, birth_date, birth_year, age, p
             corner_radius=c_rad,
             label=frame.get("label", "")
         )
-        canvas.paste(frame_graphic, (x, y), mask=frame_graphic)
+        rot = frame.get("rotation", 0)
+        if rot != 0:
+            frame_graphic = frame_graphic.rotate(-rot, expand=True, resample=Image.Resampling.BICUBIC)
+            gw, gh = frame_graphic.size
+            px = int(x + w / 2 - gw / 2)
+            py = int(y + h / 2 - gh / 2)
+            canvas.paste(frame_graphic, (px, py), mask=frame_graphic)
+        else:
+            canvas.paste(frame_graphic, (x, y), mask=frame_graphic)
 
     # 4. Stickers & Logo Watermarks
     stickers = preset.get("stickers", [])
