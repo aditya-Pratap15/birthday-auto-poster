@@ -84,11 +84,10 @@ def get_font_by_name(font_family, size):
 
 
 def load_preset(gender="female"):
-    """Load user's saved preset."""
-    filename = f"preset_{gender.lower()}.json"
-    preset_path = os.path.join(PRESETS_DIR, filename)
-    if os.path.exists(preset_path):
-        with open(preset_path, "r", encoding="utf-8") as f:
+    """Load user's unified main preset."""
+    main_template_path = os.path.join(PRESETS_DIR, "main_template.json")
+    if os.path.exists(main_template_path):
+        with open(main_template_path, "r", encoding="utf-8") as f:
             return json.load(f)
 
     # Fallback to female preset

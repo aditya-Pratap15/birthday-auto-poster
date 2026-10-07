@@ -159,11 +159,9 @@ async function fetchWikipediaPhotos(celebName) {
 }
 
 function loadPreset(gender = 'female') {
-  const g = gender.toLowerCase();
-  const filename = `preset_${g}.json`;
-  const pPath = path.join(PRESETS_DIR, filename);
-  if (fs.existsSync(pPath)) {
-    return JSON.parse(fs.readFileSync(pPath, 'utf8'));
+  const mainTemplate = path.join(PRESETS_DIR, 'main_template.json');
+  if (fs.existsSync(mainTemplate)) {
+    return JSON.parse(fs.readFileSync(mainTemplate, 'utf8'));
   }
   const fallback = path.join(PRESETS_DIR, 'preset_female.json');
   if (fs.existsSync(fallback)) {
