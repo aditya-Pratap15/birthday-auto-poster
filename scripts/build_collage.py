@@ -185,7 +185,7 @@ def draw_luxury_background(preset, W, H):
     canvas = Image.new("RGBA", (W, H), (14, 16, 24, 255))
 
     # Check if preset has an embedded custom background
-    bg_custom = preset.get("bgCustomImage")
+    bg_custom = preset.get("bgCustomImage") or preset.get("bgCustomImagePath")
     if bg_custom:
         bg_img = download_or_load_image(bg_custom, (W, H))
         if bg_img:

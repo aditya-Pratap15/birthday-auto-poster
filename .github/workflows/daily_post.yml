@@ -13,17 +13,25 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Puppeteer Dependencies
+        run: npm install puppeteer
+
+      - name: Build Pixel-Perfect Collages with Original Studio Engine
+        run: node scripts/build_collage_studio.js
+        
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.9'
-          
-      - name: Install dependencies
+
+      - name: Install Python dependencies
         run: pip install requests Pillow
-        
-      - name: Build Automated Collages from Presets
-        run: python scripts/build_collage.py
-        
+
       - name: Post to Facebook Pages
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN }}

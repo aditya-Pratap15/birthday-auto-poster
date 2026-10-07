@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RetroLegend Collage Studio | Facebook Tribute Maker</title>
+  <meta name="description" content="High-end celebrity tribute collage maker with custom frames, diamond cutouts, gold borders, and signature typography.">
+  
+  <!-- Google Fonts: Display Serifs & Cursive Signatures -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Allura&family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..800;1,6..96,400..800&family=Cinzel:wght@500;700;900&family=Cinzel+Decorative:wght@700&family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&family=Parisienne&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Sacramento&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Home Page Landing View -->
+  <div id="homePageView" class="home-page-view active">
+    <div class="home-wrapper">
+      <header class="home-hero-header">
+        <div class="home-hero-brand">
+          <div class="hero-brand-icon">✦</div>
+          <div>
+            <h1 class="hero-brand-title">RetroLegend Studio</h1>
+            <p class="hero-brand-tagline">Celebrity Tribute & Metamorphosis Collage Engine</p>
+          </div>
+        </div>
+        <div class="hero-header-badge">
+          <span>Daily Post Generator</span>
+          <span class="gold-dot">●</span>
+          <span>Facebook 3:4 & 1:1</span>
+        </div>
+      </header>
+
+      <div class="home-split-grid">
+        <!-- LEFT COLUMN: Saved Presets -->
+        <section class="home-panel-card left-panel">
+          <div class="home-panel-header">
+            <div class="panel-header-title">
+              <span class="panel-icon">📂</span>
+              <div>
+                <h2>Saved Presets</h2>
+                <p>Pick a saved custom layout to open in studio</p>
+              </div>
+            </div>
+            <span class="home-counter-badge" id="homePresetCountBadge">0 Presets</span>
+          </div>
+
+          <div class="home-presets-container custom-scrollbar" id="homePresetsList">
+            <!-- Dynamically populated cards -->
+          </div>
+        </section>
+
+        <!-- RIGHT COLUMN: Create New Preset -->
+        <section class="home-panel-card right-panel">
+          <div class="home-panel-header">
+            <div class="panel-header-title">
+              <span class="panel-icon">✨</span>
+              <div>
+                <h2>Create New Preset</h2>
+                <p>Launch the collage maker with a fresh layout</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="home-create-body">
+            <p class="create-intro-text">
+              Design high-RPM celebrity tribute posts with 4 to 10 photos, gold diamond frames, oval cameos, and custom calligraphy signatures.
+            </p>
+
+            <div class="starter-picker-title">Choose a Starter Layout:</div>
+            <div class="starter-templates-list">
+              <div class="starter-card active" data-preset="diamond">
+                <div class="starter-badge">💎</div>
+                <div class="starter-details">
+                  <h4>Diamond Hero</h4>
+                  <p>4 Quadrants + 3D Gilded Center Diamond (Kate Winslet Style)</p>
+                </div>
+                <span class="starter-radio"></span>
+              </div>
+              <div class="starter-card" data-preset="rect">
+                <div class="starter-badge">🖼️</div>
+                <div class="starter-details">
+                  <h4>Box Centerpiece</h4>
+                  <p>6-Photo Grid + Modern Elevated Center Box (Susan Sarandon)</p>
+                </div>
+                <span class="starter-radio"></span>
+              </div>
+              <div class="starter-card" data-preset="oval">
+                <div class="starter-badge">🥚</div>
+                <div class="starter-details">
+                  <h4>Oval Cameo</h4>
+                  <p>Vintage Hollywood Oval Portrait Cameo (Janis Joplin Style)</p>
+                </div>
+                <span class="starter-radio"></span>
+              </div>
+              <div class="starter-card" data-preset="grid6">
+                <div class="starter-badge">▦</div>
+                <div class="starter-details">
+                  <h4>6-Photo Classic</h4>
+                  <p>Uniform Balanced Multi-Era Post Layout</p>
+                </div>
+                <span class="starter-radio"></span>
+              </div>
+            </div>
+
+            <div class="home-launch-actions">
+              <button id="openStudioNewBtn" class="home-launch-btn">
+                <span>Open Collage Maker Studio</span>
+                <span class="launch-arrow">→</span>
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div class="app-container" id="studioContainer">
+    <!-- Top Bar -->
+    <header class="topbar">
+      <div class="logo-group" id="logoHomeBtn" title="Back to Home Dashboard" style="cursor: pointer;">
+        <div class="logo-icon">✦</div>
+        <div class="logo-text">
+          <h1>RetroLegend Studio</h1>
+          <span>Tribute & Metamorphosis Collage Engine</span>
+        </div>
+      </div>
+
+      <div class="quick-presets">
+        <button id="homeNavBtn" class="preset-pill home-pill-btn" title="Return to Home Dashboard">
+          <span class="icon">⌂</span> Home
+        </button>
+        <span class="preset-label">Templates:</span>
+        <button id="presetDiamondBtn" class="preset-pill active" title="4 Quadrants + Center Diamond (Kate Winslet Style)">
+          <span class="icon">💎</span> Diamond Hero
+        </button>
+        <button id="presetRectBtn" class="preset-pill" title="6 Grid + White/Gold Box (Susan Sarandon Style)">
+          <span class="icon">🖼️</span> Box Centerpiece
+        </button>
+        <button id="presetOvalBtn" class="preset-pill" title="Multi Grid + Oval Cameo (Janis Joplin Style)">
+          <span class="icon">🥚</span> Oval Cameo
+        </button>
+        <button id="presetGrid6Btn" class="preset-pill" title="Clean 6-Frame Layout">
+          <span class="icon">▦</span> 6-Photo Classic
+        </button>
+        <!-- Saved Presets Dropdown Menu -->
+        <div class="preset-dropdown-wrap" id="presetDropdownWrap">
+          <button id="presetDropdownTrigger" class="preset-pill dropdown-trigger" title="View your saved custom presets">
+            <span class="icon">⭐</span> My Presets (<span id="userPresetCountBadge">0</span>) <span class="arrow-down">▾</span>
+          </button>
+          <div id="presetDropdownMenu" class="preset-dropdown-menu">
+            <div class="dropdown-header">
+              <span>Saved Presets (<span id="dropdownHeaderCount">0</span>)</span>
+              <button id="savePresetFromDropdownBtn" class="dropdown-save-btn">+ Save Current</button>
+            </div>
+            <div id="userPresetsDropdownList" class="dropdown-items-list custom-scrollbar">
+              <!-- Dynamically populated preset items with custom scrollbar -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="top-actions">
+        <button id="undoBtn" class="action-btn" title="Undo (Ctrl+Z)">↶</button>
+        <button id="redoBtn" class="action-btn" title="Redo (Ctrl+Y)">↷</button>
+        <div class="divider-v"></div>
+        <button id="quickSavePresetBtn" class="action-btn-outline highlight" title="Save current layout as instant 1-click preset">⭐ Save Preset</button>
+        <button id="saveTemplateBtn" class="action-btn-outline" title="Export layout as JSON file">Export JSON</button>
+        <button id="loadTemplateBtn" class="action-btn-outline" title="Import layout from JSON file">Import JSON</button>
+        <input type="file" id="templateFileInput" accept=".json" style="display:none">
+        <button id="exportBtn" class="primary-btn export-btn">
+          <span>Export HD Post</span> ⚡
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="workspace">
+      <!-- Left Sidebar: Controls & Tools -->
+      <aside class="sidebar-left">
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+          <button class="tab-btn active" data-tab="tab-layout">Layout</button>
+          <button class="tab-btn" data-tab="tab-frames">Frames (<span id="frameCountBadge">6</span>)</button>
+          <button class="tab-btn" data-tab="tab-style">Style</button>
+          <button class="tab-btn" data-tab="tab-text">Text</button>
+          <button class="tab-btn" data-tab="tab-stickers">Stickers & Icons</button>
+          <button class="tab-btn" data-tab="tab-bg">Background</button>
+        </div>
+
+        <div class="tab-content-area">
+          <!-- TAB 1: Layout & Quick Setup -->
+          <div id="tab-layout" class="tab-panel active">
+            <div class="section-title">Canvas Dimensions</div>
+            <div class="control-grid-2">
+              <button class="btn-toggle active" data-ratio="3:4" id="ratio34Btn">
+                <strong>Facebook 3:4</strong>
+                <span>1080 × 1440 (Optimal)</span>
+              </button>
+              <button class="btn-toggle" data-ratio="1:1" id="ratio11Btn">
+                <strong>Square 1:1</strong>
+                <span>1080 × 1080 (Feed)</span>
+              </button>
+            </div>
+
+            <div class="section-title mt-lg">Quick Frame Count</div>
+            <p class="section-hint">Choose how many photo slots you want on this post:</p>
+            <div class="count-selector">
+              <button class="count-btn" data-count="4">4 Photos</button>
+              <button class="count-btn active" data-count="6">6 Photos</button>
+              <button class="count-btn" data-count="8">8 Photos</button>
+              <button class="count-btn" data-count="10">10 Photos</button>
+            </div>
+
+            <div class="section-title mt-lg">Add Elements</div>
+            <div class="action-button-stack">
+              <button id="addNewFrameBtn" class="tool-btn">
+                <span class="icon">+</span> Add New Photo Frame
+              </button>
+              <button id="addNewTextBtn" class="tool-btn">
+                <span class="icon">T</span> Add Text / Signature Layer
+              </button>
+              <button id="addNewStickerBtn" class="tool-btn">
+                <span class="icon">★</span> Add Sticker / Reaction Icon
+              </button>
+            </div>
+
+            <div class="section-title mt-lg">Guidelines & Tips</div>
+            <div class="tip-card">
+              <p>💡 <strong>Pro-Tip for High-RPM:</strong> Place 4-6 iconic role stills around the edges, and reserve the center frame for a radiant modern red-carpet portrait with a gold calligraphy autograph.</p>
+            </div>
+          </div>
+
+          <!-- TAB 2: Frames & Image Uploads -->
+          <div id="tab-frames" class="tab-panel">
+            <div class="panel-header">
+              <span class="section-title">Photo Layers</span>
+              <button id="addFrameQuickBtn" class="small-btn">+ Add Frame</button>
+            </div>
+            <p class="section-hint">Click a layer to select it, or drag photos directly into the canvas boxes.</p>
+            <div id="framesList" class="layers-list">
+              <!-- Dynamically populated frame list items -->
+            </div>
+
+            <div class="batch-upload-box mt-md">
+              <label for="batchUploadInput" class="batch-upload-label">
+                <span>📁 Batch Upload Photos</span>
+                <small>Select multiple images to fill empty frames in order</small>
+              </label>
+              <input type="file" id="batchUploadInput" multiple accept="image/*" style="display:none">
+            </div>
+          </div>
+
+          <!-- TAB 3: Selected Frame Styling -->
+          <div id="tab-style" class="tab-panel">
+            <div id="noFrameSelectedHint" class="empty-state">
+              <span>Select any frame on the canvas to customize its shape, borders, and position.</span>
+            </div>
+
+            <div id="frameEditorControls" style="display: none;">
+              <div class="section-title">Frame Shape</div>
+              <div class="frame-shape-grid">
+                <button class="shape-btn" data-shape="diamond" id="shapeDiamond">
+                  <div class="shape-preview diamond"></div>
+                  <span>Gold Diamond</span>
+                </button>
+                <button class="shape-btn" data-shape="gold_rect" id="shapeGoldRect">
+                  <div class="shape-preview gold-rect"></div>
+                  <span>Gold Box</span>
+                </button>
+                <button class="shape-btn" data-shape="white_rect" id="shapeWhiteRect">
+                  <div class="shape-preview white-rect"></div>
+                  <span>White Box</span>
+                </button>
+                <button class="shape-btn" data-shape="oval" id="shapeOval">
+                  <div class="shape-preview oval"></div>
+                  <span>Oval Cameo</span>
+                </button>
+              </div>
+
+              <div class="section-title mt-md">Frame Dimensions (Width & Length)</div>
+              <p class="section-hint">Adjust width and length separately for Gold Diamond, Oval, or Boxes:</p>
+              <div class="control-grid-2">
+                <div class="range-group">
+                  <label>Width: <span id="frameWidthVal">560px</span></label>
+                  <input type="range" id="frameWidthSlider" min="80" max="1000" step="5" value="560">
+                </div>
+                <div class="range-group">
+                  <label>Length / Height: <span id="frameHeightVal">560px</span></label>
+                  <input type="range" id="frameHeightSlider" min="80" max="1200" step="5" value="560">
+                </div>
+              </div>
+              <div class="quick-size-presets mt-xs">
+                <button type="button" class="btn-micro" id="sizeSquareBtn" title="Set 1:1 Square Diamond/Frame">1:1 Square</button>
+                <button type="button" class="btn-micro" id="sizeTallBtn" title="Set Tall Vertical Diamond/Oval (Length > Width)">Tall Diamond</button>
+                <button type="button" class="btn-micro" id="sizeWideBtn" title="Set Wide Horizontal Diamond/Oval (Width > Length)">Wide Diamond</button>
+              </div>
+
+              <div class="section-title mt-md">Replace Photo</div>
+              <div class="photo-replace-group">
+                <label for="singlePhotoInput" class="upload-btn-full">
+                  <span>📷 Upload / Change Image</span>
+                </label>
+                <input type="file" id="singlePhotoInput" accept="image/*" style="display: none;">
+                <button id="removePhotoBtn" class="danger-btn-sm" title="Clear photo from frame">Clear Photo</button>
+              </div>
+
+              <div class="section-title mt-md">Image Position Inside Frame</div>
+              <div class="range-group">
+                <label>Zoom / Scale: <span id="imgZoomVal">1.0x</span></label>
+                <input type="range" id="imgZoomSlider" min="0.5" max="3.0" step="0.05" value="1.0">
+              </div>
+              <div class="control-grid-2 mt-xs">
+                <div class="range-group">
+                  <label>Pan X</label>
+                  <input type="range" id="imgPanXSlider" min="-200" max="200" step="1" value="0">
+                </div>
+                <div class="range-group">
+                  <label>Pan Y</label>
+                  <input type="range" id="imgPanYSlider" min="-200" max="200" step="1" value="0">
+                </div>
+              </div>
+
+              <div class="section-title mt-md">Border & Edge Styling</div>
+              <div class="range-group">
+                <label>Border Width: <span id="borderWidthVal">8px</span></label>
+                <input type="range" id="borderWidthSlider" min="0" max="30" step="1" value="8">
+              </div>
+
+              <div class="section-title mt-xs">Border Color Preset</div>
+              <div class="color-swatches">
+                <button class="swatch-btn gold" data-color="#d4af37" title="Gilded Gold"></button>
+                <button class="swatch-btn white" data-color="#ffffff" title="Pure White"></button>
+                <button class="swatch-btn warm-gold" data-color="#f5e6c8" title="Champagne Gold"></button>
+                <button class="swatch-btn bronze" data-color="#8c6d3b" title="Antique Bronze"></button>
+                <button class="swatch-btn silver" data-color="#cbd5e1" title="Silver"></button>
+                <div class="custom-color-wrap">
+                  <input type="color" id="borderColorPicker" value="#d4af37" title="Custom color">
+                </div>
+              </div>
+
+              <div class="control-grid-2 mt-md">
+                <div class="range-group">
+                  <label>Corner Radius</label>
+                  <input type="range" id="cornerRadiusSlider" min="0" max="50" step="1" value="0">
+                </div>
+                <div class="range-group">
+                  <label>3D Drop Shadow</label>
+                  <input type="range" id="shadowSlider" min="0" max="40" step="1" value="15">
+                </div>
+              </div>
+
+              <div class="section-title mt-md">Layer Order</div>
+              <div class="layer-order-actions">
+                <button id="bringForwardBtn" class="layer-btn">Bring Forward</button>
+                <button id="sendBackwardBtn" class="layer-btn">Send Backward</button>
+                <button id="bringToFrontBtn" class="layer-btn">To Top</button>
+                <button id="sendToBackBtn" class="layer-btn">To Bottom</button>
+              </div>
+
+              <div class="mt-md">
+                <button id="deleteFrameBtn" class="danger-btn-full">🗑️ Delete Frame</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 4: Text Layers & Signature Typography -->
+          <div id="tab-text" class="tab-panel">
+            <div class="panel-header">
+              <span class="section-title">Text & Signatures</span>
+              <button id="addTextLayerBtn" class="small-btn">+ Add Text</button>
+            </div>
+
+            <div id="noTextSelectedHint" class="empty-state">
+              <span>Select any text layer on canvas or add a new one below to edit fonts & colors.</span>
+            </div>
+
+            <div id="textEditorControls" style="display: none;">
+              <div class="form-group">
+                <label>Text Content</label>
+                <input type="text" id="textContentInput" class="text-input" placeholder="Enter name, year, or title">
+              </div>
+
+              <div class="form-group mt-sm">
+                <label>Font Style</label>
+                <select id="fontFamilySelect" class="select-input">
+                  <optgroup label="✍️ Calligraphy & Autographs">
+                    <option value="'Great Vibes', cursive">Great Vibes (Classic Autograph)</option>
+                    <option value="'Dancing Script', cursive">Dancing Script (Warm Cursive)</option>
+                    <option value="'Alex Brush', cursive">Alex Brush (Fine Ink Signature)</option>
+                    <option value="'Allura', cursive">Allura (Elegant Flow)</option>
+                    <option value="'Parisienne', cursive">Parisienne (Romantic Script)</option>
+                    <option value="'Sacramento', cursive">Sacramento (Vintage Delicate)</option>
+                  </optgroup>
+                  <optgroup label="🏛️ Cinematic Prestige & Serifs">
+                    <option value="'Cinzel', serif">Cinzel (Epic Movie Title)</option>
+                    <option value="'Cinzel Decorative', serif">Cinzel Decorative (Imperial)</option>
+                    <option value="'Playfair Display', serif">Playfair Display (Editorial)</option>
+                    <option value="'Bodoni Moda', serif">Bodoni Moda (Vogue / High Fashion)</option>
+                  </optgroup>
+                  <optgroup label="✨ Modern & Clean">
+                    <option value="'Outfit', sans-serif">Outfit (Clean Sans)</option>
+                    <option value="'Inter', sans-serif">Inter (Modern Crisp)</option>
+                  </optgroup>
+                </select>
+              </div>
+
+              <div class="range-group mt-sm">
+                <label>Font Size: <span id="fontSizeVal">48px</span></label>
+                <input type="range" id="fontSizeSlider" min="14" max="120" step="1" value="48">
+              </div>
+
+              <div class="range-group mt-xs">
+                <label>Font Thickness / Weight: <span id="fontWeightVal">Bold (700)</span></label>
+                <input type="range" id="fontWeightSlider" min="300" max="900" step="100" value="700">
+              </div>
+
+              <div class="range-group mt-xs">
+                <label>Extra Calligraphy Thickness (Stroke): <span id="textStrokeVal">0px</span></label>
+                <input type="range" id="textStrokeSlider" min="0" max="8" step="0.5" value="0">
+              </div>
+
+              <div class="section-title mt-xs">Text Color</div>
+              <div class="color-swatches">
+                <button class="swatch-btn gold" data-color="#d4af37" title="Gilded Gold"></button>
+                <button class="swatch-btn white" data-color="#ffffff" title="Pure White"></button>
+                <button class="swatch-btn warm-gold" data-color="#f5e6c8" title="Champagne"></button>
+                <button class="swatch-btn dark" data-color="#111111" title="Midnight Charcoal"></button>
+                <div class="custom-color-wrap">
+                  <input type="color" id="textColorPicker" value="#d4af37" title="Custom color">
+                </div>
+              </div>
+
+              <div class="control-grid-2 mt-md">
+                <div class="range-group">
+                  <label>Glow / Shadow</label>
+                  <input type="range" id="textGlowSlider" min="0" max="30" step="1" value="12">
+                </div>
+                <div class="range-group">
+                  <label>Letter Spacing</label>
+                  <input type="range" id="letterSpacingSlider" min="-2" max="15" step="1" value="0">
+                </div>
+              </div>
+
+              <div class="mt-md">
+                <button id="deleteTextBtn" class="danger-btn-full">🗑️ Delete Text Layer</button>
+              </div>
+            </div>
+
+            <!-- Quick Text Presets -->
+            <div class="section-title mt-lg">Quick Text Presets</div>
+            <div class="action-button-stack">
+              <button id="addSignaturePresetBtn" class="tool-btn">
+                <span>✒️ Add Gold Cursive Signature</span>
+              </button>
+              <button id="addHeaderPresetBtn" class="tool-btn">
+                <span>🏛️ Add "Retro Hollywood Tribute" Header</span>
+              </button>
+              <button id="addYearsPresetBtn" class="tool-btn">
+                <span>📅 Add Birth / Milestone Year (e.g., 1943 - 1970)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TAB 5: Stickers, Reaction Badges & Custom Floating Images -->
+          <div id="tab-stickers" class="tab-panel">
+            <div class="panel-header">
+              <span class="section-title">Stickers & Reaction Icons</span>
+              <label for="customStickerUploadInput" class="small-btn" style="cursor: pointer;">+ Upload Image</label>
+              <input type="file" id="customStickerUploadInput" accept="image/*" style="display:none">
+            </div>
+            <p class="section-hint">Add floating reaction badges (Like, Love, Crowns, Butterflies) or upload your own PNG images. Drag, resize, and rotate anywhere on canvas!</p>
+
+            <div class="section-title mt-xs">Quick Reaction Badges</div>
+            <div class="sticker-grid">
+              <button class="sticker-preset-btn" data-preset="fb_like" title="Facebook Like 👍">
+                <span style="font-size: 26px;">👍</span>
+                <span>Like</span>
+              </button>
+              <button class="sticker-preset-btn" data-preset="fb_love" title="Heart Love ❤️">
+                <span style="font-size: 26px;">❤️</span>
+                <span>Love</span>
+              </button>
+              <button class="sticker-preset-btn" data-preset="fb_care" title="Care Reaction 🥰">
+                <span style="font-size: 26px;">🥰</span>
+                <span>Care</span>
+              </button>
+              <button class="sticker-preset-btn" data-preset="crown" title="Gold Crown 👑">
+                <span style="font-size: 26px;">👑</span>
+                <span>Crown</span>
+              </button>
+              <button class="sticker-preset-btn" data-preset="butterfly" title="Gold Butterfly 🦋">
+                <span style="font-size: 26px;">🦋</span>
+                <span>Butterfly</span>
+              </button>
+              <button class="sticker-preset-btn" data-preset="star" title="Gold Star ⭐">
+                <span style="font-size: 26px;">⭐</span>
+                <span>Star</span>
+              </button>
+              <button class="sticker-preset-btn" data-preset="clapper" title="Cinema Clapper 🎬">
+                <span style="font-size: 26px;">🎬</span>
+                <span>Cinema</span>
+              </button>
+              <button class="sticker-preset-btn" data-preset="trophy" title="Oscar Trophy 🏆">
+                <span style="font-size: 26px;">🏆</span>
+                <span>Oscar</span>
+              </button>
+            </div>
+
+            <div class="batch-upload-box mt-md">
+              <label for="stickerDirectUpload" class="batch-upload-label">
+                <span>📁 Upload Custom PNG / Icon</span>
+                <small>Transparent PNG, JPG, or SVG</small>
+              </label>
+              <input type="file" id="stickerDirectUpload" accept="image/*" style="display:none">
+            </div>
+
+            <div id="noStickerSelectedHint" class="empty-state mt-md">
+              <span>Select any sticker on canvas to adjust rotation, size, opacity, and shadow.</span>
+            </div>
+
+            <div id="stickerEditorControls" style="display:none;" class="mt-md">
+              <div class="section-title">Selected Sticker Controls</div>
+              
+              <div class="range-group">
+                <label>Rotation: <span id="stickerRotVal">0°</span></label>
+                <input type="range" id="stickerRotSlider" min="-180" max="180" step="1" value="0">
+              </div>
+              <div class="control-grid-2 mt-xs">
+                <button id="stickerRot45Btn" class="action-btn-outline" style="width:100%; font-size:11px;">Rotate +45°</button>
+                <button id="stickerRotResetBtn" class="action-btn-outline" style="width:100%; font-size:11px;">Reset 0°</button>
+              </div>
+
+              <div class="range-group mt-sm">
+                <label>Size / Scale: <span id="stickerSizeVal">120px</span></label>
+                <input type="range" id="stickerSizeSlider" min="30" max="400" step="2" value="120">
+              </div>
+
+              <div class="range-group mt-xs">
+                <label>Opacity: <span id="stickerOpacityVal">100%</span></label>
+                <input type="range" id="stickerOpacitySlider" min="0.1" max="1" step="0.05" value="1">
+              </div>
+
+              <div class="range-group mt-xs">
+                <label>Glow / Drop Shadow</label>
+                <input type="range" id="stickerShadowSlider" min="0" max="40" step="1" value="12">
+              </div>
+
+              <div class="section-title mt-md">Layer Order</div>
+              <div class="layer-order-actions">
+                <button id="stickerBringForwardBtn" class="layer-btn">Bring Forward</button>
+                <button id="stickerSendBackwardBtn" class="layer-btn">Send Backward</button>
+                <button id="stickerBringToFrontBtn" class="layer-btn">To Top</button>
+                <button id="stickerSendToBackBtn" class="layer-btn">To Bottom</button>
+              </div>
+
+              <div class="mt-md">
+                <button id="deleteStickerBtn" class="danger-btn-full">🗑️ Delete Sticker</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 6: Background Controls -->
+          <div id="tab-bg" class="tab-panel">
+            <div class="section-title">Upload Custom Background</div>
+            <p class="section-hint">Upload your custom museum wall, gold frame backdrop, or velvet texture:</p>
+            <div class="batch-upload-box">
+              <label for="bgUploadInput" class="batch-upload-label">
+                <span>🖼️ Upload Background Image</span>
+                <small>JPG, PNG, or WebP</small>
+              </label>
+              <input type="file" id="bgUploadInput" accept="image/*" style="display:none">
+            </div>
+
+            <button id="clearBgBtn" class="danger-btn-sm mt-xs" style="width:100%">Remove Custom Background</button>
+
+            <div class="section-title mt-lg">Preset Luxury Backdrops</div>
+            <div class="bg-preset-grid">
+              <button class="bg-preset-card active" data-bg="noir">
+                <div class="bg-preview noir"></div>
+                <span>Dark Obsidian</span>
+              </button>
+              <button class="bg-preset-card" data-bg="velvet">
+                <div class="bg-preview velvet"></div>
+                <span>Royal Velvet</span>
+              </button>
+              <button class="bg-preset-card" data-bg="gold_archival">
+                <div class="bg-preview archival"></div>
+                <span>Gold Archival</span>
+              </button>
+              <button class="bg-preset-card" data-bg="slate">
+                <div class="bg-preview slate"></div>
+                <span>Deep Cinema</span>
+              </button>
+            </div>
+
+            <div class="section-title mt-lg">Vignette & Darkness Overlay</div>
+            <div class="range-group">
+              <label>Dark Tint Overlay</label>
+              <input type="range" id="bgDarkOverlaySlider" min="0" max="0.9" step="0.05" value="0.2">
+            </div>
+            <div class="range-group mt-xs">
+              <label>Vignette Shadow</label>
+              <input type="range" id="bgVignetteSlider" min="0" max="1" step="0.05" value="0.5">
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Center Canvas Area -->
+      <section class="canvas-viewport" id="canvasViewport">
+        <div class="viewport-toolbar">
+          <div class="zoom-controls">
+            <button id="zoomOutBtn" class="zoom-btn" title="Zoom Out">-</button>
+            <span id="zoomPercent">100%</span>
+            <button id="zoomInBtn" class="zoom-btn" title="Zoom In">+</button>
+            <button id="fitScreenBtn" class="zoom-btn-text">Fit Screen</button>
+          </div>
+          <div class="canvas-info">
+            <span id="canvasDimsBadge">1080 × 1440 px (3:4)</span>
+          </div>
+        </div>
+
+        <div class="canvas-scroll-container" id="canvasScrollContainer">
+          <div class="canvas-wrapper" id="canvasWrapper">
+            <canvas id="collageCanvas" width="1080" height="1440"></canvas>
+            <!-- Interactive HTML Overlay Handles for Dragging / Resizing -->
+            <div id="selectionOverlay" class="selection-overlay" style="display: none;">
+              <div class="rotate-handle" data-handle="rot" title="Drag to Rotate"></div>
+              <div class="handle nw" data-handle="nw"></div>
+              <div class="handle ne" data-handle="ne"></div>
+              <div class="handle se" data-handle="se"></div>
+              <div class="handle sw" data-handle="sw"></div>
+              <div class="handle n" data-handle="n"></div>
+              <div class="handle s" data-handle="s"></div>
+              <div class="handle e" data-handle="e"></div>
+              <div class="handle w" data-handle="w"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Hidden Export Modal / Notification -->
+    <div id="toastNotification" class="toast">Post Exported Successfully!</div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
