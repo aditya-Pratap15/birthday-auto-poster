@@ -88,7 +88,7 @@ for post in post_list:
     # Facebook requires scheduled posts to be at least 10 minutes in the future
     if sched_ts > now_ts + 600:
         payload = {
-            "message": post['caption'][:2000],
+            "message": post['caption'],
             "published": False,
             "scheduled_publish_time": sched_ts,
             "access_token": token
@@ -96,7 +96,7 @@ for post in post_list:
         print(f"Scheduling post for {celeb_name} ({post.get('page_name')}) at timestamp {sched_ts}...")
     else:
         payload = {
-            "message": post['caption'][:2000],
+            "message": post['caption'],
             "published": True,
             "access_token": token
         }
