@@ -13,3 +13,4 @@ reels/*.mp4
 temp_reel_assets/
 test_voice*
 *.ass
+!reels/.gitkeep

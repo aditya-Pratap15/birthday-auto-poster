@@ -25,7 +25,7 @@ jobs:
           node-version: '20'
 
       - name: Install Node Dependencies
-        run: npm install puppeteer
+        run: npm install
 
       - name: Sync Incoming Daily Celebrity Payload
         env:
@@ -35,18 +35,22 @@ jobs:
       - name: Build Pixel-Perfect Collages with Viral Teaser Engine
         run: node scripts/build_collage_studio.js
 
+      - name: Build Vertical Reels with Neural Voiceover & Dynamic Captions
+        run: node scripts/build_reel_studio.js --all
+
       - name: Post to Facebook Pages with Unicode Bold & Pinned Comments
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
           FB_PAGE_ID_BORN: ${{ secrets.FB_PAGE_ID_BORN_TODAY || secrets.FB_PAGE_ID_BORN || secrets.FB_PAGE_ID }}
         run: node scripts/post_to_facebook.js
 
-      - name: Clean Uploaded Images & Commit Post Logs
+      - name: Clean Uploaded Media & Commit Post Logs
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          rm -f collages/*.jpg collages/*.png collages/*.webp
-          git add today_posts.json collages/.gitkeep
-          git commit -m "chore(automation): sync schedule logs and clean collages [skip ci]" || echo "No changes to commit"
+          rm -f collages/*.jpg collages/*.png collages/*.webp reels/*.mp4 current_subs.ass
+          rm -rf temp_reel_assets/*
+          git add today_posts.json collages/.gitkeep reels/.gitkeep
+          git commit -m "chore(automation): sync schedule logs and clean media [skip ci]" || echo "No changes to commit"
           git push || true
 

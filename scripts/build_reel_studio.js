@@ -464,7 +464,7 @@ async function main() {
   }
 
   const data = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, 'utf8'));
-  const posts = data.celebrities || data.posts || [];
+  const posts = (data.posts && data.posts.length > 0) ? data.posts : (data.celebrities || []);
 
   if (posts.length === 0) {
     console.log(`[!] No posts found in today_posts.json`);
@@ -472,16 +472,43 @@ async function main() {
   }
 
   const args = process.argv.slice(2);
-  let targetIndex = 0;
-  if (args.includes('--index')) {
-    const idx = parseInt(args[args.indexOf('--index') + 1], 10);
-    if (!isNaN(idx)) targetIndex = idx - 1;
-  } else if (args[0] && !isNaN(parseInt(args[0], 10))) {
-    targetIndex = parseInt(args[0], 10) - 1;
-  }
-  const targetPost = posts[targetIndex] || posts[0];
+  const isAll = args.includes('--all') || args.includes('all') || (args.length === 0);
 
-  await buildReel(targetPost, targetIndex + 1);
+  if (isAll) {
+    console.log(`\n======================================================`);
+    console.log(`🎬 BATCH MODE: Generating Vertical Reels for ${posts.length} Celebrities`);
+    console.log(`======================================================\n`);
+
+    for (let i = 0; i < posts.length; i++) {
+      const p = posts[i];
+      try {
+        const reelFile = await buildReel(p, i + 1);
+        p.reel_path = path.relative(ROOT_DIR, reelFile).replace(/\\/g, '/');
+        if (data.celebrities && data.celebrities[i]) {
+          data.celebrities[i].reel_path = p.reel_path;
+        }
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      } catch (err) {
+        console.error(`[!] Error building reel for ${p.celebrity_name || `Post ${i + 1}`}:`, err.message);
+      }
+    }
+  } else {
+    let targetIndex = 0;
+    if (args.includes('--index')) {
+      const idx = parseInt(args[args.indexOf('--index') + 1], 10);
+      if (!isNaN(idx)) targetIndex = idx - 1;
+    } else if (args[0] && !isNaN(parseInt(args[0], 10))) {
+      targetIndex = parseInt(args[0], 10) - 1;
+    }
+    const targetPost = posts[targetIndex] || posts[0];
+    const reelFile = await buildReel(targetPost, targetIndex + 1);
+    targetPost.reel_path = path.relative(ROOT_DIR, reelFile).replace(/\\/g, '/');
+    if (data.celebrities && data.celebrities[targetIndex]) {
+      data.celebrities[targetIndex].reel_path = targetPost.reel_path;
+    }
+    fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+  }
+
   console.log(`\n🎉 Reel studio generation finished successfully!`);
 }
 
