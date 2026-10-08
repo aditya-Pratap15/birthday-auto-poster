@@ -42,14 +42,6 @@ jobs:
       - name: Build Pixel-Perfect Collages with Viral Teaser Engine
         run: node scripts/build_collage_studio.js
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-
-      - name: Install Python Dependencies
-        run: pip install requests Pillow
-
       - name: Post to Facebook Pages with Unicode Bold & Pinned Comments
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}

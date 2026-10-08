@@ -1190,7 +1190,7 @@
       }
 
       // Vertical subtle gold divider
-      const dividerX = x + 160;
+      const dividerX = x + 145;
       ctx.beginPath();
       ctx.strokeStyle = 'rgba(229, 169, 60, 0.4)';
       ctx.lineWidth = 1.5;
@@ -1198,7 +1198,7 @@
       ctx.lineTo(dividerX, y + h - 25);
       ctx.stroke();
 
-      textStartX = dividerX + 32;
+      textStartX = dividerX + 28;
     }
 
     // 5. Text Hook Content
@@ -1211,13 +1211,28 @@
     const line2Hl = card.line2Highlight !== undefined ? card.line2Highlight : 'impersonating';
     const line3Hl = card.line3Highlight !== undefined ? card.line3Highlight : 'Elvis...';
 
+    // Maximum safe text width inside card box (leaving 36px safe right padding before right border)
+    const maxTextWidth = Math.max(100, (x + w - 36) - textStartX);
+
     // Calculate Y offsets based on height and number of lines
     const lineSpacing = h < 160 ? 38 : 46;
     const startY = y + (h - (line3Hl ? lineSpacing * 2.2 : lineSpacing * 1.2)) / 2 + 28;
 
+    // Helper: calculate fitting font size so text never exceeds maxTextWidth
+    function getFittingSize(text, baseSize, minSize = 18) {
+      if (!text) return baseSize;
+      ctx.font = `700 ${baseSize}px ${fontSerif}`;
+      const measured = ctx.measureText(text).width;
+      if (measured > maxTextWidth) {
+        return Math.max(minSize, Math.floor(baseSize * (maxTextWidth / measured)));
+      }
+      return baseSize;
+    }
+
     // Line 1 (White Context)
     if (line1) {
-      ctx.font = `700 36px ${fontSerif}`;
+      const l1Size = getFittingSize(line1, 36, 20);
+      ctx.font = `700 ${l1Size}px ${fontSerif}`;
       ctx.fillStyle = '#ffffff';
       ctx.fillText(line1, textStartX, startY);
     }
@@ -1225,21 +1240,27 @@
     // Line 2 (White lead + Gold highlight)
     const line2Y = startY + lineSpacing;
     if (line2 || line2Hl) {
-      ctx.font = `700 36px ${fontSerif}`;
-      ctx.fillStyle = '#ffffff';
-      ctx.fillText(line2 ? line2 + ' ' : '', textStartX, line2Y);
+      const leadStr = line2 ? line2 + ' ' : '';
+      const hlStr = line2Hl || '';
+      const fullLine2 = leadStr + hlStr;
+      const l2Size = getFittingSize(fullLine2, 36, 18);
+      ctx.font = `700 ${l2Size}px ${fontSerif}`;
 
-      if (line2Hl) {
-        const leadWidth = line2 ? ctx.measureText(line2 + ' ').width : 0;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(leadStr, textStartX, line2Y);
+
+      if (hlStr) {
+        const leadWidth = leadStr ? ctx.measureText(leadStr).width : 0;
         ctx.fillStyle = '#e5a93c'; // rich vibrant gold
-        ctx.fillText(line2Hl, textStartX + leadWidth, line2Y);
+        ctx.fillText(hlStr, textStartX + leadWidth, line2Y);
       }
     }
 
     // Line 3 Climax (Big Gold Highlight)
     if (line3Hl) {
       const line3Y = line2Y + lineSpacing + 2;
-      ctx.font = `700 40px ${fontSerif}`;
+      const l3Size = getFittingSize(line3Hl, 40, 20);
+      ctx.font = `700 ${l3Size}px ${fontSerif}`;
       ctx.fillStyle = '#e5a93c';
       ctx.fillText(line3Hl, textStartX, line3Y);
     }
@@ -3974,6 +3995,140 @@
         }
         await document.fonts.ready;
       } catch (e) {}
+    }
+
+    // 1. Happy Birthday Banner (True Canvas Center)
+    const hbLayer = state.textLayers.find(t => (t.text || '').toLowerCase().includes('happy birthday'));
+    if (hbLayer) {
+      hbLayer.x = state.canvasWidth / 2;
+      hbLayer.align = 'center';
+    }
+
+    // 2. Top Header: [Celebrity Name] • [Age]
+    const topNameLayer = state.textLayers.find(t => {
+      const fam = (t.fontFamily || '').toLowerCase();
+      const txt = (t.text || '').toLowerCase();
+      return !fam.includes('allura') && !fam.includes('cursive') && (t.y || 0) < 200 && !txt.includes('happy birthday') && !txt.startsWith('•');
+    });
+    const topAgeLayer = state.textLayers.find(t => {
+      return (t.y || 0) < 200 && ((t.text || '').startsWith('•') || (t.text || '').includes('•'));
+    });
+
+    if (topNameLayer) {
+      topNameLayer.text = celebName;
+      const ageStr = age ? `• ${age}` : '';
+      if (topAgeLayer) topAgeLayer.text = ageStr;
+
+      const baseNameSize = topNameLayer.fontSize || 62;
+      const baseAgeSize = topAgeLayer ? (topAgeLayer.fontSize || 57) : 57;
+      const nameFam = topNameLayer.fontFamily || "'DM Serif Display', serif";
+      const ageFam = topAgeLayer ? topAgeLayer.fontFamily : nameFam;
+
+      ctx.save();
+      ctx.font = `700 ${baseNameSize}px ${nameFam}`;
+      let nameW = ctx.measureText(celebName).width;
+      // Account for canvas letterSpacing which measureText may omit
+      const nameSpacing = topNameLayer.letterSpacing || 0;
+      if (nameSpacing > 0) {
+        nameW += nameSpacing * (celebName.length - 1);
+      }
+
+      let ageW = 0;
+      if (topAgeLayer && ageStr) {
+        ctx.font = `700 ${baseAgeSize}px ${ageFam}`;
+        ageW = ctx.measureText(ageStr).width;
+        const ageSpacing = topAgeLayer.letterSpacing || 0;
+        if (ageSpacing > 0) {
+          ageW += ageSpacing * (ageStr.length - 1);
+        }
+      }
+      ctx.restore();
+
+      const gap = 24;
+      let totalHeaderW = nameW + (ageW > 0 ? gap + ageW : 0);
+      const maxSafeHeaderW = state.canvasWidth - 160; // 920px (80px margin each side)
+
+      let actualNameSize = baseNameSize;
+      let actualAgeSize = baseAgeSize;
+
+      if (totalHeaderW > maxSafeHeaderW) {
+        const scale = maxSafeHeaderW / totalHeaderW;
+        actualNameSize = Math.max(34, Math.floor(baseNameSize * scale));
+        actualAgeSize = Math.max(30, Math.floor(baseAgeSize * scale));
+
+        ctx.save();
+        ctx.font = `700 ${actualNameSize}px ${nameFam}`;
+        nameW = ctx.measureText(celebName).width + (nameSpacing > 0 ? nameSpacing * (celebName.length - 1) : 0);
+        if (topAgeLayer && ageStr) {
+          ctx.font = `700 ${actualAgeSize}px ${ageFam}`;
+          const ageSpacing = topAgeLayer.letterSpacing || 0;
+          ageW = ctx.measureText(ageStr).width + (ageSpacing > 0 ? ageSpacing * (ageStr.length - 1) : 0);
+        }
+        ctx.restore();
+        totalHeaderW = nameW + (ageW > 0 ? gap + ageW : 0);
+      }
+
+      const startX = (state.canvasWidth - totalHeaderW) / 2;
+      topNameLayer.x = startX;
+      topNameLayer.align = 'left';
+      topNameLayer.fontSize = actualNameSize;
+
+      if (topAgeLayer) {
+        topAgeLayer.x = startX + nameW + (ageW > 0 ? gap : 0);
+        topAgeLayer.align = 'left';
+        topAgeLayer.fontSize = actualAgeSize;
+      }
+    }
+
+    // 3. Hero Portrait Signature & Crown Badge
+    const sigLayer = state.textLayers.find(t => {
+      const fam = (t.fontFamily || '').toLowerCase();
+      return fam.includes('allura') || fam.includes('cursive') || (t.y || 0) > 500;
+    });
+
+    if (sigLayer) {
+      sigLayer.text = celebName;
+      const baseSigSize = 72;
+      const sigFam = sigLayer.fontFamily || "'Allura', cursive";
+
+      ctx.save();
+      ctx.font = `400 ${baseSigSize}px ${sigFam}`;
+      let sigW = ctx.measureText(celebName).width;
+      ctx.restore();
+
+      const maxSigW = 350;
+      let actualSigSize = baseSigSize;
+      if (sigW > maxSigW) {
+        const scale = maxSigW / sigW;
+        actualSigSize = Math.max(44, Math.floor(baseSigSize * scale));
+        ctx.save();
+        ctx.font = `400 ${actualSigSize}px ${sigFam}`;
+        sigW = ctx.measureText(celebName).width;
+        ctx.restore();
+      }
+
+      // Safe clamp: rightmost edge must never exceed 960 (120px inside canvas right border)
+      const maxRightX = 960;
+      const sigStartX = maxRightX - sigW;
+
+      sigLayer.fontSize = actualSigSize;
+      sigLayer.align = 'left';
+      sigLayer.x = sigStartX;
+      sigLayer.y = sigLayer.y || 625;
+
+      // Position Crown Emblem sticker right above the first letter of the signature
+      const crownSticker = state.stickers.find(s => {
+        const lbl = (s.label || '').toLowerCase();
+        return lbl.includes('crown') || s.iconType === 'crown';
+      });
+
+      if (crownSticker) {
+        crownSticker.x = sigStartX + 6;
+        crownSticker.y = sigLayer.y - 52;
+        crownSticker.rotation = -20;
+        crownSticker.width = 56;
+        crownSticker.height = 42;
+      }
     }
 
     // Hide any selection overlay and render
