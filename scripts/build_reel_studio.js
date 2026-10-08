@@ -41,7 +41,7 @@ function downloadFile(url, destPath, retries = 2) {
   return new Promise((resolve, reject) => {
     const req = https.get(url, {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 BornTodayBot/2.0'
+        'User-Agent': 'BornTodayHollywoodBot/1.0 (contact@borntoday.com)'
       }
     }, res => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
@@ -471,7 +471,14 @@ async function main() {
     return;
   }
 
-  const targetIndex = process.argv[2] ? parseInt(process.argv[2], 10) - 1 : 0;
+  const args = process.argv.slice(2);
+  let targetIndex = 0;
+  if (args.includes('--index')) {
+    const idx = parseInt(args[args.indexOf('--index') + 1], 10);
+    if (!isNaN(idx)) targetIndex = idx - 1;
+  } else if (args[0] && !isNaN(parseInt(args[0], 10))) {
+    targetIndex = parseInt(args[0], 10) - 1;
+  }
   const targetPost = posts[targetIndex] || posts[0];
 
   await buildReel(targetPost, targetIndex + 1);
