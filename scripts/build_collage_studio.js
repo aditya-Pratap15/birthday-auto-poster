@@ -133,51 +133,132 @@ function downloadAsDataUri(url) {
   });
 }
 
-// 2. Fetch real high-res Wikipedia photos for the celebrity
-async function fetchWikipediaPhotos(celebName) {
-  const clean = encodeURIComponent(celebName.replace(/ /g, '_'));
-  const urls = [];
+// 2. Fetch real high-res Wikipedia & Wikimedia Commons photos across different eras
+const NON_PERSON_KEYWORDS = [
+  'map', 'flag', 'chart', 'diagram', 'plan', 'locator', 'coat_of_arms', 'signature',
+  'autograph', 'grave', 'house', 'building', 'star', 'walk_of_fame', 'plaque', 'poster',
+  'cover', 'sound', 'video', 'screenshot', 'wax', 'car', 'aircraft', 'stamp', 'coin',
+  'billboard', 'street', 'statue', 'county', 'district', 'cdp', 'income', 'distribution',
+  'club', 'elementary', 'center', 'hot_shoppe', 'shoes', 'logo', 'icon', 'symbol',
+  'village', 'truck', 'bus', 'vehicle', 'traction', 'cd', 'album'
+];
 
-  // Thumbnail
-  try {
-    const data = await fetchJson(`https://en.wikipedia.org/w/api.php?action=query&titles=${clean}&prop=pageimages&format=json&pithumbsize=1000`);
-    if (data && data.query && data.query.pages) {
-      for (const pid of Object.keys(data.query.pages)) {
-        const thumb = data.query.pages[pid]?.thumbnail?.source;
-        if (thumb) urls.push(thumb);
-      }
-    }
-  } catch (e) {}
+function isCleanPersonPhoto(title, celebName = '') {
+  if (!title) return false;
+  const lower = title.toLowerCase();
+  if (!lower.endsWith('.jpg') && !lower.endsWith('.jpeg') && !lower.endsWith('.png') && !lower.endsWith('.webp')) return false;
+  for (const b of NON_PERSON_KEYWORDS) {
+    if (lower.includes(b)) return false;
+  }
+  if (celebName && celebName.toLowerCase().includes('chevy chase') && lower.includes('maryland')) {
+    return false;
+  }
+  return true;
+}
 
-  // Additional images
+function extractYear(title, dateStr) {
+  const combined = (title || '') + ' ' + (dateStr || '');
+  const m = combined.match(/\b(19\d\d|20\d\d)\b/);
+  return m ? parseInt(m[1]) : null;
+}
+
+function getEventSignature(title) {
+  return (title || '').toLowerCase()
+    .replace(/^file:/, '')
+    .replace(/\.(jpg|jpeg|png|webp)$/, '')
+    .replace(/cropped/g, '')
+    .replace(/crop/g, '')
+    .replace(/\(\d+\)/g, '')
+    .replace(/\d+/g, '')
+    .replace(/[-_().,]/g, ' ')
+    .trim()
+    .replace(/\s+/g, ' ');
+}
+
+async function fetchCelebrityTimelinePhotos(celebName, birthYear = null) {
+  const cleanName = celebName.replace(/\./g, '');
+  const searchTerms = [
+    cleanName,
+    celebName.replace(/\s+[A-Z]\.?\s+/g, ' '),
+    celebName
+  ];
+
+  const candidates = [];
+  const seenUrls = new Set();
+  const seenSignatures = new Set();
+
+  function sanitizeWikiUrl(u) {
+    if (!u || typeof u !== 'string') return null;
+    let s = u.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
+    if (s.includes('commons.wikimedia.org/wiki/File:')) return null;
+    return s.split('?')[0];
+  }
+
+  function addCandidate(title, dateStr, url) {
+    if (!url || !isCleanPersonPhoto(title, celebName)) return;
+    const cleanU = sanitizeWikiUrl(url);
+    if (!cleanU || seenUrls.has(cleanU)) return;
+
+    const yr = extractYear(title, dateStr);
+    if (birthYear && yr && (yr < birthYear || yr > 2026)) return;
+
+    const sig = getEventSignature(title);
+    if (sig && seenSignatures.has(sig)) return;
+
+    seenUrls.add(cleanU);
+    if (sig) seenSignatures.add(sig);
+
+    candidates.push({ title, year: yr, sig, url: cleanU });
+  }
+
+  // A. Wikipedia Article Primary Portrait (with redirects=1)
   try {
-    const data2 = await fetchJson(`https://en.wikipedia.org/w/api.php?action=query&titles=${clean}&prop=images&format=json&imlimit=15`);
-    if (data2 && data2.query && data2.query.pages) {
-      for (const pid of Object.keys(data2.query.pages)) {
-        const images = data2.query.pages[pid]?.images || [];
-        for (const img of images) {
-          const title = img.title || '';
-          const lower = title.toLowerCase();
-          if ((lower.endsWith('.jpg') || lower.endsWith('.jpeg') || lower.endsWith('.png')) &&
-              !lower.includes('icon') && !lower.includes('logo') && !lower.includes('flag') && !lower.includes('symbol') && !lower.includes('stub')) {
-            const infoData = await fetchJson(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(title)}&prop=imageinfo&iiprop=url&iiurlwidth=800&format=json`);
-            if (infoData && infoData.query && infoData.query.pages) {
-              for (const ipid of Object.keys(infoData.query.pages)) {
-                const iinfo = infoData.query.pages[ipid]?.imageinfo?.[0];
-                const direct = iinfo?.thumburl || iinfo?.url;
-                if (direct && !urls.includes(direct)) {
-                  urls.push(direct);
-                  if (urls.length >= 8) break;
-                }
-              }
-            }
-          }
+    const pData = await fetchJson(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(celebName.replace(/ /g, '_'))}&prop=pageimages&redirects=1&format=json&pithumbsize=1200`);
+    if (pData?.query?.pages) {
+      for (const k of Object.keys(pData.query.pages)) {
+        const thumb = pData.query.pages[k]?.thumbnail?.source;
+        if (thumb) {
+          addCandidate(`${celebName} Wikipedia Portrait`, '2024', thumb);
         }
       }
     }
   } catch (e) {}
 
-  return urls;
+  // B. Commons Search with plain name (without quotes, broad file search)
+  for (const st of searchTerms) {
+    try {
+      const sData = await fetchJson(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(st)}&gsrnamespace=6&gsrlimit=40&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=900&format=json`);
+      if (sData?.query?.pages) {
+        for (const k of Object.keys(sData.query.pages)) {
+          const item = sData.query.pages[k];
+          const meta = item.imageinfo?.[0]?.extmetadata;
+          const date = meta?.DateTimeOriginal?.value || meta?.DateTime?.value;
+          const u = item.imageinfo?.[0]?.thumburl || item.imageinfo?.[0]?.url;
+          addCandidate(item.title || '', date, u);
+        }
+      }
+    } catch (e) {}
+    if (candidates.length >= 15) break;
+  }
+
+  // C. Commons Category Members
+  for (const st of searchTerms) {
+    try {
+      const cData = await fetchJson(`https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(st)}&gcmnamespace=6&gcmlimit=50&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=900&format=json`);
+      if (cData?.query?.pages) {
+        for (const k of Object.keys(cData.query.pages)) {
+          const item = cData.query.pages[k];
+          const meta = item.imageinfo?.[0]?.extmetadata;
+          const date = meta?.DateTimeOriginal?.value || meta?.DateTime?.value;
+          const u = item.imageinfo?.[0]?.thumburl || item.imageinfo?.[0]?.url;
+          addCandidate(item.title || '', date, u);
+        }
+      }
+    } catch (e) {}
+    if (candidates.length >= 25) break;
+  }
+
+  return candidates;
 }
 
 function loadPreset(gender = 'female', presetName = null) {
@@ -263,35 +344,90 @@ async function main() {
 
     console.log(`\n[+] Post #${idx + 1}: ${celebName} (${gender.toUpperCase()}) -> ${imagePath}`);
 
-    // Download and verify photo data URIs in Node
-    const validDataUris = [];
+    // 1. Fetch rich multi-era photos from Wikipedia, Commons Search & Categories
+    const timelineCandidates = await fetchCelebrityTimelinePhotos(celebName, birthYear);
+
+    // 2. Also incorporate incoming raw photo URLs if valid
+    const seenRawUrls = new Set(timelineCandidates.map(c => c.url));
     for (const u of rawPhotoUrls) {
-      const dataUri = await downloadAsDataUri(u);
-      if (dataUri) validDataUris.push(dataUri);
+      if (!u || typeof u !== 'string') continue;
+      const cleanU = u.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/').split('?')[0];
+      if (cleanU.includes('commons.wikimedia.org/wiki/File:')) continue;
+      if (!seenRawUrls.has(cleanU) && isCleanPersonPhoto(cleanU, celebName)) {
+        seenRawUrls.add(cleanU);
+        const yr = extractYear(cleanU, '');
+        timelineCandidates.push({ title: cleanU, year: yr, sig: getEventSignature(cleanU), url: cleanU });
+      }
     }
 
-    // If few or zero valid photos, fetch authentic Wikipedia photos
-    if (validDataUris.length < 3) {
-      console.log(`    Provided URLs had ${validDataUris.length} working photos. Fetching Wikipedia photos for ${celebName}...`);
-      const wikiUrls = await fetchWikipediaPhotos(celebName);
-      for (const wu of wikiUrls) {
-        const dUri = await downloadAsDataUri(wu);
-        if (dUri) {
-          validDataUris.push(dUri);
-          if (validDataUris.length >= 8) break;
+    // 3. Download and verify valid data URIs
+    const downloadedCandidates = [];
+    const seenData = new Set();
+    for (const cand of timelineCandidates) {
+      const dataUri = await downloadAsDataUri(cand.url);
+      if (dataUri) {
+        const fingerprint = dataUri.slice(100, 300);
+        if (!seenData.has(fingerprint)) {
+          seenData.add(fingerprint);
+          downloadedCandidates.push({ ...cand, dataUri, fingerprint });
+        }
+      }
+      if (downloadedCandidates.length >= 15) break;
+    }
+
+    console.log(`    Found ${downloadedCandidates.length} decoded photos for ${celebName}.`);
+
+    // 4. Designate Hero Portrait (Cleanest headshot)
+    const heroItem = downloadedCandidates[0] || null;
+
+    // 5. Exclude Hero from Polaroid Pool to guarantee 100% distinct images
+    const polaroidPool = downloadedCandidates.filter(c => !heroItem || (c.url !== heroItem.url && c.fingerprint !== heroItem.fingerprint));
+
+    // 6. Chronological sorting across career timeline
+    const datedPolaroids = polaroidPool.filter(c => c.year).sort((a, b) => a.year - b.year);
+    const undatedPolaroids = polaroidPool.filter(c => !c.year);
+
+    // Pick 4 distinct milestone eras with minimum 2-3 years gap
+    const selectedMilestones = [];
+    let lastEraYear = 0;
+    for (const dp of datedPolaroids) {
+      if (!lastEraYear || Math.abs(dp.year - lastEraYear) >= 3) {
+        selectedMilestones.push(dp);
+        lastEraYear = dp.year;
+        if (selectedMilestones.length === 4) break;
+      }
+    }
+
+    // If still need more to reach 4 polaroids, fill from remaining dated then undated
+    if (selectedMilestones.length < 4) {
+      for (const dp of datedPolaroids) {
+        if (!selectedMilestones.find(m => m.fingerprint === dp.fingerprint)) {
+          selectedMilestones.push(dp);
+          if (selectedMilestones.length === 4) break;
+        }
+      }
+    }
+    if (selectedMilestones.length < 4) {
+      for (const up of undatedPolaroids) {
+        if (!selectedMilestones.find(m => m.fingerprint === up.fingerprint)) {
+          selectedMilestones.push(up);
+          if (selectedMilestones.length === 4) break;
         }
       }
     }
 
-    console.log(`    [✓] Successfully prepared ${validDataUris.length} active high-res photo frames.`);
+    // 7. Assemble 5 Frame Photos: Frame 0 (Hero), Frames 1-4 (Chronological Milestones)
+    const finalFramePhotos = [
+      heroItem ? heroItem.dataUri : null,
+      ...selectedMilestones.slice(0, 4).map(m => m.dataUri)
+    ];
 
-    // Distribute photos across all 8 frames
-    const finalFramePhotos = [];
-    if (validDataUris.length > 0) {
-      for (let fIdx = 0; fIdx < 8; fIdx++) {
-        finalFramePhotos.push(validDataUris[fIdx % validDataUris.length]);
-      }
-    }
+    console.log(`    [✓] Assigned 5 Frame Photos:`);
+    console.log(`        - Frame 0 (Hero): ${heroItem?.title || 'Main'} [Year: ${heroItem?.year || 'N/A'}]`);
+    selectedMilestones.slice(0, 4).forEach((m, mIdx) => {
+      console.log(`        - Frame ${mIdx + 1} (Milestone ${mIdx + 1}): ${m.title} [Year: ${m.year || 'N/A'}]`);
+    });
+    console.log(`        - Guaranteed Unique Frames: ${new Set(finalFramePhotos.filter(Boolean)).size} / 5`);
 
     const presetData = loadPreset(gender, post.preset || post.preset_name);
     if (post.teaserCard) {
