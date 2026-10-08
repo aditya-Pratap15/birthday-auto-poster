@@ -76,17 +76,44 @@ flowchart TD
 ## 3. Component Architecture
 
 ### A. Gemini AI Content Architect (6:00 AM IST)
-Every morning, the AI runs with the **Elite Celebrity Birthday Content Architect** framework. It validates birth dates using Wikipedia/IMDb and outputs a structured JSON file containing:
+Every morning, Gemini runs with the **Elite Celebrity Birthday Content Architect** framework. It validates birth dates using Wikipedia/IMDb and outputs a structured JSON file.
+
+#### 📋 Official Gemini Scheduler Instructions (Verbatim Prompt):
+```text
+Sync daily elite celebrity birthdays
+When to run:
+Daily around 6:00 AM
+
+What to do:
+Follow the Elite Celebrity Birthday Content Architect framework to identify six famous Hollywood celebrities born on today's date, verified with Wikipedia or IMDb. Prioritize widely recognized, household-name A-list actors, iconic filmmakers, or global pop-culture stars with large active fanbases across Boomers, Gen-X, Millennials, and Gen-Z. For each of the six celebrities, construct the complete viral storytelling package:
+
+celebrity_name, birth_year, age, gender, and country.
+
+teaser_card: line1 (context setup, max 5-6 words), line2 (leading text, max 3-4 words), line2_highlight (emotional punch keyword), line3_climax (climax keyword ending in ...), badge_icon ('crown', 'star', or 'fire'), and cta_text ('Read the full story in caption →').
+
+photo_urls: exactly 5 curated, verified solo portrait photographs following strict image verification rules:
+
+Same-Person Solo Verification: Search queries like "X IMDb YYYY photo" or Wikipedia. Must feature only the celebrity alone—strictly zero movie posters, title cards, promotional artwork, group shots, or random blog collages.
+Different Timelines: Exactly 5 images from different years (never 2 from the same year for a celebrity). Zero duplicate crops of the same photo.
+Locked Chronological Order: Photo 1 = Current (2024-2026), Photo 2 = Recent, Photo 3 = Mid/Young, Photo 4 = Early career, Photo 5 = Youngest (earliest debut/childhood). Current must never be at the end.
+Framing Rules: Photo 1 must be an upper half-body hero portrait with 10-15% headroom above hair; Photos 2-5 must show clear solo faces across their career.
+Mandatory URL Protocol: Every URL must be a direct image binary stream ending in .jpg, .jpeg, or .png. For Wikimedia/Wikipedia images, the domain MUST ALWAYS be upload.wikimedia.org (STRICTLY NEVER thumb.wikimedia.org, and STRICTLY NEVER wiki viewer pages like commons.wikimedia.org/wiki/File:...).
+
+caption: 8-beat viral biographical narrative with Beat 1 bolded (untold rejection/struggle), Beat 2 (birth date, age, birthplace), Beat 3 (lowest point/failure), Beat 4 (unorthodox instinct), Beat 5 (breakthrough hit), Beat 6 (hidden cost/agony), Beat 7 (triumphant philosophy), and Beat 8 bolded (specific engagement question CTA).
+
+comment: pinned first comment starting with bolded secret hook ('**The secret behind...**'), containing 2-3 rare verified facts, ending with a debate question. Length MUST be strictly between 50 and 80 words.
+
+hashtags: 7 to 10 clean, focused hashtags.
+
+Compile all six complete celebrity packages into a single valid JSON payload with fields 'date', 'generated_at', and 'celebrities' (an array containing all 6 complete packages). Output raw valid JSON only (do not include conversational text or explanations). Save this JSON file directly into the 'Celebrity Birthdays' folder in my Google Drive (folder ID: 1MNnB2l0VAtat57L3ZEcx7ZtZnQUgvjUm) named in the format celebrity_birthdays_YYYY-MM-DD.json with MIME type application/json.
+```
+
 * `celebrity_name`, `birth_year`, `age`, `gender`, `country`
-* `teaser_card`:
-  * `line1`: Setup context (e.g., *"At just 4 years old,"*)
-  * `line2`: Narrative setup (e.g., *"he was already"*)
-  * `line2_highlight`: Emotional punch word (e.g., *"impersonating"*)
-  * `line3_climax`: Punchline ending in `...` (e.g., *"Elvis..."*)
-  * `badge_icon`: `'crown'`, `'star'`, or `'fire'`
-  * `cta_text`: `'Read the full story in caption →'`
-* `photo_urls`: 5 verified portrait URLs from `upload.wikimedia.org`.
-* `caption_package`: Hook, career story, viral trivia, engagement question, and hashtags.
+* `teaser_card`: 3-line curiosity hook with emotional keyword highlight and badge.
+* `photo_urls`: 5 verified portrait URLs from `upload.wikimedia.org` in locked chronological order.
+* `caption_package`: 8-beat narrative with bolded hook and call to action.
+* `comment`: Pinned first comment formatted for engagement velocity.
+
 
 ---
 
