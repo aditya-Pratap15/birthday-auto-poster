@@ -90,10 +90,35 @@ function normalizePayload(raw) {
     { page_name: 'Born Today Hollywood', page_id_env: 'FB_PAGE_ID_BORN', token_env: 'FB_TOKEN_BORN' }
   ];
 
+  // 6 Optimal Tier 1 (US Eastern) Peak Engagement Windows across the day
+  const PEAK_HOURS_UTC = [
+    { hour: 12, minute: 0, label: 'US Morning Commute (8:00 AM EDT / 5:30 PM IST)' },
+    { hour: 14, minute: 30, label: 'US Mid-Morning Break (10:30 AM EDT / 8:00 PM IST)' },
+    { hour: 17, minute: 0, label: 'US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)' },
+    { hour: 19, minute: 30, label: 'US Afternoon Lull (3:30 PM EDT / 1:00 AM IST +1)' },
+    { hour: 22, minute: 30, label: 'US Prime Time (6:30 PM EDT / 4:00 AM IST +1)' },
+    { hour: 1, minute: 0, nextDay: true, label: 'US Late Night Bedtime (9:00 PM EDT / 6:30 AM IST +1)' }
+  ];
+
+  function getScheduledPeakTime(dStr, slotIdx) {
+    const slot = PEAK_HOURS_UTC[slotIdx % PEAK_HOURS_UTC.length];
+    const [y, m, d] = dStr.split('-').map(Number);
+    const dt = new Date(Date.UTC(y, m - 1, d, slot.hour, slot.minute, 0));
+    if (slot.nextDay) {
+      dt.setUTCDate(dt.getUTCDate() + 1);
+    }
+    return {
+      timestamp: Math.floor(dt.getTime() / 1000),
+      iso: dt.toISOString(),
+      label: slot.label
+    };
+  }
+
   celebs.forEach((c, idx) => {
     const celebName = c.celebrity_name || c.name || `Celebrity_${idx + 1}`;
     const cleanSlug = celebName.replace(/[^a-zA-Z0-9_]/g, '_');
     const pageCfg = pageConfigs[idx % pageConfigs.length];
+    const schedInfo = getScheduledPeakTime(dateStr, idx);
 
     const rawTeaser = c.teaser_card || c.teaserCard || {};
     const teaserCard = {
@@ -128,6 +153,9 @@ function normalizePayload(raw) {
       comment: c.comment || '',
       hashtags: c.hashtags || `#${celebName.replace(/\s+/g, '')} #BornToday #${dateStr}`,
       image_path: `collages/${cleanSlug}_Page_${idx + 1}_Tribute.jpg`,
+      scheduled_publish_time: c.scheduled_publish_time || c.unix_timestamp || schedInfo.timestamp,
+      scheduled_time_utc: c.scheduled_time_utc || schedInfo.iso,
+      peak_window: schedInfo.label,
       page_name: pageCfg.page_name,
       page_id_env: pageCfg.page_id_env,
       token_env: pageCfg.token_env

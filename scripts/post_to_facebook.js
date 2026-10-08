@@ -29,7 +29,7 @@ function formatFacebookUnicodeBold(text) {
   });
 }
 
-function postMultipartPhoto(pageId, token, caption, imagePath) {
+function postMultipartPhoto(pageId, token, caption, imagePath, scheduledPublishTime = null) {
   return new Promise((resolve, reject) => {
     const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
     const imgBuf = fs.readFileSync(imagePath);
@@ -42,7 +42,15 @@ function postMultipartPhoto(pageId, token, caption, imagePath) {
 
     addField('access_token', token);
     addField('message', caption);
-    addField('published', 'true');
+
+    const nowTs = Math.floor(Date.now() / 1000);
+    // Facebook requires scheduled posts to be at least 10 minutes (600s) in the future
+    if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
+      addField('published', 'false');
+      addField('scheduled_publish_time', String(scheduledPublishTime));
+    } else {
+      addField('published', 'true');
+    }
 
     const header = Buffer.from(body + `--${boundary}\r\nContent-Disposition: form-data; name="source"; filename="${filename}"\r\nContent-Type: image/jpeg\r\n\r\n`);
     const footer = Buffer.from(`\r\n--${boundary}--\r\n`);
@@ -166,17 +174,32 @@ async function main() {
     const caption = formatFacebookUnicodeBold(`${post.caption}\n\n${post.hashtags}`);
     const comment = formatFacebookUnicodeBold(post.comment);
 
-    console.log(`[+] Publishing post for: ${celebName}...`);
-    const res = await postMultipartPhoto(DEFAULT_PAGE_ID, DEFAULT_TOKEN, caption, imgPath);
+    const schedTs = post.scheduled_publish_time || post.unix_timestamp || null;
+    const nowTs = Math.floor(Date.now() / 1000);
+    const isScheduling = schedTs && (schedTs > nowTs + 600);
+
+    if (isScheduling) {
+      const nyTime = new Date(schedTs * 1000).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' });
+      const istTime = new Date(schedTs * 1000).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
+      console.log(`[+] Scheduling post for: ${celebName} at ${nyTime} EDT (${istTime} IST) - [${post.peak_window || 'Peak Window'}]...`);
+    } else {
+      console.log(`[+] Publishing LIVE right now for: ${celebName}...`);
+    }
+
+    const res = await postMultipartPhoto(DEFAULT_PAGE_ID, DEFAULT_TOKEN, caption, imgPath, schedTs);
 
     if (res.status === 200 && (res.body.id || res.body.post_id)) {
       const postId = res.body.post_id || res.body.id;
       post.fb_post_id = postId;
       post.fb_post_url = `https://www.facebook.com/${DEFAULT_PAGE_ID}/posts/${postId.split('_')[1] || postId}`;
-      console.log(`    [✓] SUCCESS! Published to Facebook! Post ID: ${postId}`);
+      if (isScheduling) {
+        console.log(`    [✓] SUCCESS! Scheduled on Meta Planner! Post ID: ${postId}`);
+      } else {
+        console.log(`    [✓] SUCCESS! Published live to Facebook! Post ID: ${postId}`);
+      }
 
-      // Post pinned first comment
-      if (comment) {
+      // Post pinned first comment (allowed only when published live)
+      if (comment && !isScheduling) {
         console.log(`    💬 Posting pinned first comment (${post.comment.split(/\s+/).length} words)...`);
         const cRes = await postComment(postId, DEFAULT_TOKEN, comment);
         if (cRes.status === 200 && cRes.body.id) {
