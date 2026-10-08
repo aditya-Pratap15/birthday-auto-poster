@@ -92,7 +92,10 @@ async function ensureStyledLogo() {
 
   console.log(`    🎨 Rendering luxury circular logo...`);
   const logoBase64 = fs.readFileSync(PAGE_LOGO_PATH).toString('base64');
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  });
   const page = await browser.newPage();
   await page.setViewport({ width: 360, height: 360, deviceScaleFactor: 2 });
 
@@ -145,15 +148,33 @@ async function ensureStyledLogo() {
 }
 
 /**
+ * Robust gender detector:
+ * 1. Checks post.gender explicitly from daily scheduler payload
+ * 2. Falls back to pronoun & actor/actress heuristic if missing
+ */
+function detectGender(post) {
+  if (post && post.gender && typeof post.gender === 'string') {
+    const g = post.gender.trim().toLowerCase();
+    if (g === 'female' || g === 'f' || g === 'woman') return 'female';
+    if (g === 'male' || g === 'm' || g === 'man') return 'male';
+  }
+
+  const text = `${post.celebrity_name || ''} ${post.caption || ''} ${post.comment || ''}`.toLowerCase();
+  const femaleMatches = (text.match(/\b(she|her|hers|actress|woman|female)\b/g) || []).length;
+  const maleMatches = (text.match(/\b(he|him|his|actor|man|male)\b/g) || []).length;
+
+  return femaleMatches > maleMatches ? 'female' : 'male';
+}
+
+/**
  * Synthesize voiceover using Microsoft Edge Neural TTS
  */
 async function generateVoiceover(text, gender, outputPath) {
   const tts = new EdgeTTS();
-  const voice = (gender && gender.toLowerCase() === 'female') 
-    ? 'en-US-JennyNeural' 
-    : 'en-US-ChristopherNeural';
+  const isFemale = gender && gender.toLowerCase() === 'female';
+  const voice = isFemale ? 'en-US-JennyNeural' : 'en-US-ChristopherNeural';
 
-  console.log(`    🎙️ Synthesizing narration with ${voice}...`);
+  console.log(`    🎙️ Synthesizing narration with ${voice} (${isFemale ? 'Female' : 'Male'})...`);
   await tts.synthesize(text, voice, {
     outputFormat: Constants.OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3
   });
@@ -313,8 +334,9 @@ async function buildReel(post, index = 1) {
   // 1. Ensure Styled Circular Logo
   const styledLogoPath = await ensureStyledLogo();
 
-  // 2. Synthesize Narration Voiceover
-  const { duration: voiceDuration, boundaries } = await generateVoiceover(narration, post.gender, voicePath);
+  // 2. Synthesize Narration Voiceover with Smart Gender Detection
+  const gender = detectGender(post);
+  const { duration: voiceDuration, boundaries } = await generateVoiceover(narration, gender, voicePath);
 
   // 3. Exact Timing Synchronization:
   // Slideshow stops EXACTLY when the narration ends (+ 0.15s natural breath).
