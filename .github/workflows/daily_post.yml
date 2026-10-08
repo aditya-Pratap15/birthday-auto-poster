@@ -52,12 +52,8 @@ jobs:
 
       - name: Post to Facebook Pages with Unicode Bold & Pinned Comments
         env:
-          FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN }}
-          FB_TOKEN_STAR: ${{ secrets.FB_PAGE_TOKEN_STARBORN || secrets.FB_TOKEN_STAR }}
-          FB_TOKEN_VAULT: ${{ secrets.FB_PAGE_TOKEN_VAULT || secrets.FB_TOKEN_VAULT }}
-          FB_PAGE_ID_BORN: ${{ secrets.FB_PAGE_ID_BORN_TODAY || secrets.FB_PAGE_ID_BORN }}
-          FB_PAGE_ID_STAR: ${{ secrets.FB_PAGE_ID_STARBORN || secrets.FB_PAGE_ID_STAR }}
-          FB_PAGE_ID_VAULT: ${{ secrets.FB_PAGE_ID_VAULT || secrets.FB_PAGE_ID_VAULT }}
+          FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
+          FB_PAGE_ID_BORN: ${{ secrets.FB_PAGE_ID_BORN_TODAY || secrets.FB_PAGE_ID_BORN || secrets.FB_PAGE_ID }}
         run: python scripts/post_to_facebook.py
 
       - name: Commit and Push Generated Collages & Post Logs

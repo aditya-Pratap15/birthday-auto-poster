@@ -85,14 +85,9 @@ function normalizePayload(raw) {
 
   const posts = [];
 
-  // Pages to distribute across:
-  // Post 1 -> FB_PAGE_ID_BORN / FB_TOKEN_BORN
-  // Post 2 -> FB_PAGE_ID_STAR / FB_TOKEN_STAR
-  // Post 3 -> FB_PAGE_ID_VAULT / FB_TOKEN_VAULT
+  // Target Page: All posts go to Born Today Hollywood
   const pageConfigs = [
-    { page_name: 'Born Today Hollywood', page_id_env: 'FB_PAGE_ID_BORN', token_env: 'FB_TOKEN_BORN' },
-    { page_name: 'StarBorn Tribute', page_id_env: 'FB_PAGE_ID_STAR', token_env: 'FB_TOKEN_STAR' },
-    { page_name: 'Hollywood Vault Legends', page_id_env: 'FB_PAGE_ID_VAULT', token_env: 'FB_TOKEN_VAULT' }
+    { page_name: 'Born Today Hollywood', page_id_env: 'FB_PAGE_ID_BORN', token_env: 'FB_TOKEN_BORN' }
   ];
 
   celebs.forEach((c, idx) => {
