@@ -87,6 +87,8 @@ function fetchJson(url) {
 
 function downloadAsDataUri(url) {
   if (!url || typeof url !== 'string') return Promise.resolve(null);
+  url = url.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
+  if (url.includes('commons.wikimedia.org/wiki/File:')) return Promise.resolve(null);
   if (url.startsWith('data:image')) return Promise.resolve(url);
 
   // Support local relative or absolute image files

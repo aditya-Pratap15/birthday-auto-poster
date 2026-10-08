@@ -3933,6 +3933,16 @@
 
     // Wait for all assets and fonts
     await Promise.all(loadPromises);
+
+    // Fallback: If any frame failed to load an image, reuse an image from another successfully loaded frame
+    const loadedFrames = state.frames.filter(f => f.imgElement);
+    if (loadedFrames.length > 0) {
+      state.frames.forEach((f, idx) => {
+        if (!f.imgElement) {
+          f.imgElement = loadedFrames[idx % loadedFrames.length].imgElement;
+        }
+      });
+    }
     if (document.fonts) {
       try {
         for (const t of state.textLayers) {
