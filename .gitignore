@@ -2,4 +2,9 @@ node_modules/
 .DS_Store
 Thumbs.db
 *.log
+collages/*.jpg
+collages/*.jpeg
+collages/*.png
+collages/*.webp
+!collages/.gitkeep
 

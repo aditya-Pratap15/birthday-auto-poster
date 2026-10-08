@@ -48,10 +48,11 @@ jobs:
           FB_PAGE_ID_BORN: ${{ secrets.FB_PAGE_ID_BORN_TODAY || secrets.FB_PAGE_ID_BORN || secrets.FB_PAGE_ID }}
         run: node scripts/post_to_facebook.js
 
-      - name: Commit and Push Generated Collages & Post Logs
+      - name: Clean Uploaded Images & Commit Post Logs
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add today_posts.json collages/
-          git diff --quiet && git diff --staged --quiet || git commit -m "chore(automation): sync collages and schedule [skip ci]"
+          rm -f collages/*.jpg collages/*.png collages/*.webp
+          git add today_posts.json collages/.gitkeep
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore(automation): sync schedule logs and clean collages [skip ci]"
           git push || true
