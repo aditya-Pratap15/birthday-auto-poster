@@ -37,11 +37,21 @@ const PAGE_LOGO_PATH = path.join(ROOT_DIR, 'page_logo.png');
 if (!fs.existsSync(REELS_DIR)) fs.mkdirSync(REELS_DIR, { recursive: true });
 if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
 
-function downloadFile(url, destPath) {
+function downloadFile(url, destPath, retries = 2) {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'User-Agent': 'BirthdayReelMaker/2.3' } }, res => {
+    const req = https.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 BornTodayBot/2.0'
+      }
+    }, res => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return resolve(downloadFile(res.headers.location, destPath));
+        return resolve(downloadFile(res.headers.location, destPath, retries));
+      }
+      if (res.statusCode === 429 && retries > 0) {
+        setTimeout(() => {
+          resolve(downloadFile(url, destPath, retries - 1));
+        }, 1500);
+        return;
       }
       if (res.statusCode !== 200) {
         return reject(new Error(`Failed to download ${url}: HTTP ${res.statusCode}`));
@@ -49,7 +59,8 @@ function downloadFile(url, destPath) {
       const stream = fs.createWriteStream(destPath);
       res.pipe(stream);
       stream.on('finish', () => stream.close(resolve));
-    }).on('error', reject);
+    });
+    req.on('error', reject);
   });
 }
 
