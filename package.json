@@ -6,6 +6,7 @@
     "build:collages": "node scripts/build_collage_studio.js"
   },
   "dependencies": {
+    "@andresaya/edge-tts": "^1.8.1",
     "puppeteer": "^22.15.0"
   }
 }

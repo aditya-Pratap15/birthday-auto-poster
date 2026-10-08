@@ -8,3 +8,8 @@ collages/*.png
 collages/*.webp
 !collages/.gitkeep
 
+
+reels/*.mp4
+temp_reel_assets/
+test_voice*
+*.ass
