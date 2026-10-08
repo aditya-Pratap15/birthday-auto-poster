@@ -985,28 +985,46 @@
     const panX = frame.imgPanX || 0;
     const panY = frame.imgPanY || 0;
 
-    // Calculate aspect ratio covering
+    // Calculate aspect ratio
     const imgAspect = img.width / img.height;
     const frameAspect = frameW / frameH;
 
+    // CONTAIN / FIT: Prevent artificial zooming in so the complete subject remains natural size
     let drawW, drawH;
     if (imgAspect > frameAspect) {
-      drawH = frameH * scale;
-      drawW = drawH * imgAspect;
-    } else {
+      // Wider than frame -> fit to frame width
       drawW = frameW * scale;
       drawH = drawW / imgAspect;
+    } else {
+      // Taller than frame -> fit to frame height so full person and head are preserved
+      drawH = frameH * scale;
+      drawW = drawH * imgAspect;
+    }
+
+    // If photo does not fill the entire frame, render an aesthetic ambient backdrop
+    if (drawW < frameW - 2 || drawH < frameH - 2) {
+      context.save();
+      let bgW, bgH;
+      if (imgAspect > frameAspect) {
+        bgH = frameH;
+        bgW = bgH * imgAspect;
+      } else {
+        bgW = frameW;
+        bgH = bgW / imgAspect;
+      }
+      const bgX = frameX + (frameW - bgW) / 2;
+      const bgY = frameY + (frameH - bgH) / 2;
+
+      try {
+        context.filter = 'blur(24px) brightness(0.9)';
+      } catch (e) {}
+      context.globalAlpha = 0.55;
+      context.drawImage(img, bgX - 10, bgY - 10, bgW + 20, bgH + 20);
+      context.restore();
     }
 
     const drawX = frameX + (frameW - drawW) / 2 + panX;
-    
-    // Top-align vertical portrait photos so heads, hair, and faces are never cut off from the top
-    let drawY;
-    if (drawH > frameH) {
-      drawY = frameY + panY;
-    } else {
-      drawY = frameY + (frameH - drawH) / 2 + panY;
-    }
+    const drawY = frameY + (frameH - drawH) / 2 + panY;
 
     context.drawImage(img, drawX, drawY, drawW, drawH);
   }
