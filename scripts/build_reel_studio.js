@@ -1,14 +1,22 @@
 /**
- * 🎬 BORN TODAY HOLLYWOOD - REEL STUDIO ENGINE (v2.1 Refined)
- * -------------------------------------------------------------
+ * 🎬 BORN TODAY HOLLYWOOD - REEL STUDIO ENGINE (v2.3 Master Production)
+ * ---------------------------------------------------------------------
  * Automated Vertical Video Generator for Facebook Reels / Instagram Reels (1080x1920)
  *
- * Refinements:
- *  1. Pure Solo Acoustic Piano BGM ("Heartwarming" by Kevin MacLeod) - no beats, smooth & gentle.
- *  2. Boosted speaker voice (+80% volume) with whisper-level background piano.
- *  3. Exact slideshow sync: Slideshow stops the instant narrator finishes speaking.
- *  4. High-end Google Fonts (Playfair Display + Montserrat) outro card.
- *  5. Outro logo & text stay permanently visible together until the video ends.
+ * Polished Capabilities:
+ *  1. Background Music: Pure solo acoustic piano ("Heartwarming" by Kevin MacLeod) at 25% (+7% boost).
+ *  2. Voiceover: Boosted to 180% (volume=1.8) for loud, crystal-clear narration.
+ *  3. Captions:
+ *     - Smooth 180ms fade-in bloom (\fad(180,60))
+ *     - Correct period on numbered lists (1. and 2.) cleanly grouped with sentence
+ *     - Progressive 2-line flow (Line 2 appears below Line 1)
+ *     - Golden bold highlight words (&H0024D8FF&, 72pt)
+ *  4. Single Unified Outro Screen (2.80s):
+ *     - Black backdrop
+ *     - Smooth spring pop-up for circular luxury logo (0.25s entrance)
+ *     - Smooth spring pop-up for Google Fonts CTA text below logo (0.70s entrance)
+ *     - Both logo and text stay permanently visible together until the video ends.
+ *  5. Exact timing: slideshow stops the instant narrator finishes speaking.
  */
 
 const fs = require('fs');
@@ -31,7 +39,7 @@ if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
 
 function downloadFile(url, destPath) {
   return new Promise((resolve, reject) => {
-    https.get(url, { headers: { 'User-Agent': 'BirthdayReelMaker/2.1' } }, res => {
+    https.get(url, { headers: { 'User-Agent': 'BirthdayReelMaker/2.3' } }, res => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
         return resolve(downloadFile(res.headers.location, destPath));
       }
@@ -61,138 +69,50 @@ function getAudioDuration(filePath) {
 }
 
 /**
- * Render Outro Cards with Google Fonts (Playfair Display + Montserrat)
+ * Generate a luxury circular page logo with a radiant gold border
  */
-async function ensureOutroCards() {
-  const fullCardPath = path.join(TEMP_DIR, 'outro_card_full.jpg');
-  const logoOnlyCardPath = path.join(TEMP_DIR, 'outro_card_logo_only.jpg');
+async function ensureStyledLogo() {
+  const styledLogoPath = path.join(TEMP_DIR, 'styled_logo.png');
+  if (fs.existsSync(styledLogoPath)) return styledLogoPath;
 
-  if (fs.existsSync(fullCardPath) && fs.existsSync(logoOnlyCardPath)) {
-    return { fullCardPath, logoOnlyCardPath };
+  if (!fs.existsSync(PAGE_LOGO_PATH)) {
+    throw new Error(`Page logo not found at: ${PAGE_LOGO_PATH}`);
   }
 
-  console.log(`    🎨 Rendering luxury Google Font outro cards...`);
+  console.log(`    🎨 Rendering luxury circular logo...`);
   const logoBase64 = fs.readFileSync(PAGE_LOGO_PATH).toString('base64');
   const browser = await puppeteer.launch({ headless: 'new' });
   const page = await browser.newPage();
-  await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
+  await page.setViewport({ width: 360, height: 360, deviceScaleFactor: 2 });
 
-  // 1. Full Outro Card (Logo + Google Fonts CTA text)
-  const htmlFull = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
-      <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-          width: 1080px;
-          height: 1920px;
-          background: #000000;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          font-family: 'Montserrat', sans-serif;
-          overflow: hidden;
-        }
-        .logo-wrap {
-          width: 280px;
-          height: 280px;
-          border-radius: 50%;
-          border: 6px solid #d4af37;
-          box-shadow: 0 0 50px rgba(212, 175, 55, 0.75), 0 0 20px rgba(255, 215, 0, 0.45);
-          overflow: hidden;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #0d0f14;
-          margin-bottom: 50px;
-        }
-        .logo-wrap img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-        .title {
-          font-family: 'Playfair Display', serif;
-          font-size: 58px;
-          font-weight: 700;
-          letter-spacing: 2px;
-          color: #FFD700;
-          text-shadow: 0 0 35px rgba(255, 215, 0, 0.55);
-          margin-bottom: 24px;
-          text-transform: uppercase;
-        }
-        .cta {
-          font-family: 'Montserrat', sans-serif;
-          font-size: 42px;
-          font-weight: 600;
-          color: #FFFFFF;
-          letter-spacing: 1px;
-          text-shadow: 0 2px 15px rgba(0,0,0,0.8);
-        }
-        .badge {
-          display: inline-block;
-          margin-top: 35px;
-          padding: 12px 32px;
-          border-radius: 30px;
-          background: rgba(212, 175, 55, 0.15);
-          border: 1px solid rgba(212, 175, 55, 0.4);
-          color: #d4af37;
-          font-size: 26px;
-          letter-spacing: 3px;
-          text-transform: uppercase;
-          font-weight: 700;
-        }
-      </style>
-    </head>
-    <body>
-      <div class="logo-wrap">
-        <img src="data:image/png;base64,${logoBase64}" />
-      </div>
-      <div class="title">Born Today Hollywood</div>
-      <div class="cta">Like & Follow for daily updates ✨</div>
-      <div class="badge">Daily Celebrity Tributes</div>
-    </body>
-    </html>
-  `;
-  await page.setContent(htmlFull);
-  await page.evaluateHandle('document.fonts.ready');
-  await page.screenshot({ path: fullCardPath, quality: 95 });
-
-  // 2. Logo Only Card (for the pop-up entrance)
-  const htmlLogoOnly = `
+  const html = `
     <!DOCTYPE html>
     <html>
     <head>
       <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-          width: 1080px;
-          height: 1920px;
-          background: #000000;
+          margin: 0;
+          padding: 0;
+          background: transparent;
           display: flex;
-          flex-direction: column;
           align-items: center;
           justify-content: center;
-          overflow: hidden;
+          width: 360px;
+          height: 360px;
         }
         .logo-wrap {
-          width: 280px;
-          height: 280px;
+          width: 270px;
+          height: 270px;
           border-radius: 50%;
           border: 6px solid #d4af37;
-          box-shadow: 0 0 50px rgba(212, 175, 55, 0.75), 0 0 20px rgba(255, 215, 0, 0.45);
+          box-shadow: 0 0 45px rgba(212, 175, 55, 0.75), 0 0 18px rgba(255, 215, 0, 0.5);
           overflow: hidden;
           display: flex;
           align-items: center;
           justify-content: center;
           background: #0d0f14;
         }
-        .logo-wrap img {
+        img {
           width: 100%;
           height: 100%;
           object-fit: cover;
@@ -206,11 +126,11 @@ async function ensureOutroCards() {
     </body>
     </html>
   `;
-  await page.setContent(htmlLogoOnly);
-  await page.screenshot({ path: logoOnlyCardPath, quality: 95 });
 
+  await page.setContent(html);
+  await page.screenshot({ path: styledLogoPath, omitBackground: true });
   await browser.close();
-  return { fullCardPath, logoOnlyCardPath };
+  return styledLogoPath;
 }
 
 /**
@@ -243,9 +163,14 @@ function formatAssTime(seconds) {
 }
 
 /**
- * Build dynamic ASS subtitles for the celebrity commentary
+ * Build dynamic ASS subtitles:
+ *  - Middle Center alignment (Alignment 5, Y=960)
+ *  - Smooth 180ms fade-in bloom (\fad(180,60))
+ *  - Correct dot on numbered lists (1. and 2.) cleanly grouped with sentence
+ *  - Progressive 2-line layout
+ *  - Animated spring pop-up outro text on single ending screen
  */
-function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration, assPath) {
+function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration, outroStartTime, totalDuration, assPath) {
   const events = [];
 
   const boldRegex = /\*\*(.*?)\*\*/g;
@@ -257,18 +182,30 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
 
   if (boundaries && boundaries.length > 5) {
     const words = boundaries.map(b => {
-      const rawWord = b.text.trim();
+      let rawWord = b.text.trim();
+
+      // Check if this word is a list number missing its period (e.g. '1' -> '1.')
+      if (/^\d+$/.test(rawWord) && (rawComment.includes(rawWord + '.') || rawComment.includes(rawWord + '. '))) {
+        rawWord = rawWord + '.';
+      }
+
+      const isListNum = /^\d+\.$/.test(rawWord);
+      // List numbers are NOT sentence ends
+      const isSentenceEnd = isListNum ? false : /[.!?…]+$/.test(rawWord);
+
       const cleanToken = rawWord.toLowerCase().replace(/[^a-z0-9]/g, '');
       const isBold = boldWordsSet.has(cleanToken);
       const styled = isBold
         ? `{\\b1\\fsize72\\c&H0024D8FF&}${rawWord}{\\b0\\fsize60\\c&H00FFFFFF&}`
         : `{\\b1\\fsize60\\c&H00FFFFFF&}${rawWord}`;
+
       return {
         start: (b.offset || 0) / 10000000,
         end: ((b.offset || 0) + (b.duration || 0)) / 10000000,
         raw: rawWord,
         styled,
-        isSentenceEnd: /[.!?]$/.test(rawWord)
+        isSentenceEnd,
+        isListNum
       };
     });
 
@@ -276,6 +213,7 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
     while (i < words.length) {
       const line1 = [];
       while (line1.length < 3 && i < words.length) {
+        if (line1.length > 0 && words[i].isListNum) break;
         line1.push(words[i]);
         const isEnd = words[i].isSentenceEnd;
         i++;
@@ -283,8 +221,9 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       }
 
       const line2 = [];
-      if (!line1[line1.length - 1].isSentenceEnd) {
+      if (line1.length > 0 && !line1[line1.length - 1].isSentenceEnd && i < words.length && !words[i].isListNum) {
         while (line2.length < 3 && i < words.length) {
+          if (line2.length > 0 && words[i].isListNum) break;
           line2.push(words[i]);
           const isEnd = words[i].isSentenceEnd;
           i++;
@@ -300,13 +239,13 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
         const line2End = Math.min(voiceDuration + 0.1, line2[line2.length - 1].end + 0.35);
         const line2Text = line2.map(w => w.styled).join(' ');
 
-        // Event 1: Line 1 appears first
-        events.push(`Dialogue: 0,${formatAssTime(line1Start)},${formatAssTime(line2Start)},Default,,0,0,0,,${line1Text}`);
-        // Event 2: Line 2 appears strictly BELOW Line 1
-        events.push(`Dialogue: 0,${formatAssTime(line2Start)},${formatAssTime(line2End)},Default,,0,0,0,,${line1Text}\\N${line2Text}`);
+        // Event 1: Line 1 appears first with smooth fade-in bloom
+        events.push(`Dialogue: 0,${formatAssTime(line1Start)},${formatAssTime(line2Start)},Default,,0,0,0,,{\\fad(180,60)}${line1Text}`);
+        // Event 2: Line 2 appears strictly BELOW Line 1 with smooth fade-in bloom
+        events.push(`Dialogue: 0,${formatAssTime(line2Start)},${formatAssTime(line2End)},Default,,0,0,0,,{\\fad(180,60)}${line1Text}\\N${line2Text}`);
       } else {
         const line1End = Math.min(voiceDuration + 0.1, line1[line1.length - 1].end + 0.35);
-        events.push(`Dialogue: 0,${formatAssTime(line1Start)},${formatAssTime(line1End)},Default,,0,0,0,,${line1Text}`);
+        events.push(`Dialogue: 0,${formatAssTime(line1Start)},${formatAssTime(line1End)},Default,,0,0,0,,{\\fad(180,60)}${line1Text}`);
       }
     }
   } else {
@@ -315,9 +254,17 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
     sentences.forEach((s, idx) => {
       const start = idx * chunkDur;
       const end = (idx + 1) * chunkDur;
-      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\b1\\fsize60\\c&H00FFFFFF&}${s}`);
+      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\fad(180,60)\\b1\\fsize60\\c&H00FFFFFF&}${s}`);
     });
   }
+
+  // Single Outro Screen: Text pops up smoothly at 0.70s and stays until the end of video
+  const outroTextStart = outroStartTime + 0.70;
+  const outroTextEnd = totalDuration + 2.0; // Stays permanently visible together with logo
+  events.push(
+    `Dialogue: 0,${formatAssTime(outroTextStart)},${formatAssTime(outroTextEnd)},Default,,0,0,0,,` +
+    `{\\an5\\pos(540,1160)\\fscx0\\fscy0\\t(0,350,\\fscx100\\fscy100)\\fad(150,0)\\b1\\fsize58\\c&H0024D8FF&}Born Today Hollywood\\N\\N{\\b1\\fsize46\\c&H00FFFFFF&}Like & Follow for daily updates ✨`
+  );
 
   const assContent = `[Script Info]
 ScriptType: v4.00+
@@ -352,8 +299,8 @@ async function buildReel(post, index = 1) {
   const voicePath = path.join(TEMP_DIR, `${safeName}_voice.mp3`);
   const finalVideoPath = path.join(REELS_DIR, `${safeName}_Reel.mp4`);
 
-  // 1. Ensure Outro Cards with Google Fonts
-  const { fullCardPath, logoOnlyCardPath } = await ensureOutroCards();
+  // 1. Ensure Styled Circular Logo
+  const styledLogoPath = await ensureStyledLogo();
 
   // 2. Synthesize Narration Voiceover
   const { duration: voiceDuration, boundaries } = await generateVoiceover(narration, post.gender, voicePath);
@@ -364,31 +311,28 @@ async function buildReel(post, index = 1) {
   const slideshowContentDuration = voiceDuration + 0.15;
   const remainingEraDuration = Math.max(3.0, slideshowContentDuration - COLLAGE_SLIDE_DURATION);
 
-  // Distribute remaining narration time across era slides so slideshow stops exactly on cue
   const targetPerSlide = 3.0;
   const numEraSlides = Math.max(1, Math.round(remainingEraDuration / targetPerSlide));
   const eraSlideDuration = remainingEraDuration / numEraSlides;
 
-  // Outro Sequence:
-  //  - 0.25s black screen
-  //  - 0.45s logo pops up
-  //  - 2.10s logo + text stays permanently until video ends
-  const OUTRO_BLACK_DUR = 0.25;
-  const OUTRO_LOGO_DUR = 0.45;
-  const OUTRO_FULL_DUR = 2.10;
-  const outroTotalDuration = OUTRO_BLACK_DUR + OUTRO_LOGO_DUR + OUTRO_FULL_DUR; // 2.8s total
-  const totalDuration = slideshowContentDuration + outroTotalDuration;
+  // Single Outro Screen (2.8s total):
+  //  - Logo pops up at center with smooth cubic easing (from 0.25s)
+  //  - Text pops up smoothly below the logo (from 0.70s)
+  //  - Both stay together continuously until video ends
+  const OUTRO_DURATION = 2.80;
+  const outroStartTime = slideshowContentDuration;
+  const totalDuration = slideshowContentDuration + OUTRO_DURATION;
 
   console.log(`    ⏱️ Timing Sync:`);
   console.log(`       - Collage Slide: ${COLLAGE_SLIDE_DURATION.toFixed(2)}s`);
   console.log(`       - Era Slideshow: ${numEraSlides} slides x ${eraSlideDuration.toFixed(2)}s = ${remainingEraDuration.toFixed(2)}s`);
   console.log(`       - Slideshow Ends at: ${slideshowContentDuration.toFixed(2)}s (Narration: ${voiceDuration.toFixed(2)}s)`);
-  console.log(`       - Outro Duration: ${outroTotalDuration.toFixed(2)}s`);
+  console.log(`       - Outro Duration: ${OUTRO_DURATION.toFixed(2)}s`);
   console.log(`       - Total Reel Duration: ${totalDuration.toFixed(2)}s`);
 
-  // 4. Subtitles (Only during narration, middle-centered)
+  // 4. Subtitles (Middle-centered with smooth fade-in bloom)
   const localAssPath = path.join(process.cwd(), 'current_subs.ass');
-  createSubtitlesAss(boundaries, rawComment, narration, voiceDuration, localAssPath);
+  createSubtitlesAss(boundaries, rawComment, narration, voiceDuration, outroStartTime, totalDuration, localAssPath);
 
   // 5. Collect Collage Image
   let collagePath = post.image_path ? path.resolve(ROOT_DIR, post.image_path) : '';
@@ -426,9 +370,7 @@ async function buildReel(post, index = 1) {
   // 7. Compose Slide Inputs:
   // Slide 0: Collage (3.5s)
   // Slides 1..numEraSlides: Era photos (eraSlideDuration each)
-  // Slide Outro A: Black screen (OUTRO_BLACK_DUR)
-  // Slide Outro B: Logo Only (OUTRO_LOGO_DUR)
-  // Slide Outro C: Full Outro Card with Logo + Google Fonts text (OUTRO_FULL_DUR)
+  // Slide Outro: Single unified animated end screen (2.8s)
   const inputs = [];
   let filterComplex = '';
 
@@ -448,22 +390,19 @@ async function buildReel(post, index = 1) {
                      `[bg${idx}][fg${idx}]overlay=(W-w)/2:(H-h)/2-40,setsar=1[slide${idx}];`;
   }
 
-  // Outro Inputs
-  const outroBlackIdx = numEraSlides + 1;
+  // Single Outro Screen Inputs
+  const outroBgIdx = numEraSlides + 1;
   const outroLogoIdx = numEraSlides + 2;
-  const outroFullIdx = numEraSlides + 3;
 
-  inputs.push(`-f lavfi -t ${OUTRO_BLACK_DUR.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
-  filterComplex += `[${outroBlackIdx}:v]setsar=1[slide${outroBlackIdx}];`;
+  inputs.push(`-f lavfi -t ${OUTRO_DURATION.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
+  inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
 
-  inputs.push(`-loop 1 -t ${OUTRO_LOGO_DUR.toFixed(2)} -i "${logoOnlyCardPath}"`);
-  filterComplex += `[${outroLogoIdx}:v]scale=1080:1920,setsar=1[slide${outroLogoIdx}];`;
+  // Animate logo popping in smoothly with cubic easing on the single black end screen
+  filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 280*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 280*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
+                   `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide${outroBgIdx}];`;
 
-  inputs.push(`-loop 1 -t ${OUTRO_FULL_DUR.toFixed(2)} -i "${fullCardPath}"`);
-  filterComplex += `[${outroFullIdx}:v]scale=1080:1920,setsar=1[slide${outroFullIdx}];`;
-
-  // Concatenate Slides (Slideshow + Outro)
-  const totalSlidesCount = outroFullIdx + 1;
+  // Concatenate Slides (Slideshow + Single Outro Screen)
+  const totalSlidesCount = outroBgIdx + 1;
   const concatInputs = [];
   for (let s = 0; s < totalSlidesCount; s++) {
     concatInputs.push(`[slide${s}]`);
@@ -471,19 +410,19 @@ async function buildReel(post, index = 1) {
   filterComplex += `${concatInputs.join('')}concat=n=${totalSlidesCount}:v=1:a=0[vbase];` +
                    `[vbase]ass=current_subs.ass[vout];`;
 
-  // Audio Inputs: Voiceover + Solo Piano BGM
-  const voiceInputIndex = totalSlidesCount;
-  const bgmInputIndex = totalSlidesCount + 1;
+  // Audio Inputs: Voiceover + Gentle Solo Piano BGM
+  const voiceInputIndex = outroLogoIdx + 1;
+  const bgmInputIndex = outroLogoIdx + 2;
   inputs.push(`-i "${voicePath}"`);
   inputs.push(`-stream_loop -1 -i "${BGM_PATH}"`);
 
   // Audio Filters:
   // - Voiceover boosted by 80% (volume=1.8)
-  // - Gentle solo piano BGM set to subtle 18% level (volume=0.18)
+  // - Gentle solo piano BGM set to 25% (+7% increase from 18%)
   // - Smooth fade out at the end of the video
   const fadeOutStart = Math.max(0, totalDuration - 0.7).toFixed(2);
-  filterComplex += `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${outroTotalDuration + 1}[v_boosted];` +
-                   `[${bgmInputIndex}:a]volume=0.18[b_gentle];` +
+  filterComplex += `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${OUTRO_DURATION + 1}[v_boosted];` +
+                   `[${bgmInputIndex}:a]volume=0.25[b_gentle];` +
                    `[v_boosted][b_gentle]amix=inputs=2:duration=first:dropout_transition=2[amixed];` +
                    `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
 
