@@ -248,8 +248,8 @@ Slots 1 to 6 are PRIMARY celebrities (is_backup: false). Slots 7 and 8 are HOT S
 
 For each of the eight celebrities, construct the complete viral package:
 
-1. celebrity_name, birth_year, age, gender, country, and is_backup (false for #1-6, true for #7-8).
-   - Disambiguation Rule: Explicitly verify that the individual is the famous screen actor/filmmaker (e.g., canonical Wikipedia slug "Name (actor)" or verified TMDb Person entity) to strictly prevent confusing them with athletes, politicians, authors, or namesakes sharing the same name.
+1. celebrity_name, birth_date (format: YYYY-MM-DD), birth_year, age, gender, country, and is_backup (false for #1-6, true for #7-8).
+   - Disambiguation & Verification: Provide their exact birth_date (YYYY-MM-DD) and primary Hollywood profession. The GitHub automation engine uses this birth_date to cross-reference TMDb and Wikipedia APIs with 100% mathematical namesake protection.
 
 2. teaser_card:
    - line1: Context setup / humble origin (max 4-5 words)
@@ -260,12 +260,7 @@ For each of the eight celebrities, construct the complete viral package:
    - cta_text: 'Read the full story in caption →'
    - Strict Style: Use visceral zero-to-hero contrast (e.g., bowling alley to Superman, food stamps to billionaire). Strictly ban abstract words like "typecasting" or "industry trajectory".
 
-3. photo_urls: EXACTLY 5 verified SOLO portrait photographs following the Dual-Source Protocol:
-   - Primary Source: TMDb CDN (https://image.tmdb.org/t/p/original/...). Select verified solo promotional portraits from their profile gallery.
-   - Secondary Source: Wikimedia Commons uncompressed binary streams (https://upload.wikimedia.org/...).
-   - Single Person Solo Verification: Every photo must feature ONLY the celebrity alone—strictly ZERO co-stars, cast panels, crowd scenes, or movie posters. Reject any file with words like "with", "cast", "and", or "group".
-   - 5 Distinct Appearances: Provide 5 different images from different events, premieres, or career eras. Strictly ZERO duplicate photos or different thumbnail resolutions (never use 250px and 500px versions of the same photo).
-   - Mandatory URL Protocol: Every URL must be a direct uncompressed binary stream ending in .jpg, .jpeg, or .png. STRICTLY NEVER thumb.wikimedia.org, and STRICTLY NEVER HTML viewer pages (e.g. commons.wikimedia.org/wiki/File:...).
+3. photo_urls: Provide 2 to 3 high-resolution Wikimedia Commons URLs (upload.wikimedia.org) as secondary archival/backup images. The GitHub bot automatically queries TMDb API to source primary 4K studio-lit solo portraits matched against their birth_date.
 
 4. caption (For Photo Collage Post):
    - 8-beat viral biographical narrative.
