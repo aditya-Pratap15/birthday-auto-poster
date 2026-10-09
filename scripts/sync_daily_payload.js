@@ -128,11 +128,26 @@ function normalizePayload(raw) {
   }
   if (selectedCelebs.length === 0) selectedCelebs = celebs.slice(0, 6);
 
+  // Read existing posts if available to preserve already scheduled IDs
+  const existingMap = {};
+  if (fs.existsSync(TODAY_POSTS_PATH)) {
+    try {
+      const existingData = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, 'utf8'));
+      if (existingData && existingData.posts) {
+        for (const ep of existingData.posts) {
+          if (ep.celebrity_name) existingMap[ep.celebrity_name.toLowerCase()] = ep;
+          if (ep.id) existingMap[ep.id] = ep;
+        }
+      }
+    } catch (e) {}
+  }
+
   selectedCelebs.forEach((c, idx) => {
     const celebName = c.celebrity_name || c.name || `Celebrity_${idx + 1}`;
     const cleanSlug = celebName.replace(/[^a-zA-Z0-9_]/g, '_');
     const pageCfg = pageConfigs[idx % pageConfigs.length];
     const schedInfo = getScheduledPeakTime(dateStr, idx);
+    const existing = existingMap[celebName.toLowerCase()] || existingMap[`${dateStr}_${String(idx + 1).padStart(2, '0')}_${cleanSlug}`];
 
     const rawTeaser = c.teaser_card || c.teaserCard || {};
     const teaserCard = {
@@ -153,7 +168,7 @@ function normalizePayload(raw) {
       ctaText: rawTeaser.cta_text || rawTeaser.ctaText || 'Read the full story in caption →'
     };
 
-    posts.push({
+    const postObj = {
       id: `${dateStr}_${String(idx + 1).padStart(2, '0')}_${cleanSlug}`,
       celebrity_name: celebName,
       birth_year: c.birth_year || (c.birth_date ? parseInt(c.birth_date.split('-')[0]) : 1975),
@@ -168,14 +183,25 @@ function normalizePayload(raw) {
       reel_script: c.reel_script || '',
       reel_caption: c.reel_caption || '',
       hashtags: c.hashtags || `#${celebName.replace(/\s+/g, '')} #BornToday #${dateStr}`,
-      image_path: `collages/${cleanSlug}_Page_${idx + 1}_Tribute.jpg`,
+      image_path: (existing && existing.image_path) || `collages/${cleanSlug}_Page_${idx + 1}_Tribute.jpg`,
       scheduled_publish_time: c.scheduled_publish_time || c.unix_timestamp || schedInfo.timestamp,
       scheduled_time_utc: c.scheduled_time_utc || schedInfo.iso,
       peak_window: schedInfo.label,
       page_name: pageCfg.page_name,
       page_id_env: pageCfg.page_id_env,
       token_env: pageCfg.token_env
-    });
+    };
+
+    if (existing) {
+      if (existing.fb_post_id) postObj.fb_post_id = existing.fb_post_id;
+      if (existing.fb_post_url) postObj.fb_post_url = existing.fb_post_url;
+      if (existing.fb_comment_id) postObj.fb_comment_id = existing.fb_comment_id;
+      if (existing.fb_reel_id) postObj.fb_reel_id = existing.fb_reel_id;
+      if (existing.fb_reel_scheduled_time) postObj.fb_reel_scheduled_time = existing.fb_reel_scheduled_time;
+      if (existing.reel_path) postObj.reel_path = existing.reel_path;
+    }
+
+    posts.push(postObj);
   });
 
   return {

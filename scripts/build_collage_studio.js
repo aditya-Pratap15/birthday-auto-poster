@@ -85,9 +85,10 @@ function fetchJson(url) {
   });
 }
 
-function downloadAsDataUri(url) {
+function downloadAsDataUri(url, maxRedirects = 5) {
   if (!url || typeof url !== 'string') return Promise.resolve(null);
   url = url.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
+  url = url.replace('https://media.themoviedb.org/', 'https://image.tmdb.org/');
   if (url.includes('commons.wikimedia.org/wiki/File:')) return Promise.resolve(null);
   if (url.startsWith('data:image')) return Promise.resolve(url);
 
@@ -109,8 +110,18 @@ function downloadAsDataUri(url) {
 
   return new Promise((resolve) => {
     try {
-      const headers = { 'User-Agent': 'BornTodayHollywoodBot/1.0 (contact@borntoday.com)' };
-      https.get(url, { headers, timeout: 9000 }, (res) => {
+      const parsed = new URL(url);
+      const client = parsed.protocol === 'http:' ? http : https;
+      const headers = { 
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 BornTodayHollywoodBot/1.0',
+        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+      };
+
+      const req = client.get(url, { headers, timeout: 12000 }, (res) => {
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
+          const redirectUrl = new URL(res.headers.location, url).toString();
+          return resolve(downloadAsDataUri(redirectUrl, maxRedirects - 1));
+        }
         if (res.statusCode !== 200) {
           resolve(null);
           return;
@@ -126,7 +137,9 @@ function downloadAsDataUri(url) {
           const mime = res.headers['content-type'] || 'image/jpeg';
           resolve(`data:${mime};base64,${buf.toString('base64')}`);
         });
-      }).on('error', () => resolve(null));
+      });
+      req.on('timeout', () => { req.destroy(); resolve(null); });
+      req.on('error', () => resolve(null));
     } catch (e) {
       resolve(null);
     }
@@ -431,6 +444,11 @@ async function main() {
         heroItem ? heroItem.dataUri : null,
         ...selectedMilestones.slice(0, 4).map(m => m.dataUri)
       ];
+    }
+
+    // Safeguard: Ensure all 5 canvas slots are populated
+    while (finalFramePhotos.length < 5 && finalFramePhotos.length > 0) {
+      finalFramePhotos.push(finalFramePhotos[0]);
     }
 
     console.log(`    [✓] Assigned 5 Frame Photos:`);

@@ -22,6 +22,8 @@
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
+const http = require('http');
+const { URL } = require('url');
 const { execSync } = require('child_process');
 const puppeteer = require('puppeteer');
 const { EdgeTTS, Constants } = require('@andresaya/edge-tts');
@@ -37,30 +39,45 @@ const PAGE_LOGO_PATH = path.join(ROOT_DIR, 'page_logo.png');
 if (!fs.existsSync(REELS_DIR)) fs.mkdirSync(REELS_DIR, { recursive: true });
 if (!fs.existsSync(TEMP_DIR)) fs.mkdirSync(TEMP_DIR, { recursive: true });
 
-function downloadFile(url, destPath, retries = 2) {
+function downloadFile(url, destPath, retries = 2, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
-    const req = https.get(url, {
-      headers: {
-        'User-Agent': 'BornTodayHollywoodBot/1.0 (contact@borntoday.com)'
-      }
-    }, res => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return resolve(downloadFile(res.headers.location, destPath, retries));
-      }
-      if (res.statusCode === 429 && retries > 0) {
-        setTimeout(() => {
-          resolve(downloadFile(url, destPath, retries - 1));
-        }, 1500);
-        return;
-      }
-      if (res.statusCode !== 200) {
-        return reject(new Error(`Failed to download ${url}: HTTP ${res.statusCode}`));
-      }
-      const stream = fs.createWriteStream(destPath);
-      res.pipe(stream);
-      stream.on('finish', () => stream.close(resolve));
-    });
-    req.on('error', reject);
+    try {
+      url = url.replace('https://media.themoviedb.org/', 'https://image.tmdb.org/');
+      url = url.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
+      const parsed = new URL(url);
+      const client = parsed.protocol === 'http:' ? http : https;
+      const headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 BornTodayHollywoodBot/1.0',
+        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+      };
+
+      const req = client.get(url, { headers, timeout: 15000 }, res => {
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
+          const redirectUrl = new URL(res.headers.location, url).toString();
+          return resolve(downloadFile(redirectUrl, destPath, retries, maxRedirects - 1));
+        }
+        if (res.statusCode === 429 && retries > 0) {
+          setTimeout(() => {
+            resolve(downloadFile(url, destPath, retries - 1, maxRedirects));
+          }, 1500);
+          return;
+        }
+        if (res.statusCode !== 200) {
+          return reject(new Error(`Failed to download ${url}: HTTP ${res.statusCode}`));
+        }
+        const stream = fs.createWriteStream(destPath);
+        res.pipe(stream);
+        stream.on('finish', () => stream.close(resolve));
+        stream.on('error', (err) => {
+          try { fs.unlinkSync(destPath); } catch (e) {}
+          reject(err);
+        });
+      });
+      req.on('timeout', () => { req.destroy(); reject(new Error(`Timeout downloading ${url}`)); });
+      req.on('error', reject);
+    } catch (err) {
+      reject(err);
+    }
   });
 }
 
