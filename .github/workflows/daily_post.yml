@@ -27,6 +27,9 @@ jobs:
       - name: Install Node Dependencies
         run: npm install
 
+      - name: Install FFmpeg & Multimedia Dependencies
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
       - name: Sync Incoming Daily Celebrity Payload
         env:
           DISPATCH_PAYLOAD: ${{ toJson(github.event.client_payload) }}

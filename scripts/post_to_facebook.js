@@ -13,8 +13,8 @@ const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 
 // Verified permanent Page Token for Born Today Hollywood (1345901645276194)
 const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSql9xBKvNrgTuOJeF8DdoxvYRtR5cgAl3oYmT5inokVO1JuoszNEk6JbmuqRXi7hQewVldkZA4M9OZBxe7gWFJO54krImBriXuqP7VxYuoT9nFLZA7Oo7U2BkkLcm1mNuD3tMXVD4DkcFakI1jz6bxlQiSlhJQsWZC2icgVWsGGAOImEsOYVNSlc';
-const DEFAULT_PAGE_ID = process.env.FB_PAGE_ID_BORN || process.env.FB_PAGE_ID || '1345901645276194';
-const DEFAULT_TOKEN = VERIFIED_TOKEN || process.env.FB_TOKEN_BORN;
+const DEFAULT_PAGE_ID = (process.env.FB_PAGE_ID_BORN || process.env.FB_PAGE_ID || '1345901645276194').trim();
+const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || VERIFIED_TOKEN).trim();
 
 function formatFacebookUnicodeBold(text) {
   if (!text || typeof text !== 'string') return '';
@@ -30,61 +30,71 @@ function formatFacebookUnicodeBold(text) {
 }
 
 function postMultipartPhoto(pageId, token, caption, imagePath, scheduledPublishTime = null) {
-  return new Promise((resolve, reject) => {
-    const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
-    const imgBuf = fs.readFileSync(imagePath);
-    const filename = path.basename(imagePath);
+  return new Promise((resolve) => {
+    try {
+      pageId = String(pageId || DEFAULT_PAGE_ID).trim();
+      token = String(token || DEFAULT_TOKEN).trim();
 
-    let body = '';
-    const addField = (name, val) => {
-      body += `--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${val}\r\n`;
-    };
+      const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+      const imgBuf = fs.readFileSync(imagePath);
+      const filename = path.basename(imagePath);
 
-    addField('access_token', token);
-    addField('message', caption);
+      let body = '';
+      const addField = (name, val) => {
+        body += `--${boundary}\r\nContent-Disposition: form-data; name="${name}"\r\n\r\n${val}\r\n`;
+      };
 
-    const nowTs = Math.floor(Date.now() / 1000);
-    // Facebook requires scheduled posts to be at least 10 minutes (600s) in the future
-    if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
-      addField('published', 'false');
-      addField('scheduled_publish_time', String(scheduledPublishTime));
-    } else {
-      addField('published', 'true');
-    }
+      addField('access_token', token);
+      addField('message', caption);
 
-    const header = Buffer.from(body + `--${boundary}\r\nContent-Disposition: form-data; name="source"; filename="${filename}"\r\nContent-Type: image/jpeg\r\n\r\n`);
-    const footer = Buffer.from(`\r\n--${boundary}--\r\n`);
-    const payload = Buffer.concat([header, imgBuf, footer]);
-
-    const req = https.request({
-      hostname: 'graph.facebook.com',
-      port: 443,
-      path: `/v26.0/${pageId}/photos`,
-      method: 'POST',
-      headers: {
-        'Content-Type': `multipart/form-data; boundary=${boundary}`,
-        'Content-Length': payload.length
+      const nowTs = Math.floor(Date.now() / 1000);
+      // Facebook requires scheduled posts to be at least 10 minutes (600s) in the future
+      if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
+        addField('published', 'false');
+        addField('scheduled_publish_time', String(scheduledPublishTime));
+      } else {
+        addField('published', 'true');
       }
-    }, res => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try {
-          resolve({ status: res.statusCode, body: JSON.parse(data) });
-        } catch (e) {
-          resolve({ status: res.statusCode, body: data });
-        }
-      });
-    });
 
-    req.on('error', reject);
-    req.write(payload);
-    req.end();
+      const header = Buffer.from(body + `--${boundary}\r\nContent-Disposition: form-data; name="source"; filename="${filename}"\r\nContent-Type: image/jpeg\r\n\r\n`);
+      const footer = Buffer.from(`\r\n--${boundary}--\r\n`);
+      const payload = Buffer.concat([header, imgBuf, footer]);
+
+      const req = https.request({
+        hostname: 'graph.facebook.com',
+        port: 443,
+        path: `/v26.0/${pageId}/photos`,
+        method: 'POST',
+        headers: {
+          'Content-Type': `multipart/form-data; boundary=${boundary}`,
+          'Content-Length': payload.length
+        }
+      }, res => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          try {
+            resolve({ status: res.statusCode, body: JSON.parse(data) });
+          } catch (e) {
+            resolve({ status: res.statusCode, body: data });
+          }
+        });
+      });
+
+      req.on('error', err => resolve({ status: 500, error: err.message }));
+      req.write(payload);
+      req.end();
+    } catch (e) {
+      resolve({ status: 500, error: e.message });
+    }
   });
 }
 
 function postComment(targetId, token, commentText) {
   return new Promise((resolve) => {
+    targetId = String(targetId).trim();
+    token = String(token || DEFAULT_TOKEN).trim();
+
     const postData = new URLSearchParams({
       access_token: token,
       message: commentText
@@ -120,6 +130,9 @@ function postComment(targetId, token, commentText) {
 function postFacebookReel(pageId, token, description, videoPath, scheduledPublishTime = null) {
   return new Promise(async (resolve) => {
     try {
+      pageId = String(pageId || DEFAULT_PAGE_ID).trim();
+      token = String(token || DEFAULT_TOKEN).trim();
+
       if (!fs.existsSync(videoPath)) {
         return resolve({ status: 404, error: `Reel video file not found: ${videoPath}` });
       }
