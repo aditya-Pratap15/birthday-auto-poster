@@ -30,18 +30,43 @@ function fetchJsonWithRetry(url, retries = 3) {
   });
 }
 
-async function fetchTMDbSoloPhotos(celebName) {
+async function fetchTMDbSoloPhotos(celebName, birthDate = null) {
   if (!TMDB_API_KEY) return [];
   try {
     const searchUrl = `https://api.themoviedb.org/3/search/person?query=${encodeURIComponent(celebName)}&api_key=${TMDB_API_KEY}`;
     const searchRes = await fetchJsonWithRetry(searchUrl);
     if (!searchRes?.results || searchRes.results.length === 0) return [];
 
-    const person = searchRes.results.find(p => p.known_for_department === 'Acting' || p.known_for_department === 'Directing') || searchRes.results[0];
-    if (!person || !person.id) return [];
+    let targetPerson = null;
+    const monthDay = birthDate ? (birthDate.length === 10 ? birthDate.substring(5) : birthDate) : null;
 
-    await new Promise(r => setTimeout(r, 250));
-    const imgUrl = `https://api.themoviedb.org/3/person/${person.id}/images?api_key=${TMDB_API_KEY}`;
+    // Filter by Hollywood profession
+    const candidates = searchRes.results.filter(p => 
+      p.known_for_department === 'Acting' || p.known_for_department === 'Directing'
+    );
+    const pool = candidates.length > 0 ? candidates : searchRes.results;
+
+    // Verify by birthday MM-DD
+    if (monthDay) {
+      for (const p of pool.slice(0, 3)) {
+        await new Promise(r => setTimeout(r, 200));
+        const detail = await fetchJsonWithRetry(`https://api.themoviedb.org/3/person/${p.id}?api_key=${TMDB_API_KEY}`);
+        if (detail?.birthday && detail.birthday.endsWith(monthDay)) {
+          targetPerson = p;
+          console.log(`    🎯 [TMDb Match] 100% Verified ${celebName} by birthday: ${detail.birthday} (ID: ${p.id})`);
+          break;
+        }
+      }
+    }
+
+    if (!targetPerson) {
+      targetPerson = pool[0];
+    }
+
+    if (!targetPerson || !targetPerson.id) return [];
+
+    await new Promise(r => setTimeout(r, 200));
+    const imgUrl = `https://api.themoviedb.org/3/person/${targetPerson.id}/images?api_key=${TMDB_API_KEY}`;
     const imgRes = await fetchJsonWithRetry(imgUrl);
     if (!imgRes?.profiles || imgRes.profiles.length === 0) return [];
 
@@ -186,8 +211,9 @@ async function normalizePayload(raw) {
     const schedInfo = getScheduledPeakTime(dateStr, idx);
     const existing = existingMap[celebName.toLowerCase()] || existingMap[`${dateStr}_${String(idx + 1).padStart(2, '0')}_${cleanSlug}`];
 
-    // 1. Fetch TMDb Studio Portraits
-    const tmdbPhotos = await fetchTMDbSoloPhotos(celebName);
+    // 1. Fetch TMDb Studio Portraits with 3-point verification (Name + Date + Profession)
+    const birthDateStr = c.birth_date || (c.birth_year ? `${c.birth_year}-${dateStr.substring(5)}` : dateStr.substring(5));
+    const tmdbPhotos = await fetchTMDbSoloPhotos(celebName, birthDateStr);
     let finalPhotos = [...tmdbPhotos];
 
     // 2. Supplement up to 5 photos using incoming Wikimedia URLs
