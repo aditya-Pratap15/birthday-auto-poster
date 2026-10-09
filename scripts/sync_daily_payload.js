@@ -114,7 +114,21 @@ function normalizePayload(raw) {
     };
   }
 
-  celebs.forEach((c, idx) => {
+  // Hot Standby Failover Pool Handling:
+  // If celebrities array contains 8 items (or backups marked with is_backup), select the 6 active celebrities
+  let selectedCelebs = [];
+  const primaryCelebs = celebs.filter(c => !c.is_backup);
+  const backupCelebs = celebs.filter(c => c.is_backup);
+
+  selectedCelebs = primaryCelebs.slice(0, 6);
+  if (selectedCelebs.length < 6 && backupCelebs.length > 0) {
+    const needed = 6 - selectedCelebs.length;
+    console.log(`[i] Promoting ${needed} standby backup celebrity(ies) into active schedule.`);
+    selectedCelebs.push(...backupCelebs.slice(0, needed));
+  }
+  if (selectedCelebs.length === 0) selectedCelebs = celebs.slice(0, 6);
+
+  selectedCelebs.forEach((c, idx) => {
     const celebName = c.celebrity_name || c.name || `Celebrity_${idx + 1}`;
     const cleanSlug = celebName.replace(/[^a-zA-Z0-9_]/g, '_');
     const pageCfg = pageConfigs[idx % pageConfigs.length];
@@ -151,6 +165,8 @@ function normalizePayload(raw) {
       photo_urls: c.photo_urls || c.photos || [],
       caption: c.caption || '',
       comment: c.comment || '',
+      reel_script: c.reel_script || '',
+      reel_caption: c.reel_caption || '',
       hashtags: c.hashtags || `#${celebName.replace(/\s+/g, '')} #BornToday #${dateStr}`,
       image_path: `collages/${cleanSlug}_Page_${idx + 1}_Tribute.jpg`,
       scheduled_publish_time: c.scheduled_publish_time || c.unix_timestamp || schedInfo.timestamp,

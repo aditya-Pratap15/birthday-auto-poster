@@ -374,7 +374,11 @@ async function main() {
         console.log(`[🎬] Publishing REEL LIVE right now for: ${celebName}...`);
       }
 
-      const reelCaption = formatFacebookUnicodeBold(`${post.caption}\n\n${post.hashtags}`);
+      let reelCaptionText = post.reel_caption;
+      if (!reelCaptionText) {
+        reelCaptionText = `${post.celebrity_name} turns ${post.age} today! 🎬 What is your favorite movie or role of theirs? 👇\n\n${(post.hashtags || []).join(' ')}`;
+      }
+      const reelCaption = formatFacebookUnicodeBold(reelCaptionText);
       const reelRes = await postFacebookReel(DEFAULT_PAGE_ID, DEFAULT_TOKEN, reelCaption, reelPath, reelSchedTs);
 
       if (reelRes.status === 200 && reelRes.video_id) {

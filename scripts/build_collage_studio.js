@@ -416,11 +416,22 @@ async function main() {
       }
     }
 
-    // 7. Assemble 5 Frame Photos: Frame 0 (Hero), Frames 1-4 (Chronological Milestones)
-    const finalFramePhotos = [
-      heroItem ? heroItem.dataUri : null,
-      ...selectedMilestones.slice(0, 4).map(m => m.dataUri)
-    ];
+    // 7. Assemble 5 Frame Photos: Prioritize incoming verified photo_urls for 100% sync with reel
+    let finalFramePhotos = [];
+    if (rawPhotoUrls && rawPhotoUrls.length >= 3) {
+      console.log(`    🎯 Synchronizing collage with verified payload photo_urls...`);
+      for (const u of rawPhotoUrls.slice(0, 5)) {
+        const dUri = await downloadAsDataUri(u);
+        if (dUri) finalFramePhotos.push(dUri);
+      }
+    }
+
+    if (finalFramePhotos.length < 3) {
+      finalFramePhotos = [
+        heroItem ? heroItem.dataUri : null,
+        ...selectedMilestones.slice(0, 4).map(m => m.dataUri)
+      ];
+    }
 
     console.log(`    [✓] Assigned 5 Frame Photos:`);
     console.log(`        - Frame 0 (Hero): ${heroItem?.title || 'Main'} [Year: ${heroItem?.year || 'N/A'}]`);

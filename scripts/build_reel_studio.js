@@ -325,7 +325,7 @@ async function buildReel(post, index = 1) {
   console.log(`🎬 CREATING VERTICAL REEL: ${celebName}`);
   console.log(`======================================================`);
 
-  const rawComment = post.comment || post.caption || '';
+  const rawComment = post.reel_script || post.comment || post.caption || '';
   const narration = cleanMarkdown(rawComment);
 
   const voicePath = path.join(TEMP_DIR, `${safeName}_voice.mp3`);
