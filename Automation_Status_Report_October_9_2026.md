@@ -299,11 +299,17 @@ Compile all eight packages into a single valid JSON payload with fields 'date', 
 ## 13. System Verification & Status Summary
 
 - [x] **Runner Dependencies:** FFmpeg & FFprobe auto-installed on GitHub runner (`daily_post.yml`)
-- [x] **Secret Sanitization:** All environment variables trimmed in `post_to_facebook.js`
+- [x] **Secret Sanitization:** All environment variables trimmed with `.trim()` in `post_to_facebook.js`
 - [x] **Meta Planner Schedule:** All 6 celebrities confirmed live for October 9 (+40m offset)
 - [x] **Collage & Reel Image Sync:** `build_collage_studio.js` synchronized with `build_reel_studio.js`
+- [x] **Resilient Downloader (Tested & Verified):**
+  - Follows HTTP 301/302 redirects automatically (e.g. `media.themoviedb.org` ➔ `image.tmdb.org`)
+  - Switches dynamically between HTTP and HTTPS
+  - Tested with raw TMDb 4K portraits (209 KB) and Wikimedia raw binaries (13.1 MB) with 100% pass rate
+- [x] **Blank Frame Safeguard:** Canvas frames in `build_collage_studio.js` auto-padded so all 5 slots are populated even if fewer images exist
 - [x] **Reel Voiceover Engine:** `build_reel_studio.js` supports dedicated 30s `reel_script`
 - [x] **Reel Caption Engine:** `post_to_facebook.js` supports mobile-optimized `reel_caption`
 - [x] **Hot Standby Engine:** `sync_daily_payload.js` supports 8-celebrity pool with auto-promotion
-- [x] **TMDb CDN Protocol:** Direct `image.tmdb.org` links verified (tested with Jacob Batalon)
+- [x] **Schedule State Preservation:** `sync_daily_payload.js` preserves existing Facebook IDs on refresh, preventing duplicate post attempts
 - [x] **Gemini Master Prompt:** Finalized and ready to copy in Section 12
+- [x] **GitHub main Branch:** Synchronized and pushed (commits `c56ac79`, `bbb7aa1`, `08effe3`)
