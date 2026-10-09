@@ -28,14 +28,16 @@
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://upload.wikimedia.org/wikipedia/commons/3/3e/Guillermo_del_Toro_at_the_2026_Sundance_Film_Festival_01_%28cropped%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Guillermo_del_Toro_in_2017.jpg/250px-Guillermo_del_Toro_in_2017.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Guillermo_del_Toro_by_Gage_Skidmore_2b.jpg/250px-Guillermo_del_Toro_by_Gage_Skidmore_2b.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Guillermo_del_Toro_in_2017.jpg/500px-Guillermo_del_Toro_in_2017.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/e/e5/Guillermo_del_Toro_at_the_2026_Sundance_Film_Festival_01.jpg"
+        "https://image.tmdb.org/t/p/original/cWvt8FdPAH0j3QtLzAN1j7ZJJrr.jpg",
+        "https://image.tmdb.org/t/p/original/gldeyCtKcaqnK1v4Vu9vqayhzUQ.jpg",
+        "https://image.tmdb.org/t/p/original/wpnPWMRasECq6DxtZjSVTZNeGja.jpg",
+        "https://image.tmdb.org/t/p/original/yZeTEOfPYFlVV1hvZJmrJkv4Oqc.jpg",
+        "https://image.tmdb.org/t/p/original/q6IiOcTaaQN554kysBDt8VfPtRp.jpg"
       ],
       "caption": "**When his father was violently kidnapped and held for ransom in Guadalajara, he was forced into exile with empty pockets, pouring his grief and horror into dark fairy tales that studio heads swore would never sell...**\n\nBorn October 9, 1964 in Guadalajara, Mexico, today Guillermo del Toro Gómez turns **62**, reigning as cinema's foremost dark poet of the fantastic. Raised by a deeply religious grandmother who attempted to exorcise him for his love of monsters, young Guillermo saw beauty where others saw terrifying nightmares.\n\nThen came the devastating crisis. In 1997, criminal gangs kidnapped his father, holding him hostage for 72 agonizing days until fellow filmmaker James Cameron helped pay the ransom. Exiled from Mexico in terror, Guillermo arrived in Hollywood penniless and traumatized.\n\nWhile Hollywood executives demanded clean CGI blockbusters and pretty superhero tropes, Guillermo trusted an unorthodox instinct: handcrafted practical prosthetics, gothic empathy, and treating monsters not as evil villains, but as sacred outcasts.\n\nIn 2006, *Pan's Labyrinth* mesmerized world cinema, earning three Academy Awards. A decade later, his masterpiece *The Shape of Water* made history by winning the Academy Award for Best Picture and Best Director, followed by his Oscar-winning reinvention of *Pinocchio*.\n\nWhat the world didn't see was his private museum of shadows. For decades, Guillermo maintained 'Bleak House,' two California residences packed with 10,000 monster relics and occult libraries, functioning as both his creative haven and spiritual fortress.\n\nAt 62, Guillermo del Toro stands tall as the patron saint of Hollywood misfits. He transformed personal terror into cinematic immortality because he believed the purest humanity hides inside our monsters.\n\n**Which Guillermo del Toro masterpiece captures your imagination the most: Pan's Labyrinth, The Shape of Water, or Hellboy? Drop it below! 👇**",
       "comment": "**The secret behind Guillermo del Toro's Bleak House that studios tried to downplay...**\n\n1. When his father was kidnapped in 1998, James Cameron personally withdrew $1 million in cash to negotiate the release.\n2. To make *Pan's Labyrinth*, Guillermo surrendered his entire director salary to fund the physical animatronic effects.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "",
+      "reel_caption": "",
       "hashtags": "#GuillermoDelToro #BornToday #October9 #PansLabyrinth #TheShapeOfWater #CinemaLegend #OscarWinner #HorrorCommunity",
       "image_path": "collages/Guillermo_del_Toro_Page_1_Tribute.jpg",
       "scheduled_publish_time": 1791547200,
@@ -46,9 +48,9 @@
       "token_env": "FB_TOKEN_BORN",
       "fb_post_id": "122097737817506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122097737817506930",
-      "reel_path": "reels/Guillermo_del_Toro_Reel.mp4",
       "fb_reel_id": "2540096309819329",
-      "fb_reel_scheduled_time": 1791549600
+      "fb_reel_scheduled_time": 1791549600,
+      "reel_path": "reels/Guillermo_del_Toro_Reel.mp4"
     },
     {
       "id": "2026-10-09_02_Brandon_Routh",
@@ -76,14 +78,18 @@
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Brandon_Routh_Photo_Op_GalaxyCon_Richmond_2026.jpg/250px-Brandon_Routh_Photo_Op_GalaxyCon_Richmond_2026.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Brandon_Routh_at_the_2024_Toronto_International_Film_Festival_%28cropped%29.jpg/250px-Brandon_Routh_at_the_2024_Toronto_International_Film_Festival_%28cropped%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/Brandon_Routh_by_Gage_Skidmore_2.jpg/250px-Brandon_Routh_by_Gage_Skidmore_2.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/7/7f/Brandon_Routh%2C_2008.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Brandon_Routh%2C_2008.jpg/500px-Brandon_Routh%2C_2008.jpg"
+        "https://image.tmdb.org/t/p/original/iPonANuyk3eOHjADqd4h9sBwvX1.jpg",
+        "https://image.tmdb.org/t/p/original/2zFklxQb78CEMCE9ogXqrgixYbb.jpg",
+        "https://image.tmdb.org/t/p/original/UUZj74doDUcFmBEGBQiACeAt9P.jpg",
+        "https://image.tmdb.org/t/p/original/q3ImSPdha2Ai85V7bTVsttswsyc.jpg",
+        "https://image.tmdb.org/t/p/original/wyitKn3jM1vyt30L8JCr64VpwH5.jpg",
+        "https://image.tmdb.org/t/p/original/qremUgEcrXZhE9bbvH8XM7NrW9Y.jpg",
+        "https://image.tmdb.org/t/p/original/6gXIQY8bwdsFjfdISJk0GzPpEjs.jpg"
       ],
       "caption": "**Working minimum-wage bartending and bowling-alley shifts in Hollywood, he walked into an open audition and was chosen from thousands to wear the most sacred superhero mantle in film history...**\n\nBorn October 9, 1979 in Norwalk, Iowa, today Brandon James Routh turns **47**, a beacon of classic Hollywood modesty and heroic charisma. Growing up in small-town Iowa playing trumpet and soccer, he dropped out of the University of Iowa to pursue acting with only a backpack and a beat-up car.\n\nThen came the crushing weight of expectation. Selected by Bryan Singer to step into Christopher Reeve's boots for *Superman Returns* (2006), Brandon was suddenly vaulted onto billboard towers in every country on Earth, scrutinized by millions of fiercely protective comic book fans.\n\nWhile critics debated the franchise's box-office trajectory, Brandon trusted an unorthodox instinct: sincere gentleness, timeless earnestness, and refusing to adopt cynical modern Hollywood anti-hero posturing.\n\nHe reinvented himself triumphantly. Starring as vegan bassist Todd Ingram in Edgar Wright's cult classic *Scott Pilgrim vs. the World*, he proved sensational comedic chops before anchoring the Arrowverse for six seasons as Ray Palmer (The Atom) in *Legends of Tomorrow*.\n\nWhat brought fans to tears was his triumphant 2019 return. Slipping back into the red cape for *Crisis on Infinite Earths* as the grieving Kingdom Come Superman, he brought unearned grace and emotional catharsis to millions of viewers worldwide.\n\nAt 47, Brandon Routh has proven that genuine kindness is not weakness. He navigated the brutal pressure of comic-book cinema and emerged as a beloved global hero.\n\n**Which Brandon Routh role is your favorite: Superman Returns, Ray Palmer in Legends of Tomorrow, or Todd Ingram in Scott Pilgrim? Comment below! 👇**",
       "comment": "**The secret behind Brandon Routh's Superman casting that executives kept hidden...**\n\n1. At his audition in a coffee shop with Bryan Singer, Brandon accidentally spilled water all over the table; Singer later admitted Brandon's Clark Kent-like clumsiness secured him the part.\n2. Before landing Superman, Brandon was working as a bartender at Hollywood's Lucky Strike bowling alley.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "",
+      "reel_caption": "",
       "hashtags": "#BrandonRouth #BornToday #October9 #Superman #SupermanReturns #LegendsOfTomorrow #ScottPilgrim #DCComics",
       "image_path": "collages/Brandon_Routh_Page_2_Tribute.jpg",
       "scheduled_publish_time": 1791556200,
@@ -92,11 +98,11 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Brandon_Routh_Reel.mp4",
       "fb_post_id": "122097741183506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122097741183506930",
       "fb_reel_id": "2664021974018353",
-      "fb_reel_scheduled_time": 1791558600
+      "fb_reel_scheduled_time": 1791558600,
+      "reel_path": "reels/Brandon_Routh_Reel.mp4"
     },
     {
       "id": "2026-10-09_03_Tony_Shalhoub",
@@ -124,14 +130,20 @@
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Tony_Shalhoub_at_Tribeca_Film_Festival_2026-3_%28cropped%29.jpg/250px-Tony_Shalhoub_at_Tribeca_Film_Festival_2026-3_%28cropped%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/b/be/Tony_Shalhoub_2017_%28cropped%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/c/cc/Tony_Shalhoub%2C_Traylor_Howard_%2867340455%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Tony_Shalhoub_2017_%28cropped%29.jpg/500px-Tony_Shalhoub_2017_%28cropped%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Tony_Shalhoub_at_Tribeca_Film_Festival_2026-3_%28cropped%29.jpg/500px-Tony_Shalhoub_at_Tribeca_Film_Festival_2026-3_%28cropped%29.jpg"
+        "https://image.tmdb.org/t/p/original/1zfBSuAmOr1xXjNg4WzFWPm5B0Z.jpg",
+        "https://image.tmdb.org/t/p/original/x4PM1IuZOBwCOf7MRWrfXUw4nXS.jpg",
+        "https://image.tmdb.org/t/p/original/8lWchDDDX2YMFselFJ6TuEdDZgr.jpg",
+        "https://image.tmdb.org/t/p/original/kZs90ACQ7IsC6Up58BpmM9ZEOLv.jpg",
+        "https://image.tmdb.org/t/p/original/orKAvXUQvYC2V7GaltYCQ0gWMft.jpg",
+        "https://image.tmdb.org/t/p/original/eZqVdqydqOSd4pHSNs6DYxmi9jM.jpg",
+        "https://image.tmdb.org/t/p/original/hkdigpZowVIujkakt9nBrvavcn6.jpg",
+        "https://image.tmdb.org/t/p/original/1LOfr36H1OFP5nsCD1ZQKu5QpXo.jpg",
+        "https://image.tmdb.org/t/p/original/wSeDyipwomNp06VHmCFR5UvUHG9.jpg"
       ],
       "caption": "**The ninth of ten children born to Lebanese immigrants in Wisconsin, he spent decades fighting crude Hollywood stereotypes before winning five Primetime Emmy Awards and creating one of TV's most iconic detectives...**\n\nBorn October 9, 1953 in Green Bay, Wisconsin, today Anthony Marc Shalhoub turns **73**, standing as one of the most decorated character actors in the history of stage and screen. Raised in a bustling immigrant home where his father peddled meat from a truck, Tony discovered community theater at age six.\n\nThen came the casting room grind. After graduating from the prestigious Yale School of Drama, Hollywood casting agents repeatedly pigeonholed him into stereotypical foreign cab drivers, terrorists, or nameless sidekicks, failing to recognize his virtuoso emotional range.\n\nWhile television in the early 2000s worshipped sleek, cynical procedural cops, Tony trusted an unorthodox instinct: profound vulnerability, eccentric compulsions, and touching humanity.\n\nIn 2002, *Monk* premiered. As the obsessive-compulsive detective Adrian Monk, Tony transformed a character defined by psychological pain and phobias into an international hero of empathy, sweeping three Primetime Emmy Awards for Lead Actor in a Comedy. He then conquered modern television again as the irascible Abe Weissman in *The Marvelous Mrs. Maisel*, earning another Emmy.\n\nWhat theater lovers revere was his Broadway triumph. In 2018, Tony won the Tony Award for Best Actor in a Musical for *The Band's Visit*, completing the triple crown of acting prestige.\n\nAt 73, Tony Shalhoub has proven that character actors are the beating soul of storytelling. He elevated eccentric outcasts into beloved family fixtures across the globe.\n\n**What is Tony Shalhoub's greatest role: Adrian Monk, Abe Weissman in Mrs. Maisel, or Tech Sgt. Chen in Galaxy Quest? Drop your choice below! 👇**",
       "comment": "**The secret behind Tony Shalhoub's Monk character that producers never anticipated...**\n\n1. Network executives initially feared an OCD detective would alienate mainstream audiences; Tony personally insisted on portraying Monk's condition as a tragic affliction born from grief rather than a cheap gag.\n2. In *Galaxy Quest*, his hilariously nonchalant alien-eating character was entirely improvised on the spot.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "",
+      "reel_caption": "",
       "hashtags": "#TonyShalhoub #BornToday #October9 #Monk #MrsMaisel #GalaxyQuest #EmmyWinner #TonyWinner #HollywoodLegend",
       "image_path": "collages/Tony_Shalhoub_Page_3_Tribute.jpg",
       "scheduled_publish_time": 1791565200,
@@ -140,11 +152,11 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Tony_Shalhoub_Reel.mp4",
       "fb_post_id": "122097742293506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122097742293506930",
       "fb_reel_id": "3255652084622991",
-      "fb_reel_scheduled_time": 1791567600
+      "fb_reel_scheduled_time": 1791567600,
+      "reel_path": "reels/Tony_Shalhoub_Reel.mp4"
     },
     {
       "id": "2026-10-09_04_Tyler_James_Williams",
@@ -172,14 +184,16 @@
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
+        "https://image.tmdb.org/t/p/original/iuPSybfJYExEgUfSmIdN540gdHp.jpg",
+        "https://image.tmdb.org/t/p/original/iLdc7u0Jpa2SEdTztuqZky7GZAY.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Tyler_James_Williams_at_Televerse_2026.jpg/250px-Tyler_James_Williams_at_Televerse_2026.jpg",
         "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Tyler_James_Williams_2012.jpg/250px-Tyler_James_Williams_2012.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Tyler_James_Williams_at_Televerse_2026.jpg/500px-Tyler_James_Williams_at_Televerse_2026.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Tyler_James_Williams_2012.jpg/500px-Tyler_James_Williams_2012.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/6/63/Tyler_James_Williams_at_Televerse_2026.jpg"
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Tyler_James_Williams_at_Televerse_2026.jpg/500px-Tyler_James_Williams_at_Televerse_2026.jpg"
       ],
       "caption": "**Carrying a primetime broadcast sitcom on his shoulders at just twelve years old, he navigated the treacherous curse of child stardom, survived a near-fatal internal illness, and emerged as television's sharpest leading man...**\n\nBorn October 9, 1992 in Westchester County, New York, today Tyler James Williams turns **34**, a rare child star who matured into an acclaimed powerhouse actor. The son of a NYPD police sergeant and a counselor, Tyler began working on *Sesame Street* and *Saturday Night Live* at four years old.\n\nThen came overnight fame. At age 12, Chris Rock handpicked him out of hundreds of child actors to star in *Everybody Hates Chris*. Working 14-hour days, Tyler bore the immense pressure of carrying a hit broadcast comedy before he even entered high school.\n\nWhile child stars often fade into obscurity, Tyler trusted an unorthodox instinct: taking complex, dark, and gritty adult roles in *Dear White People*, *Detroit*, and *The Walking Dead*.\n\nIn 2017, disaster struck in secret. Tyler collapsed with severe abdominal pain and was diagnosed with life-threatening Crohn's disease, requiring emergency surgery that removed six inches of his intestines, dropping him to 105 pounds and forcing him to fight for his life.\n\nRising from the hospital bed, Tyler staged the ultimate television comeback. In 2021, he debuted as Gregory Eddie on ABC's mega-hit *Abbott Elementary*, earning universal acclaim, four Emmy nominations, and the Golden Globe Award for Best Supporting Actor.\n\nAt 34, Tyler James Williams represents resilience, poise, and immense craftsmanship. He survived childhood stardom and chronic illness to conquer modern television on his own terms.\n\n**Which Tyler James Williams performance stands out most to you: Everybody Hates Chris, Noah in The Walking Dead, or Gregory in Abbott Elementary? Comment below! 👇**",
       "comment": "**The secret behind Tyler James Williams's Abbott Elementary casting that Quinta Brunson revealed...**\n\n1. Quinta Brunson wrote the role of Gregory Eddie specifically with Tyler in mind, refusing to audition any other actor for the pilot.\n2. When he fell critically ill with Crohn's disease in 2017, doctors warned him he was hours away from fatal sepsis.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "",
+      "reel_caption": "",
       "hashtags": "#TylerJamesWilliams #BornToday #October9 #AbbottElementary #EverybodyHatesChris #TheWalkingDead #GoldenGlobes",
       "image_path": "collages/Tyler_James_Williams_Page_4_Tribute.jpg",
       "scheduled_publish_time": 1791574200,
@@ -188,11 +202,11 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Tyler_James_Williams_Reel.mp4",
       "fb_post_id": "122097742947506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122097742947506930",
       "fb_reel_id": "4430493933747494",
-      "fb_reel_scheduled_time": 1791576600
+      "fb_reel_scheduled_time": 1791576600,
+      "reel_path": "reels/Tyler_James_Williams_Reel.mp4"
     },
     {
       "id": "2026-10-09_05_Scott_Bakula",
@@ -220,14 +234,16 @@
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://upload.wikimedia.org/wikipedia/commons/f/f8/Scott_Bakula_by_Gage_Skidmore.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/1/18/Scott_Bakula.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Scott_Bakula_by_Gage_Skidmore.jpg/250px-Scott_Bakula_by_Gage_Skidmore.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Scott_Bakula.jpg/250px-Scott_Bakula.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Scott_Bakula_by_Gage_Skidmore.jpg/500px-Scott_Bakula_by_Gage_Skidmore.jpg"
+        "https://image.tmdb.org/t/p/original/meZvcpXmcFlrJUeme4UpH4GZeNV.jpg",
+        "https://image.tmdb.org/t/p/original/Pp9bXBA5ZHtbEwX9llW50xdnlx.jpg",
+        "https://image.tmdb.org/t/p/original/g7HnqsAE4Z0aANj1EYbY4mL4X0y.jpg",
+        "https://image.tmdb.org/t/p/original/1PEcN3iChtgMIr4iAZxj5O4YLSY.jpg",
+        "https://image.tmdb.org/t/p/original/mhxyCJqE1a8sAaVOftUhVvRIR9U.jpg"
       ],
       "caption": "**Before commanding the bridge of Starfleet's flagship and leaping across human history, he spent a decade in musical theater obscurity, rejected for leading film roles because he was 'too wholesome'...**\n\nBorn October 9, 1954 in St. Louis, Missouri, today Scott Stewart Bakula turns **72**, one of television's most reliable and beloved leading men. Raised in a tight-knit Midwestern family, Scott abandoned a promising pre-law path to sing and act in New York off-Broadway productions.\n\nThen came the turning point. Throughout the 1980s, Scott survived on brief stage revivals and failed pilot scripts, frequently dismissed by casting agents who sought brooding, cynical leading men rather than Scott's earnest Midwestern charm.\n\nWhile television networks in the late 1980s pushed high-octane crime action, Scott trusted an unorthodox instinct: time-traveling empathy, compassion, and moral integrity.\n\nIn 1989, *Quantum Leap* made television history. Starring as Dr. Sam Beckett, Scott leaped into hundreds of lives over five seasons, earning four consecutive Emmy nominations and a Golden Globe Award. In 2001, he took the captain's chair as Captain Jonathan Archer in *Star Trek: Enterprise*, guiding the dawn of human space exploration, before headlining *NCIS: New Orleans* for 155 episodes.\n\nWhat audiences cherished was his unwavering warmth. Through four decades of network television, Scott never lost his reputation as one of the most generous, hardworking actors on any set.\n\nAt 72, Scott Bakula remains an enduring television institution. He proved that warmth, decency, and heart can conquer the stars and stand the test of time.\n\n**Which legendary Scott Bakula role holds the top spot for you: Dr. Sam Beckett in Quantum Leap or Captain Jonathan Archer in Star Trek? Share below! 👇**",
       "comment": "**The secret behind Scott Bakula's Quantum Leap casting that creators revealed...**\n\n1. Series creator Donald P. Bellisario wrote the pilot with Scott in mind after seeing his Tony-nominated performance on Broadway in *Romance/Romance*.\n2. When *Star Trek: Enterprise* was pitched, Bakula was the only actor Paramount ever offered the role of Captain Archer without a screen test.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "",
+      "reel_caption": "",
       "hashtags": "#ScottBakula #BornToday #October9 #QuantumLeap #StarTrek #StarTrekEnterprise #NCISNewOrleans #SciFiLegend",
       "image_path": "collages/Scott_Bakula_Page_5_Tribute.jpg",
       "scheduled_publish_time": 1791585000,
@@ -236,11 +252,11 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Scott_Bakula_Reel.mp4",
       "fb_post_id": "122097743283506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122097743283506930",
       "fb_reel_id": "1028127896914269",
-      "fb_reel_scheduled_time": 1791587400
+      "fb_reel_scheduled_time": 1791587400,
+      "reel_path": "reels/Scott_Bakula_Reel.mp4"
     },
     {
       "id": "2026-10-09_06_Jacob_Batalon",
@@ -268,14 +284,16 @@
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Jacob_Batalon_%2828035642754%29_%28cropped%29.jpg/250px-Jacob_Batalon_%2828035642754%29_%28cropped%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/9/99/Jacob_Batalon_by_Gage_Skidmore.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Jacob_Batalon_by_Gage_Skidmore.jpg/250px-Jacob_Batalon_by_Gage_Skidmore.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Jacob_Batalon_%2828035642754%29_%28cropped%29.jpg/500px-Jacob_Batalon_%2828035642754%29_%28cropped%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Jacob_Batalon_by_Gage_Skidmore.jpg/500px-Jacob_Batalon_by_Gage_Skidmore.jpg"
+        "https://image.tmdb.org/t/p/original/53YhaL4xw4Sb1ssoHkeSSBaO29c.jpg",
+        "https://image.tmdb.org/t/p/original/ka49JItS3al6FANw02jQ20Jtv7M.jpg",
+        "https://image.tmdb.org/t/p/original/7LBT16UO7NI5C9O51FaoWWdoDII.jpg",
+        "https://image.tmdb.org/t/p/original/uOtxebRwjJQf40DGCwKgyWlHaaE.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Jacob_Batalon_%2828035642754%29_%28cropped%29.jpg/250px-Jacob_Batalon_%2828035642754%29_%28cropped%29.jpg"
       ],
       "caption": "**The son of Filipino immigrants growing up in Honolulu with zero Hollywood connections, he dropped out of music school, moved to New York with no backup plan, and landed one of Marvel's most beloved characters on his first major film audition...**\n\nBorn October 9, 1996 in Honolulu, Hawaii, today Jacob Andres Batalon turns **30**, marking a decade of groundbreaking representation in global blockbuster cinema. Raised in an immigrant working-class family, Jacob originally studied music theory before realizing his true calling was dramatic performance.\n\nThen came the monumental gamble. In 2016, straight out of a two-year conservatory program at the New York Conservatory for Dramatic Arts, Jacob submitted a blind self-tape for an 'unnamed Marvel project' with no agent and no expectations.\n\nWhile Hollywood casting agents historically overlooked Asian and Filipino actors for high-profile best-friend roles in superhero franchises, director Jon Watts saw effortless comedic genius and genuine warmth.\n\nIn 2017, Jacob exploded onto global screens as Ned Leeds, Peter Parker's 'guy in the chair' in *Spider-Man: Homecoming*. Across *Infinity War*, *Endgame*, *Far From Home*, and the box-office titan *Spider-Man: No Way Home*, Jacob delivered some of the Marvel Cinematic Universe's most hilarious and heartfelt moments, before headlining his own Syfy series *Reginald the Vampire*.\n\nWhat inspired millions was his discipline. In 2021, Jacob committed to an intensive health and fitness transformation, losing over 100 pounds while encouraging fans to prioritize mental and physical health.\n\nAt 30, Jacob Batalon has broken Hollywood barriers for Filipino-American actors. He proved that authenticity and heart can conquer the biggest cinematic universe on Earth.\n\n**What is your favorite Ned Leeds moment in the Spider-Man trilogy: the LEGO Death Star drop or opening portals? Comment below! 👇**",
       "comment": "**The secret behind Jacob Batalon's Spider-Man audition that Marvel kept secret...**\n\n1. Jacob auditioned blindly with dummy script sides, not even knowing he was testing for Spider-Man until Marvel flown him to Atlanta for a chemistry read with Tom Holland.\n2. *Spider-Man: Homecoming* was only the second professional acting role of Jacob's entire life.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "",
+      "reel_caption": "",
       "hashtags": "#JacobBatalon #BornToday #October9 #NedLeeds #SpiderMan #NoWayHome #Marvel #MCU #FilipinoPride",
       "image_path": "collages/Jacob_Batalon_Page_6_Tribute.jpg",
       "scheduled_publish_time": 1791594000,
@@ -284,11 +302,11 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Jacob_Batalon_Reel.mp4",
       "fb_post_id": "122097743643506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122097743643506930",
       "fb_reel_id": "1103778138810260",
-      "fb_reel_scheduled_time": 1791596400
+      "fb_reel_scheduled_time": 1791596400,
+      "reel_path": "reels/Jacob_Batalon_Reel.mp4"
     }
   ]
 }

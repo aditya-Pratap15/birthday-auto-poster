@@ -33,6 +33,7 @@ jobs:
       - name: Sync Incoming Daily Celebrity Payload
         env:
           DISPATCH_PAYLOAD: ${{ toJson(github.event.client_payload) }}
+          TMDB_API_KEY: ${{ secrets.TMDB_API_KEY || '09ad47354cf2588cd01875ba6e225d07' }}
         run: node scripts/sync_daily_payload.js
 
       - name: Build Pixel-Perfect Collages with Viral Teaser Engine

@@ -14,6 +14,42 @@ const https = require('https');
 const BASE_DIR = path.resolve(__dirname, '..');
 const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx7i_FHyxyLfpP3lETPAeWberFu6Q4oW5OCJBzpTy8XHu9FYSFjBkqkYth-yHXLoHECQg/exec';
+const TMDB_API_KEY = (process.env.TMDB_API_KEY || '09ad47354cf2588cd01875ba6e225d07').trim();
+
+function fetchJsonWithRetry(url, retries = 3) {
+  return new Promise((resolve) => {
+    const req = https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 BornTodayHollywoodBot/1.0' }, timeout: 10000 }, res => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try { resolve(JSON.parse(data)); } catch (e) { resolve(null); }
+      });
+    });
+    req.on('timeout', () => { req.destroy(); if (retries > 0) setTimeout(() => resolve(fetchJsonWithRetry(url, retries - 1)), 400); else resolve(null); });
+    req.on('error', () => { if (retries > 0) setTimeout(() => resolve(fetchJsonWithRetry(url, retries - 1)), 400); else resolve(null); });
+  });
+}
+
+async function fetchTMDbSoloPhotos(celebName) {
+  if (!TMDB_API_KEY) return [];
+  try {
+    const searchUrl = `https://api.themoviedb.org/3/search/person?query=${encodeURIComponent(celebName)}&api_key=${TMDB_API_KEY}`;
+    const searchRes = await fetchJsonWithRetry(searchUrl);
+    if (!searchRes?.results || searchRes.results.length === 0) return [];
+
+    const person = searchRes.results.find(p => p.known_for_department === 'Acting' || p.known_for_department === 'Directing') || searchRes.results[0];
+    if (!person || !person.id) return [];
+
+    await new Promise(r => setTimeout(r, 250));
+    const imgUrl = `https://api.themoviedb.org/3/person/${person.id}/images?api_key=${TMDB_API_KEY}`;
+    const imgRes = await fetchJsonWithRetry(imgUrl);
+    if (!imgRes?.profiles || imgRes.profiles.length === 0) return [];
+
+    return imgRes.profiles.map(p => `https://image.tmdb.org/t/p/original${p.file_path}`);
+  } catch (e) {
+    return [];
+  }
+}
 
 function fetchUrlWithRedirects(url, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
@@ -72,7 +108,7 @@ async function getRawPayload() {
   return null;
 }
 
-function normalizePayload(raw) {
+async function normalizePayload(raw) {
   if (!raw) return null;
 
   const dateStr = raw.date || new Date().toISOString().split('T')[0];
@@ -142,12 +178,29 @@ function normalizePayload(raw) {
     } catch (e) {}
   }
 
-  selectedCelebs.forEach((c, idx) => {
+  for (let idx = 0; idx < selectedCelebs.length; idx++) {
+    const c = selectedCelebs[idx];
     const celebName = c.celebrity_name || c.name || `Celebrity_${idx + 1}`;
     const cleanSlug = celebName.replace(/[^a-zA-Z0-9_]/g, '_');
     const pageCfg = pageConfigs[idx % pageConfigs.length];
     const schedInfo = getScheduledPeakTime(dateStr, idx);
     const existing = existingMap[celebName.toLowerCase()] || existingMap[`${dateStr}_${String(idx + 1).padStart(2, '0')}_${cleanSlug}`];
+
+    // 1. Fetch TMDb Studio Portraits
+    const tmdbPhotos = await fetchTMDbSoloPhotos(celebName);
+    let finalPhotos = [...tmdbPhotos];
+
+    // 2. Supplement up to 5 photos using incoming Wikimedia URLs
+    const incomingPhotos = c.photo_urls || c.photos || [];
+    for (const u of incomingPhotos) {
+      if (finalPhotos.length >= 5) break;
+      if (!finalPhotos.includes(u)) {
+        finalPhotos.push(u);
+      }
+    }
+    if (tmdbPhotos.length > 0) {
+      console.log(`    🎬 [TMDb] Sourced ${tmdbPhotos.length} studio portraits for ${celebName} (Total: ${finalPhotos.length})`);
+    }
 
     const rawTeaser = c.teaser_card || c.teaserCard || {};
     const teaserCard = {
@@ -177,7 +230,7 @@ function normalizePayload(raw) {
       country: c.country || 'USA',
       preset: 'preset_viral_teaser',
       teaserCard: teaserCard,
-      photo_urls: c.photo_urls || c.photos || [],
+      photo_urls: finalPhotos.length > 0 ? finalPhotos : incomingPhotos,
       caption: c.caption || '',
       comment: c.comment || '',
       reel_script: c.reel_script || '',
@@ -202,7 +255,7 @@ function normalizePayload(raw) {
     }
 
     posts.push(postObj);
-  });
+  }
 
   return {
     date: dateStr,
@@ -220,7 +273,7 @@ async function main() {
     process.exit(0);
   }
 
-  const normalized = normalizePayload(raw);
+  const normalized = await normalizePayload(raw);
   if (normalized && normalized.posts && normalized.posts.length > 0) {
     fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(normalized, null, 2), 'utf8');
     console.log(`[✓] Successfully updated today_posts.json with ${normalized.posts.length} celebrity posts!`);
