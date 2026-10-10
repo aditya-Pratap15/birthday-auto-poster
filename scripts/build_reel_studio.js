@@ -402,16 +402,17 @@ async function buildReel(post, index = 1) {
   for (let i = 0; i < Math.min(5, rawUrls.length); i++) {
     const imgDest = path.join(TEMP_DIR, `${safeName}_photo_${i + 1}.jpg`);
     try {
-      if (!fs.existsSync(imgDest)) {
-        console.log(`    📥 Downloading Photo ${i + 1}...`);
-        await downloadFile(rawUrls[i], imgDest);
+      if (fs.existsSync(imgDest)) { 
+        try { fs.unlinkSync(imgDest); } catch(e){} 
       }
+      console.log(`    📥 Downloading fresh photo ${i + 1}...`);
+      await downloadFile(rawUrls[i], imgDest);
       localEraImages.push(imgDest);
     } catch (e) {
       console.warn(`    [!] Could not download photo ${i + 1}: ${e.message}`);
     }
-  }
 
+  }
   if (localEraImages.length === 0) {
     throw new Error(`No era images available to create reel for ${celebName}`);
   }

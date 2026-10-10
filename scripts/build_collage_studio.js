@@ -357,89 +357,66 @@ async function main() {
 
     console.log(`\n[+] Post #${idx + 1}: ${celebName} (${gender.toUpperCase()}) -> ${imagePath}`);
 
-    // 1. Fetch rich multi-era photos from Wikipedia, Commons Search & Categories
-    const timelineCandidates = await fetchCelebrityTimelinePhotos(celebName, birthYear);
-
-    // 2. Also incorporate incoming raw photo URLs if valid
-    const seenRawUrls = new Set(timelineCandidates.map(c => c.url));
-    for (const u of rawPhotoUrls) {
-      if (!u || typeof u !== 'string') continue;
-      const cleanU = u.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/').split('?')[0];
-      if (cleanU.includes('commons.wikimedia.org/wiki/File:')) continue;
-      if (!seenRawUrls.has(cleanU) && isCleanPersonPhoto(cleanU, celebName)) {
-        seenRawUrls.add(cleanU);
-        const yr = extractYear(cleanU, '');
-        timelineCandidates.push({ title: cleanU, year: yr, sig: getEventSignature(cleanU), url: cleanU });
-      }
-    }
-
-    // 3. Download and verify valid data URIs
-    const downloadedCandidates = [];
-    const seenData = new Set();
-    for (const cand of timelineCandidates) {
-      const dataUri = await downloadAsDataUri(cand.url);
-      if (dataUri) {
-        const fingerprint = dataUri.slice(100, 300);
-        if (!seenData.has(fingerprint)) {
-          seenData.add(fingerprint);
-          downloadedCandidates.push({ ...cand, dataUri, fingerprint });
-        }
-      }
-      if (downloadedCandidates.length >= 15) break;
-    }
-
-    console.log(`    Found ${downloadedCandidates.length} decoded photos for ${celebName}.`);
-
-    // 4. Designate Hero Portrait (Cleanest headshot)
-    const heroItem = downloadedCandidates[0] || null;
-
-    // 5. Exclude Hero from Polaroid Pool to guarantee 100% distinct images
-    const polaroidPool = downloadedCandidates.filter(c => !heroItem || (c.url !== heroItem.url && c.fingerprint !== heroItem.fingerprint));
-
-    // 6. Chronological sorting across career timeline
-    const datedPolaroids = polaroidPool.filter(c => c.year).sort((a, b) => a.year - b.year);
-    const undatedPolaroids = polaroidPool.filter(c => !c.year);
-
-    // Pick 4 distinct milestone eras with minimum 2-3 years gap
-    const selectedMilestones = [];
-    let lastEraYear = 0;
-    for (const dp of datedPolaroids) {
-      if (!lastEraYear || Math.abs(dp.year - lastEraYear) >= 3) {
-        selectedMilestones.push(dp);
-        lastEraYear = dp.year;
-        if (selectedMilestones.length === 4) break;
-      }
-    }
-
-    // If still need more to reach 4 polaroids, fill from remaining dated then undated
-    if (selectedMilestones.length < 4) {
-      for (const dp of datedPolaroids) {
-        if (!selectedMilestones.find(m => m.fingerprint === dp.fingerprint)) {
-          selectedMilestones.push(dp);
-          if (selectedMilestones.length === 4) break;
-        }
-      }
-    }
-    if (selectedMilestones.length < 4) {
-      for (const up of undatedPolaroids) {
-        if (!selectedMilestones.find(m => m.fingerprint === up.fingerprint)) {
-          selectedMilestones.push(up);
-          if (selectedMilestones.length === 4) break;
-        }
-      }
-    }
-
-    // 7. Assemble 5 Frame Photos: Prioritize incoming verified photo_urls for 100% sync with reel
+    // 1. Prioritize verified photo_urls (TMDb / payload) for 100% sync with reel
     let finalFramePhotos = [];
     if (rawPhotoUrls && rawPhotoUrls.length >= 3) {
-      console.log(`    🎯 Synchronizing collage with verified payload photo_urls...`);
+      console.log(`    🎯 Synchronizing collage with verified payload photo_urls (${rawPhotoUrls.length} available)...`);
       for (const u of rawPhotoUrls.slice(0, 5)) {
         const dUri = await downloadAsDataUri(u);
         if (dUri) finalFramePhotos.push(dUri);
       }
     }
 
+    // 2. Fallback to Wikipedia search ONLY if fewer than 3 photos are available
     if (finalFramePhotos.length < 3) {
+      console.log(`    ⚠️ Fallback: Searching Wikipedia timeline photos...`);
+      const timelineCandidates = await fetchCelebrityTimelinePhotos(celebName, birthYear);
+
+      const downloadedCandidates = [];
+      const seenData = new Set();
+      for (const cand of timelineCandidates) {
+        const dataUri = await downloadAsDataUri(cand.url);
+        if (dataUri) {
+          const fingerprint = dataUri.slice(100, 300);
+          if (!seenData.has(fingerprint)) {
+            seenData.add(fingerprint);
+            downloadedCandidates.push({ ...cand, dataUri, fingerprint });
+          }
+        }
+        if (downloadedCandidates.length >= 15) break;
+      }
+
+      const heroItem = downloadedCandidates[0] || null;
+      const polaroidPool = downloadedCandidates.filter(c => !heroItem || (c.url !== heroItem.url && c.fingerprint !== heroItem.fingerprint));
+      const datedPolaroids = polaroidPool.filter(c => c.year).sort((a, b) => a.year - b.year);
+      const undatedPolaroids = polaroidPool.filter(c => !c.year);
+
+      const selectedMilestones = [];
+      let lastEraYear = 0;
+      for (const dp of datedPolaroids) {
+        if (!lastEraYear || Math.abs(dp.year - lastEraYear) >= 3) {
+          selectedMilestones.push(dp);
+          lastEraYear = dp.year;
+          if (selectedMilestones.length === 4) break;
+        }
+      }
+      if (selectedMilestones.length < 4) {
+        for (const dp of datedPolaroids) {
+          if (!selectedMilestones.find(m => m.fingerprint === dp.fingerprint)) {
+            selectedMilestones.push(dp);
+            if (selectedMilestones.length === 4) break;
+          }
+        }
+      }
+      if (selectedMilestones.length < 4) {
+        for (const up of undatedPolaroids) {
+          if (!selectedMilestones.find(m => m.fingerprint === up.fingerprint)) {
+            selectedMilestones.push(up);
+            if (selectedMilestones.length === 4) break;
+          }
+        }
+      }
+
       finalFramePhotos = [
         heroItem ? heroItem.dataUri : null,
         ...selectedMilestones.slice(0, 4).map(m => m.dataUri)
@@ -447,16 +424,9 @@ async function main() {
     }
 
     // Safeguard: Ensure all 5 canvas slots are populated
-    while (finalFramePhotos.length < 5 && finalFramePhotos.length > 0) {
-      finalFramePhotos.push(finalFramePhotos[0]);
-    }
+    // Never duplicate photo 0 - ensure only distinct photos are assigned
 
-    console.log(`    [✓] Assigned 5 Frame Photos:`);
-    console.log(`        - Frame 0 (Hero): ${heroItem?.title || 'Main'} [Year: ${heroItem?.year || 'N/A'}]`);
-    selectedMilestones.slice(0, 4).forEach((m, mIdx) => {
-      console.log(`        - Frame ${mIdx + 1} (Milestone ${mIdx + 1}): ${m.title} [Year: ${m.year || 'N/A'}]`);
-    });
-    console.log(`        - Guaranteed Unique Frames: ${new Set(finalFramePhotos.filter(Boolean)).size} / 5`);
+    console.log(`    [✓] Assigned 5 Frame Photos (Guaranteed Unique: ${new Set(finalFramePhotos.filter(Boolean)).size}/5)`);
 
     const presetData = loadPreset(gender, post.preset || post.preset_name);
     if (post.teaserCard) {
