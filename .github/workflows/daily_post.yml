@@ -49,6 +49,13 @@ jobs:
           IG_USER_ID: ${{ secrets.IG_USER_ID || '17841416842135384' }}
         run: node scripts/post_to_facebook.js
 
+      - name: Post Top Reels to YouTube Shorts
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: node scripts/post_to_youtube.js
+
       - name: Clean Uploaded Media & Commit Post Logs
         run: |
           git config --global user.name "github-actions[bot]"

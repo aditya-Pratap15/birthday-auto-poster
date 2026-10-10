@@ -818,6 +818,37 @@ async function main() {
           }
 
           fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+
+          // -----------------------------------------------------------
+          // 1b. Instagram Carousel (Top 3 Headliners)
+          // -----------------------------------------------------------
+          if (DEFAULT_IG_ID && i < 3 && !post.ig_post_id) {
+            try {
+              let igPhotos = [];
+              if (res && res.collagePhotoId) {
+                const cdnUrl = await getFacebookPhotoCdnUrl(res.collagePhotoId, DEFAULT_TOKEN);
+                if (cdnUrl) igPhotos.push(cdnUrl);
+              }
+              if (post.photo_urls && Array.isArray(post.photo_urls)) {
+                igPhotos.push(...post.photo_urls.slice(0, 4));
+              }
+
+              if (igPhotos.length >= 2) {
+                console.log(`    [📸 IG] Scheduling Instagram Carousel for ${celebName} (${igPhotos.length} images)...`);
+                const igCaption = `${post.caption}\n\n${(post.hashtags || []).join(' ')}`;
+                const igRes = await postInstagramCarousel(DEFAULT_IG_ID, DEFAULT_TOKEN, igCaption, igPhotos, schedTs);
+                if (igRes.success && igRes.id) {
+                  post.ig_post_id = igRes.id;
+                  console.log(`    [✅ IG] SUCCESS! Instagram Carousel Scheduled! ID: ${igRes.id}`);
+                  fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+                } else {
+                  console.warn(`    [!] Instagram Carousel note:`, igRes.error);
+                }
+              }
+            } catch (igErr) {
+              console.warn(`    [!] Instagram Carousel error:`, igErr.message);
+            }
+          }
         } else {
           console.error(`    [!] Facebook Photo Error (${res.status}):`, res.body);
         }
@@ -866,6 +897,25 @@ async function main() {
           console.log(`    [✓] SUCCESS! Reel Published live! Video ID: ${reelRes.video_id}`);
         }
         fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+
+        // -----------------------------------------------------------
+        // 2b. Instagram Reel (Top 3 Headliners)
+        // -----------------------------------------------------------
+        if (DEFAULT_IG_ID && i < 3 && !post.ig_reel_id && reelPath && fs.existsSync(reelPath)) {
+          try {
+            console.log(`    [🎬 IG] Scheduling Instagram Reel for ${celebName}...`);
+            const igReelRes = await postInstagramReel(DEFAULT_IG_ID, DEFAULT_TOKEN, reelCaptionText, reelPath, reelSchedTs);
+            if (igReelRes.success && igReelRes.id) {
+              post.ig_reel_id = igReelRes.id;
+              console.log(`    [✅ IG] SUCCESS! Instagram Reel Scheduled! ID: ${igReelRes.id}`);
+              fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+            } else {
+              console.warn(`    [!] Instagram Reel note:`, igReelRes.error);
+            }
+          } catch (igReelErr) {
+            console.warn(`    [!] Instagram Reel error:`, igReelErr.message);
+          }
+        }
       } else {
         console.error(`    [!] Facebook Reel Upload Error:`, reelRes.error || reelRes);
       }

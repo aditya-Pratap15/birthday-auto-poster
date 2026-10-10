@@ -4,7 +4,9 @@
   "description": "Automated Celebrity Birthday Poster using Studio Collage Engine",
   "scripts": {
     "build:collages": "node scripts/build_collage_studio.js",
-    "build:reels": "node scripts/build_reel_studio.js --all"
+    "build:reels": "node scripts/build_reel_studio.js --all",
+    "post:facebook": "node scripts/post_to_facebook.js",
+    "post:youtube": "node scripts/post_to_youtube.js"
   },
   "dependencies": {
     "@andresaya/edge-tts": "^1.8.1",

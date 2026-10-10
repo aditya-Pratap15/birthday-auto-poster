@@ -144,9 +144,10 @@ Because Instagram is part of Meta, we use the **Instagram Graph API** with the s
 3. Find your **Instagram Business Account ID**:
    - Query: `GET /v26.0/{your-fb-page-id}?fields=instagram_business_account`
    - Copy the returned `id` (e.g., `17841400000000000`).
-4. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions):
-   - `IG_USER_ID`: Your Instagram Business Account ID.
+4. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions): (✅ COMPLETED)
+   - `IG_USER_ID`: `17841416842135384` (Handle: `@borntodayhollywood`)
    - `FB_TOKEN_BORN`: (Already present; has access to linked Instagram).
+* **Automation Wired:** Top 3 Headliner Carousels (Master Collage CDN + 4 Career Photos) and 9:16 Vertical Reels are scheduled via Graph API directly inside [`scripts/post_to_facebook.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/post_to_facebook.js).
 
 ---
 
@@ -180,12 +181,17 @@ Because Instagram is part of Meta, we use the **Instagram Graph API** with the s
    - Application Type: **Web Application** or **Desktop App**.
    - Note down: `Client ID` and `Client Secret`.
 
-#### Step 3: Generate Permanent Refresh Token & Add to GitHub
-1. Authorize your channel via OAuth to receive your permanent `Refresh Token`.
-2. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions):
-   - `YOUTUBE_CLIENT_ID`
-   - `YOUTUBE_CLIENT_SECRET`
-   - `YOUTUBE_REFRESH_TOKEN`
+#### Step 3: Generate Permanent Refresh Token & Add to GitHub (✅ COMPLETED)
+* **Connected Channel:** `Born Today Hollywood` (Channel ID: `UC8te6ObjbEJe-878BMqOWYg`)
+* **Uploader Engine:** [`scripts/post_to_youtube.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/post_to_youtube.js) (YouTube Data API v3 Resumable Upload protocol)
+* **GitHub Workflow:** Integrated into [`daily_post.yml`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/.github/workflows/daily_post.yml)
+
+**GitHub Secrets to Add / Verify:**
+Go to [GitHub Repo Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions) and save:
+* `YOUTUBE_CLIENT_ID`: `[Your Google Cloud OAuth Client ID]`
+* `YOUTUBE_CLIENT_SECRET`: `[Your Google Cloud OAuth Client Secret]`
+* `YOUTUBE_REFRESH_TOKEN`: `[Your YouTube Permanent Refresh Token]`
+*(Note: These credentials are also built in as fallback defaults so local and cloud executions run seamlessly).*
 
 ---
 
