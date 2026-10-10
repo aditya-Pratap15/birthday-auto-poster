@@ -365,45 +365,28 @@ async function buildReel(post, index = 1) {
 
   // 3. Exact Timing Synchronization:
   // Slideshow stops EXACTLY when the narration ends (+ 0.15s natural breath).
-  const COLLAGE_SLIDE_DURATION = 3.5;
+  // Single high-resolution portraits throughout the entire reel (no collage slide).
   const slideshowContentDuration = voiceDuration + 0.15;
-  const remainingEraDuration = Math.max(3.0, slideshowContentDuration - COLLAGE_SLIDE_DURATION);
-
-  const targetPerSlide = 3.0;
-  const numEraSlides = Math.max(1, Math.round(remainingEraDuration / targetPerSlide));
-  const eraSlideDuration = remainingEraDuration / numEraSlides;
+  const targetPerSlide = 3.2;
+  const numEraSlides = Math.max(1, Math.round(slideshowContentDuration / targetPerSlide));
+  const eraSlideDuration = slideshowContentDuration / numEraSlides;
 
   // Single Outro Screen (2.8s total):
-  //  - Logo pops up at center with smooth cubic easing (from 0.25s)
-  //  - Text pops up smoothly below the logo (from 0.70s)
-  //  - Both stay together continuously until video ends
   const OUTRO_DURATION = 2.80;
   const outroStartTime = slideshowContentDuration;
   const totalDuration = slideshowContentDuration + OUTRO_DURATION;
 
   console.log(`    ⏱️ Timing Sync:`);
-  console.log(`       - Collage Slide: ${COLLAGE_SLIDE_DURATION.toFixed(2)}s`);
-  console.log(`       - Era Slideshow: ${numEraSlides} slides x ${eraSlideDuration.toFixed(2)}s = ${remainingEraDuration.toFixed(2)}s`);
+  console.log(`       - Era Slideshow: ${numEraSlides} single photos x ${eraSlideDuration.toFixed(2)}s = ${slideshowContentDuration.toFixed(2)}s`);
   console.log(`       - Slideshow Ends at: ${slideshowContentDuration.toFixed(2)}s (Narration: ${voiceDuration.toFixed(2)}s)`);
   console.log(`       - Outro Duration: ${OUTRO_DURATION.toFixed(2)}s`);
   console.log(`       - Total Reel Duration: ${totalDuration.toFixed(2)}s`);
 
-  // 4. Subtitles (Middle-centered with smooth fade-in bloom)
-  const localAssPath = path.join(process.cwd(), 'current_subs.ass');
+  // 4. Subtitles (Locked vertical baseline at Y=1060)
+  const localAssPath = path.join(TEMP_DIR, 'current_subs.ass');
   createSubtitlesAss(boundaries, rawComment, narration, voiceDuration, outroStartTime, totalDuration, localAssPath);
 
-  // 5. Collect Collage Image
-  let collagePath = post.image_path ? path.resolve(ROOT_DIR, post.image_path) : '';
-  if (!collagePath || !fs.existsSync(collagePath)) {
-    const fallback = path.join(ROOT_DIR, 'collages', `${safeName}_Page_${index}_Tribute.jpg`);
-    if (fs.existsSync(fallback)) collagePath = fallback;
-  }
-  if (!collagePath || !fs.existsSync(collagePath)) {
-    throw new Error(`Collage image not found for ${celebName}. Run build_collage_studio.js first.`);
-  }
-  console.log(`    🖼️ Slide 1: Master Collage found (${path.basename(collagePath)})`);
-
-  // 6. Collect the 5 Era Photos
+  // 5. Collect Era Photos
   const rawUrls = post.photo_urls || [];
   const localEraImages = [];
 
@@ -419,39 +402,29 @@ async function buildReel(post, index = 1) {
     } catch (e) {
       console.warn(`    [!] Could not download photo ${i + 1}: ${e.message}`);
     }
-
   }
   if (localEraImages.length === 0) {
     throw new Error(`No era images available to create reel for ${celebName}`);
   }
   console.log(`    📸 Collected ${localEraImages.length} era photos for slideshow.`);
 
-  // 7. Compose Slide Inputs:
-  // Slide 0: Collage (3.5s)
-  // Slides 1..numEraSlides: Era photos (eraSlideDuration each)
-  // Slide Outro: Single unified animated end screen (2.8s)
+  // 6. Compose Slide Inputs:
+  // Slides 0..numEraSlides-1: High-res single portrait photos (eraSlideDuration each)
+  // Slide Outro: Single luxury animated end screen (2.8s)
   const inputs = [];
   let filterComplex = '';
 
-  // Input 0: Collage
-  inputs.push(`-loop 1 -t ${COLLAGE_SLIDE_DURATION.toFixed(2)} -i "${collagePath}"`);
-  filterComplex += `[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=25:5[bg0];` +
-                   `[0:v]scale=1080:1440:force_original_aspect_ratio=decrease[fg0];` +
-                   `[bg0][fg0]overlay=(W-w)/2:(H-h)/2,setsar=1[slide0];`;
-
-  // Inputs 1..numEraSlides: Era Photos
   for (let k = 0; k < numEraSlides; k++) {
     const eraImg = localEraImages[k % localEraImages.length];
-    const idx = k + 1;
     inputs.push(`-loop 1 -t ${eraSlideDuration.toFixed(2)} -i "${eraImg}"`);
-    filterComplex += `[${idx}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=25:5[bg${idx}];` +
-                     `[${idx}:v]scale=1000:1450:force_original_aspect_ratio=decrease[fg${idx}];` +
-                     `[bg${idx}][fg${idx}]overlay=(W-w)/2:(H-h)/2-40,setsar=1[slide${idx}];`;
+    filterComplex += `[${k}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=25:5[bg${k}];` +
+                     `[${k}:v]scale=1000:1450:force_original_aspect_ratio=decrease[fg${k}];` +
+                     `[bg${k}][fg${k}]overlay=(W-w)/2:(H-h)/2-40,setsar=1[slide${k}];`;
   }
 
   // Single Outro Screen Inputs (Luxury Gold Particle Background)
-  const outroBgIdx = numEraSlides + 1;
-  const outroLogoIdx = numEraSlides + 2;
+  const outroBgIdx = numEraSlides;
+  const outroLogoIdx = numEraSlides + 1;
 
   const outroBgPath = path.join(ROOT_DIR, 'backgrounds', 'outro_background.png');
   if (fs.existsSync(outroBgPath)) {
@@ -467,14 +440,15 @@ async function buildReel(post, index = 1) {
 
   inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
 
-  // Concatenate Slides (Slideshow + Single Outro Screen)
+  // Concatenate Slides (Single Photos + Single Outro Screen)
   const totalSlidesCount = outroBgIdx + 1;
   const concatInputs = [];
   for (let s = 0; s < totalSlidesCount; s++) {
     concatInputs.push(`[slide${s}]`);
   }
+  const escapedAss = localAssPath.replace(/\\/g, '/').replace(/:/g, '\\:');
   filterComplex += `${concatInputs.join('')}concat=n=${totalSlidesCount}:v=1:a=0[vbase];` +
-                   `[vbase]ass=current_subs.ass[vout];`;
+                   `[vbase]ass='${escapedAss}'[vout];`;
 
   // Audio Inputs: Voiceover + Gentle Solo Piano BGM
   const voiceInputIndex = outroLogoIdx + 1;
@@ -507,6 +481,7 @@ async function buildReel(post, index = 1) {
     throw e;
   }
 
+  try { if (fs.existsSync(localAssPath)) fs.unlinkSync(localAssPath); } catch (e) {}
   const finalSizeMb = (fs.statSync(finalVideoPath).size / (1024 * 1024)).toFixed(2);
   console.log(`    ✅ SUCCESS! Vertical Reel Generated: ${finalVideoPath} (${finalSizeMb} MB, ${totalDuration.toFixed(1)}s)`);
   return finalVideoPath;
