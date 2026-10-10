@@ -227,9 +227,10 @@ Go to [GitHub Repo Secrets](https://github.com/aditya-Pratap15/birthday-auto-pos
    ```
 5. **Channel Icon:** Upload [`page_logo.png`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/page_logo.png).
 
-#### Step 2: Distribution Strategy
-1. Copy the public **Channel Invite Link**.
-2. Add this link to your **Instagram Link in Bio**, **YouTube Channel description**, and the pinned first comment on Facebook.
+#### Step 2: Distribution Strategy (✅ CHANNEL LIVE)
+* **Official WhatsApp Channel Link:** [https://whatsapp.com/channel/0029VbEFci9BFLgQsxeUm533](https://whatsapp.com/channel/0029VbEFci9BFLgQsxeUm533)
+* **Syndication Rule:** 1 curated highlight daily (the #1 Headliner) sent each morning. Never post more than 1–2 times a day on WhatsApp to preserve 0% notification mute rate.
+* **Cross-Promotion Wired:** Added to Facebook pinned comments, YouTube descriptions, and Instagram Bio.
 3. Post **1 daily curated highlight** (the single biggest celebrity of the day) each morning at 9:00 AM EDT.
 
 ---

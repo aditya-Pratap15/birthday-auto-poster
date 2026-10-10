@@ -772,7 +772,7 @@ async function main() {
     const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
 
     const caption = formatFacebookUnicodeBold(`${post.caption}\n\n${post.hashtags}`);
-    const comment = formatFacebookUnicodeBold(post.comment);
+    const comment = formatFacebookUnicodeBold(post.comment) + '\n\n📲 Join our VIP WhatsApp Channel: https://whatsapp.com/channel/0029VbEFci9BFLgQsxeUm533';
 
     const schedTs = post.scheduled_publish_time || post.unix_timestamp || null;
     const nowTs = Math.floor(Date.now() / 1000);
