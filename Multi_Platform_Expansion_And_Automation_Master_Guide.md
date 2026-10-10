@@ -213,25 +213,9 @@ Go to [GitHub Repo Secrets](https://github.com/aditya-Pratap15/birthday-auto-pos
 
 ---
 
-### Platform D: WhatsApp Channel
-
-* **WhatsApp Web**: [web.whatsapp.com](https://web.whatsapp.com)
-
-#### Step 1: Channel Creation
-1. Open [WhatsApp](https://web.whatsapp.com) or the WhatsApp mobile app $\rightarrow$ Go to the **Updates** tab.
-2. Tap **Channels (+)** $\rightarrow$ **Create Channel**.
-3. **Channel Name:** `Born Today Hollywood 🎬`
-4. **Description:**
-   ```
-   Daily birthday tributes, iconic film trivia, and career retrospects for Hollywood's greatest legends! 🎂⭐
-   ```
-5. **Channel Icon:** Upload [`page_logo.png`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/page_logo.png).
-
-#### Step 2: Distribution Strategy (✅ CHANNEL LIVE)
-* **Official WhatsApp Channel Link:** [https://whatsapp.com/channel/0029VbEFci9BFLgQsxeUm533](https://whatsapp.com/channel/0029VbEFci9BFLgQsxeUm533)
-* **Syndication Rule:** 1 curated highlight daily (the #1 Headliner) sent each morning. Never post more than 1–2 times a day on WhatsApp to preserve 0% notification mute rate.
-* **Cross-Promotion Wired:** Added to Facebook pinned comments, YouTube descriptions, and Instagram Bio.
-3. Post **1 daily curated highlight** (the single biggest celebrity of the day) each morning at 9:00 AM EDT.
+### Platform D: WhatsApp Channel (Deprioritized)
+* **Status:** Deprioritized. WhatsApp lacks organic recommendation algorithms and requires manual daily posting, which conflicts with our 100% hands-free autonomous strategy.
+* **Focus:** 100% of automation is dedicated to algorithmic growth on **Facebook, Instagram, YouTube Shorts, and Threads**.
 
 ---
 

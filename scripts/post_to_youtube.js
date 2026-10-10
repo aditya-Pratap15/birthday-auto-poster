@@ -232,7 +232,6 @@ async function main() {
     const description = `Happy Birthday to ${celebName}! 🎂 Celebrating their ${post.age}th birthday today!\n\n` +
       `🎬 Notable roles & career highlights:\n${post.caption || ''}\n\n` +
       `❓ What is your favorite movie or performance of ${celebName}? Tell us in the comments! 👇\n\n` +
-      `📲 Join our VIP WhatsApp Channel: https://whatsapp.com/channel/0029VbEFci9BFLgQsxeUm533\n\n` +
       `#shorts #borntoday #${safeName.toLowerCase()} #celebritybirthdays #hollywood #actor #cinema`;
 
     const tags = ['shorts', 'borntoday', 'celebrity birthdays', 'hollywood', celebName, 'entertainment'];
