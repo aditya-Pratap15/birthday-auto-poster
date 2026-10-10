@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const http = require('http');
 const https = require('https');
 
 const BASE_DIR = path.resolve(__dirname, '..');
@@ -88,6 +89,178 @@ function postMultipartPhoto(pageId, token, caption, imagePath, scheduledPublishT
       resolve({ status: 500, error: e.message });
     }
   });
+}
+
+
+function fetchBuffer(url) {
+  return new Promise((resolve, reject) => {
+    const parsed = new URL(url);
+    const client = parsed.protocol === 'https:' ? https : http;
+    client.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, res => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return fetchBuffer(res.headers.location).then(resolve).catch(reject);
+      }
+      if (res.statusCode !== 200) {
+        return reject(new Error(`HTTP ${res.statusCode}`));
+      }
+      const chunks = [];
+      res.on('data', c => chunks.push(c));
+      res.on('end', () => resolve(Buffer.concat(chunks)));
+    }).on('error', reject);
+  });
+}
+
+function uploadUnpublishedPhoto(pageId, token, sourceInput) {
+  return new Promise(async (resolve) => {
+    try {
+      pageId = String(pageId || DEFAULT_PAGE_ID).trim();
+      token = String(token || DEFAULT_TOKEN).trim();
+
+      let imgBuf;
+      let filename = 'photo.jpg';
+
+      if (typeof sourceInput === 'string' && sourceInput.startsWith('http')) {
+        try {
+          imgBuf = await fetchBuffer(sourceInput);
+          filename = path.basename(sourceInput.split('?')[0]) || 'photo.jpg';
+        } catch (fetchErr) {
+          return resolve({ success: false, error: fetchErr.message });
+        }
+      } else {
+        if (!fs.existsSync(sourceInput)) {
+          return resolve({ success: false, error: `File not found: ${sourceInput}` });
+        }
+        imgBuf = fs.readFileSync(sourceInput);
+        filename = path.basename(sourceInput);
+      }
+
+      const boundary = '----WebKitFormBoundary' + Math.random().toString(36).substring(2);
+      let body = '';
+      body += `--${boundary}\r\nContent-Disposition: form-data; name="access_token"\r\n\r\n${token}\r\n`;
+      body += `--${boundary}\r\nContent-Disposition: form-data; name="published"\r\n\r\nfalse\r\n`;
+
+      const header = Buffer.from(body + `--${boundary}\r\nContent-Disposition: form-data; name="source"; filename="${filename}"\r\nContent-Type: image/jpeg\r\n\r\n`);
+      const footer = Buffer.from(`\r\n--${boundary}--\r\n`);
+      const payload = Buffer.concat([header, imgBuf, footer]);
+
+      const req = https.request({
+        hostname: 'graph.facebook.com',
+        port: 443,
+        path: `/v26.0/${pageId}/photos`,
+        method: 'POST',
+        headers: {
+          'Content-Type': `multipart/form-data; boundary=${boundary}`,
+          'Content-Length': payload.length
+        }
+      }, res => {
+        let data = '';
+        res.on('data', c => data += c);
+        res.on('end', () => {
+          try {
+            const parsed = JSON.parse(data);
+            if (parsed.id) {
+              resolve({ success: true, id: parsed.id });
+            } else {
+              resolve({ success: false, error: parsed });
+            }
+          } catch (e) {
+            resolve({ success: false, error: data });
+          }
+        });
+      });
+
+      req.on('error', err => resolve({ success: false, error: err.message }));
+      req.write(payload);
+      req.end();
+    } catch (e) {
+      resolve({ success: false, error: e.message });
+    }
+  });
+}
+
+function publishMultiPhotoPost(pageId, token, caption, mediaFbids, scheduledPublishTime = null) {
+  return new Promise((resolve) => {
+    try {
+      pageId = String(pageId || DEFAULT_PAGE_ID).trim();
+      token = String(token || DEFAULT_TOKEN).trim();
+
+      const attachedMedia = mediaFbids.map(id => ({ media_fbid: String(id) }));
+
+      const params = {
+        access_token: token,
+        message: caption,
+        attached_media: JSON.stringify(attachedMedia)
+      };
+
+      const nowTs = Math.floor(Date.now() / 1000);
+      if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
+        params.published = 'false';
+        params.scheduled_publish_time = String(scheduledPublishTime);
+      } else {
+        params.published = 'true';
+      }
+
+      const postData = new URLSearchParams(params).toString();
+
+      const req = https.request({
+        hostname: 'graph.facebook.com',
+        port: 443,
+        path: `/v26.0/${pageId}/feed`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      }, res => {
+        let data = '';
+        res.on('data', chunk => data += chunk);
+        res.on('end', () => {
+          try {
+            resolve({ status: res.statusCode, body: JSON.parse(data) });
+          } catch (e) {
+            resolve({ status: res.statusCode, body: data });
+          }
+        });
+      });
+
+      req.on('error', err => resolve({ status: 500, error: err.message }));
+      req.write(postData);
+      req.end();
+    } catch (e) {
+      resolve({ status: 500, error: e.message });
+    }
+  });
+}
+
+async function postCelebrityAlbum(pageId, token, caption, collagePath, singlePhotoUrls = [], scheduledPublishTime = null) {
+  // 1. Upload Master Collage Tribute as Photo #1
+  console.log(`    📸 [1/N] Uploading master collage tribute...`);
+  const collageUpload = await uploadUnpublishedPhoto(pageId, token, collagePath);
+  if (!collageUpload.success || !collageUpload.id) {
+    console.warn(`    [!] Master collage upload failed as unpublished (${JSON.stringify(collageUpload.error)}), falling back to standard single post...`);
+    return postMultipartPhoto(pageId, token, caption, collagePath, scheduledPublishTime);
+  }
+
+  const mediaFbids = [collageUpload.id];
+
+  // 2. Upload Single Career Photos (up to 5 photos)
+  const maxPhotos = Math.min(5, (singlePhotoUrls || []).length);
+  for (let idx = 0; idx < maxPhotos; idx++) {
+    const photoUrl = singlePhotoUrls[idx];
+    if (!photoUrl) continue;
+    console.log(`    📸 [${idx + 2}/${maxPhotos + 1}] Attaching single career photo ${idx + 1}...`);
+    const pUpload = await uploadUnpublishedPhoto(pageId, token, photoUrl);
+    if (pUpload.success && pUpload.id) {
+      mediaFbids.push(pUpload.id);
+    } else {
+      console.warn(`    [!] Could not attach single photo ${idx + 1}: ${JSON.stringify(pUpload.error || 'unknown error')}`);
+    }
+  }
+
+  console.log(`    🖼️ Total photos in album: ${mediaFbids.length} (Master Collage + ${mediaFbids.length - 1} single photos)`);
+
+  // 3. Publish multi-photo post to /{pageId}/feed
+  return publishMultiPhotoPost(pageId, token, caption, mediaFbids, scheduledPublishTime);
 }
 
 function postComment(targetId, token, commentText) {
@@ -317,7 +490,7 @@ async function main() {
           console.log(`[📷] Publishing PHOTO LIVE right now for: ${celebName}...`);
         }
 
-        const res = await postMultipartPhoto(DEFAULT_PAGE_ID, DEFAULT_TOKEN, caption, imgPath, schedTs);
+        const res = await postCelebrityAlbum(DEFAULT_PAGE_ID, DEFAULT_TOKEN, caption, imgPath, post.photo_urls, schedTs);
 
         if (res.status === 200 && (res.body.id || res.body.post_id)) {
           const postId = res.body.post_id || res.body.id;
