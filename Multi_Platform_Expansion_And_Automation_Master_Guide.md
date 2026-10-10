@@ -1,24 +1,26 @@
 # 🌐 Multi-Platform Expansion & Automation Master Guide
 ### *Born Today Hollywood — Omnichannel Scaling Blueprint*
 
-> **Document Version:** 2.0  
+> **Document Version:** 2.1  
 > **Target Platforms:** Facebook, Instagram, YouTube Shorts, Threads, WhatsApp Channels  
 > **Publishing Engine:** Node.js + GitHub Actions + Meta Graph API + YouTube Data API v3  
-> **Core Strategy:** Horizontal Syndication — Publish the 6 highest-quality daily celebrity tributes across 4+ platforms automatically with zero manual daily effort.
+> **Core Strategy:** Horizontal Syndication — Publish the 6 highest-quality daily celebrity tributes across 4+ platforms automatically with zero manual daily effort.  
+> **GitHub Repository:** [birthday-auto-poster](https://github.com/aditya-Pratap15/birthday-auto-poster)
 
 ---
 
 ## 📑 Table of Contents
 1. [Core Strategy & Golden Rules](#1-core-strategy--golden-rules)
-2. [Master Asset Inventory (What We Produce Daily)](#2-master-asset-inventory)
-3. [Master Daily Schedule & Peak Timing Matrix](#3-master-daily-schedule--peak-timing-matrix)
-4. [Platform-by-Platform Setup & Connection Guide](#4-platform-by-platform-setup--connection-guide)
+2. [Account & Email Setup Architecture (Do You Need New Gmails?)](#2-account--email-setup-architecture)
+3. [Master Asset Inventory (What We Produce Daily)](#3-master-asset-inventory)
+4. [Master Daily Schedule & Peak Timing Matrix](#4-master-daily-schedule--peak-timing-matrix)
+5. [Platform-by-Platform Setup & Direct Portal Links](#5-platform-by-platform-setup--direct-portal-links)
    - [Platform A: Instagram (Professional/Creator Account)](#platform-a-instagram)
    - [Platform B: YouTube Shorts (Brand Channel)](#platform-b-youtube-shorts)
    - [Platform C: Threads (Meta Ecosystem)](#platform-c-threads)
    - [Platform D: WhatsApp Channel (Direct Community)](#platform-d-whatsapp-channel)
-5. [GitHub Actions & Automation Secrets Architecture](#5-github-actions--automation-secrets-architecture)
-6. [Step-by-Step Implementation Roadmap](#6-step-by-step-implementation-roadmap)
+6. [GitHub Actions & Automation Secrets Architecture](#6-github-actions--automation-secrets-architecture)
+7. [Step-by-Step Implementation Roadmap](#7-step-by-step-implementation-roadmap)
 
 ---
 
@@ -34,7 +36,25 @@
 
 ---
 
-## 2. Master Asset Inventory
+## 2. Account & Email Setup Architecture
+
+### Do You Need a New Gmail?
+**No. You can manage 100% of this network using your single existing Gmail account and personal smartphone.**
+
+| Platform | Account Creation Rule | Do you need a new email/phone? | Direct Management Link |
+| :--- | :--- | :---: | :--- |
+| **Facebook** | Creates "Pages" inside personal account | **No** (Uses existing Facebook account) | [Meta Business Suite](https://business.facebook.com) |
+| **Instagram** | Up to **5 accounts** under one app login | **No** (Can share same email/login) | [Instagram Web](https://www.instagram.com) |
+| **YouTube** | Up to **100 Brand Channels** under 1 Gmail | **No** (Uses built-in YouTube Brand Channels) | [YouTube Channel Switcher](https://www.youtube.com/channel_switcher) |
+| **Threads** | 1-click sync with Instagram handle | **No** (Directly inherits Instagram login) | [Threads Web](https://www.threads.net) |
+| **WhatsApp** | Channels created inside existing app | **No** (Uses existing phone; number stays 100% hidden) | [WhatsApp Web](https://web.whatsapp.com) |
+
+> [!TIP]
+> **Gmail Alias Trick**: If Instagram ever requires a unique email during sign-up, use your existing Gmail with a plus sign: `yourname+hollywood@gmail.com`. All verification emails arrive instantly in your standard inbox without creating any new account!
+
+---
+
+## 3. Master Asset Inventory
 
 For each of the 6 daily celebrities, our automated studio produces two premium assets:
 
@@ -53,9 +73,14 @@ Daily Celebrity Input (today_posts.json)
               └── Outro Screen: Luxury gold particle bokeh + animated laurel crest logo pop-in + CTA
 ```
 
+* **Official Page Logo**: [`page_logo.png`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/page_logo.png)
+* **Luxury Outro Background**: [`backgrounds/outro_background.png`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/backgrounds/outro_background.png)
+* **Reel Production Engine**: [`scripts/build_reel_studio.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/build_reel_studio.js)
+* **Facebook & Album Poster**: [`scripts/post_to_facebook.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/post_to_facebook.js)
+
 ---
 
-## 3. Master Daily Schedule & Peak Timing Matrix
+## 4. Master Daily Schedule & Peak Timing Matrix
 
 All times are aligned with **US Eastern Daylight Time (EDT / New York)** where Hollywood entertainment engagement is highest, with local Indian Standard Time (IST) cross-referenced.
 
@@ -77,18 +102,23 @@ All times are aligned with **US Eastern Daylight Time (EDT / New York)** where H
 
 ---
 
-## 4. Platform-by-Platform Setup & Connection Guide
+## 5. Platform-by-Platform Setup & Direct Portal Links
 
 ---
 
 ### Platform A: Instagram
 
+* **Account Management Portal**: [Instagram Web](https://www.instagram.com)
+* **Meta Business Suite Manager**: [business.facebook.com](https://business.facebook.com)
+* **Meta Developer Dashboard**: [developers.facebook.com](https://developers.facebook.com)
+* **Graph API Explorer**: [developers.facebook.com/tools/explorer](https://developers.facebook.com/tools/explorer)
+
 #### Step 1: Account Creation & Profile Setup
-1. Create a new Instagram account using your official business email.
+1. In the [Instagram App](https://www.instagram.com): Profile $\rightarrow$ tap **Username** at top-left $\rightarrow$ **Add Account** $\rightarrow$ **Create New Account**.
 2. **Handle Suggestions:** `@borntodayhollywood`, `@borntoday.hollywood`, or `@borntodayhollywood_official`.
 3. **Name:** `Born Today Hollywood 🎬`
 4. **Category:** `Entertainment Website` or `Media/News Company`.
-5. **Profile Picture:** Upload the official laurel crest logo (`page_logo.png`).
+5. **Profile Picture:** Upload [`page_logo.png`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/page_logo.png).
 6. **Bio Template:**
    ```
    🎬 Daily Hollywood Celebrity Birthday Tributes
@@ -102,24 +132,19 @@ All times are aligned with **US Eastern Daylight Time (EDT / New York)** where H
 2. Select **Creator** or **Business**.
 
 #### Step 3: Link Instagram to Your Facebook Page
-1. Go to your **Facebook Page: Born Today Hollywood** (`1345901645276194`).
-2. Go to **Page Settings** $\rightarrow$ **Linked Accounts** $\rightarrow$ **Instagram**.
-3. Click **Connect Account** and log in with your Instagram credentials.
-4. Confirm in **Meta Business Suite** that both accounts now appear together.
+1. Go to your [Facebook Page Settings: Linked Accounts](https://www.facebook.com/settings/?tab=linked_accounts).
+2. Select **Instagram** $\rightarrow$ Click **Connect Account** and log in with your new Instagram credentials.
+3. Confirm in [Meta Business Suite](https://business.facebook.com) that both accounts now appear together.
 
 #### Step 4: Connecting Instagram to GitHub Actions
 Because Instagram is part of Meta, we use the **Instagram Graph API** with the same Facebook App!
-1. Go to **Meta for Developers** (`developers.facebook.com`) $\rightarrow$ Your App.
-2. Under **Graph API Explorer**:
-   - Select Permissions:
-     - `instagram_basic`
-     - `instagram_content_publish`
-     - `pages_show_list`
-     - `pages_read_engagement`
+1. Go to [Meta for Developers](https://developers.facebook.com) $\rightarrow$ Your App.
+2. Under [Graph API Explorer](https://developers.facebook.com/tools/explorer):
+   - Select Permissions: `instagram_basic`, `instagram_content_publish`, `pages_show_list`, `pages_read_engagement`.
 3. Find your **Instagram Business Account ID**:
    - Query: `GET /v26.0/{your-fb-page-id}?fields=instagram_business_account`
    - Copy the returned `id` (e.g., `17841400000000000`).
-4. Add to GitHub Secrets:
+4. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions):
    - `IG_USER_ID`: Your Instagram Business Account ID.
    - `FB_TOKEN_BORN`: (Already present; has access to linked Instagram).
 
@@ -127,32 +152,37 @@ Because Instagram is part of Meta, we use the **Instagram Graph API** with the s
 
 ### Platform B: YouTube Shorts
 
+* **Channel Creator Link**: [youtube.com/channel_switcher](https://www.youtube.com/channel_switcher)
+* **YouTube Studio**: [studio.youtube.com](https://studio.youtube.com)
+* **Google Cloud Console**: [console.cloud.google.com](https://console.cloud.google.com)
+* **YouTube Data API v3 Library**: [console.cloud.google.com/apis/library/youtube.googleapis.com](https://console.cloud.google.com/apis/library/youtube.googleapis.com)
+* **OAuth Consent Screen**: [console.cloud.google.com/apis/credentials/consent](https://console.cloud.google.com/apis/credentials/consent)
+* **API Credentials Manager**: [console.cloud.google.com/apis/credentials](https://console.cloud.google.com/apis/credentials)
+
 #### Step 1: Create a Dedicated YouTube Brand Channel
-1. Go to **YouTube** while logged into your Google account $\rightarrow$ Click your profile avatar $\rightarrow$ **Settings**.
-2. Click **Add or manage your channels** $\rightarrow$ **Create a Channel**.
+1. Open the [YouTube Channel Switcher](https://www.youtube.com/channel_switcher) while logged into your existing Gmail.
+2. Click **Create a Channel**.
 3. **Channel Name:** `Born Today Hollywood`
 4. **Handle:** `@BornTodayHollywood`
-5. **Branding:**
-   - Avatar: `page_logo.png`
+5. **Branding in [YouTube Studio](https://studio.youtube.com/channel/editing/profile):**
+   - Avatar: [`page_logo.png`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/page_logo.png)
    - Banner: Luxury gold confetti background with *"Born Today Hollywood — Celebrating Cinema Legends Daily"*.
 
 #### Step 2: Google Cloud Console Project & YouTube API
-1. Go to **Google Cloud Console** (`console.cloud.google.com`).
-2. Create a new project: `born-today-hollywood-poster`.
-3. Go to **APIs & Services** $\rightarrow$ **Library** $\rightarrow$ Search for **YouTube Data API v3** $\rightarrow$ Click **Enable**.
-4. Go to **OAuth consent screen**:
+1. Open [Google Cloud Console](https://console.cloud.google.com) and create a project: `born-today-hollywood-poster`.
+2. Go to [YouTube Data API v3 in Library](https://console.cloud.google.com/apis/library/youtube.googleapis.com) $\rightarrow$ Click **Enable**.
+3. Go to [OAuth consent screen](https://console.cloud.google.com/apis/credentials/consent):
    - User Type: **External**.
    - App Name: `Born Today Hollywood Uploader`.
    - Add Scope: `https://www.googleapis.com/auth/youtube.upload`.
    - Publishing Status: **Testing** $\rightarrow$ Add your personal Gmail as a **Test User**.
-5. Go to **Credentials** $\rightarrow$ **Create Credentials** $\rightarrow$ **OAuth client ID**:
-   - Application Type: **Desktop App** or **Web Application**.
+4. Go to [Credentials](https://console.cloud.google.com/apis/credentials) $\rightarrow$ **Create Credentials** $\rightarrow$ **OAuth client ID**:
+   - Application Type: **Web Application** or **Desktop App**.
    - Note down: `Client ID` and `Client Secret`.
 
-#### Step 3: Generate Permanent Refresh Token
-1. Run a one-time OAuth consent script in Node.js to authorize your YouTube channel.
-2. Authorize with your channel's Google account to receive a **Refresh Token**.
-3. Add to GitHub Secrets:
+#### Step 3: Generate Permanent Refresh Token & Add to GitHub
+1. Authorize your channel via OAuth to receive your permanent `Refresh Token`.
+2. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions):
    - `YOUTUBE_CLIENT_ID`
    - `YOUTUBE_CLIENT_SECRET`
    - `YOUTUBE_REFRESH_TOKEN`
@@ -161,19 +191,17 @@ Because Instagram is part of Meta, we use the **Instagram Graph API** with the s
 
 ### Platform C: Threads
 
+* **Threads Web**: [threads.net](https://www.threads.net)
+* **Official Threads API Documentation**: [developers.facebook.com/docs/threads](https://developers.facebook.com/docs/threads)
+
 #### Step 1: Account Activation
-1. When your Instagram account (`@borntodayhollywood`) is active, open the **Threads app** or go to `threads.net`.
-2. Tap **Log in with Instagram** to import your bio, logo, and verified link instantly.
+1. When your Instagram account (`@borntodayhollywood`) is active, go to [threads.net](https://www.threads.net) or download the Threads mobile app.
+2. Click **Log in with Instagram** to sync your bio, handle, and avatar with 1 click.
 
 #### Step 2: Threads API Integration
-1. Go to **Meta for Developers** $\rightarrow$ Add **Threads API** use case.
-2. Permissions required:
-   - `threads_basic`
-   - `threads_content_publish`
-3. Posting mechanism:
-   - Step 1: Create media container: `POST https://graph.threads.net/v1.0/{threads-user-id}/threads?media_type=IMAGE&image_url=...&text=...`
-   - Step 2: Publish container: `POST https://graph.threads.net/v1.0/{threads-user-id}/threads_publish?creation_id={container-id}`
-4. Add to GitHub Secrets:
+1. In [Meta for Developers](https://developers.facebook.com), add the **Threads API** product to your app.
+2. Permissions required: `threads_basic`, `threads_content_publish`.
+3. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions):
    - `THREADS_USER_ID`
    - `THREADS_ACCESS_TOKEN`
 
@@ -181,42 +209,44 @@ Because Instagram is part of Meta, we use the **Instagram Graph API** with the s
 
 ### Platform D: WhatsApp Channel
 
+* **WhatsApp Web**: [web.whatsapp.com](https://web.whatsapp.com)
+
 #### Step 1: Channel Creation
-1. Open **WhatsApp** on mobile or desktop $\rightarrow$ Go to the **Updates** tab.
+1. Open [WhatsApp](https://web.whatsapp.com) or the WhatsApp mobile app $\rightarrow$ Go to the **Updates** tab.
 2. Tap **Channels (+)** $\rightarrow$ **Create Channel**.
 3. **Channel Name:** `Born Today Hollywood 🎬`
 4. **Description:**
    ```
    Daily birthday tributes, iconic film trivia, and career retrospects for Hollywood's greatest legends! 🎂⭐
    ```
-5. **Channel Icon:** Upload the laurel logo.
+5. **Channel Icon:** Upload [`page_logo.png`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/page_logo.png).
 
 #### Step 2: Distribution Strategy
 1. Copy the public **Channel Invite Link**.
 2. Add this link to your **Instagram Link in Bio**, **YouTube Channel description**, and the pinned first comment on Facebook.
-3. Post **1 daily curated tribute** (the single biggest celebrity of the day) each morning at 9:00 AM EDT.
+3. Post **1 daily curated highlight** (the single biggest celebrity of the day) each morning at 9:00 AM EDT.
 
 ---
 
-## 5. GitHub Actions & Automation Secrets Architecture
+## 6. GitHub Actions & Automation Secrets Architecture
 
-All automation credentials are stored securely in **GitHub Repository Secrets** (`Settings` $\rightarrow$ `Secrets and variables` $\rightarrow$ `Actions`):
+All credentials are saved securely in [GitHub Repository Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions):
 
-| Secret Name | Platform | Description |
-| :--- | :--- | :--- |
-| `FB_PAGE_ID_BORN` | Facebook | Page ID (`1345901645276194`) |
-| `FB_TOKEN_BORN` | Facebook / IG | Permanent Meta System User Token |
-| `IG_USER_ID` | Instagram | Instagram Business Account ID |
-| `YOUTUBE_CLIENT_ID` | YouTube | Google Cloud OAuth Client ID |
-| `YOUTUBE_CLIENT_SECRET` | YouTube | Google Cloud OAuth Client Secret |
-| `YOUTUBE_REFRESH_TOKEN` | YouTube | Permanent Offline Refresh Token |
-| `THREADS_USER_ID` | Threads | Meta Threads Account ID |
-| `THREADS_ACCESS_TOKEN` | Threads | Long-lived Threads API Token |
-| `TMDB_API_KEY` | TMDB | The Movie Database API Key |
+| Secret Name | Platform | Description | Direct Configuration Link |
+| :--- | :--- | :--- | :--- |
+| `FB_PAGE_ID_BORN` | Facebook | Page ID (`1345901645276194`) | [Facebook Page](https://www.facebook.com/1345901645276194) |
+| `FB_TOKEN_BORN` | Facebook / IG | Permanent Meta System User Token | [Meta Graph API Explorer](https://developers.facebook.com/tools/explorer) |
+| `IG_USER_ID` | Instagram | Instagram Business Account ID | [Meta Graph API Explorer](https://developers.facebook.com/tools/explorer) |
+| `YOUTUBE_CLIENT_ID` | YouTube | Google Cloud OAuth Client ID | [Google Cloud Credentials](https://console.cloud.google.com/apis/credentials) |
+| `YOUTUBE_CLIENT_SECRET` | YouTube | Google Cloud OAuth Client Secret | [Google Cloud Credentials](https://console.cloud.google.com/apis/credentials) |
+| `YOUTUBE_REFRESH_TOKEN` | YouTube | Permanent Offline Refresh Token | Generated via OAuth 2.0 |
+| `THREADS_USER_ID` | Threads | Meta Threads Account ID | [Meta for Developers](https://developers.facebook.com) |
+| `THREADS_ACCESS_TOKEN` | Threads | Long-lived Threads API Token | [Meta for Developers](https://developers.facebook.com) |
+| `TMDB_API_KEY` | TMDB | The Movie Database API Key | [TMDB API Settings](https://www.themoviedb.org/settings/api) |
 
 ---
 
-## 6. Step-by-Step Implementation Roadmap
+## 7. Step-by-Step Implementation Roadmap
 
 ```mermaid
 graph TD
@@ -235,14 +265,14 @@ graph TD
 - [x] Codebase cleaned and pushed to `main`.
 
 ### Phase 2: Instagram Expansion (Next Action)
-1. Register `@borntodayhollywood` on Instagram.
-2. Link Instagram to Facebook Page via Meta Business Suite.
-3. Retrieve `IG_USER_ID`.
+1. Register `@borntodayhollywood` on [Instagram](https://www.instagram.com).
+2. Link Instagram to Facebook Page via [Meta Business Suite](https://business.facebook.com).
+3. Retrieve `IG_USER_ID` from [Meta Graph API Explorer](https://developers.facebook.com/tools/explorer).
 4. Add Instagram publishing function in `scripts/post_to_facebook.js` to cross-post albums and reels automatically.
 
 ### Phase 3: YouTube Shorts Expansion
-1. Create "Born Today Hollywood" brand channel on YouTube.
-2. Enable YouTube Data API v3 on Google Cloud.
+1. Create "Born Today Hollywood" brand channel on [YouTube Channel Switcher](https://www.youtube.com/channel_switcher).
+2. Enable [YouTube Data API v3](https://console.cloud.google.com/apis/library/youtube.googleapis.com) on Google Cloud.
 3. Create `scripts/post_to_youtube.js` to automatically upload the top 2–3 reels daily as Shorts.
 
 ---
