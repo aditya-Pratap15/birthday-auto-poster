@@ -101,20 +101,22 @@ function getAudioDuration(filePath) {
  */
 async function ensureStyledLogo() {
   const styledLogoPath = path.join(TEMP_DIR, 'styled_logo.png');
-  if (fs.existsSync(styledLogoPath)) return styledLogoPath;
+  if (fs.existsSync(styledLogoPath)) {
+    try { fs.unlinkSync(styledLogoPath); } catch (e) {}
+  }
 
   if (!fs.existsSync(PAGE_LOGO_PATH)) {
     throw new Error(`Page logo not found at: ${PAGE_LOGO_PATH}`);
   }
 
-  console.log(`    🎨 Rendering luxury circular logo...`);
+  console.log(`    ⭐ Rendering luxury circular logo (enlarged)...`);
   const logoBase64 = fs.readFileSync(PAGE_LOGO_PATH).toString('base64');
   const browser = await puppeteer.launch({
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
   const page = await browser.newPage();
-  await page.setViewport({ width: 360, height: 360, deviceScaleFactor: 2 });
+  await page.setViewport({ width: 440, height: 440, deviceScaleFactor: 2 });
 
   const html = `
     <!DOCTYPE html>
@@ -128,15 +130,15 @@ async function ensureStyledLogo() {
           display: flex;
           align-items: center;
           justify-content: center;
-          width: 360px;
-          height: 360px;
+          width: 440px;
+          height: 440px;
         }
         .logo-wrap {
-          width: 270px;
-          height: 270px;
+          width: 360px;
+          height: 360px;
           border-radius: 50%;
-          border: 6px solid #d4af37;
-          box-shadow: 0 0 45px rgba(212, 175, 55, 0.75), 0 0 18px rgba(255, 215, 0, 0.5);
+          border: 8px solid #d4af37;
+          box-shadow: 0 0 55px rgba(212, 175, 55, 0.8), 0 0 22px rgba(255, 215, 0, 0.55);
           overflow: hidden;
           display: flex;
           align-items: center;
@@ -239,13 +241,14 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       }
 
       const isListNum = /^\d+\.$/.test(rawWord);
-      // List numbers are NOT sentence ends
+      // Punctuation break points
       const isSentenceEnd = isListNum ? false : /[.!?…]+$/.test(rawWord);
+      const isClauseEnd = /[,;:\-—]$/.test(rawWord);
 
       const cleanToken = rawWord.toLowerCase().replace(/[^a-z0-9]/g, '');
       const isBold = boldWordsSet.has(cleanToken);
       const styled = isBold
-        ? `{\\b1\\fsize72\\c&H0024D8FF&}${rawWord}{\\b0\\fsize60\\c&H00FFFFFF&}`
+        ? `{\\b1\\fsize72\\c&H0024D8FF&}${rawWord}{\\b1\\fsize60\\c&H00FFFFFF&}`
         : `{\\b1\\fsize60\\c&H00FFFFFF&}${rawWord}`;
 
       return {
@@ -254,48 +257,53 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
         raw: rawWord,
         styled,
         isSentenceEnd,
+        isClauseEnd,
         isListNum
       };
     });
 
+    // Group words into clean single-appearance chunks (2-3 words each, or ending on punctuation)
+    const chunks = [];
     let i = 0;
     while (i < words.length) {
-      const line1 = [];
-      while (line1.length < 3 && i < words.length) {
-        if (line1.length > 0 && words[i].isListNum) break;
-        line1.push(words[i]);
-        const isEnd = words[i].isSentenceEnd;
+      const chunk = [];
+      while (i < words.length && chunk.length < 3) {
+        if (chunk.length > 0 && words[i].isListNum) break;
+        chunk.push(words[i]);
+        const isEnd = words[i].isSentenceEnd || (chunk.length >= 2 && words[i].isClauseEnd);
         i++;
         if (isEnd) break;
       }
+      if (chunk.length > 0) {
+        chunks.push(chunk);
+      }
+    }
 
-      const line2 = [];
-      if (line1.length > 0 && !line1[line1.length - 1].isSentenceEnd && i < words.length && !words[i].isListNum) {
-        while (line2.length < 3 && i < words.length) {
-          if (line2.length > 0 && words[i].isListNum) break;
-          line2.push(words[i]);
-          const isEnd = words[i].isSentenceEnd;
-          i++;
-          if (isEnd) break;
+    // Emit each chunk: ONLY the current spoken words appear on screen. When next words start, previous words are gone!
+    for (let c = 0; c < chunks.length; c++) {
+      const curChunk = chunks[c];
+      const chunkStart = curChunk[0].start;
+      const lastWord = curChunk[curChunk.length - 1];
+
+      let chunkEnd;
+      if (c + 1 < chunks.length) {
+        const nextStart = chunks[c + 1][0].start;
+        // If there is a natural pause/silence between sentences (>0.35s), disappear shortly after last word
+        if (nextStart - lastWord.end > 0.35) {
+          chunkEnd = lastWord.end + 0.15;
+        } else {
+          // Seamless hand-off to the next words
+          chunkEnd = Math.max(lastWord.end + 0.05, nextStart - 0.02);
         }
-      }
-
-      const line1Text = line1.map(w => w.styled).join(' ');
-      const line1Start = line1[0].start;
-
-      if (line2.length > 0) {
-        const line2Start = line2[0].start;
-        const line2End = Math.min(voiceDuration + 0.1, line2[line2.length - 1].end + 0.35);
-        const line2Text = line2.map(w => w.styled).join(' ');
-
-        // Event 1: Line 1 appears first with smooth fade-in bloom
-        events.push(`Dialogue: 0,${formatAssTime(line1Start)},${formatAssTime(line2Start)},Default,,0,0,0,,{\\fad(180,60)}${line1Text}`);
-        // Event 2: Line 2 appears strictly BELOW Line 1 with smooth fade-in bloom
-        events.push(`Dialogue: 0,${formatAssTime(line2Start)},${formatAssTime(line2End)},Default,,0,0,0,,{\\fad(180,60)}${line1Text}\\N${line2Text}`);
       } else {
-        const line1End = Math.min(voiceDuration + 0.1, line1[line1.length - 1].end + 0.35);
-        events.push(`Dialogue: 0,${formatAssTime(line1Start)},${formatAssTime(line1End)},Default,,0,0,0,,{\\fad(180,60)}${line1Text}`);
+        chunkEnd = Math.min(voiceDuration + 0.1, lastWord.end + 0.3);
       }
+
+      if (chunkEnd <= chunkStart) chunkEnd = chunkStart + 0.3;
+
+      const chunkText = curChunk.map(w => w.styled).join(' ');
+      // Single chunk on screen: 90ms fade-in, 40ms fade-out
+      events.push(`Dialogue: 0,${formatAssTime(chunkStart)},${formatAssTime(chunkEnd)},Default,,0,0,0,,{\\fad(90,40)}${chunkText}`);
     }
   } else {
     const sentences = fullNarration.split(/(?<=[.?!])\s+/);
@@ -303,16 +311,16 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
     sentences.forEach((s, idx) => {
       const start = idx * chunkDur;
       const end = (idx + 1) * chunkDur;
-      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\fad(180,60)\\b1\\fsize60\\c&H00FFFFFF&}${s}`);
+      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\fad(90,40)\\b1\\fsize60\\c&H00FFFFFF&}${s}`);
     });
   }
 
-  // Single Outro Screen: Text pops up smoothly at 0.70s and stays until the end of video
+  // Single Outro Screen: Text pops up smoothly at 0.70s and stays until the end of video (POSITION UNCHANGED: Y=1160)
   const outroTextStart = outroStartTime + 0.70;
-  const outroTextEnd = totalDuration + 2.0; // Stays permanently visible together with logo
+  const outroTextEnd = totalDuration + 2.0;
   events.push(
     `Dialogue: 0,${formatAssTime(outroTextStart)},${formatAssTime(outroTextEnd)},Default,,0,0,0,,` +
-    `{\\an5\\pos(540,1160)\\fscx0\\fscy0\\t(0,350,\\fscx100\\fscy100)\\fad(150,0)\\b1\\fsize58\\c&H0024D8FF&}Born Today Hollywood\\N\\N{\\b1\\fsize46\\c&H00FFFFFF&}Like & Follow for daily updates ✨`
+    `{\\an5\\pos(540,1160)\\fscx0\\fscy0\\t(0,350,\\fscx100\\fscy100)\\fad(150,0)\\b1\\fsize58\\c&H0024D8FF&}Born Today Hollywood\\N\\N{\\b1\\fsize46\\c&H00FFFFFF&}Like & Follow for daily updates 🎬`
   );
 
   const assContent = `[Script Info]
@@ -449,7 +457,7 @@ async function buildReel(post, index = 1) {
   inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
 
   // Animate logo popping in smoothly with cubic easing on the single black end screen
-  filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 280*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 280*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
+  filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
                    `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide${outroBgIdx}];`;
 
   // Concatenate Slides (Slideshow + Single Outro Screen)
