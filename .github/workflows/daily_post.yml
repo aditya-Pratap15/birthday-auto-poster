@@ -46,6 +46,7 @@ jobs:
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
           FB_PAGE_ID_BORN: ${{ secrets.FB_PAGE_ID_BORN_TODAY || secrets.FB_PAGE_ID_BORN || secrets.FB_PAGE_ID }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID || '17841416842135384' }}
         run: node scripts/post_to_facebook.js
 
       - name: Clean Uploaded Media & Commit Post Logs

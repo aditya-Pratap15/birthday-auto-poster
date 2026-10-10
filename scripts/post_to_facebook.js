@@ -16,6 +16,7 @@ const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSql9xBKvNrgTuOJeF8DdoxvYRtR5cgAl3oYmT5inokVO1JuoszNEk6JbmuqRXi7hQewVldkZA4M9OZBxe7gWFJO54krImBriXuqP7VxYuoT9nFLZA7Oo7U2BkkLcm1mNuD3tMXVD4DkcFakI1jz6bxlQiSlhJQsWZC2icgVWsGGAOImEsOYVNSlc';
 const DEFAULT_PAGE_ID = (process.env.FB_PAGE_ID_BORN || process.env.FB_PAGE_ID || '1345901645276194').trim();
 const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || VERIFIED_TOKEN).trim();
+const DEFAULT_IG_ID = (process.env.IG_USER_ID || '17841416842135384').trim();
 
 function formatFacebookUnicodeBold(text) {
   if (!text || typeof text !== 'string') return '';
@@ -260,7 +261,309 @@ async function postCelebrityAlbum(pageId, token, caption, collagePath, singlePho
   console.log(`    🖼️ Total photos in album: ${mediaFbids.length} (Master Collage + ${mediaFbids.length - 1} single photos)`);
 
   // 3. Publish multi-photo post to /{pageId}/feed
-  return publishMultiPhotoPost(pageId, token, caption, mediaFbids, scheduledPublishTime);
+  const publishRes = await publishMultiPhotoPost(pageId, token, caption, mediaFbids, scheduledPublishTime);
+  publishRes.collagePhotoId = collageUpload.id;
+  return publishRes;
+}
+
+
+function getFacebookPhotoCdnUrl(photoId, token) {
+  return new Promise((resolve) => {
+    https.get(`https://graph.facebook.com/v26.0/${photoId}?fields=images&access_token=${token}`, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.images && parsed.images.length > 0) {
+            resolve(parsed.images[0].source);
+          } else {
+            resolve(null);
+          }
+        } catch (e) {
+          resolve(null);
+        }
+      });
+    }).on('error', () => resolve(null));
+  });
+}
+
+async function postInstagramCarousel(igUserId, token, caption, imageUrls, scheduledPublishTime = null) {
+  if (!igUserId || !imageUrls || imageUrls.length === 0) return { success: false, error: 'Missing IG ID or images' };
+
+  console.log(`    [📸 IG] Creating Instagram Carousel container for ${imageUrls.length} photos...`);
+  const itemIds = [];
+
+  for (let idx = 0; idx < Math.min(10, imageUrls.length); idx++) {
+    const imgUrl = imageUrls[idx];
+    if (!imgUrl) continue;
+
+    const itemId = await new Promise((resolve) => {
+      const postData = new URLSearchParams({
+        access_token: token,
+        image_url: imgUrl,
+        is_carousel_item: 'true'
+      }).toString();
+
+      const req = https.request({
+        hostname: 'graph.facebook.com',
+        port: 443,
+        path: `/v26.0/${igUserId}/media`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Length': Buffer.byteLength(postData)
+        }
+      }, res => {
+        let data = '';
+        res.on('data', c => data += c);
+        res.on('end', () => {
+          try {
+            const parsed = JSON.parse(data);
+            resolve(parsed.id || null);
+          } catch (e) { resolve(null); }
+        });
+      });
+      req.on('error', () => resolve(null));
+      req.write(postData);
+      req.end();
+    });
+
+    if (itemId) itemIds.push(itemId);
+  }
+
+  if (itemIds.length < 2) {
+    console.warn(`    [!] Insufficient items for Instagram Carousel (need at least 2, got ${itemIds.length})`);
+    return { success: false, error: 'Insufficient carousel items' };
+  }
+
+  // Create Carousel Container
+  const nowTs = Math.floor(Date.now() / 1000);
+  const carouselParams = {
+    access_token: token,
+    media_type: 'CAROUSEL',
+    children: itemIds.join(','),
+    caption: caption
+  };
+
+  if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
+    carouselParams.scheduled_publish_time = String(scheduledPublishTime);
+  }
+
+  const carouselPostData = new URLSearchParams(carouselParams).toString();
+
+  const containerId = await new Promise((resolve) => {
+    const req = https.request({
+      hostname: 'graph.facebook.com',
+      port: 443,
+      path: `/v26.0/${igUserId}/media`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(carouselPostData)
+      }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          resolve(parsed.id || null);
+        } catch (e) { resolve(null); }
+      });
+    });
+    req.on('error', () => resolve(null));
+    req.write(carouselPostData);
+    req.end();
+  });
+
+  if (!containerId) {
+    return { success: false, error: 'Failed to create carousel container' };
+  }
+
+  // Publish Container
+  return new Promise((resolve) => {
+    const publishData = new URLSearchParams({
+      access_token: token,
+      creation_id: containerId
+    }).toString();
+
+    const req = https.request({
+      hostname: 'graph.facebook.com',
+      port: 443,
+      path: `/v26.0/${igUserId}/media_publish`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(publishData)
+      }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.id) {
+            resolve({ success: true, id: parsed.id });
+          } else {
+            resolve({ success: false, error: parsed });
+          }
+        } catch (e) { resolve({ success: false, error: data }); }
+      });
+    });
+    req.on('error', err => resolve({ success: false, error: err.message }));
+    req.write(publishData);
+    req.end();
+  });
+}
+
+async function postInstagramReel(igUserId, token, caption, videoPath, scheduledPublishTime = null) {
+  if (!igUserId || !fs.existsSync(videoPath)) return { success: false, error: 'Missing IG ID or video file' };
+
+  const fileSize = fs.statSync(videoPath).size;
+  const nowTs = Math.floor(Date.now() / 1000);
+
+  console.log(`    [🎬 IG] Starting resumable Instagram Reel upload session (${(fileSize / (1024*1024)).toFixed(2)} MB)...`);
+
+  const initParams = {
+    access_token: token,
+    upload_type: 'resumable',
+    media_type: 'REELS',
+    caption: caption
+  };
+
+  if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
+    initParams.scheduled_publish_time = String(scheduledPublishTime);
+  }
+
+  const initData = new URLSearchParams(initParams).toString();
+
+  const initRes = await new Promise((resolve) => {
+    const req = https.request({
+      hostname: 'graph.facebook.com',
+      port: 443,
+      path: `/v26.0/${igUserId}/media`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(initData)
+      }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try { resolve(JSON.parse(data)); } catch (e) { resolve({ error: data }); }
+      });
+    });
+    req.on('error', err => resolve({ error: err.message }));
+    req.write(initData);
+    req.end();
+  });
+
+  if (!initRes.uri || !initRes.id) {
+    return { success: false, error: initRes.error || initRes };
+  }
+
+  const uploadUri = initRes.uri;
+  const containerId = initRes.id;
+
+  // Upload video stream to rupload.facebook.com
+  const uploadUrlObj = new URL(uploadUri);
+  const videoBuffer = fs.readFileSync(videoPath);
+
+  const transferSuccess = await new Promise((resolve) => {
+    const req = https.request({
+      hostname: uploadUrlObj.hostname,
+      port: 443,
+      path: uploadUrlObj.pathname + uploadUrlObj.search,
+      method: 'POST',
+      headers: {
+        'Authorization': `OAuth ${token}`,
+        'offset': '0',
+        'file_size': String(fileSize),
+        'Content-Type': 'application/octet-stream',
+        'Content-Length': videoBuffer.length
+      }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          resolve(parsed.success !== false);
+        } catch (e) { resolve(true); }
+      });
+    });
+    req.on('error', () => resolve(false));
+    req.write(videoBuffer);
+    req.end();
+  });
+
+  if (!transferSuccess) {
+    return { success: false, error: 'Video binary transfer failed' };
+  }
+
+  // Poll container until status is FINISHED (up to 40 seconds)
+  console.log(`    [🎬 IG] Processing video encoding on Instagram servers...`);
+  let isReady = false;
+  for (let poll = 0; poll < 10; poll++) {
+    await new Promise(r => setTimeout(r, 4000));
+    const statusObj = await new Promise((resolve) => {
+      https.get(`https://graph.facebook.com/v26.0/${containerId}?fields=status_code&access_token=${token}`, res => {
+        let d = '';
+        res.on('data', c => d += c);
+        res.on('end', () => {
+          try { resolve(JSON.parse(d)); } catch (e) { resolve({}); }
+        });
+      }).on('error', () => resolve({}));
+    });
+
+    if (statusObj.status_code === 'FINISHED') {
+      isReady = true;
+      break;
+    } else if (statusObj.status_code === 'ERROR') {
+      return { success: false, error: 'Instagram video encoding failed' };
+    }
+  }
+
+  if (!isReady) {
+    console.warn(`    [!] Instagram encoding still processing, attempting publish...`);
+  }
+
+  // Publish Container
+  return new Promise((resolve) => {
+    const publishData = new URLSearchParams({
+      access_token: token,
+      creation_id: containerId
+    }).toString();
+
+    const req = https.request({
+      hostname: 'graph.facebook.com',
+      port: 443,
+      path: `/v26.0/${igUserId}/media_publish`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(publishData)
+      }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.id) {
+            resolve({ success: true, id: parsed.id });
+          } else {
+            resolve({ success: false, error: parsed });
+          }
+        } catch (e) { resolve({ success: false, error: data }); }
+      });
+    });
+    req.on('error', err => resolve({ success: false, error: err.message }));
+    req.write(publishData);
+    req.end();
+  });
 }
 
 function postComment(targetId, token, commentText) {
