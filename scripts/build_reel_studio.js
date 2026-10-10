@@ -247,9 +247,10 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
 
       const cleanToken = rawWord.toLowerCase().replace(/[^a-z0-9]/g, '');
       const isBold = boldWordsSet.has(cleanToken);
+      // Keep font size constant (62pt) across all words to prevent line height jumping!
       const styled = isBold
-        ? `{\\b1\\fsize72\\c&H0024D8FF&}${rawWord}{\\b1\\fsize60\\c&H00FFFFFF&}`
-        : `{\\b1\\fsize60\\c&H00FFFFFF&}${rawWord}`;
+        ? `{\\b1\\c&H0024D8FF&}${rawWord}{\\c&H00FFFFFF&}`
+        : `{\\b1\\c&H00FFFFFF&}${rawWord}`;
 
       return {
         start: (b.offset || 0) / 10000000,
@@ -279,7 +280,8 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       }
     }
 
-    // Emit each chunk: ONLY the current spoken words appear on screen. When next words start, previous words are gone!
+    // Emit each chunk with a locked vertical baseline at Y=1060 (an2pos(540,1060))
+    // Every single line sits on the EXACT same horizontal baseline, completely preventing vertical bouncing!
     for (let c = 0; c < chunks.length; c++) {
       const curChunk = chunks[c];
       const chunkStart = curChunk[0].start;
@@ -288,11 +290,9 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       let chunkEnd;
       if (c + 1 < chunks.length) {
         const nextStart = chunks[c + 1][0].start;
-        // If there is a natural pause/silence between sentences (>0.35s), disappear shortly after last word
         if (nextStart - lastWord.end > 0.35) {
           chunkEnd = lastWord.end + 0.15;
         } else {
-          // Seamless hand-off to the next words
           chunkEnd = Math.max(lastWord.end + 0.05, nextStart - 0.02);
         }
       } else {
@@ -302,8 +302,8 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       if (chunkEnd <= chunkStart) chunkEnd = chunkStart + 0.3;
 
       const chunkText = curChunk.map(w => w.styled).join(' ');
-      // Single chunk on screen: 90ms fade-in, 40ms fade-out
-      events.push(`Dialogue: 0,${formatAssTime(chunkStart)},${formatAssTime(chunkEnd)},Default,,0,0,0,,{\\fad(90,40)}${chunkText}`);
+      // Locked at \an2\pos(540,1060) with smooth 90ms fade-in, 40ms fade-out
+      events.push(`Dialogue: 0,${formatAssTime(chunkStart)},${formatAssTime(chunkEnd)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)}${chunkText}`);
     }
   } else {
     const sentences = fullNarration.split(/(?<=[.?!])\s+/);
@@ -311,11 +311,11 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
     sentences.forEach((s, idx) => {
       const start = idx * chunkDur;
       const end = (idx + 1) * chunkDur;
-      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\fad(90,40)\\b1\\fsize60\\c&H00FFFFFF&}${s}`);
+      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)\\b1\\c&H00FFFFFF&}${s}`);
     });
   }
 
-  // Single Outro Screen: Text pops up smoothly at 0.70s and stays until the end of video (POSITION UNCHANGED: Y=1160)
+  // Single Outro Screen: Text pops up smoothly at 0.70s and stays until the end of video (POSITION: Y=1160)
   const outroTextStart = outroStartTime + 0.70;
   const outroTextEnd = totalDuration + 2.0;
   events.push(
@@ -330,7 +330,7 @@ PlayResY: 1920
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial,60,&H00FFFFFF,&H000000FF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,1,5,2,5,70,70,0,1
+Style: Default,Arial,62,&H00FFFFFF,&H000000FF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,1,5,2,2,70,70,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
@@ -449,16 +449,23 @@ async function buildReel(post, index = 1) {
                      `[bg${idx}][fg${idx}]overlay=(W-w)/2:(H-h)/2-40,setsar=1[slide${idx}];`;
   }
 
-  // Single Outro Screen Inputs
+  // Single Outro Screen Inputs (Luxury Gold Particle Background)
   const outroBgIdx = numEraSlides + 1;
   const outroLogoIdx = numEraSlides + 2;
 
-  inputs.push(`-f lavfi -t ${OUTRO_DURATION.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
-  inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
+  const outroBgPath = path.join(ROOT_DIR, 'backgrounds', 'outro_background.png');
+  if (fs.existsSync(outroBgPath)) {
+    inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${outroBgPath}"`);
+    filterComplex += `[${outroBgIdx}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[outro_bg];` +
+                     `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
+                     `[outro_bg][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide${outroBgIdx}];`;
+  } else {
+    inputs.push(`-f lavfi -t ${OUTRO_DURATION.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
+    filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
+                     `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide${outroBgIdx}];`;
+  }
 
-  // Animate logo popping in smoothly with cubic easing on the single black end screen
-  filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
-                   `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide${outroBgIdx}];`;
+  inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
 
   // Concatenate Slides (Slideshow + Single Outro Screen)
   const totalSlidesCount = outroBgIdx + 1;
