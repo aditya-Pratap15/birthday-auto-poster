@@ -14,3 +14,7 @@ temp_reel_assets/
 test_voice*
 *.ass
 !reels/.gitkeep
+
+# Private Master Blueprint Documentation (Keep Local Only)
+Multi_Platform_Expansion_And_Automation_Master_Guide.md
+*Guide*.md
