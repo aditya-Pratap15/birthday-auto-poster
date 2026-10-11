@@ -499,11 +499,11 @@ async function postInstagramReel(igUserId, token, caption, videoPath, scheduledP
     return { success: false, error: 'Video binary transfer failed' };
   }
 
-  // Poll container until status is FINISHED (up to 40 seconds)
-  console.log(`    [🎬 IG] Processing video encoding on Instagram servers...`);
+    // Poll container until status is FINISHED (up to 120 seconds with robust status check)
+  console.log(`    [🎬 IG] Video uploaded! Processing video encoding on Instagram servers...`);
   let isReady = false;
-  for (let poll = 0; poll < 10; poll++) {
-    await new Promise(r => setTimeout(r, 4000));
+  for (let poll = 0; poll < 24; poll++) {
+    await new Promise(r => setTimeout(r, 5000));
     const statusObj = await new Promise((resolve) => {
       https.get(`https://graph.facebook.com/v26.0/${containerId}?fields=status_code&access_token=${token}`, res => {
         let d = '';
@@ -514,13 +514,17 @@ async function postInstagramReel(igUserId, token, caption, videoPath, scheduledP
       }).on('error', () => resolve({}));
     });
 
-    if (statusObj.status_code === 'FINISHED') {
+    const statusCode = statusObj.status_code;
+    if (statusCode === 'FINISHED') {
+      console.log(`    [🎬 IG] Video encoding complete (took ${(poll + 1) * 5}s)!`);
       isReady = true;
       break;
-    } else if (statusObj.status_code === 'ERROR') {
-      return { success: false, error: 'Instagram video encoding failed' };
+    } else if (statusCode === 'ERROR') {
+      return { success: false, error: 'Instagram server video encoding failed' };
+    } else if (statusCode === 'EXPIRED') {
+      return { success: false, error: 'Instagram video container expired' };
     }
-  }
+    }
 
   if (!isReady) {
     console.warn(`    [!] Instagram encoding still processing, attempting publish...`);
