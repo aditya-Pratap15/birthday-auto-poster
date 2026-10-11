@@ -2,16 +2,22 @@
  * scripts/post_to_instagram.js
  * 
  * Omnichannel Dedicated Instagram Auto-Poster for Born Today Hollywood.
- * Supports spaced-out publishing for the Top 3 Headliners:
- *   - Headliner 1: 5:30 PM IST (8:00 AM EDT / US Morning Commute)
- *   - Headliner 2: 10:30 PM IST (1:00 PM EDT / US Lunchtime)
- *   - Headliner 3: 3:30 AM IST (6:00 PM EDT / US Evening Primetime)
- *
- * For each headliner, publishes:
- *   1. Swipeable Multi-Photo Carousel (Master Collage #1 + 4 Career Highlights)
- *   2. Vertical 9:16 Video Reel with animated captions & neural voiceover
- *
- * Automatically deletes uploaded local reel video to keep Git repository lightweight.
+ * Supports spaced-out publishing for the Top 3 Headliners with 45-minute offset between Photo and Reel:
+ * 
+ *   - Drop 1 (US Morning Commute):
+ *       5:30 PM IST (12:00 UTC) -> Headliner 1: Photo Carousel
+ *       6:15 PM IST (12:45 UTC) -> Headliner 1: Vertical Reel [+45m offset]
+ * 
+ *   - Drop 2 (US Lunchtime):
+ *       10:30 PM IST (17:00 UTC) -> Headliner 2: Photo Carousel
+ *       11:15 PM IST (17:45 UTC) -> Headliner 2: Vertical Reel [+45m offset]
+ * 
+ *   - Drop 3 (US Evening Primetime):
+ *       3:30 AM IST (22:00 UTC) -> Headliner 3: Photo Carousel
+ *       4:15 AM IST (22:45 UTC) -> Headliner 3: Vertical Reel [+45m offset]
+ * 
+ * Automatically discovers the next pending item (Carousel or Reel), executes it,
+ * records the post ID, and deletes uploaded local reel video to keep Git repository lightweight.
  */
 
 const fs = require('fs');
@@ -328,7 +334,7 @@ async function postInstagramReel(igUserId, token, caption, videoPath) {
 }
 
 // -------------------------------------------------------------
-// Main Execution
+// Main Execution with 45-Minute Offset Auto-Discovery
 // -------------------------------------------------------------
 async function main() {
   console.log('======================================================');
@@ -354,121 +360,147 @@ async function main() {
     process.exit(0);
   }
 
-  // Parse CLI args: --target <1|2|3|next|all>
+  // Parse CLI args: --target <1|2|3|auto> --type <carousel|reel|auto>
   const args = process.argv.slice(2);
-  let targetMode = 'next';
+  let targetArg = 'auto';
   const targetIdx = args.indexOf('--target');
   if (targetIdx !== -1 && args[targetIdx + 1]) {
-    targetMode = args[targetIdx + 1].toLowerCase();
+    targetArg = args[targetIdx + 1].toLowerCase();
+  }
+
+  let typeArg = 'auto';
+  const typeIdx = args.indexOf('--type');
+  if (typeIdx !== -1 && args[typeIdx + 1]) {
+    typeArg = args[typeIdx + 1].toLowerCase();
   }
 
   const topHeadliners = posts.slice(0, 3);
-  let selectedPosts = [];
+  let targetPost = null;
+  let actionType = null; // 'carousel' or 'reel'
 
-  if (targetMode === 'all') {
-    selectedPosts = topHeadliners;
-  } else if (['1', '2', '3'].includes(targetMode)) {
-    const idx = parseInt(targetMode, 10) - 1;
-    if (topHeadliners[idx]) selectedPosts = [topHeadliners[idx]];
-  } else {
-    // Mode 'next': Find the first unposted headliner
-    const nextUnposted = topHeadliners.find(p => !p.ig_post_id || !p.ig_reel_id);
-    if (!nextUnposted) {
-      console.log('🎉 [i] All 3 Instagram headliners are already posted today! Nothing to do.');
-      process.exit(0);
+  if (['1', '2', '3'].includes(targetArg)) {
+    const idx = parseInt(targetArg, 10) - 1;
+    targetPost = topHeadliners[idx];
+    if (!targetPost) {
+      console.error(`[!] Target headliner index ${targetArg} not found.`);
+      process.exit(1);
     }
-    selectedPosts = [nextUnposted];
+    if (typeArg === 'carousel' || typeArg === 'reel') {
+      actionType = typeArg;
+    } else {
+      actionType = !targetPost.ig_post_id ? 'carousel' : 'reel';
+    }
+  } else {
+    // Auto Discovery: Scans headliners 1 -> 2 -> 3
+    for (let idx = 0; idx < topHeadliners.length; idx++) {
+      const p = topHeadliners[idx];
+      if (!p.ig_post_id && (typeArg === 'auto' || typeArg === 'carousel')) {
+        targetPost = p;
+        actionType = 'carousel';
+        break;
+      }
+      if (!p.ig_reel_id && (typeArg === 'auto' || typeArg === 'reel')) {
+        targetPost = p;
+        actionType = 'reel';
+        break;
+      }
+    }
   }
 
-  console.log(`[i] Selected ${selectedPosts.length} headliner(s) for Instagram publishing.\n`);
+  if (!targetPost || !actionType) {
+    console.log('🎉 [i] All 3 Instagram headliners (both Carousels & Reels) are already published today! Nothing to do.');
+    process.exit(0);
+  }
 
-  for (const post of selectedPosts) {
-    const celebName = post.celebrity_name;
-    const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
-    console.log(`------------------------------------------------------`);
-    console.log(`🌟 Processing Instagram Drop for: ${celebName}`);
-    console.log(`   Window: ${post.peak_window || 'Peak Window'}`);
-    console.log(`------------------------------------------------------`);
+  const celebName = targetPost.celebrity_name;
+  const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
+  console.log(`------------------------------------------------------`);
+  console.log(`🌟 Executing Instagram Action: [${actionType.toUpperCase()}] for ${celebName}`);
+  console.log(`   Window: ${targetPost.peak_window || 'Peak Window'}`);
+  console.log(`------------------------------------------------------\n`);
 
-    // 1. Post Carousel Album
-    if (!post.ig_post_id) {
-      try {
-        let igPhotos = [];
-        if (post.collage_cdn_url) {
-          igPhotos.push(post.collage_cdn_url);
-        } else if (post.fb_collage_photo_id) {
-          const cdn = await getFacebookPhotoCdnUrl(post.fb_collage_photo_id, DEFAULT_TOKEN);
-          if (cdn) {
-            post.collage_cdn_url = cdn;
-            igPhotos.push(cdn);
-          }
-        }
-
-        if (post.photo_urls && Array.isArray(post.photo_urls)) {
-          igPhotos.push(...post.photo_urls.slice(0, 4));
-        }
-
-        if (igPhotos.length >= 2) {
-          console.log(`[📸 IG] Publishing Photo Carousel for ${celebName} (${igPhotos.length} images)...`);
-          const igCaption = `${post.caption}\n\n${(post.hashtags || []).join(' ')}`;
-          const carRes = await postInstagramCarousel(DEFAULT_IG_ID, DEFAULT_TOKEN, igCaption, igPhotos);
-          if (carRes.success && carRes.id) {
-            post.ig_post_id = carRes.id;
-            console.log(`    ✅ SUCCESS! Instagram Carousel Published! ID: ${carRes.id}`);
-            fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
-          } else {
-            console.warn(`    [!] Carousel Error:`, carRes.error);
-          }
-        } else {
-          console.warn(`    [!] Insufficient photos to form carousel (found ${igPhotos.length}).`);
-        }
-      } catch (err) {
-        console.error(`    [!] Carousel Exception:`, err.message);
-      }
-    } else {
-      console.log(`[i] Carousel already posted for ${celebName} (${post.ig_post_id}).`);
+  // ACTION A: Publish Carousel
+  if (actionType === 'carousel') {
+    if (targetPost.ig_post_id) {
+      console.log(`[i] Carousel already published for ${celebName} (${targetPost.ig_post_id}).`);
+      process.exit(0);
     }
 
-    // 2. Post Vertical Reel
-    let reelPath = post.reel_path ? path.resolve(BASE_DIR, post.reel_path) : '';
+    let igPhotos = [];
+    if (targetPost.collage_cdn_url) {
+      igPhotos.push(targetPost.collage_cdn_url);
+    } else if (targetPost.fb_collage_photo_id) {
+      const cdn = await getFacebookPhotoCdnUrl(targetPost.fb_collage_photo_id, DEFAULT_TOKEN);
+      if (cdn) {
+        targetPost.collage_cdn_url = cdn;
+        igPhotos.push(cdn);
+      }
+    }
+
+    if (targetPost.photo_urls && Array.isArray(targetPost.photo_urls)) {
+      igPhotos.push(...targetPost.photo_urls.slice(0, 4));
+    }
+
+    if (igPhotos.length >= 2) {
+      console.log(`[📸 IG] Publishing Photo Carousel for ${celebName} (${igPhotos.length} images)...`);
+      const igCaption = `${targetPost.caption}\n\n${(targetPost.hashtags || []).join(' ')}`;
+      const carRes = await postInstagramCarousel(DEFAULT_IG_ID, DEFAULT_TOKEN, igCaption, igPhotos);
+      if (carRes.success && carRes.id) {
+        targetPost.ig_post_id = carRes.id;
+        console.log(`    ✅ SUCCESS! Instagram Carousel Published! ID: ${carRes.id}`);
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      } else {
+        console.error(`    [!] Carousel Error:`, carRes.error);
+        process.exit(1);
+      }
+    } else {
+      console.error(`    [!] Insufficient photos for carousel (found ${igPhotos.length}).`);
+      process.exit(1);
+    }
+  }
+
+  // ACTION B: Publish Vertical Reel
+  if (actionType === 'reel') {
+    if (targetPost.ig_reel_id) {
+      console.log(`[i] Reel already published for ${celebName} (${targetPost.ig_reel_id}).`);
+      process.exit(0);
+    }
+
+    let reelPath = targetPost.reel_path ? path.resolve(BASE_DIR, targetPost.reel_path) : '';
     if (!reelPath || !fs.existsSync(reelPath)) {
       const fallbackReel = path.join(BASE_DIR, 'reels', `${safeName}_Reel.mp4`);
       if (fs.existsSync(fallbackReel)) reelPath = fallbackReel;
     }
 
-    if (!post.ig_reel_id && reelPath && fs.existsSync(reelPath)) {
+    if (!reelPath || !fs.existsSync(reelPath)) {
+      console.error(`[!] Reel file not found for ${celebName}: ${reelPath}`);
+      process.exit(1);
+    }
+
+    console.log(`[🎬 IG] Publishing Vertical Reel for ${celebName}...`);
+    const reelCaption = targetPost.reel_caption ||
+      `${targetPost.celebrity_name} turns ${targetPost.age} today! 🎂 What is your favorite movie or role of theirs? 🎬\n\n${(targetPost.hashtags || []).join(' ')}`;
+
+    const reelRes = await postInstagramReel(DEFAULT_IG_ID, DEFAULT_TOKEN, reelCaption, reelPath);
+    if (reelRes.success && reelRes.id) {
+      targetPost.ig_reel_id = reelRes.id;
+      console.log(`    ✅ SUCCESS! Instagram Reel Published! ID: ${reelRes.id}`);
+
       try {
-        console.log(`[🎬 IG] Publishing Vertical Reel for ${celebName}...`);
-        const reelCaption = post.reel_caption ||
-          `${post.celebrity_name} turns ${post.age} today! 🎂 What is your favorite movie or role of theirs? 🎬\n\n${(post.hashtags || []).join(' ')}`;
-
-        const reelRes = await postInstagramReel(DEFAULT_IG_ID, DEFAULT_TOKEN, reelCaption, reelPath);
-        if (reelRes.success && reelRes.id) {
-          post.ig_reel_id = reelRes.id;
-          console.log(`    ✅ SUCCESS! Instagram Reel Published! ID: ${reelRes.id}`);
-
-          try {
-            fs.unlinkSync(reelPath);
-            console.log(`    🧹 Cleaned up local reel video: ${path.basename(reelPath)}`);
-          } catch (delErr) {
-            console.warn(`    [!] Could not delete reel:`, delErr.message);
-          }
-
-          fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
-        } else {
-          console.warn(`    [!] Reel Error:`, reelRes.error);
-        }
-      } catch (rErr) {
-        console.error(`    [!] Reel Exception:`, rErr.message);
+        fs.unlinkSync(reelPath);
+        console.log(`    🧹 Cleaned up local reel video: ${path.basename(reelPath)}`);
+      } catch (delErr) {
+        console.warn(`    [!] Could not delete reel:`, delErr.message);
       }
-    } else if (post.ig_reel_id) {
-      console.log(`[i] Reel already posted for ${celebName} (${post.ig_reel_id}).`);
+
+      fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
     } else {
-      console.log(`[i] No reel file found for ${celebName}.`);
+      console.error(`    [!] Reel Error:`, reelRes.error);
+      process.exit(1);
     }
   }
 
-  console.log('\n✨ Instagram drop processing complete!');
+  console.log('\n✨ Instagram scheduled drop completed successfully!');
 }
 
 main().catch(err => {

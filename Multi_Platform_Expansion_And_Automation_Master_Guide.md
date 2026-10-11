@@ -147,11 +147,17 @@ Because Instagram is part of Meta, we use the **Instagram Graph API** with the s
 4. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions): (✅ COMPLETED)
    - `IG_USER_ID`: `17841416842135384` (Handle: `@borntodayhollywood`)
    - `FB_TOKEN_BORN`: (Already present; has access to linked Instagram).
-* **Automation Wired:** Top 3 Headliner Carousels (Master Collage CDN + 4 Career Photos) and 9:16 Vertical Reels are published via Graph API on an algorithmic spaced-out schedule via dedicated script [`scripts/post_to_instagram.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/post_to_instagram.js) and GitHub Actions workflow [`.github/workflows/instagram_schedule.yml`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/.github/workflows/instagram_schedule.yml):
-  - **Headliner #1 Drop:** **5:30 PM IST** (8:00 AM EDT / US Morning Commute)
-  - **Headliner #2 Drop:** **10:30 PM IST** (1:00 PM EDT / US Lunchtime)
-  - **Headliner #3 Drop:** **3:30 AM IST** (6:00 PM EDT / US Evening Primetime)
-  - **Auto-Cleanup:** Uploaded local reel video is deleted immediately upon publishing, keeping Git storage lightweight while maximizing Instagram feed discovery and watch time.
+* **Automation Wired:** Top 3 Headliners published on an algorithmic spaced-out cadence with a **45-minute offset** between Photo Carousel and Vertical Reel via dedicated script [`scripts/post_to_instagram.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/post_to_instagram.js) and GitHub Actions workflow [`.github/workflows/instagram_schedule.yml`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/.github/workflows/instagram_schedule.yml):
+  - **Drop 1 (US Morning Commute / 8:00 AM EDT):**
+    - **5:30 PM IST:** Headliner #1 **Photo Carousel** (Master Collage + 4 Career Highlights)
+    - **6:15 PM IST:** Headliner #1 **Vertical Reel** [+45m breathing room]
+  - **Drop 2 (US Lunchtime Peak / 1:00 PM EDT):**
+    - **10:30 PM IST:** Headliner #2 **Photo Carousel**
+    - **11:15 PM IST:** Headliner #2 **Vertical Reel** [+45m breathing room]
+  - **Drop 3 (US Evening Primetime / 6:00 PM EDT):**
+    - **3:30 AM IST:** Headliner #3 **Photo Carousel**
+    - **4:15 AM IST:** Headliner #3 **Vertical Reel** [+45m breathing room]
+  - **Zero-Storage Footprint:** Each local Reel video is deleted immediately upon successful upload, keeping the Git repository lightweight while giving each post full algorithmic distribution.
 
 ---
 

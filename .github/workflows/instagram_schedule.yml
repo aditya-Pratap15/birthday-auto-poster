@@ -2,15 +2,28 @@ name: Instagram Scheduled Auto Poster
 
 on:
   schedule:
-    - cron: '0 12 * * *'  # 5:30 PM IST (8:00 AM EDT / US Morning Commute) - Headliner 1
-    - cron: '0 17 * * *'  # 10:30 PM IST (1:00 PM EDT / US Lunchtime) - Headliner 2
-    - cron: '0 22 * * *'  # 3:30 AM IST (6:00 PM EDT / US Evening Primetime) - Headliner 3
+    # Drop 1 (US Morning Commute / 8:00 AM EDT)
+    - cron: '0 12 * * *'   # 5:30 PM IST (12:00 UTC) -> Headliner 1: Photo Carousel
+    - cron: '45 12 * * *'  # 6:15 PM IST (12:45 UTC) -> Headliner 1: Vertical Reel [+45m offset]
+
+    # Drop 2 (US Lunchtime Peak / 1:00 PM EDT)
+    - cron: '0 17 * * *'   # 10:30 PM IST (17:00 UTC) -> Headliner 2: Photo Carousel
+    - cron: '45 17 * * *'  # 11:15 PM IST (17:45 UTC) -> Headliner 2: Vertical Reel [+45m offset]
+
+    # Drop 3 (US Evening Primetime / 6:00 PM EDT)
+    - cron: '0 22 * * *'   # 3:30 AM IST (22:00 UTC) -> Headliner 3: Photo Carousel
+    - cron: '45 22 * * *'  # 4:15 AM IST (22:45 UTC) -> Headliner 3: Vertical Reel [+45m offset]
+
   workflow_dispatch:
     inputs:
       celeb_target:
-        description: 'Headliner to post (1, 2, 3, or next)'
+        description: 'Headliner target (1, 2, 3, or auto)'
         required: false
-        default: 'next'
+        default: 'auto'
+      action_type:
+        description: 'Action type (carousel, reel, or auto)'
+        required: false
+        default: 'auto'
 
 permissions:
   contents: write
@@ -32,12 +45,13 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
-      - name: Post Scheduled Headliner to Instagram
+      - name: Post Scheduled Drop to Instagram
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID || '17841416842135384' }}
-          TARGET: ${{ github.event.inputs.celeb_target || 'next' }}
-        run: node scripts/post_to_instagram.js --target "$TARGET"
+          TARGET: ${{ github.event.inputs.celeb_target || 'auto' }}
+          ACTION: ${{ github.event.inputs.action_type || 'auto' }}
+        run: node scripts/post_to_instagram.js --target "$TARGET" --type "$ACTION"
 
       - name: Commit Post Logs and Media Cleanup
         run: |
