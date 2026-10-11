@@ -1,0 +1,48 @@
+name: Instagram Scheduled Auto Poster
+
+on:
+  schedule:
+    - cron: '0 12 * * *'  # 5:30 PM IST (8:00 AM EDT / US Morning Commute) - Headliner 1
+    - cron: '0 17 * * *'  # 10:30 PM IST (1:00 PM EDT / US Lunchtime) - Headliner 2
+    - cron: '0 22 * * *'  # 3:30 AM IST (6:00 PM EDT / US Evening Primetime) - Headliner 3
+  workflow_dispatch:
+    inputs:
+      celeb_target:
+        description: 'Headliner to post (1, 2, 3, or next)'
+        required: false
+        default: 'next'
+
+permissions:
+  contents: write
+
+jobs:
+  instagram-post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Post Scheduled Headliner to Instagram
+        env:
+          FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID || '17841416842135384' }}
+          TARGET: ${{ github.event.inputs.celeb_target || 'next' }}
+        run: node scripts/post_to_instagram.js --target "$TARGET"
+
+      - name: Commit Post Logs and Media Cleanup
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add today_posts.json reels/
+          git commit -m "chore(instagram): record scheduled drop and cleanup media [skip ci]" || echo "No changes to commit"
+          git push || true

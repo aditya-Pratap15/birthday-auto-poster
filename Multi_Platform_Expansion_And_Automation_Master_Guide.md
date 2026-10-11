@@ -147,7 +147,11 @@ Because Instagram is part of Meta, we use the **Instagram Graph API** with the s
 4. Add to [GitHub Secrets](https://github.com/aditya-Pratap15/birthday-auto-poster/settings/secrets/actions): (✅ COMPLETED)
    - `IG_USER_ID`: `17841416842135384` (Handle: `@borntodayhollywood`)
    - `FB_TOKEN_BORN`: (Already present; has access to linked Instagram).
-* **Automation Wired:** Top 3 Headliner Carousels (Master Collage CDN + 4 Career Photos) and 9:16 Vertical Reels are scheduled via Graph API directly inside [`scripts/post_to_facebook.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/post_to_facebook.js).
+* **Automation Wired:** Top 3 Headliner Carousels (Master Collage CDN + 4 Career Photos) and 9:16 Vertical Reels are published via Graph API on an algorithmic spaced-out schedule via dedicated script [`scripts/post_to_instagram.js`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/scripts/post_to_instagram.js) and GitHub Actions workflow [`.github/workflows/instagram_schedule.yml`](file:///C:/Users/prata/OneDrive/Desktop/Facebook-Automations/1-born-today-hollywood/.github/workflows/instagram_schedule.yml):
+  - **Headliner #1 Drop:** **5:30 PM IST** (8:00 AM EDT / US Morning Commute)
+  - **Headliner #2 Drop:** **10:30 PM IST** (1:00 PM EDT / US Lunchtime)
+  - **Headliner #3 Drop:** **3:30 AM IST** (6:00 PM EDT / US Evening Primetime)
+  - **Auto-Cleanup:** Uploaded local reel video is deleted immediately upon publishing, keeping Git storage lightweight while maximizing Instagram feed discovery and watch time.
 
 ---
 
