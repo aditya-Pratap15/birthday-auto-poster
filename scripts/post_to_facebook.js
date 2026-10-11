@@ -346,9 +346,7 @@ async function postInstagramCarousel(igUserId, token, caption, imageUrls, schedu
     caption: caption
   };
 
-  if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
-    carouselParams.scheduled_publish_time = String(scheduledPublishTime);
-  }
+  // Instagram Graph API only supports live publishing (scheduled_publish_time is whitelist-only)
 
   const carouselPostData = new URLSearchParams(carouselParams).toString();
 
@@ -432,9 +430,7 @@ async function postInstagramReel(igUserId, token, caption, videoPath, scheduledP
     caption: caption
   };
 
-  if (scheduledPublishTime && scheduledPublishTime > nowTs + 600) {
-    initParams.scheduled_publish_time = String(scheduledPublishTime);
-  }
+  // Instagram Graph API only supports live publishing (scheduled_publish_time is whitelist-only)
 
   const initData = new URLSearchParams(initParams).toString();
 
