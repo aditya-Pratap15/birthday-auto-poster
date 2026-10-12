@@ -793,7 +793,12 @@ async function main() {
           console.log(`[ðŸ“·] Publishing PHOTO LIVE right now for: ${celebName}...`);
         }
 
-        const res = await postCelebrityAlbum(DEFAULT_PAGE_ID, DEFAULT_TOKEN, caption, imgPath, post.photo_urls, schedTs);
+        // Post Single Master Collage on Facebook (Prevents feed mosaic cropping, displays 100% full uncropped graphic)
+        // Note: Instagram will still receive the multi-photo swipe carousel using collage_cdn_url + photo_urls
+        const res = await postMultipartPhoto(DEFAULT_PAGE_ID, DEFAULT_TOKEN, caption, imgPath, schedTs);
+        if (res.status === 200 && res.body && res.body.id) {
+          res.collagePhotoId = res.body.id;
+        }
 
         if (res.status === 200 && (res.body.id || res.body.post_id)) {
           const postId = res.body.post_id || res.body.id;
