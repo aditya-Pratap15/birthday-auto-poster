@@ -13,7 +13,7 @@ const BASE_DIR = path.resolve(__dirname, '..');
 const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 
 // Verified permanent Page Token for Born Today Hollywood (1345901645276194)
-const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSql9xBKvNrgTuOJeF8DdoxvYRtR5cgAl3oYmT5inokVO1JuoszNEk6JbmuqRXi7hQewVldkZA4M9OZBxe7gWFJO54krImBriXuqP7VxYuoT9nFLZA7Oo7U2BkkLcm1mNuD3tMXVD4DkcFakI1jz6bxlQiSlhJQsWZC2icgVWsGGAOImEsOYVNSlc';
+const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSpd25dCcaBZBrbR8Kxr3rPhEglK6z1YLSM9UN91Gtb5d1ZCVcZAjxVGeBzc17es7XWIwX0yfznnO2HkxaZAeXYHy6NJQONWqhIiwevCjZAcabAKwqvwQHJ1nFCmAs9RPF3XNVHLmc3nUw4PdB2E2YaMYqgXPBLbhUO3EfWTcZAfVFdIEHMwa1E8L5ToS43';
 const DEFAULT_PAGE_ID = (process.env.FB_PAGE_ID_BORN || process.env.FB_PAGE_ID || '1345901645276194').trim();
 const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || VERIFIED_TOKEN).trim();
 const DEFAULT_IG_ID = (process.env.IG_USER_ID || '17841416842135384').trim();
@@ -235,7 +235,7 @@ function publishMultiPhotoPost(pageId, token, caption, mediaFbids, scheduledPubl
 
 async function postCelebrityAlbum(pageId, token, caption, collagePath, singlePhotoUrls = [], scheduledPublishTime = null) {
   // 1. Upload Master Collage Tribute as Photo #1
-  console.log(`    📸 [1/N] Uploading master collage tribute...`);
+  console.log(`    ðŸ“¸ [1/N] Uploading master collage tribute...`);
   const collageUpload = await uploadUnpublishedPhoto(pageId, token, collagePath);
   if (!collageUpload.success || !collageUpload.id) {
     console.warn(`    [!] Master collage upload failed as unpublished (${JSON.stringify(collageUpload.error)}), falling back to standard single post...`);
@@ -249,7 +249,7 @@ async function postCelebrityAlbum(pageId, token, caption, collagePath, singlePho
   for (let idx = 0; idx < maxPhotos; idx++) {
     const photoUrl = singlePhotoUrls[idx];
     if (!photoUrl) continue;
-    console.log(`    📸 [${idx + 2}/${maxPhotos + 1}] Attaching single career photo ${idx + 1}...`);
+    console.log(`    ðŸ“¸ [${idx + 2}/${maxPhotos + 1}] Attaching single career photo ${idx + 1}...`);
     const pUpload = await uploadUnpublishedPhoto(pageId, token, photoUrl);
     if (pUpload.success && pUpload.id) {
       mediaFbids.push(pUpload.id);
@@ -258,7 +258,7 @@ async function postCelebrityAlbum(pageId, token, caption, collagePath, singlePho
     }
   }
 
-  console.log(`    🖼️ Total photos in album: ${mediaFbids.length} (Master Collage + ${mediaFbids.length - 1} single photos)`);
+  console.log(`    ðŸ–¼ï¸ Total photos in album: ${mediaFbids.length} (Master Collage + ${mediaFbids.length - 1} single photos)`);
 
   // 3. Publish multi-photo post to /{pageId}/feed
   const publishRes = await publishMultiPhotoPost(pageId, token, caption, mediaFbids, scheduledPublishTime);
@@ -291,7 +291,7 @@ function getFacebookPhotoCdnUrl(photoId, token) {
 async function postInstagramCarousel(igUserId, token, caption, imageUrls, scheduledPublishTime = null) {
   if (!igUserId || !imageUrls || imageUrls.length === 0) return { success: false, error: 'Missing IG ID or images' };
 
-  console.log(`    [📸 IG] Creating Instagram Carousel container for ${imageUrls.length} photos...`);
+  console.log(`    [ðŸ“¸ IG] Creating Instagram Carousel container for ${imageUrls.length} photos...`);
   const itemIds = [];
 
   for (let idx = 0; idx < Math.min(10, imageUrls.length); idx++) {
@@ -421,7 +421,7 @@ async function postInstagramReel(igUserId, token, caption, videoPath, scheduledP
   const fileSize = fs.statSync(videoPath).size;
   const nowTs = Math.floor(Date.now() / 1000);
 
-  console.log(`    [🎬 IG] Starting resumable Instagram Reel upload session (${(fileSize / (1024*1024)).toFixed(2)} MB)...`);
+  console.log(`    [ðŸŽ¬ IG] Starting resumable Instagram Reel upload session (${(fileSize / (1024*1024)).toFixed(2)} MB)...`);
 
   const initParams = {
     access_token: token,
@@ -500,7 +500,7 @@ async function postInstagramReel(igUserId, token, caption, videoPath, scheduledP
   }
 
     // Poll container until status is FINISHED (up to 120 seconds with robust status check)
-  console.log(`    [🎬 IG] Video uploaded! Processing video encoding on Instagram servers...`);
+  console.log(`    [ðŸŽ¬ IG] Video uploaded! Processing video encoding on Instagram servers...`);
   let isReady = false;
   for (let poll = 0; poll < 24; poll++) {
     await new Promise(r => setTimeout(r, 5000));
@@ -516,7 +516,7 @@ async function postInstagramReel(igUserId, token, caption, videoPath, scheduledP
 
     const statusCode = statusObj.status_code;
     if (statusCode === 'FINISHED') {
-      console.log(`    [🎬 IG] Video encoding complete (took ${(poll + 1) * 5}s)!`);
+      console.log(`    [ðŸŽ¬ IG] Video encoding complete (took ${(poll + 1) * 5}s)!`);
       isReady = true;
       break;
     } else if (statusCode === 'ERROR') {
@@ -788,9 +788,9 @@ async function main() {
         if (isScheduling) {
           const nyTime = new Date(schedTs * 1000).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' });
           const istTime = new Date(schedTs * 1000).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
-          console.log(`[📷] Scheduling PHOTO for: ${celebName} at ${nyTime} EDT (${istTime} IST) - [${post.peak_window || 'Peak Window'}]...`);
+          console.log(`[ðŸ“·] Scheduling PHOTO for: ${celebName} at ${nyTime} EDT (${istTime} IST) - [${post.peak_window || 'Peak Window'}]...`);
         } else {
-          console.log(`[📷] Publishing PHOTO LIVE right now for: ${celebName}...`);
+          console.log(`[ðŸ“·] Publishing PHOTO LIVE right now for: ${celebName}...`);
         }
 
         const res = await postCelebrityAlbum(DEFAULT_PAGE_ID, DEFAULT_TOKEN, caption, imgPath, post.photo_urls, schedTs);
@@ -800,18 +800,18 @@ async function main() {
           post.fb_post_id = postId;
           post.fb_post_url = `https://www.facebook.com/${DEFAULT_PAGE_ID}/posts/${postId.split('_')[1] || postId}`;
           if (isScheduling) {
-            console.log(`    [✓] SUCCESS! Photo Scheduled on Meta Planner! Post ID: ${postId}`);
+            console.log(`    [âœ“] SUCCESS! Photo Scheduled on Meta Planner! Post ID: ${postId}`);
           } else {
-            console.log(`    [✓] SUCCESS! Photo Published live to Facebook! Post ID: ${postId}`);
+            console.log(`    [âœ“] SUCCESS! Photo Published live to Facebook! Post ID: ${postId}`);
           }
 
           // Post pinned first comment (allowed only when published live)
           if (comment && !isScheduling) {
-            console.log(`    💬 Posting pinned first comment (${post.comment.split(/\s+/).length} words)...`);
+            console.log(`    ðŸ’¬ Posting pinned first comment (${post.comment.split(/\s+/).length} words)...`);
             const cRes = await postComment(postId, DEFAULT_TOKEN, comment);
             if (cRes.status === 200 && cRes.body.id) {
               post.fb_comment_id = cRes.body.id;
-              console.log(`    [✓] Comment published! Comment ID: ${cRes.body.id}`);
+              console.log(`    [âœ“] Comment published! Comment ID: ${cRes.body.id}`);
             } else {
               console.warn(`    [!] Comment failed:`, cRes.body);
             }
@@ -829,7 +829,7 @@ async function main() {
               const cdnUrl = await getFacebookPhotoCdnUrl(res.collagePhotoId, DEFAULT_TOKEN);
               if (cdnUrl) {
                 post.collage_cdn_url = cdnUrl;
-                console.log(`    [📸 Meta CDN] Saved high-res collage CDN URL for Instagram: ${cdnUrl.slice(0, 45)}...`);
+                console.log(`    [ðŸ“¸ Meta CDN] Saved high-res collage CDN URL for Instagram: ${cdnUrl.slice(0, 45)}...`);
               }
             } catch (cdnErr) {
               console.warn(`    [!] Could not fetch CDN URL:`, cdnErr.message);
@@ -863,14 +863,14 @@ async function main() {
       if (reelIsScheduling) {
         const reelNyTime = new Date(reelSchedTs * 1000).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' });
         const reelIstTime = new Date(reelSchedTs * 1000).toLocaleTimeString('en-US', { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit' });
-        console.log(`[🎬] Scheduling REEL for: ${celebName} at ${reelNyTime} EDT (${reelIstTime} IST) [+40m offset]...`);
+        console.log(`[ðŸŽ¬] Scheduling REEL for: ${celebName} at ${reelNyTime} EDT (${reelIstTime} IST) [+40m offset]...`);
       } else {
-        console.log(`[🎬] Publishing REEL LIVE right now for: ${celebName}...`);
+        console.log(`[ðŸŽ¬] Publishing REEL LIVE right now for: ${celebName}...`);
       }
 
       let reelCaptionText = post.reel_caption;
       if (!reelCaptionText) {
-        reelCaptionText = `${post.celebrity_name} turns ${post.age} today! 🎬 What is your favorite movie or role of theirs? 👇\n\n${(post.hashtags || []).join(' ')}`;
+        reelCaptionText = `${post.celebrity_name} turns ${post.age} today! ðŸŽ¬ What is your favorite movie or role of theirs? ðŸ‘‡\n\n${(post.hashtags || []).join(' ')}`;
       }
       const reelCaption = formatFacebookUnicodeBold(reelCaptionText);
       const reelRes = await postFacebookReel(DEFAULT_PAGE_ID, DEFAULT_TOKEN, reelCaption, reelPath, reelSchedTs);
@@ -879,9 +879,9 @@ async function main() {
         post.fb_reel_id = reelRes.video_id;
         post.fb_reel_scheduled_time = reelSchedTs;
         if (reelIsScheduling) {
-          console.log(`    [✓] SUCCESS! Reel Scheduled on Meta Planner! Video ID: ${reelRes.video_id}`);
+          console.log(`    [âœ“] SUCCESS! Reel Scheduled on Meta Planner! Video ID: ${reelRes.video_id}`);
         } else {
-          console.log(`    [✓] SUCCESS! Reel Published live! Video ID: ${reelRes.video_id}`);
+          console.log(`    [âœ“] SUCCESS! Reel Published live! Video ID: ${reelRes.video_id}`);
         }
         fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
 
@@ -903,10 +903,11 @@ async function main() {
     }
   }
 
-  console.log(`\n[✓] All targeted posts and reels processed successfully!`);
+  console.log(`\n[âœ“] All targeted posts and reels processed successfully!`);
 }
 
 main().catch(err => {
   console.error('[!] Fatal Error:', err);
   process.exit(1);
 });
+
