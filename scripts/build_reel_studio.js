@@ -167,6 +167,77 @@ async function ensureStyledLogo() {
 }
 
 /**
+ * Generate subtle, semi-transparent circular watermark logo for top-right corner branding
+ */
+async function ensureWatermarkLogo() {
+  const watermarkPath = path.join(TEMP_DIR, 'watermark_logo.png');
+  if (fs.existsSync(watermarkPath)) {
+    return watermarkPath;
+  }
+
+  if (!fs.existsSync(PAGE_LOGO_PATH)) {
+    return null;
+  }
+
+  console.log('    🎨 Rendering subtle top-right watermark logo (35% opacity)...');
+  const logoBase64 = fs.readFileSync(PAGE_LOGO_PATH).toString('base64');
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
+  });
+  const page = await browser.newPage();
+  await page.setViewport({ width: 240, height: 240, deviceScaleFactor: 2 });
+
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <style>
+        body {
+          margin: 0;
+          padding: 0;
+          background: transparent;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 240px;
+          height: 240px;
+        }
+        .watermark-wrap {
+          width: 180px;
+          height: 180px;
+          border-radius: 50%;
+          border: 4px solid rgba(212, 175, 55, 0.7);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.45);
+          overflow: hidden;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(13, 15, 20, 0.45);
+          opacity: 0.35;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      </style>
+    </head>
+    <body>
+      <div class="watermark-wrap">
+        <img src="data:image/png;base64,${logoBase64}" />
+      </div>
+    </body>
+    </html>
+  `;
+
+  await page.setContent(html);
+  await page.screenshot({ path: watermarkPath, omitBackground: true });
+  await browser.close();
+  return watermarkPath;
+}
+
+/**
  * Robust gender detector:
  * 1. Checks post.gender explicitly from daily scheduler payload
  * 2. Falls back to pronoun & actor/actress heuristic if missing
@@ -356,8 +427,9 @@ async function buildReel(post, index = 1) {
   const voicePath = path.join(TEMP_DIR, `${safeName}_voice.mp3`);
   const finalVideoPath = path.join(REELS_DIR, `${safeName}_Reel.mp4`);
 
-  // 1. Ensure Styled Circular Logo
+  // 1. Ensure Styled Circular Logo & Watermark
   const styledLogoPath = await ensureStyledLogo();
+  const watermarkLogoPath = await ensureWatermarkLogo();
 
   // 2. Synthesize Narration Voiceover with Smart Gender Detection
   const gender = detectGender(post);
@@ -440,6 +512,12 @@ async function buildReel(post, index = 1) {
 
   inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
 
+  let watermarkIdx = -1;
+  if (watermarkLogoPath && fs.existsSync(watermarkLogoPath)) {
+    watermarkIdx = inputs.length;
+    inputs.push(`-loop 1 -t ${totalDuration.toFixed(2)} -i "${watermarkLogoPath}"`);
+  }
+
   // Concatenate Slides (Single Photos + Single Outro Screen)
   const totalSlidesCount = outroBgIdx + 1;
   const concatInputs = [];
@@ -447,13 +525,20 @@ async function buildReel(post, index = 1) {
     concatInputs.push(`[slide${s}]`);
   }
   const escapedAss = localAssPath.replace(/\\/g, '/').replace(/:/g, '\\:');
-  filterComplex += `${concatInputs.join('')}concat=n=${totalSlidesCount}:v=1:a=0[vbase];` +
-                   `[vbase]ass='${escapedAss}'[vout];`;
+  if (watermarkIdx !== -1) {
+    filterComplex += `${concatInputs.join('')}concat=n=${totalSlidesCount}:v=1:a=0[vbase];` +
+                     `[vbase]ass='${escapedAss}'[v_subs];` +
+                     `[${watermarkIdx}:v]scale=120:120,setsar=1[wm];` +
+                     `[v_subs][wm]overlay=W-w-50:75[vout];`;
+  } else {
+    filterComplex += `${concatInputs.join('')}concat=n=${totalSlidesCount}:v=1:a=0[vbase];` +
+                     `[vbase]ass='${escapedAss}'[vout];`;
+  }
 
-  // Audio Inputs: Voiceover + Gentle Solo Piano BGM
-  const voiceInputIndex = outroLogoIdx + 1;
-  const bgmInputIndex = outroLogoIdx + 2;
+  // Audio Inputs: Voiceover + Gentle Solo Piano BGM (dynamic indices)
+  const voiceInputIndex = inputs.length;
   inputs.push(`-i "${voicePath}"`);
+  const bgmInputIndex = inputs.length;
   inputs.push(`-stream_loop -1 -i "${BGM_PATH}"`);
 
   // Audio Filters:
