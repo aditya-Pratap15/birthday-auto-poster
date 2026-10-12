@@ -294,6 +294,36 @@ function loadPreset(gender = 'female', presetName = null) {
   return { canvasWidth: 1080, canvasHeight: 1440, frames: [], textLayers: [], stickers: [] };
 }
 
+
+async function ensureWatermarkBadge(browser) {
+  const badgePath = path.join(BASE_DIR, 'collage-maker', 'watermark_badge.png');
+  const logoPath = path.join(BASE_DIR, 'page_logo.png');
+  if (!fs.existsSync(logoPath)) return null;
+
+  if (fs.existsSync(badgePath)) {
+    return 'data:image/png;base64,' + fs.readFileSync(badgePath).toString('base64');
+  }
+
+  console.log('    [*] Rendering subtle top-right watermark badge for collages...');
+  const logoB64 = fs.readFileSync(logoPath).toString('base64');
+  const badgePage = await browser.newPage();
+  await badgePage.setViewport({ width: 240, height: 240, deviceScaleFactor: 2 });
+  const html = `
+    <!DOCTYPE html>
+    <html>
+    <body style="margin:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:center;width:240px;height:240px;">
+      <div style="width:180px;height:180px;border-radius:50%;overflow:hidden;opacity:0.42;box-shadow:0 4px 14px rgba(0,0,0,0.25);border:4px solid rgba(212,175,55,0.75);background:rgba(10,10,12,0.45);">
+        <img src="data:image/png;base64,${logoB64}" style="width:100%;height:100%;object-fit:cover;" />
+      </div>
+    </body>
+    </html>
+  `;
+  await badgePage.setContent(html);
+  await badgePage.screenshot({ path: badgePath, omitBackground: true });
+  await badgePage.close();
+  return 'data:image/png;base64,' + fs.readFileSync(badgePath).toString('base64');
+}
+
 async function main() {
   if (!fs.existsSync(TODAY_POSTS_PATH)) {
     console.error(`[!] ${TODAY_POSTS_PATH} not found.`);
@@ -338,6 +368,8 @@ async function main() {
     headless: 'new',
     args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
   });
+
+  const watermarkBadgeUri = await ensureWatermarkBadge(browser);
 
   const page = await browser.newPage();
   await page.setViewport({ width: 1080, height: 1440, deviceScaleFactor: 1 });
@@ -431,6 +463,20 @@ async function main() {
     const presetData = loadPreset(gender, post.preset || post.preset_name);
     if (post.teaserCard) {
       presetData.teaserCard = { ...(presetData.teaserCard || {}), ...post.teaserCard };
+    }
+
+    if (watermarkBadgeUri) {
+      if (!presetData.stickers) presetData.stickers = [];
+      presetData.stickers.push({
+        label: 'Watermark Badge',
+        src: watermarkBadgeUri,
+        x: 995,
+        y: 74,
+        width: 84,
+        height: 84,
+        opacity: 1,
+        shadowBlur: 6
+      });
     }
 
     if (presetData.bgCustomImage && !presetData.bgCustomImage.startsWith('data:')) {
