@@ -289,11 +289,8 @@ async function normalizePayload(raw) {
 
   const PEAK_HOURS_UTC = [
     { hour: 12, minute: 0, label: 'US Morning Commute (8:00 AM EDT / 5:30 PM IST)' },
-    { hour: 14, minute: 30, label: 'US Mid-Morning Break (10:30 AM EDT / 8:00 PM IST)' },
     { hour: 17, minute: 0, label: 'US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)' },
-    { hour: 19, minute: 30, label: 'US Afternoon Lull (3:30 PM EDT / 1:00 AM IST +1)' },
-    { hour: 22, minute: 30, label: 'US Prime Time (6:30 PM EDT / 4:00 AM IST +1)' },
-    { hour: 1, minute: 0, nextDay: true, label: 'US Late Night Bedtime (9:00 PM EDT / 6:30 AM IST +1)' }
+    { hour: 22, minute: 0, label: 'US Prime Time (6:00 PM EDT / 3:30 AM IST +1)' }
   ];
 
   function getScheduledPeakTime(dStr, slotIdx) {
@@ -314,13 +311,13 @@ async function normalizePayload(raw) {
   const primaryCelebs = celebs.filter(c => !c.is_backup);
   const backupCelebs = celebs.filter(c => c.is_backup);
 
-  selectedCelebs = primaryCelebs.slice(0, 6);
-  if (selectedCelebs.length < 6 && backupCelebs.length > 0) {
-    const needed = 6 - selectedCelebs.length;
+  selectedCelebs = primaryCelebs.slice(0, 3);
+  if (selectedCelebs.length < 3 && backupCelebs.length > 0) {
+    const needed = 3 - selectedCelebs.length;
     console.log(`[i] Promoting ${needed} standby backup celebrity(ies) into active schedule.`);
     selectedCelebs.push(...backupCelebs.slice(0, needed));
   }
-  if (selectedCelebs.length === 0) selectedCelebs = celebs.slice(0, 6);
+  if (selectedCelebs.length === 0) selectedCelebs = celebs.slice(0, 3);
 
   for (let idx = 0; idx < selectedCelebs.length; idx++) {
     const c = selectedCelebs[idx];
