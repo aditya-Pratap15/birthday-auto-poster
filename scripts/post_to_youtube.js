@@ -12,6 +12,20 @@ const https = require('https');
 const BASE_DIR = path.resolve(__dirname, '..');
 const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 
+function formatUnicodeBold(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text.replace(/\*\*(.+?)\*\*/g, (_, s) => {
+    return Array.from(s).map(c => {
+      const code = c.charCodeAt(0);
+      if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D5D4 + code - 65);   // A-Z
+      if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D5EE + code - 97);  // a-z
+      if (code >= 48 && code <= 57) return String.fromCodePoint(0x1D7EC + code - 48);   // 0-9
+      return c;
+    }).join('');
+  });
+}
+
+
 // Verified OAuth credentials (configurable via GitHub Secrets)
 const DEFAULT_CLIENT_ID = (process.env.YOUTUBE_CLIENT_ID || '').trim();
 const DEFAULT_CLIENT_SECRET = (process.env.YOUTUBE_CLIENT_SECRET || '').trim();
@@ -229,10 +243,11 @@ async function main() {
     const ytSchedTs = schedTs ? (schedTs + 3600) : (nowTs + 3600);
 
     const title = `${celebName} Turns ${post.age} Today! 🎬 #shorts #borntoday`.slice(0, 95);
-    const description = `Happy Birthday to ${celebName}! 🎂 Celebrating their ${post.age}th birthday today!\n\n` +
+    const rawDescription = `Happy Birthday to ${celebName}! 🎂 Celebrating their ${post.age}th birthday today!\n\n` +
       `🎬 Notable roles & career highlights:\n${post.caption || ''}\n\n` +
       `❓ What is your favorite movie or performance of ${celebName}? Tell us in the comments! 👇\n\n` +
       `#shorts #borntoday #${safeName.toLowerCase()} #celebritybirthdays #hollywood #actor #cinema`;
+      const description = formatUnicodeBold(rawDescription);
 
     const tags = ['shorts', 'borntoday', 'celebrity birthdays', 'hollywood', celebName, 'entertainment'];
 

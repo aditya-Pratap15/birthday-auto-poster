@@ -31,6 +31,20 @@ const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSpd25dCcaBZBrbR8Kxr3rPhEglK6z1YLSM9UN91Gt
 const DEFAULT_IG_ID = (process.env.IG_USER_ID || '17841416842135384').trim();
 const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || process.env.FB_PAGE_TOKEN || VERIFIED_TOKEN).trim();
 
+function formatUnicodeBold(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text.replace(/\*\*(.+?)\*\*/g, (_, s) => {
+    return Array.from(s).map(c => {
+      const code = c.charCodeAt(0);
+      if (code >= 65 && code <= 90) return String.fromCodePoint(0x1D5D4 + code - 65);   // A-Z
+      if (code >= 97 && code <= 122) return String.fromCodePoint(0x1D5EE + code - 97);  // a-z
+      if (code >= 48 && code <= 57) return String.fromCodePoint(0x1D7EC + code - 48);   // 0-9
+      return c;
+    }).join('');
+  });
+}
+
+
 // -------------------------------------------------------------
 // Helper: Resolve Meta CDN URL for Facebook Photo
 // -------------------------------------------------------------
@@ -444,7 +458,7 @@ async function main() {
 
     if (igPhotos.length >= 2) {
       console.log(`[📸 IG] Publishing Photo Carousel for ${celebName} (${igPhotos.length} images)...`);
-      const igCaption = `${targetPost.caption}\n\n${(targetPost.hashtags || []).join(' ')}`;
+      const igCaption = formatUnicodeBold(`${targetPost.caption}\n\n${(targetPost.hashtags || []).join(' ')}`);
       const carRes = await postInstagramCarousel(DEFAULT_IG_ID, DEFAULT_TOKEN, igCaption, igPhotos);
       if (carRes.success && carRes.id) {
         targetPost.ig_post_id = carRes.id;
@@ -479,9 +493,10 @@ async function main() {
     }
 
     console.log(`[🎬 IG] Publishing Vertical Reel for ${celebName}...`);
-    const reelCaption = targetPost.reel_caption ||
+    const rawReelCaption = targetPost.reel_caption ||
       `${targetPost.celebrity_name} turns ${targetPost.age} today! 🎂 What is your favorite movie or role of theirs? 🎬\n\n${(targetPost.hashtags || []).join(' ')}`;
 
+    const reelCaption = formatUnicodeBold(rawReelCaption);
     const reelRes = await postInstagramReel(DEFAULT_IG_ID, DEFAULT_TOKEN, reelCaption, reelPath);
     if (reelRes.success && reelRes.id) {
       targetPost.ig_reel_id = reelRes.id;
