@@ -27,8 +27,9 @@ const https = require('https');
 const BASE_DIR = path.resolve(__dirname, '..');
 const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 
-const DEFAULT_IG_ID = process.env.IG_USER_ID || '17841416842135384';
-const DEFAULT_TOKEN = process.env.FB_TOKEN_BORN || process.env.FB_PAGE_TOKEN;
+const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSpd25dCcaBZBrbR8Kxr3rPhEglK6z1YLSM9UN91Gtb5d1ZCVcZAjxVGeBzc17es7XWIwX0yfznnO2HkxaZAeXYHy6NJQONWqhIiwevCjZAcabAKwqvwQHJ1nFCmAs9RPF3XNVHLmc3nUw4PdB2E2YaMYqgXPBLbhUO3EfWTcZAfVFdIEHMwa1E8L5ToS43';
+const DEFAULT_IG_ID = (process.env.IG_USER_ID || '17841416842135384').trim();
+const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || process.env.FB_PAGE_TOKEN || VERIFIED_TOKEN).trim();
 
 // -------------------------------------------------------------
 // Helper: Resolve Meta CDN URL for Facebook Photo
