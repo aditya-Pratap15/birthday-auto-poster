@@ -470,10 +470,10 @@ async function main() {
       presetData.stickers.push({
         label: 'Watermark Badge',
         src: watermarkBadgeUri,
-        x: 995,
-        y: 74,
-        width: 84,
-        height: 84,
+        x: 985,
+        y: 76,
+        width: 108,
+        height: 108,
         opacity: 1,
         shadowBlur: 6
       });
