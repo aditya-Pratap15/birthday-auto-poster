@@ -1,4 +1,4 @@
-name: Instagram Scheduled Auto Poster
+name: Instagram Scheduled Auto Poster & Facebook Comment Syncer
 
 on:
   schedule:
@@ -53,10 +53,15 @@ jobs:
           ACTION: ${{ github.event.inputs.action_type || 'auto' }}
         run: node scripts/post_to_instagram.js --target "$TARGET" --type "$ACTION"
 
+      - name: Sync Facebook Pinned Comments for Live Posts
+        env:
+          FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
+        run: node scripts/sync_facebook_comments.js
+
       - name: Commit Post Logs and Media Cleanup
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add today_posts.json reels/
-          git commit -m "chore(instagram): record scheduled drop and cleanup media [skip ci]" || echo "No changes to commit"
+          git commit -m "chore(automation): record scheduled drop and sync live comments [skip ci]" || echo "No changes to commit"
           git push || true

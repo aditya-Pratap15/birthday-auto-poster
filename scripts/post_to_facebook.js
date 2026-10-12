@@ -808,7 +808,8 @@ async function main() {
           // Post pinned first comment (allowed only when published live)
           if (comment && !isScheduling) {
             console.log(`    ðŸ’¬ Posting pinned first comment (${post.comment.split(/\s+/).length} words)...`);
-            const cRes = await postComment(postId, DEFAULT_TOKEN, comment);
+            const targetCommentId = post.fb_collage_photo_id || postId;
+            const cRes = await postComment(targetCommentId, DEFAULT_TOKEN, comment);
             if (cRes.status === 200 && cRes.body.id) {
               post.fb_comment_id = cRes.body.id;
               console.log(`    [âœ“] Comment published! Comment ID: ${cRes.body.id}`);
