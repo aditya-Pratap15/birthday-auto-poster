@@ -63,12 +63,9 @@
       "reel_path": "reels/Sacha_Baron_Cohen_Reel.mp4",
       "youtube_video_id": "8ctLg_DrTPc",
       "youtube_url": "https://www.youtube.com/shorts/8ctLg_DrTPc",
-<<<<<<< HEAD
       "fb_reel_id": "1594085925367882",
-      "fb_reel_scheduled_time": 1791895200
-=======
+      "fb_reel_scheduled_time": 1791895200,
       "ig_reel_id": "17948108796067848"
->>>>>>> 81feb6d (fix(instagram): set proper Content-Length and X-Entity-Length binary headers and record live published reel)
     },
     {
       "id": "2026-10-13_02_Kate_Walsh",
@@ -131,7 +128,8 @@
       "youtube_video_id": "jbTCHfHzFMM",
       "youtube_url": "https://www.youtube.com/shorts/jbTCHfHzFMM",
       "fb_reel_id": "1607477936874713",
-      "fb_reel_scheduled_time": 1791913200
+      "fb_reel_scheduled_time": 1791913200,
+      "ig_post_id": "18097560500642995"
     },
     {
       "id": "2026-10-13_03_Caleb_McLaughlin",
