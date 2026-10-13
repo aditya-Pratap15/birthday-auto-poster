@@ -483,12 +483,27 @@ async function main() {
 
     let reelPath = targetPost.reel_path ? path.resolve(BASE_DIR, targetPost.reel_path) : '';
     if (!reelPath || !fs.existsSync(reelPath)) {
-      const fallbackReel = path.join(BASE_DIR, 'reels', `${safeName}_Reel.mp4`);
+      const fallbackReel = path.join(BASE_DIR, 'reels', safeName + '_Reel.mp4');
       if (fs.existsSync(fallbackReel)) reelPath = fallbackReel;
     }
 
     if (!reelPath || !fs.existsSync(reelPath)) {
-      console.error(`[!] Reel file not found for ${celebName}: ${reelPath}`);
+      console.log('  [i] Reel video not found locally on runner. Building on demand for ' + celebName + '...');
+      try {
+        const { buildReel } = require('./build_reel_studio');
+        const targetIdx = topHeadliners.indexOf(targetPost);
+        const generatedPath = await buildReel(targetPost, (targetIdx >= 0 ? targetIdx : 0) + 1);
+        if (generatedPath && fs.existsSync(generatedPath)) {
+          reelPath = generatedPath;
+          targetPost.reel_path = path.relative(BASE_DIR, reelPath).replace(/\\/g, '/');
+        }
+      } catch (buildErr) {
+        console.error('  [!] On-demand build failed:', buildErr.message);
+      }
+    }
+
+    if (!reelPath || !fs.existsSync(reelPath)) {
+      console.error('  [!] Reel file not found for ' + celebName + ': ' + reelPath);
       process.exit(1);
     }
 

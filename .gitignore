@@ -1,4 +1,4 @@
-node_modules/
+﻿node_modules/
 .DS_Store
 Thumbs.db
 *.log
@@ -8,8 +8,6 @@ collages/*.png
 collages/*.webp
 !collages/.gitkeep
 
-
-reels/*.mp4
 temp_reel_assets/
 test_voice*
 *.ass

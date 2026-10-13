@@ -78,6 +78,6 @@ jobs:
               });
             }
           "
-          git add today_posts.json collages/.gitkeep reels/
+          git add -A today_posts.json collages/.gitkeep reels/
           git commit -m "chore(automation): sync schedule logs and stage headliner reels [skip ci]" || echo "No changes to commit"
           git push || true

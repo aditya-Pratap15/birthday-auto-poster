@@ -45,6 +45,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Install FFmpeg & Multimedia Dependencies
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
       - name: Post Scheduled Drop to Instagram
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
@@ -62,6 +65,6 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add today_posts.json reels/
+          git add -A today_posts.json reels/
           git commit -m "chore(automation): record scheduled drop and sync live comments [skip ci]" || echo "No changes to commit"
           git push || true
