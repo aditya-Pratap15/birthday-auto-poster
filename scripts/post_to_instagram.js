@@ -259,7 +259,10 @@ async function postInstagramReel(igUserId, token, caption, videoPath) {
       headers: {
         'Authorization': `OAuth ${token}`,
         'offset': '0',
-        'file_size': fileSize.toString()
+        'file_size': fileSize.toString(),
+        'Content-Length': fileSize.toString(),
+        'X-Entity-Length': fileSize.toString(),
+        'Content-Type': 'application/octet-stream'
       }
     }, res => {
       let data = '';
