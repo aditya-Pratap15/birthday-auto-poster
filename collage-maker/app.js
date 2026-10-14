@@ -3931,7 +3931,7 @@
     const photos = (photoUrls && photoUrls.length > 0) ? photoUrls : [];
     state.frames.forEach((f, idx) => {
       if (photos.length > 0) {
-        const pSrc = photos[idx % photos.length];
+        const pSrc = idx < photos.length ? photos[idx] : null;
         if (pSrc) {
           const p = new Promise(resolve => {
             const img = new Image();
@@ -3973,14 +3973,17 @@
     // Wait for all assets and fonts
     await Promise.all(loadPromises);
 
-    // Fallback: If any frame failed to load an image, reuse an image from another successfully loaded frame
+    // Fallback: Only backfill empty sub-frames from distinct era photos, NEVER clone hero into sub-frames
     const loadedFrames = state.frames.filter(f => f.imgElement);
-    if (loadedFrames.length > 0) {
-      state.frames.forEach((f, idx) => {
-        if (!f.imgElement) {
-          f.imgElement = loadedFrames[idx % loadedFrames.length].imgElement;
-        }
-      });
+    if (loadedFrames.length > 1) {
+      const nonHeroLoaded = loadedFrames.filter((_, i) => i > 0);
+      if (nonHeroLoaded.length > 0) {
+        state.frames.forEach((f, idx) => {
+          if (idx > 0 && !f.imgElement) {
+            f.imgElement = nonHeroLoaded[(idx - 1) % nonHeroLoaded.length].imgElement;
+          }
+        });
+      }
     }
     if (document.fonts) {
       try {

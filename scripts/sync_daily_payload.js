@@ -62,7 +62,8 @@ const NON_PERSON_KEYWORDS = [
   'autograph', 'grave', 'house', 'building', 'star', 'walk_of_fame', 'plaque', 'poster',
   'cover', 'sound', 'video', 'screenshot', 'wax', 'car', 'aircraft', 'stamp', 'coin',
   'billboard', 'street', 'statue', 'county', 'district', 'cdp', 'income', 'distribution',
-  'club', 'elementary', 'center', 'shoes', 'logo', 'icon', 'symbol', 'traction', 'pdf'
+  'club', 'elementary', 'center', 'shoes', 'logo', 'icon', 'symbol', 'traction', 'pdf',
+  'australia', 'western_australia', 'landscape', 'aerial', 'skyline', 'scenery', 'suburb', 'geography', 'panorama', 'cityscape', 'mountain', 'beach', 'river', 'forest', 'park'
 ];
 
 function isCleanPersonPhoto(title, celebName = '') {

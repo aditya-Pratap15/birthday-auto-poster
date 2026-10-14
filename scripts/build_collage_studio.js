@@ -85,7 +85,7 @@ function fetchJson(url) {
   });
 }
 
-function downloadAsDataUri(url, maxRedirects = 5) {
+function downloadAsDataUri(url, retries = 2, maxRedirects = 5) {
   if (!url || typeof url !== 'string') return Promise.resolve(null);
   url = url.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
   url = url.replace('https://media.themoviedb.org/', 'https://image.tmdb.org/');
@@ -117,12 +117,24 @@ function downloadAsDataUri(url, maxRedirects = 5) {
         'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
       };
 
-      const req = client.get(url, { headers, timeout: 12000 }, (res) => {
+      const req = client.get(url, { headers, timeout: 15000 }, (res) => {
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
           const redirectUrl = new URL(res.headers.location, url).toString();
-          return resolve(downloadAsDataUri(redirectUrl, maxRedirects - 1));
+          return resolve(downloadAsDataUri(redirectUrl, retries, maxRedirects - 1));
+        }
+        if (res.statusCode === 429 && retries > 0) {
+          setTimeout(() => {
+            resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
+          }, 1500);
+          return;
         }
         if (res.statusCode !== 200) {
+          if (retries > 0) {
+            setTimeout(() => {
+              resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
+            }, 1000);
+            return;
+          }
           resolve(null);
           return;
         }
@@ -138,8 +150,21 @@ function downloadAsDataUri(url, maxRedirects = 5) {
           resolve(`data:${mime};base64,${buf.toString('base64')}`);
         });
       });
-      req.on('timeout', () => { req.destroy(); resolve(null); });
-      req.on('error', () => resolve(null));
+      req.on('timeout', () => {
+        req.destroy();
+        if (retries > 0) {
+          resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
+        } else {
+          resolve(null);
+        }
+      });
+      req.on('error', () => {
+        if (retries > 0) {
+          resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
+        } else {
+          resolve(null);
+        }
+      });
     } catch (e) {
       resolve(null);
     }
@@ -153,7 +178,8 @@ const NON_PERSON_KEYWORDS = [
   'cover', 'sound', 'video', 'screenshot', 'wax', 'car', 'aircraft', 'stamp', 'coin',
   'billboard', 'street', 'statue', 'county', 'district', 'cdp', 'income', 'distribution',
   'club', 'elementary', 'center', 'hot_shoppe', 'shoes', 'logo', 'icon', 'symbol',
-  'village', 'truck', 'bus', 'vehicle', 'traction', 'cd', 'album'
+  'village', 'truck', 'bus', 'vehicle', 'traction', 'cd', 'album',
+  'australia', 'western_australia', 'landscape', 'aerial', 'skyline', 'scenery', 'suburb', 'geography', 'panorama', 'cityscape', 'mountain', 'beach', 'river', 'forest', 'park'
 ];
 
 function isCleanPersonPhoto(title, celebName = '') {
@@ -389,12 +415,29 @@ async function main() {
 
     console.log(`\n[+] Post #${idx + 1}: ${celebName} (${gender.toUpperCase()}) -> ${imagePath}`);
 
-    // 1. Prioritize verified photo_urls (TMDb / payload) for 100% sync with reel
+    // 1. Prioritize verified photo_urls (TMDb / payload) and local disk cache for 100% sync with reel
     let finalFramePhotos = [];
     if (rawPhotoUrls && rawPhotoUrls.length >= 3) {
       console.log(`    🎯 Synchronizing collage with verified payload photo_urls (${rawPhotoUrls.length} available)...`);
-      for (const u of rawPhotoUrls.slice(0, 5)) {
-        const dUri = await downloadAsDataUri(u);
+      for (let pIdx = 0; pIdx < Math.min(5, rawPhotoUrls.length); pIdx++) {
+        const u = rawPhotoUrls[pIdx];
+        const cachedLocal = path.join(BASE_DIR, 'temp_reel_assets', `${cleanSlug}_photo_${pIdx + 1}.jpg`);
+        let dUri = null;
+        if (fs.existsSync(cachedLocal) && fs.statSync(cachedLocal).size > 1000) {
+          dUri = await downloadAsDataUri(cachedLocal);
+        }
+        if (!dUri) {
+          dUri = await downloadAsDataUri(u);
+          if (dUri && dUri.startsWith('data:image')) {
+            try {
+              if (!fs.existsSync(path.join(BASE_DIR, 'temp_reel_assets'))) {
+                fs.mkdirSync(path.join(BASE_DIR, 'temp_reel_assets'), { recursive: true });
+              }
+              const b64 = dUri.split(',')[1];
+              fs.writeFileSync(cachedLocal, Buffer.from(b64, 'base64'));
+            } catch (e) {}
+          }
+        }
         if (dUri) finalFramePhotos.push(dUri);
       }
     }
