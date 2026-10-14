@@ -1,6 +1,8 @@
 name: Instagram Scheduled Auto Poster & Facebook Comment Syncer
 
 on:
+  repository_dispatch:
+    types: [instagram_drop, instagram_post]
   schedule:
     # Drop 1 (US Morning Commute / 8:00 AM EDT)
     - cron: '0 12 * * *'   # 5:30 PM IST (12:00 UTC) -> Headliner 1: Photo Carousel
@@ -52,8 +54,8 @@ jobs:
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID || '17841416842135384' }}
-          TARGET: ${{ github.event.inputs.celeb_target || 'auto' }}
-          ACTION: ${{ github.event.inputs.action_type || 'auto' }}
+          TARGET: ${{ github.event.inputs.celeb_target || github.event.client_payload.celeb_target || 'auto' }}
+          ACTION: ${{ github.event.inputs.action_type || github.event.client_payload.action_type || 'auto' }}
         run: node scripts/post_to_instagram.js --target "$TARGET" --type "$ACTION"
 
       - name: Sync Facebook Pinned Comments for Live Posts
