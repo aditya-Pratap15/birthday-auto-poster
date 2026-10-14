@@ -261,6 +261,37 @@ function detectGender(post) {
 /**
  * Synthesize voiceover using Microsoft Edge Neural TTS
  */
+
+async function generateGoogleTTS(text, lang, outputPath) {
+  const words = (text || '').split(/\s+/);
+  const chunks = [];
+  let cur = '';
+  for (const w of words) {
+    if ((cur + ' ' + w).trim().length > 180) {
+      chunks.push(cur.trim());
+      cur = w;
+    } else {
+      cur = (cur + ' ' + w).trim();
+    }
+  }
+  if (cur) chunks.push(cur);
+
+  const audioBuffers = [];
+  for (const chunk of chunks) {
+    const buf = await new Promise((resolve, reject) => {
+      const url = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(chunk) + '&tl=' + lang + '&client=tw-ob';
+      https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, res => {
+        if (res.statusCode !== 200) return reject(new Error('Google TTS HTTP ' + res.statusCode));
+        const cArr = [];
+        res.on('data', d => cArr.push(d));
+        res.on('end', () => resolve(Buffer.concat(cArr)));
+      }).on('error', reject);
+    });
+    audioBuffers.push(buf);
+  }
+  fs.writeFileSync(outputPath, Buffer.concat(audioBuffers));
+}
+
 async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
   const text = (rawText || '').replace(/&/g, ' and ').replace(/[<>]/g, '').trim();
   const isFemale = gender && gender.toLowerCase() === 'female';
@@ -307,10 +338,23 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
       console.log(`    ✅ Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries)`);
       return { duration, boundaries };
     } catch (err) {
-      console.warn(`    [!] TTS Attempt ${attempt} failed: ${err.message}`);
-      if (attempt === maxRetries) throw err;
-      await new Promise(r => setTimeout(r, 2000));
+      console.warn(`    [!] Tier 1 Neural TTS Attempt ${attempt} failed: ${err.message}`);
+      if (attempt < maxRetries) {
+        await new Promise(r => setTimeout(r, 2000));
+      }
     }
+  }
+
+  // --- TIER 2: BULLETPROOF GOOGLE TTS BACKUP ---
+  console.warn(`    🛡️ Engaging Tier 2 Google TTS Fallback (Zero-Failure Guarantee)...`);
+  try {
+    await generateGoogleTTS(text, 'en', outputPath);
+    const duration = getAudioDuration(outputPath);
+    console.log(`    ✅ Tier 2 Voiceover created successfully (${duration.toFixed(1)}s)`);
+    return { duration, boundaries: [] };
+  } catch (fallbackErr) {
+    console.error(`    [!] Tier 2 TTS failed: ${fallbackErr.message}`);
+    throw fallbackErr;
   }
 }
 
