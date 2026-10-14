@@ -26,7 +26,7 @@ const http = require('http');
 const { URL } = require('url');
 const { execSync } = require('child_process');
 const puppeteer = require('puppeteer');
-const { EdgeTTS, Constants } = require('@andresaya/edge-tts');
+const { MsEdgeTTS, OUTPUT_FORMAT } = require('msedge-tts');
 
 // Project Paths
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -84,6 +84,8 @@ function downloadFile(url, destPath, retries = 2, maxRedirects = 5) {
 function cleanMarkdown(text) {
   if (!text) return '';
   return text.replace(/\*\*(.*?)\*\*/g, '$1')
+             .replace(/&/g, ' and ')
+             .replace(/[<>]/g, '')
              .replace(/__(.*?)__/g, '$1')
              .replace(/[#*_~`]/g, '')
              .replace(/\s+/g, ' ')
@@ -259,21 +261,57 @@ function detectGender(post) {
 /**
  * Synthesize voiceover using Microsoft Edge Neural TTS
  */
-async function generateVoiceover(text, gender, outputPath) {
-  const tts = new EdgeTTS();
+async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
+  const text = (rawText || '').replace(/&/g, ' and ').replace(/[<>]/g, '').trim();
   const isFemale = gender && gender.toLowerCase() === 'female';
   const voice = isFemale ? 'en-US-JennyNeural' : 'en-US-ChristopherNeural';
 
-  console.log(`    🎙️ Synthesizing narration with ${voice} (${isFemale ? 'Female' : 'Male'})...`);
-  await tts.synthesize(text, voice, {
-    outputFormat: Constants.OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3
-  });
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`    🎙️ Synthesizing narration with ${voice} (${isFemale ? 'Female' : 'Male'}) [Attempt ${attempt}/${maxRetries}]...`);
+      const tts = new MsEdgeTTS();
+      await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3, { wordBoundaryEnabled: true });
 
-  const buffer = tts.toBuffer();
-  fs.writeFileSync(outputPath, buffer);
-  const duration = getAudioDuration(outputPath);
-  console.log(`    ✅ Voiceover created (${duration.toFixed(1)}s)`);
-  return { duration, boundaries: tts.getWordBoundaries() };
+      const boundaries = [];
+      const audioChunks = [];
+
+      await new Promise((resolve, reject) => {
+        const { audioStream, metadataStream } = tts.toStream(text);
+        audioStream.on('data', chunk => audioChunks.push(chunk));
+        if (metadataStream) {
+          metadataStream.on('data', data => {
+            try {
+              const json = JSON.parse(data.toString());
+              for (const item of (json.Metadata || [])) {
+                if (item.Type === 'WordBoundary' && item.Data) {
+                  boundaries.push({
+                    offset: item.Data.Offset,
+                    duration: item.Data.Duration,
+                    text: item.Data.text ? item.Data.text.Text : ''
+                  });
+                }
+              }
+            } catch (e) {}
+          });
+        }
+        audioStream.on('end', resolve);
+        audioStream.on('error', reject);
+      });
+
+      const buffer = Buffer.concat(audioChunks);
+      if (buffer.length === 0) {
+        throw new Error('Received empty audio buffer from TTS service');
+      }
+      fs.writeFileSync(outputPath, buffer);
+      const duration = getAudioDuration(outputPath);
+      console.log(`    ✅ Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries)`);
+      return { duration, boundaries };
+    } catch (err) {
+      console.warn(`    [!] TTS Attempt ${attempt} failed: ${err.message}`);
+      if (attempt === maxRetries) throw err;
+      await new Promise(r => setTimeout(r, 2000));
+    }
+  }
 }
 
 function formatAssTime(seconds) {

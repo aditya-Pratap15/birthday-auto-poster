@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@andresaya/edge-tts": "^1.8.1",
+    "msedge-tts": "^2.1.0",
     "puppeteer": "^22.15.0"
   }
 }
