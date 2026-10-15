@@ -489,6 +489,19 @@ async function main() {
         targetPost.ig_post_id = carRes.id;
         console.log(`    ✅ SUCCESS! Instagram Carousel Published! ID: ${carRes.id}`);
         fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+
+        // Clean up local collage once successfully published to Instagram (Meta has already downloaded & permanently stored it)
+        try {
+          if (targetPost.image_path) {
+            const colPath = path.resolve(BASE_DIR, targetPost.image_path);
+            if (fs.existsSync(colPath)) {
+              fs.unlinkSync(colPath);
+              console.log(`    🧹 Cleaned up local collage: ${path.basename(colPath)}`);
+            }
+          }
+        } catch (colErr) {
+          console.warn(`    [!] Could not unlink local collage:`, colErr.message);
+        }
       } else {
         console.error(`    [!] Carousel Error:`, carRes.error);
         process.exit(1);
