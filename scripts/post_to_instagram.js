@@ -172,6 +172,32 @@ async function postInstagramCarousel(igUserId, token, caption, imageUrls) {
     return { success: false, error: 'Failed to create carousel container' };
   }
 
+  // Poll carousel processing readiness (Meta requires 4-10s to assemble and transcode multi-slide carousels)
+  console.log(`    [⏳ IG] Polling Meta carousel readiness for container ${containerId}...`);
+  let isReady = false;
+  let attempts = 0;
+  while (!isReady && attempts < 15) {
+    await new Promise(r => setTimeout(r, 3000));
+    attempts++;
+    const statusRes = await new Promise((resolve) => {
+      https.get(`https://graph.facebook.com/v26.0/${containerId}?fields=status_code&access_token=${token}`, res => {
+        let data = '';
+        res.on('data', c => data += c);
+        res.on('end', () => {
+          try { resolve(JSON.parse(data)); } catch (e) { resolve({}); }
+        });
+      }).on('error', () => resolve({}));
+    });
+
+    if (statusRes.status_code === 'FINISHED') {
+      isReady = true;
+      console.log(`    [✓ IG] Carousel container is FINISHED and ready for publishing.`);
+      break;
+    } else if (statusRes.status_code === 'ERROR') {
+      return { success: false, error: 'Carousel processing returned ERROR from Meta' };
+    }
+  }
+
   // Publish Carousel
   console.log(`    [🚀 IG] Publishing carousel container (ID: ${containerId})...`);
   const pubParams = {
