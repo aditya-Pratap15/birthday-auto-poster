@@ -56,28 +56,36 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: node scripts/post_to_youtube.js
 
-      - name: Clean Non-Headliner Media & Stage Reels for Instagram
+      - name: Clean Non-Headliner Media & Stage Reels and Collages for Instagram
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          rm -f collages/*.jpg collages/*.png collages/*.webp current_subs.ass
+          rm -f current_subs.ass
           rm -rf temp_reel_assets/*
-          # Clean non-headliner reels (only preserve top 3 for scheduled Instagram drops)
+          # Clean non-headliner collages and reels (preserve top 3 for scheduled Instagram drops)
           node -e "
             const fs = require('fs');
             const data = JSON.parse(fs.readFileSync('today_posts.json', 'utf8'));
             const top3Names = (data.posts || []).slice(0, 3).map(p => (p.celebrity_name || '').replace(/[^a-zA-Z0-9]/g, '_'));
+            if (fs.existsSync('collages')) {
+              fs.readdirSync('collages').forEach(f => {
+                if (f === '.gitkeep') return;
+                const isTop3 = top3Names.some(name => f.startsWith(name));
+                if (!isTop3) {
+                  try { fs.unlinkSync('collages/' + f); console.log('Cleaned non-headliner collage: ' + f); } catch(e){}
+                }
+              });
+            }
             if (fs.existsSync('reels')) {
               fs.readdirSync('reels').forEach(f => {
                 if (f === '.gitkeep') return;
                 const isTop3 = top3Names.some(name => f.startsWith(name));
                 if (!isTop3) {
-                  fs.unlinkSync('reels/' + f);
-                  console.log('Cleaned non-headliner reel: ' + f);
+                  try { fs.unlinkSync('reels/' + f); console.log('Cleaned non-headliner reel: ' + f); } catch(e){}
                 }
               });
             }
           "
-          git add -A today_posts.json collages/.gitkeep reels/
-          git commit -m "chore(automation): sync schedule logs and stage headliner reels [skip ci]" || echo "No changes to commit"
+          git add -A today_posts.json collages/ reels/
+          git commit -m "chore(automation): sync schedule logs and stage headliner media [skip ci]" || echo "No changes to commit"
           git push || true

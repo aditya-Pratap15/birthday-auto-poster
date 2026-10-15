@@ -2,10 +2,6 @@
 .DS_Store
 Thumbs.db
 *.log
-collages/*.jpg
-collages/*.jpeg
-collages/*.png
-collages/*.webp
 !collages/.gitkeep
 
 temp_reel_assets/

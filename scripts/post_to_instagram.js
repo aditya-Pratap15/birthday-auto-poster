@@ -105,11 +105,23 @@ async function postInstagramCarousel(igUserId, token, caption, imageUrls) {
         res.on('end', () => {
           try {
             const parsed = JSON.parse(data);
-            resolve(parsed.id || null);
-          } catch (e) { resolve(null); }
+            if (parsed.id) {
+              console.log(`      [✓ IG Slide ${idx + 1}] Container created: ${parsed.id} (${imgUrl.slice(0, 60)}...)`);
+              resolve(parsed.id);
+            } else {
+              console.error(`      [!] IG Slide ${idx + 1} Container Error:`, parsed.error ? parsed.error.message : data);
+              resolve(null);
+            }
+          } catch (e) {
+            console.error(`      [!] IG Slide ${idx + 1} Parse Error:`, e.message);
+            resolve(null);
+          }
         });
       });
-      req.on('error', () => resolve(null));
+      req.on('error', err => {
+        console.error(`      [!] IG Slide ${idx + 1} Request Error:`, err.message);
+        resolve(null);
+      });
       req.write(postData);
       req.end();
     });
@@ -445,7 +457,17 @@ async function main() {
     }
 
     let igPhotos = [];
-    if (targetPost.collage_cdn_url) {
+
+    // Permanent Raw GitHub CDN URL for the master collage (never expires, 100% reliable)
+    const rawGithubCollage = targetPost.image_path
+      ? `https://raw.githubusercontent.com/aditya-Pratap15/birthday-auto-poster/main/${targetPost.image_path.replace(/\\/g, '/')}`
+      : null;
+
+    if (rawGithubCollage) {
+      console.log(`    [🎨 Primary Collage] Using permanent GitHub Raw CDN: ${rawGithubCollage}`);
+      igPhotos.push(rawGithubCollage);
+    } else if (targetPost.collage_cdn_url) {
+      console.log(`    [🎨 Fallback Collage] Using Meta CDN URL: ${targetPost.collage_cdn_url.slice(0, 60)}...`);
       igPhotos.push(targetPost.collage_cdn_url);
     } else if (targetPost.fb_collage_photo_id) {
       const cdn = await getFacebookPhotoCdnUrl(targetPost.fb_collage_photo_id, DEFAULT_TOKEN);
