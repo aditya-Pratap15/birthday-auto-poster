@@ -69,6 +69,41 @@ function getFacebookPhotoCdnUrl(photoId, token) {
 }
 
 // -------------------------------------------------------------
+
+// -------------------------------------------------------------
+// Helper: Audit Live Instagram Profile (Anti-Duplication Guard)
+// -------------------------------------------------------------
+function findLiveInstagramPost(igUserId, token, celebName, actionType) {
+  return new Promise(resolve => {
+    https.get(`https://graph.facebook.com/v26.0/${igUserId}/media?fields=id,caption,media_type,timestamp&limit=25&access_token=${token}`, res => {
+      let d = ''; res.on('data', c => d += c);
+      res.on('end', () => {
+        try {
+          const j = JSON.parse(d);
+          if (!j.data) return resolve(null);
+          const targetType = actionType === 'reel' ? 'VIDEO' : 'CAROUSEL_ALBUM';
+          const cleanTarget = celebName.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+          // Look within last 36 hours
+          const cutoff = Date.now() - (36 * 3600 * 1000);
+
+          for (const item of j.data) {
+            if (item.media_type !== targetType) continue;
+            const itemTs = new Date(item.timestamp).getTime();
+            if (itemTs < cutoff) continue;
+
+            const cleanCaption = (item.caption || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (cleanCaption.includes(cleanTarget)) {
+              return resolve({ id: item.id, timestamp: item.timestamp, media_type: item.media_type });
+            }
+          }
+          resolve(null);
+        } catch(e) { resolve(null); }
+      });
+    }).on('error', () => resolve(null));
+  });
+}
+
 // 1. Instagram Carousel Publishing
 // -------------------------------------------------------------
 async function postInstagramCarousel(igUserId, token, caption, imageUrls) {
@@ -475,6 +510,20 @@ async function main() {
   console.log(`   Window: ${targetPost.peak_window || 'Peak Window'}`);
   console.log(`------------------------------------------------------\n`);
 
+  // -------------------------------------------------------------
+  // Pre-Flight Live Instagram Audit: Prevent Duplicate Re-Posting
+  // -------------------------------------------------------------
+  const livePost = await findLiveInstagramPost(DEFAULT_IG_ID, DEFAULT_TOKEN, celebName, actionType);
+  if (livePost) {
+    console.log(`[🛡️ Anti-Duplicate Guard] Found live post on Instagram for ${celebName} (ID: ${livePost.id}) published at ${livePost.timestamp}.`);
+    console.log(`   ⏭️ Skipping re-publish to prevent duplicate posts on feed!`);
+    if (actionType === 'carousel') targetPost.ig_post_id = livePost.id;
+    if (actionType === 'reel') targetPost.ig_reel_id = livePost.id;
+    fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+    process.exit(0);
+  }
+
+
   // ACTION A: Publish Carousel
   if (actionType === 'carousel') {
     if (targetPost.ig_post_id) {
@@ -530,7 +579,14 @@ async function main() {
         }
       } else {
         console.error(`    [!] Carousel Error:`, carRes.error);
-        process.exit(1);
+        const verifyPost = await findLiveInstagramPost(DEFAULT_IG_ID, DEFAULT_TOKEN, celebName, 'carousel');
+        if (verifyPost) {
+          targetPost.ig_post_id = verifyPost.id;
+          console.log(`    [🛡️ Verified Live] Instagram actually published container: ID ${verifyPost.id}`);
+          fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+        } else {
+          process.exit(1);
+        }
       }
     } else {
       console.error(`    [!] Insufficient photos for carousel (found ${igPhotos.length}).`);
@@ -591,7 +647,14 @@ async function main() {
       fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
     } else {
       console.error(`    [!] Reel Error:`, reelRes.error);
-      process.exit(1);
+      const verifyReel = await findLiveInstagramPost(DEFAULT_IG_ID, DEFAULT_TOKEN, celebName, 'reel');
+      if (verifyReel) {
+        targetPost.ig_reel_id = verifyReel.id;
+        console.log(`    [🛡️ Verified Live] Instagram actually published Reel: ID ${verifyReel.id}`);
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      } else {
+        process.exit(1);
+      }
     }
   }
 

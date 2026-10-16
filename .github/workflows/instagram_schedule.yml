@@ -69,4 +69,5 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A today_posts.json collages/ reels/
           git commit -m "chore(automation): record scheduled drop and sync live comments [skip ci]" || echo "No changes to commit"
-          git push || true
+          git pull --rebase origin main || true
+          git push origin main || (sleep 3 && git pull --rebase origin main && git push origin main) || echo "Push bypassed"
