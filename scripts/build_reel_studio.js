@@ -69,7 +69,7 @@ function selectBgmForReel(reelIndex = 1) {
   const now = new Date();
   const startOfYear = new Date(now.getFullYear(), 0, 0);
   const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
-  const trackIndex = (dayOfYear + (reelIndex - 1)) % tracks.length;
+  const trackIndex = (dayOfYear * 3 + (reelIndex - 1)) % tracks.length;
   return tracks[trackIndex];
 }
 const PAGE_LOGO_PATH = path.join(ROOT_DIR, 'page_logo.png');
@@ -715,12 +715,13 @@ async function main() {
   const isAll = args.includes('--all') || args.includes('all') || (args.length === 0);
 
   if (isAll) {
+    const targetPosts = posts.slice(0, 3);
     console.log(`\n======================================================`);
     console.log(`🎬 BATCH MODE: Generating Vertical Reels for ${posts.length} Celebrities`);
     console.log(`======================================================\n`);
 
-    for (let i = 0; i < posts.length; i++) {
-      const p = posts[i];
+    for (let i = 0; i < targetPosts.length; i++) {
+      const p = targetPosts[i];
       try {
         const reelFile = await buildReel(p, i + 1);
         p.reel_path = path.relative(ROOT_DIR, reelFile).replace(/\\/g, '/');
