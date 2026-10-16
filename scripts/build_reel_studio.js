@@ -33,7 +33,45 @@ const ROOT_DIR = path.resolve(__dirname, '..');
 const TODAY_POSTS_PATH = path.join(ROOT_DIR, 'today_posts.json');
 const REELS_DIR = path.join(ROOT_DIR, 'reels');
 const TEMP_DIR = path.join(ROOT_DIR, 'temp_reel_assets');
-const BGM_PATH = path.join(ROOT_DIR, 'background_music.mp3');
+const MUSIC_DIR = path.join(ROOT_DIR, 'music');
+const DEFAULT_BGM_PATH = path.join(ROOT_DIR, 'background_music.mp3');
+
+// Helper to retrieve all available background music tracks from music/
+function getAvailableMusicTracks() {
+  if (!fs.existsSync(MUSIC_DIR)) {
+    return fs.existsSync(DEFAULT_BGM_PATH) ? [DEFAULT_BGM_PATH] : [];
+  }
+  const tracks = [];
+  function scan(dir) {
+    const items = fs.readdirSync(dir, { withFileTypes: true });
+    for (const item of items) {
+      const full = path.join(dir, item.name);
+      if (item.isDirectory()) {
+        scan(full);
+      } else if (item.isFile() && item.name.toLowerCase().endsWith('.mp3')) {
+        tracks.push(full);
+      }
+    }
+  }
+  scan(MUSIC_DIR);
+  tracks.sort();
+  if (tracks.length === 0 && fs.existsSync(DEFAULT_BGM_PATH)) {
+    tracks.push(DEFAULT_BGM_PATH);
+  }
+  return tracks;
+}
+
+// Selects background music dynamically so each reel in a batch gets a different track,
+// rotating daily across the library so all tracks get featured evenly.
+function selectBgmForReel(reelIndex = 1) {
+  const tracks = getAvailableMusicTracks();
+  if (tracks.length === 0) return DEFAULT_BGM_PATH;
+  const now = new Date();
+  const startOfYear = new Date(now.getFullYear(), 0, 0);
+  const dayOfYear = Math.floor((now - startOfYear) / (1000 * 60 * 60 * 24));
+  const trackIndex = (dayOfYear + (reelIndex - 1)) % tracks.length;
+  return tracks[trackIndex];
+}
 const PAGE_LOGO_PATH = path.join(ROOT_DIR, 'page_logo.png');
 
 if (!fs.existsSync(REELS_DIR)) fs.mkdirSync(REELS_DIR, { recursive: true });
@@ -617,19 +655,24 @@ async function buildReel(post, index = 1) {
                      `[vbase]ass='${escapedAss}'[vout];`;
   }
 
-  // Audio Inputs: Voiceover + Gentle Solo Piano BGM (dynamic indices)
+  // Dynamically select background music track for this reel
+  const selectedBgmPath = selectBgmForReel(index);
+  const bgmFileName = path.basename(selectedBgmPath);
+  console.log(`    🎵 Background Music: ${bgmFileName} (Reel #${index})`);
+
+  // Audio Inputs: Voiceover + Selected BGM
   const voiceInputIndex = inputs.length;
   inputs.push(`-i "${voicePath}"`);
   const bgmInputIndex = inputs.length;
-  inputs.push(`-stream_loop -1 -i "${BGM_PATH}"`);
+  inputs.push(`-stream_loop -1 -i "${selectedBgmPath}"`);
 
   // Audio Filters:
-  // - Voiceover boosted by 80% (volume=1.8)
-  // - Gentle solo piano BGM set to 25% (+7% increase from 18%)
-  // - Smooth fade out at the end of the video
+  // - Voiceover boosted by 80% (volume=1.8) for loud, crystal-clear narration
+  // - BGM ducked to 18% (volume=0.18) so vocals, drums, and melodies blend cleanly under voiceover
+  // - Smooth 0.7s fade out at video end
   const fadeOutStart = Math.max(0, totalDuration - 0.7).toFixed(2);
   filterComplex += `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${OUTRO_DURATION + 1}[v_boosted];` +
-                   `[${bgmInputIndex}:a]volume=0.25[b_gentle];` +
+                   `[${bgmInputIndex}:a]volume=0.18[b_gentle];` +
                    `[v_boosted][b_gentle]amix=inputs=2:duration=first:dropout_transition=2[amixed];` +
                    `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
 
