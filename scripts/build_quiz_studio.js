@@ -1,3 +1,4 @@
+const { auditAndEnforceQuizGender, getRandomSameGenderDistractors, detectGender } = require('./gender_guard');
 const fs = require('fs');
 const path = require('path');
 const https = require('https');
@@ -129,6 +130,12 @@ function getBgmTrack(index = 1) {
 
 async function run() {
   const args = process.argv.slice(2);
+  const todayPath = path.join(ROOT_DIR, 'today_posts.json');
+  let todayData = null;
+  if (fs.existsSync(todayPath)) {
+    try { todayData = JSON.parse(fs.readFileSync(todayPath, 'utf8')); } catch(e){}
+  }
+  const quizPosts = todayData?.quiz_posts || [];
   const photo1Path = path.join(COLLAGES_DIR, 'quiz_01_Flea.jpg');
   const photo2Path = path.join(COLLAGES_DIR, 'quiz_02_Suzanne_Somers.jpg');
   const reel1Out = path.join(REELS_DIR, 'quiz_03_Caterina_Scorsone.mp4');
@@ -280,18 +287,66 @@ async function run() {
   }
 
   // -------------------------------------------------------------
-  // 2. PHOTO QUIZ TYPE 2: SUZANNE SOMERS (Female -> Soft Pink, Full Bleed 4:5 Images, Hand Emoji 👇)
   // -------------------------------------------------------------
-  console.log('[2/4] Generating Photo Quiz Type 2 (Suzanne Somers)...');
-  if (fs.existsSync(photo2Path) && !force) {
-    console.log('   ℹ️ Photo Quiz 2 already exists, skipping. (Use --force to rebuild)');
-  } else {
-  const suzanneUri = await downloadImageAsDataUri(await getCelebrityPhoto('Suzanne Somers'));
-  const joyceUri = await downloadImageAsDataUri(await getCelebrityPhoto('Joyce DeWitt'));
-  const farrahUri = await downloadImageAsDataUri(await getCelebrityPhoto('Farrah Fawcett'));
-  const goldieUri = await downloadImageAsDataUri(await getCelebrityPhoto('Goldie Hawn'));
+  // 2. PHOTO QUIZ TYPE 2 (Face Match 4-Image Grid with Same-Gender Options)
+  // -------------------------------------------------------------
+  const q2Post = quizPosts.find(q => q.type === 'photo_quiz_type2') || {
+    celebrity_name: 'Suzanne Somers',
+    gender: 'female',
+    correct_option: 'A',
+    options: [
+      { letter: 'A', name: 'Suzanne Somers' },
+      { letter: 'B', name: 'Joyce DeWitt' },
+      { letter: 'C', name: 'Farrah Fawcett' },
+      { letter: 'D', name: 'Goldie Hawn' }
+    ],
+    subtitle: "The iconic 'Three's Company' star was born on this day!"
+  };
 
-  const photoQuiz2Html = `<!DOCTYPE html>
+  const q2TargetName = q2Post.celebrity_name;
+  const q2CleanSlug = q2TargetName.replace(/[^a-zA-Z0-9_]/g, '_');
+  const targetPhoto2Path = path.join(COLLAGES_DIR, `quiz_02_${q2CleanSlug}.jpg`);
+
+  console.log(`[2/4] Generating Photo Quiz Type 2 (${q2TargetName})...`);
+  if (fs.existsSync(targetPhoto2Path) && !force) {
+    console.log(`   ℹ️ Photo Quiz 2 already exists, skipping. (Use --force to rebuild)`);
+  } else {
+    // AUDIT & ENFORCE GENDER CONSISTENCY (Exception Handler)
+    const q2Audit = await auditAndEnforceQuizGender(q2Post);
+    if (q2Audit.modified) {
+      console.log(`   [🛡️ Gender Guard] Exception handler corrected Photo Quiz 2 options to all ${q2Post.gender}!`);
+      if (todayData && todayData.quiz_posts) {
+        const qIdx = todayData.quiz_posts.findIndex(q => q.type === 'photo_quiz_type2');
+        if (qIdx !== -1) todayData.quiz_posts[qIdx] = q2Post;
+        fs.writeFileSync(todayPath, JSON.stringify(todayData, null, 2), 'utf8');
+      }
+    }
+
+    const optA = q2Post.options.find(o => o.letter === 'A') || { name: q2TargetName };
+    const optB = q2Post.options.find(o => o.letter === 'B') || { name: 'Option B' };
+    const optC = q2Post.options.find(o => o.letter === 'C') || { name: 'Option C' };
+    const optD = q2Post.options.find(o => o.letter === 'D') || { name: 'Option D' };
+
+    console.log(`   📸 Sourcing 4 same-gender portraits: A=${optA.name}, B=${optB.name}, C=${optC.name}, D=${optD.name}...`);
+    const uriA = await downloadImageAsDataUri(await getCelebrityPhoto(optA.name));
+    const uriB = await downloadImageAsDataUri(await getCelebrityPhoto(optB.name));
+    const uriC = await downloadImageAsDataUri(await getCelebrityPhoto(optC.name));
+    const uriD = await downloadImageAsDataUri(await getCelebrityPhoto(optD.name));
+
+    const isFemale = (q2Post.gender || 'female').toLowerCase() === 'female';
+    const bgGrad = isFemale
+      ? 'radial-gradient(circle at 50% 20%, #fdf2f8 0%, #fce7f3 45%, #f5d0fe 100%)'
+      : 'radial-gradient(circle at 50% 20%, #e0f2fe 0%, #f0f9ff 45%, #dbeafe 100%)';
+    const badgeBorder = isFemale ? '#f472b6' : '#38bdf8';
+    const badgeLogoBorder = isFemale ? '#db2777' : '#0284c7';
+    const badgeTextColor = isFemale ? '#be185d' : '#0369a1';
+    const headTopColor = isFemale ? '#831843' : '#0369a1';
+    const subHeadColor = isFemale ? '#be185d' : '#0284c7';
+    const cardShadow = isFemale ? 'rgba(190, 24, 93, 0.16)' : 'rgba(2, 132, 199, 0.18)';
+    const emoji = isFemale ? '🎉' : '🤠';
+    const subTitleText = q2Post.subtitle || (isFemale ? "Can you spot today's birthday star?" : "Can you spot today's birthday legend?");
+
+    const photoQuiz2Html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -300,7 +355,7 @@ async function run() {
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     width: 1080px; height: 1350px;
-    background: radial-gradient(circle at 50% 20%, #fdf2f8 0%, #fce7f3 45%, #f5d0fe 100%);
+    background: ${bgGrad};
     color: #0f172a; font-family: 'Inter', sans-serif;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
     padding: 35px 45px 25px 45px; position: relative; overflow: hidden;
@@ -308,17 +363,16 @@ async function run() {
   .header { display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; width: 100%; }
   .badge-bar {
     display: flex; align-items: center; gap: 16px;
-    background: #ffffff; border: 3px solid #f472b6;
+    background: #ffffff; border: 3px solid ${badgeBorder};
     padding: 10px 32px; border-radius: 50px; margin-bottom: 8px;
-    box-shadow: 0 4px 18px rgba(244, 114, 182, 0.28);
+    box-shadow: 0 4px 18px ${badgeBorder}44;
   }
-  .badge-bar img { width: 64px; height: 64px; border-radius: 50%; border: 2.5px solid #db2777; }
-  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: 2px; color: #be185d; text-transform: uppercase; }
+  .badge-bar img { width: 64px; height: 64px; border-radius: 50%; border: 2.5px solid ${badgeLogoBorder}; }
+  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: 2px; color: ${badgeTextColor}; text-transform: uppercase; }
   
   .headline-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  .headline-top { font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 900; color: #831843; text-transform: uppercase; }
+  .headline-top { font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 900; color: ${headTopColor}; text-transform: uppercase; }
   
-  /* Undistorted Crisp Golden Yellow with Clean Red Outline */
   .headline-name {
     font-family: 'Outfit', sans-serif; font-size: 58px; font-weight: 900; line-height: 1.1;
     color: #fbbf24;
@@ -334,9 +388,8 @@ async function run() {
        0 8px 24px rgba(220, 38, 38, 0.45);
     letter-spacing: 0.5px;
   }
-  .sub-headline { font-size: 20px; color: #be185d; font-weight: 700; margin-top: 3px; }
+  .sub-headline { font-size: 20px; color: ${subHeadColor}; font-weight: 700; margin-top: 3px; }
 
-  /* 2x2 Grid with 4:5 Aspect Ratio Photo Cards (340px x 425px) - Perfectly fits 1080x1350 with zero bottom cutoff */
   .grid-2x2 {
     width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 18px; z-index: 2;
     justify-items: center; margin-top: 10px; margin-bottom: 14px;
@@ -344,7 +397,7 @@ async function run() {
   .photo-card {
     width: 340px; height: 425px; border-radius: 22px; overflow: hidden; position: relative;
     border: 4px solid #ffffff;
-    box-shadow: 0 12px 35px rgba(190, 24, 93, 0.16), 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 35px ${cardShadow}, 0 4px 15px rgba(0,0,0,0.08);
     background: #0f172a;
     display: flex; align-items: center; justify-content: center;
   }
@@ -358,7 +411,6 @@ async function run() {
     box-shadow: 0 4px 14px rgba(0,0,0,0.25); border: 2px solid #ffffff; z-index: 3;
   }
 
-  /* Bottom Red Box with Hand Emoji 👇 + Caption Note */
   .footer-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
   .footer-cta {
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
@@ -367,7 +419,7 @@ async function run() {
     box-shadow: 0 8px 25px rgba(220, 38, 38, 0.45); letter-spacing: 0.5px;
   }
   .caption-note {
-    font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: #be185d; letter-spacing: 0.5px;
+    font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: ${subHeadColor}; letter-spacing: 0.5px;
   }
 </style>
 </head>
@@ -379,16 +431,16 @@ async function run() {
     </div>
     <div class="headline-wrap">
       <div class="headline-top">WHICH ONE IS</div>
-      <div class="headline-name">SUZANNE SOMERS? 🎉</div>
+      <div class="headline-name">${q2TargetName.toUpperCase()}? ${emoji}</div>
     </div>
-    <div class="sub-headline">The iconic 'Three's Company' star was born on this day!</div>
+    <div class="sub-headline">${subTitleText}</div>
   </div>
 
   <div class="grid-2x2">
-    <div class="photo-card"><div class="card-badge">A</div><img src="${suzanneUri}"></div>
-    <div class="photo-card"><div class="card-badge">B</div><img src="${joyceUri}"></div>
-    <div class="photo-card"><div class="card-badge">C</div><img src="${farrahUri}"></div>
-    <div class="photo-card"><div class="card-badge">D</div><img src="${goldieUri}"></div>
+    <div class="photo-card"><div class="card-badge">A</div><img src="${uriA}"></div>
+    <div class="photo-card"><div class="card-badge">B</div><img src="${uriB}"></div>
+    <div class="photo-card"><div class="card-badge">C</div><img src="${uriC}"></div>
+    <div class="photo-card"><div class="card-badge">D</div><img src="${uriD}"></div>
   </div>
 
   <div class="footer-wrap">
@@ -398,17 +450,15 @@ async function run() {
 </body>
 </html>`;
 
-  const page2 = await browser.newPage();
-  await page2.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
-  await page2.setContent(photoQuiz2Html, { waitUntil: 'networkidle0' });
-  const photo2Path = path.join(COLLAGES_DIR, 'quiz_02_Suzanne_Somers.jpg');
-  await page2.screenshot({ path: photo2Path, type: 'jpeg', quality: 95 });
-  await page2.close();
-  console.log(`   ✅ Saved: ${photo2Path}`);
-    try { fs.copyFileSync(photo2Path, path.join(OUTPUT_DIR, '02_Photo_Quiz_Type2_Suzanne_Somers.jpg')); } catch(e){}
+    const page2 = await browser.newPage();
+    await page2.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
+    await page2.setContent(photoQuiz2Html, { waitUntil: 'networkidle0' });
+    await page2.screenshot({ path: targetPhoto2Path, type: 'jpeg', quality: 95 });
+    await page2.close();
+    console.log(`   ✅ Saved: ${targetPhoto2Path}`);
+    try { fs.copyFileSync(targetPhoto2Path, path.join(OUTPUT_DIR, `02_Photo_Quiz_Type2_${q2CleanSlug}.jpg`)); } catch(e){}
   }
 
-  // -------------------------------------------------------------
   // Helper for Luxury Outro Slide (Matching Regular Reels)
   // -------------------------------------------------------------
   function getOutroSlideHtml() {
@@ -776,34 +826,88 @@ async function run() {
   }
 
   // -------------------------------------------------------------
-  // 4. REEL QUIZ TYPE 2: BARRY CORBIN (Male -> Soft Blue, Options Glow One By One During Timer, Hand Emoji 👇)
   // -------------------------------------------------------------
-  console.log('[4/4] Generating Reel Quiz Type 2 (Barry Corbin)...');
-  if (fs.existsSync(reel2Out) && !force) {
-    console.log('   ℹ️ Reel Quiz 2 already exists, skipping. (Use --force to rebuild)');
+  // 4. REEL QUIZ TYPE 2 (Face Match 4-Image Grid Reel with Same-Gender Options)
+  // -------------------------------------------------------------
+  const q4Post = quizPosts.find(q => q.type === 'reel_quiz_type2') || {
+    celebrity_name: 'Barry Corbin',
+    gender: 'male',
+    correct_option: 'B',
+    age: 86,
+    options: [
+      { letter: 'A', name: 'Sam Elliott' },
+      { letter: 'B', name: 'Barry Corbin' },
+      { letter: 'C', name: 'Robert Duvall' },
+      { letter: 'D', name: 'Tommy Lee Jones' }
+    ]
+  };
+
+  const q4TargetName = q4Post.celebrity_name;
+  const q4CleanSlug = q4TargetName.replace(/[^a-zA-Z0-9_]/g, '_');
+  const targetReel2Out = path.join(REELS_DIR, `quiz_04_${q4CleanSlug}.mp4`);
+
+  console.log(`[4/4] Generating Reel Quiz Type 2 (${q4TargetName})...`);
+  if (fs.existsSync(targetReel2Out) && !force) {
+    console.log(`   ℹ️ Reel Quiz 2 already exists, skipping. (Use --force to rebuild)`);
   } else {
-  const barryUri = await downloadImageAsDataUri(await getCelebrityPhoto('Barry Corbin'));
-  const samElliottUri = await downloadImageAsDataUri(await getCelebrityPhoto('Sam Elliott'));
-  const robertDuvallUri = await downloadImageAsDataUri(await getCelebrityPhoto('Robert Duvall'));
-  const tommyLeeUri = await downloadImageAsDataUri(await getCelebrityPhoto('Tommy Lee Jones'));
+    // AUDIT & ENFORCE GENDER CONSISTENCY (Exception Handler)
+    const q4Audit = await auditAndEnforceQuizGender(q4Post);
+    if (q4Audit.modified) {
+      console.log(`   [🛡️ Gender Guard] Exception handler corrected Reel Quiz 2 options to all ${q4Post.gender}!`);
+      if (todayData && todayData.quiz_posts) {
+        const qIdx = todayData.quiz_posts.findIndex(q => q.type === 'reel_quiz_type2');
+        if (qIdx !== -1) todayData.quiz_posts[qIdx] = q4Post;
+        fs.writeFileSync(todayPath, JSON.stringify(todayData, null, 2), 'utf8');
+      }
+    }
 
-  const r2VoiceQ = path.join(tempReelDir, 'r2_q_voice.mp3');
-  const r2VoiceRev = path.join(tempReelDir, 'r2_rev_voice.mp3');
-  const q2FullText = "Which of these four legendary screen stars is Barry Corbin, celebrating his eighty-sixth birthday today? Look closely at Options A, B, C, and D! Your ten-second countdown starts now!";
-  const r2FullText = "That's right! Option B is Barry Corbin, turning eighty-six today! Read his full story in the caption below!";
+    const r2OptA = q4Post.options.find(o => o.letter === 'A') || { name: 'Option A' };
+    const r2OptB = q4Post.options.find(o => o.letter === 'B') || { name: 'Option B' };
+    const r2OptC = q4Post.options.find(o => o.letter === 'C') || { name: 'Option C' };
+    const r2OptD = q4Post.options.find(o => o.letter === 'D') || { name: 'Option D' };
 
-  await new Promise(r => setTimeout(r, 1000));
-  await synthesizeVoiceWithRetry(q2FullText, 'en-US-GuyNeural', r2VoiceQ);
-  await new Promise(r => setTimeout(r, 1000));
-  await synthesizeVoiceWithRetry(r2FullText, 'en-US-GuyNeural', r2VoiceRev);
+    console.log(`   📸 Sourcing 4 same-gender portraits: A=${r2OptA.name}, B=${r2OptB.name}, C=${r2OptC.name}, D=${r2OptD.name}...`);
+    const r2UriA = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptA.name));
+    const r2UriB = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptB.name));
+    const r2UriC = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptC.name));
+    const r2UriD = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptD.name));
 
-  const dur2Q = getAudioDuration(r2VoiceQ);
-  const dur2Rev = getAudioDuration(r2VoiceRev);
+    const r2CorrectOpt = q4Post.correct_option || 'B';
+    const r2WinnerUriMap = { A: r2UriA, B: r2UriB, C: r2UriC, D: r2UriD };
+    const r2WinnerUri = r2WinnerUriMap[r2CorrectOpt] || r2UriB;
 
-  function getReel2Html(timerNum = null, timerProgress = null, isReveal = false, glowingOpt = null) {
-    const dashOffset = timerProgress !== null ? (314.15 * (1 - timerProgress)).toFixed(2) : 314.15;
+    const isFemale = (q4Post.gender || 'male').toLowerCase() === 'female';
+    const bgGrad = isFemale
+      ? 'radial-gradient(circle at 50% 20%, #fdf2f8 0%, #fce7f3 45%, #f5d0fe 100%)'
+      : 'radial-gradient(circle at 50% 20%, #e0f2fe 0%, #f0f9ff 45%, #dbeafe 100%)';
+    const badgeBorder = isFemale ? '#f472b6' : '#38bdf8';
+    const badgeLogoBorder = isFemale ? '#db2777' : '#0284c7';
+    const badgeTextColor = isFemale ? '#be185d' : '#0369a1';
+    const headTopColor = isFemale ? '#831843' : '#0369a1';
+    const cardShadow = isFemale ? 'rgba(190, 24, 93, 0.18)' : 'rgba(2, 132, 199, 0.18)';
+    const glowBorder = isFemale ? '#f472b6' : '#38bdf8';
+    const glowShadow = isFemale ? 'rgba(244, 114, 182, 0.95)' : 'rgba(56, 189, 248, 0.95)';
+    const emoji = isFemale ? '🎉' : '🤠';
 
-    return `<!DOCTYPE html>
+    const r2VoiceQ = path.join(tempReelDir, 'r2_q_voice.mp3');
+    const r2VoiceRev = path.join(tempReelDir, 'r2_rev_voice.mp3');
+    const q4AgeStr = q4Post.age ? `, celebrating their ${q4Post.age}th birthday today` : '';
+    const q2FullText = `Which of these four legendary screen stars is ${q4TargetName}${q4AgeStr}? Look closely at Options A, B, C, and D! Your ten-second countdown starts now!`;
+    const r2FullText = `That's right! Option ${r2CorrectOpt} is ${q4TargetName}! Read the full story in the caption below!`;
+    const voiceName = isFemale ? 'en-US-AriaNeural' : 'en-US-GuyNeural';
+
+    await new Promise(r => setTimeout(r, 1000));
+    await synthesizeVoiceWithRetry(q2FullText, voiceName, r2VoiceQ);
+    await new Promise(r => setTimeout(r, 1000));
+    await synthesizeVoiceWithRetry(r2FullText, voiceName, r2VoiceRev);
+
+    const dur2Q = getAudioDuration(r2VoiceQ);
+    const dur2Rev = getAudioDuration(r2VoiceRev);
+
+    function getReel2Html(timerNum = null, timerProgress = null, isReveal = false, glowingOpt = null) {
+      const dashOffset = timerProgress !== null ? (314.15 * (1 - timerProgress)).toFixed(2) : 314.15;
+
+      return `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -812,7 +916,7 @@ async function run() {
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     width: 1080px; height: 1920px;
-    background: radial-gradient(circle at 50% 20%, #e0f2fe 0%, #f0f9ff 45%, #dbeafe 100%);
+    background: ${bgGrad};
     color: #0f172a; font-family: 'Inter', sans-serif;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
     padding: 70px 55px 40px 55px; position: relative; overflow: hidden;
@@ -820,17 +924,16 @@ async function run() {
   .header { display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; width: 100%; }
   .badge-bar {
     display: flex; align-items: center; gap: 16px;
-    background: #ffffff; border: 3px solid #38bdf8;
+    background: #ffffff; border: 3px solid ${badgeBorder};
     padding: 10px 32px; border-radius: 50px; margin-bottom: 12px;
-    box-shadow: 0 4px 18px rgba(56, 189, 248, 0.28);
+    box-shadow: 0 4px 18px ${badgeBorder}44;
   }
-  .badge-bar img { width: 68px; height: 68px; border-radius: 50%; border: 2.5px solid #0284c7; }
-  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 2px; color: #0369a1; text-transform: uppercase; }
+  .badge-bar img { width: 68px; height: 68px; border-radius: 50%; border: 2.5px solid ${badgeLogoBorder}; }
+  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 2px; color: ${badgeTextColor}; text-transform: uppercase; }
   
   .headline-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
-  .headline-top { font-family: 'Outfit', sans-serif; font-size: 38px; font-weight: 900; color: #0369a1; text-transform: uppercase; }
+  .headline-top { font-family: 'Outfit', sans-serif; font-size: 38px; font-weight: 900; color: ${headTopColor}; text-transform: uppercase; }
   
-  /* Undistorted Crisp Golden Yellow with Clean Red Outline */
   .headline-name {
     font-family: 'Outfit', sans-serif; font-size: 60px; font-weight: 900; line-height: 1.1;
     color: #fbbf24;
@@ -847,12 +950,11 @@ async function run() {
     letter-spacing: 0.5px;
   }
 
-  /* Circular Countdown Timer */
   .timer-wrap {
     margin-top: 14px; display: flex; align-items: center; justify-content: center; position: relative; width: 120px; height: 120px;
   }
   .timer-svg { transform: rotate(-90deg); width: 120px; height: 120px; }
-  .timer-bg-circle { stroke: rgba(14, 165, 233, 0.25); stroke-width: 10; fill: #ffffff; }
+  .timer-bg-circle { stroke: ${badgeBorder}44; stroke-width: 10; fill: #ffffff; }
   .timer-progress-circle {
     stroke: #dc2626; stroke-width: 10; stroke-linecap: round; fill: none;
     stroke-dasharray: 314.15; stroke-dashoffset: ${dashOffset};
@@ -861,7 +963,6 @@ async function run() {
     position: absolute; font-family: 'Outfit', sans-serif; font-size: 46px; font-weight: 900; color: #dc2626;
   }
 
-  /* 2x2 Grid Shifted Up Just Below Timer with 4:5 Aspect Ratio Cards (440px x 550px) - Fills completely */
   .grid-2x2 {
     width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; z-index: 2;
     justify-items: center; margin-top: 16px; margin-bottom: 0px;
@@ -869,13 +970,13 @@ async function run() {
   .photo-card {
     width: 440px; height: 550px; border-radius: 28px; overflow: hidden; position: relative;
     border: 4.5px solid #ffffff;
-    box-shadow: 0 14px 40px rgba(2, 132, 199, 0.18), 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 14px 40px ${cardShadow}, 0 4px 15px rgba(0,0,0,0.1);
     background: #0f172a;
     display: flex; align-items: center; justify-content: center;
   }
   .photo-card.glow {
-    border: 5px solid #38bdf8;
-    box-shadow: 0 0 38px rgba(56, 189, 248, 0.95), 0 0 75px rgba(14, 165, 233, 0.7), 0 16px 40px rgba(0,0,0,0.25);
+    border: 5px solid ${glowBorder};
+    box-shadow: 0 0 38px ${glowShadow}, 0 16px 40px rgba(0,0,0,0.25);
     transform: scale(1.035);
   }
   .photo-card img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
@@ -888,7 +989,6 @@ async function run() {
     box-shadow: 0 4px 14px rgba(0,0,0,0.25); border: 2px solid #ffffff; z-index: 3;
   }
 
-  /* Reveal State: Winner Image Just Below Timer, Name Directly Below Image (NOT upon image), Red Box Below Name */
   .reveal-center-container {
     width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; z-index: 2;
     margin-top: 16px;
@@ -908,7 +1008,6 @@ async function run() {
     box-shadow: 0 4px 15px rgba(0,0,0,0.3); border: 2px solid #ffffff; z-index: 3;
   }
 
-  /* Name Card Placed Directly Below Image (NOT overlaying upon the image) */
   .winner-name-card {
     background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
     border: 4.5px solid #16a34a; border-radius: 22px; padding: 20px 32px; width: 100%;
@@ -916,7 +1015,6 @@ async function run() {
     font-family: 'Outfit', sans-serif; font-size: 38px; font-weight: 900; color: #14532d;
   }
 
-  /* Red Caption Box Below Name with Hand Emoji 👇 */
   .red-caption-box {
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
     border: 3px solid #ffffff; border-radius: 22px; padding: 20px 36px; text-align: center;
@@ -933,7 +1031,7 @@ async function run() {
     </div>
     <div class="headline-wrap">
       <div class="headline-top">WHICH ONE IS</div>
-      <div class="headline-name">BARRY CORBIN? 🤠</div>
+      <div class="headline-name">${q4TargetName.toUpperCase()}? ${emoji}</div>
     </div>
     <div class="timer-wrap">
       <svg class="timer-svg" viewBox="0 0 120 120">
@@ -946,105 +1044,104 @@ async function run() {
 
   ${!isReveal ? `
   <div class="grid-2x2">
-    <div class="photo-card ${glowingOpt === 'A' ? 'glow' : ''}"><div class="card-badge">A</div><img src="${samElliottUri}"></div>
-    <div class="photo-card ${glowingOpt === 'B' ? 'glow' : ''}"><div class="card-badge">B</div><img src="${barryUri}"></div>
-    <div class="photo-card ${glowingOpt === 'C' ? 'glow' : ''}"><div class="card-badge">C</div><img src="${robertDuvallUri}"></div>
-    <div class="photo-card ${glowingOpt === 'D' ? 'glow' : ''}"><div class="card-badge">D</div><img src="${tommyLeeUri}"></div>
+    <div class="photo-card ${glowingOpt === 'A' ? 'glow' : ''}"><div class="card-badge">A</div><img src="${r2UriA}"></div>
+    <div class="photo-card ${glowingOpt === 'B' ? 'glow' : ''}"><div class="card-badge">B</div><img src="${r2UriB}"></div>
+    <div class="photo-card ${glowingOpt === 'C' ? 'glow' : ''}"><div class="card-badge">C</div><img src="${r2UriC}"></div>
+    <div class="photo-card ${glowingOpt === 'D' ? 'glow' : ''}"><div class="card-badge">D</div><img src="${r2UriD}"></div>
   </div>
   ` : `
   <div class="reveal-center-container">
     <div class="centered-winner-frame">
       <div class="card-badge-winner">✓</div>
-      <img src="${barryUri}">
+      <img src="${r2WinnerUri}">
     </div>
-    <div class="winner-name-card">Option B: Barry Corbin (Turns 86)</div>
+    <div class="winner-name-card">Option ${r2CorrectOpt}: ${q4TargetName} ${q4Post.age ? `(Turns ${q4Post.age})` : ''}</div>
     <div class="red-caption-box">READ FULL STORY IN CAPTION 👇</div>
   </div>
   `}
 </body>
 </html>`;
-  }
+    }
 
-  const pReel2 = await browser.newPage();
-  await pReel2.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
+    const pReel2 = await browser.newPage();
+    await pReel2.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
 
-  // Render question slide
-  await pReel2.setContent(getReel2Html(null, 0, false, null), { waitUntil: 'networkidle0' });
-  const r2SlideQ = path.join(tempReelDir, 'r2_q.png');
-  await pReel2.screenshot({ path: r2SlideQ, type: 'png' });
+    // Render question slide
+    await pReel2.setContent(getReel2Html(null, 0, false, null), { waitUntil: 'networkidle0' });
+    const r2SlideQ = path.join(tempReelDir, 'r2_q.png');
+    await pReel2.screenshot({ path: r2SlideQ, type: 'png' });
 
-  // Render 10 circular timer frames (options glow one by one: A, B, C, D, A, B, C, D, A, B)
-  const optCycle = ['A', 'B', 'C', 'D'];
-  for (let s = 1; s <= 10; s++) {
-    const prog = s / 10;
-    const currentNumber = 11 - s;
-    const currentGlowOpt = optCycle[(s - 1) % 4];
-    await pReel2.setContent(getReel2Html(currentNumber, prog, false, currentGlowOpt), { waitUntil: 'networkidle0' });
-    const sPath = path.join(tempReelDir, `r2_timer_${s}.png`);
-    await pReel2.screenshot({ path: sPath, type: 'png' });
-  }
+    // Render 10 circular timer frames
+    const optCycle = ['A', 'B', 'C', 'D'];
+    for (let s = 1; s <= 10; s++) {
+      const prog = s / 10;
+      const currentNumber = 11 - s;
+      const currentGlowOpt = optCycle[(s - 1) % 4];
+      await pReel2.setContent(getReel2Html(currentNumber, prog, false, currentGlowOpt), { waitUntil: 'networkidle0' });
+      const sPath = path.join(tempReelDir, `r2_timer_${s}.png`);
+      await pReel2.screenshot({ path: sPath, type: 'png' });
+    }
 
-  // Render reveal slide
-  await pReel2.setContent(getReel2Html(null, 1.0, true, null), { waitUntil: 'networkidle0' });
-  const r2SlideReveal = path.join(tempReelDir, 'r2_reveal.png');
-  await pReel2.screenshot({ path: r2SlideReveal, type: 'png' });
+    // Render reveal slide
+    await pReel2.setContent(getReel2Html(null, 1.0, true, null), { waitUntil: 'networkidle0' });
+    const r2SlideReveal = path.join(tempReelDir, 'r2_reveal.png');
+    await pReel2.screenshot({ path: r2SlideReveal, type: 'png' });
 
-  // Render outro slide
-  await pReel2.setContent(getOutroSlideHtml(), { waitUntil: 'networkidle0' });
-  const r2SlideOutro = path.join(tempReelDir, 'r2_outro.png');
-  await pReel2.screenshot({ path: r2SlideOutro, type: 'png' });
-  await pReel2.close();
+    // Render outro slide
+    await pReel2.setContent(getOutroSlideHtml(), { waitUntil: 'networkidle0' });
+    const r2SlideOutro = path.join(tempReelDir, 'r2_outro.png');
+    await pReel2.screenshot({ path: r2SlideOutro, type: 'png' });
+    await pReel2.close();
 
-  // Assemble Reel 2 Video Inputs
-  const r2VidInputs = [];
-  r2VidInputs.push(`-loop 1 -t ${dur2Q.toFixed(2)} -i "${r2SlideQ}"`);
-  for (let s = 1; s <= 10; s++) {
-    r2VidInputs.push(`-loop 1 -t 1.00 -i "${path.join(tempReelDir, `r2_timer_${s}.png`)}"`);
-  }
-  const r2RevealDur = (dur2Rev + 3.00).toFixed(2);
-  r2VidInputs.push(`-loop 1 -t ${r2RevealDur} -i "${r2SlideReveal}"`);
-  r2VidInputs.push(`-loop 1 -t 2.80 -i "${r2SlideOutro}"`);
+    // Assemble Reel 2 Video Inputs
+    const r2VidInputs = [];
+    r2VidInputs.push(`-loop 1 -t ${dur2Q.toFixed(2)} -i "${r2SlideQ}"`);
+    for (let s = 1; s <= 10; s++) {
+      r2VidInputs.push(`-loop 1 -t 1.00 -i "${path.join(tempReelDir, `r2_timer_${s}.png`)}"`);
+    }
+    const r2RevealDur = (dur2Rev + 3.00).toFixed(2);
+    r2VidInputs.push(`-loop 1 -t ${r2RevealDur} -i "${r2SlideReveal}"`);
+    r2VidInputs.push(`-loop 1 -t 2.80 -i "${r2SlideOutro}"`);
 
-  const numR2Slides = 1 + 10 + 1 + 1; // 13 slides
-  let r2VConcat = '';
-  let r2VConcatInputs = '';
-  for (let k = 0; k < numR2Slides; k++) {
-    r2VConcat += `[${k}:v]setsar=1[r2v${k}];`;
-    r2VConcatInputs += `[r2v${k}]`;
-  }
-  r2VConcat += `${r2VConcatInputs}concat=n=${numR2Slides}:v=1:a=0[vbase];[vbase]format=yuv420p[vout];`;
+    const numR2Slides = 1 + 10 + 1 + 1;
+    let r2VConcat = '';
+    let r2VConcatInputs = '';
+    for (let k = 0; k < numR2Slides; k++) {
+      r2VConcat += `[${k}:v]setsar=1[r2v${k}];`;
+      r2VConcatInputs += `[r2v${k}]`;
+    }
+    r2VConcat += `${r2VConcatInputs}concat=n=${numR2Slides}:v=1:a=0[vbase];[vbase]format=yuv420p[vout];`;
 
-  const aIdx2_qVoice = numR2Slides;     // 13
-  const aIdx2_tick = numR2Slides + 1;   // 14
-  const aIdx2_chime = numR2Slides + 2;  // 15
-  const aIdx2_rev = numR2Slides + 3;    // 16
-  const aIdx2_bgm = numR2Slides + 4;    // 17
+    const aIdx2_qVoice = numR2Slides;
+    const aIdx2_tick = numR2Slides + 1;
+    const aIdx2_chime = numR2Slides + 2;
+    const aIdx2_rev = numR2Slides + 3;
+    const aIdx2_bgm = numR2Slides + 4;
 
-  const bgmTrack2 = getBgmTrack(2);
-  const delayTick2 = (dur2Q * 1000).toFixed(0);
-  const delayChime2 = ((dur2Q + 10) * 1000).toFixed(0);
-  const delayRevVoice2 = ((dur2Q + 10.3) * 1000).toFixed(0);
-  const totalR2Dur = (dur2Q + 10 + parseFloat(r2RevealDur) + 2.80).toFixed(2);
+    const bgmTrack2 = getBgmTrack(2);
+    const delayTick2 = (dur2Q * 1000).toFixed(0);
+    const delayChime2 = ((dur2Q + 10) * 1000).toFixed(0);
+    const delayRevVoice2 = ((dur2Q + 10.3) * 1000).toFixed(0);
+    const totalR2Dur = (dur2Q + 10 + parseFloat(r2RevealDur) + 2.80).toFixed(2);
 
-  const r2FilterComplex = r2VConcat +
-    `[${aIdx2_qVoice}:a]volume=1.8[v_q];` +
-    `[${aIdx2_tick}:a]adelay=${delayTick2}|${delayTick2},volume=1.2[a_tick];` +
-    `[${aIdx2_chime}:a]adelay=${delayChime2}|${delayChime2},volume=1.6[a_chime];` +
-    `[${aIdx2_rev}:a]adelay=${delayRevVoice2}|${delayRevVoice2},volume=1.8[v_rev];` +
-    `[${aIdx2_bgm}:a]volume=0.18[a_bgm];` +
-    `[v_q][a_tick][a_chime][v_rev][a_bgm]amix=inputs=5:duration=longest[amix];` +
-    `[amix]afade=t=out:st=${(totalR2Dur - 0.7).toFixed(2)}:d=0.7[aout]`;
+    const r2FilterComplex = r2VConcat +
+      `[${aIdx2_qVoice}:a]volume=1.8[v_q];` +
+      `[${aIdx2_tick}:a]adelay=${delayTick2}|${delayTick2},volume=1.2[a_tick];` +
+      `[${aIdx2_chime}:a]adelay=${delayChime2}|${delayChime2},volume=1.6[a_chime];` +
+      `[${aIdx2_rev}:a]adelay=${delayRevVoice2}|${delayRevVoice2},volume=1.8[v_rev];` +
+      `[${aIdx2_bgm}:a]volume=0.18[a_bgm];` +
+      `[v_q][a_tick][a_chime][v_rev][a_bgm]amix=inputs=5:duration=longest[amix];` +
+      `[amix]afade=t=out:st=${(totalR2Dur - 0.7).toFixed(2)}:d=0.7[aout]`;
 
-  const reel2Out = path.join(REELS_DIR, 'quiz_04_Barry_Corbin.mp4');
-  const ffmpegCmd2 = `ffmpeg -y ${r2VidInputs.join(' ')} ` +
-    `-i "${r2VoiceQ}" -i "${tickAudio10}" -i "${chimeAudio}" -i "${r2VoiceRev}" -stream_loop -1 -i "${bgmTrack2}" ` +
-    `-filter_complex "${r2FilterComplex}" ` +
-    `-map "[vout]" -map "[aout]" -t ${totalR2Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k "${reel2Out}"`;
+    const ffmpegCmd2 = `ffmpeg -y ${r2VidInputs.join(' ')} ` +
+      `-i "${r2VoiceQ}" -i "${tickAudio10}" -i "${chimeAudio}" -i "${r2VoiceRev}" -stream_loop -1 -i "${bgmTrack2}" ` +
+      `-filter_complex "${r2FilterComplex}" ` +
+      `-map "[vout]" -map "[aout]" -t ${totalR2Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k "${targetReel2Out}"`;
 
-  console.log('   🎬 Rendering Vertical Video Reel 2 with FFmpeg...');
-  execSync(ffmpegCmd2, { stdio: 'pipe' });
-  console.log(`   ✅ Saved: ${reel2Out}`);
-    try { fs.copyFileSync(reel2Out, path.join(OUTPUT_DIR, '04_Reel_Quiz_Type2_Barry_Corbin.mp4')); } catch(e){}
+    console.log('   🎬 Rendering Vertical Video Reel 2 with FFmpeg...');
+    execSync(ffmpegCmd2, { stdio: 'pipe' });
+    console.log(`   ✅ Saved: ${targetReel2Out}`);
+    try { fs.copyFileSync(targetReel2Out, path.join(OUTPUT_DIR, `04_Reel_Quiz_Type2_${q4CleanSlug}.mp4`)); } catch(e){}
   }
 
   await browser.close();

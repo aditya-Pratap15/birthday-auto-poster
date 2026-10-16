@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const { auditAndEnforceQuizGender, getRandomSameGenderDistractors, detectGender } = require('./gender_guard');
 /**
  * Daily Payload Synchronizer (Production Engine)
  * Responsibilities:
@@ -271,6 +272,132 @@ async function getRawPayload() {
   return null;
 }
 
+async function buildDailyQuizPayload(celebs, dateStr) {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const c1 = celebs[3] || celebs[0];
+  const c2 = celebs[4] || celebs[1] || celebs[0];
+  const c3 = celebs[5] || celebs[2] || celebs[0];
+  const c4 = celebs[6] || celebs[3] || celebs[1] || celebs[0];
+
+  function getSched(hour, minute, nextDay = false) {
+    const dt = new Date(Date.UTC(y, m - 1, d, hour, minute, 0));
+    if (nextDay) dt.setUTCDate(dt.getUTCDate() + 1);
+    return { timestamp: Math.floor(dt.getTime() / 1000), iso: dt.toISOString() };
+  }
+
+  const name1 = c1.celebrity_name || c1.name;
+  const name2 = c2.celebrity_name || c2.name;
+  const name3 = c3.celebrity_name || c3.name;
+  const name4 = c4.celebrity_name || c4.name;
+
+  const g1 = (c1.gender || "male").toLowerCase();
+  const g2 = (c2.gender || "female").toLowerCase();
+  const g3 = (c3.gender || "female").toLowerCase();
+  const g4 = (c4.gender || "male").toLowerCase();
+
+  const slug1 = name1.replace(/[^a-zA-Z0-9_]/g, "_");
+  const slug2 = name2.replace(/[^a-zA-Z0-9_]/g, "_");
+  const slug3 = name3.replace(/[^a-zA-Z0-9_]/g, "_");
+  const slug4 = name4.replace(/[^a-zA-Z0-9_]/g, "_");
+
+  const s1 = getSched(14, 0);
+  const s2 = getSched(19, 30);
+  const s3 = getSched(15, 30);
+  const s4 = getSched(21, 0);
+
+  const dist2 = getRandomSameGenderDistractors(g2, [name2], 3);
+  const dist4 = getRandomSameGenderDistractors(g4, [name4], 3);
+
+  return [
+    {
+      id: dateStr + "_quiz_01_" + slug1,
+      type: "photo_quiz_type1",
+      celebrity_name: name1,
+      birth_year: c1.birth_year || (c1.birth_date ? parseInt(c1.birth_date.split("-")[0]) : 1970),
+      age: c1.age || "",
+      gender: g1,
+      correct_option: "B",
+      options: [
+        { letter: "A", name: getRandomSameGenderDistractors(g1, [name1], 1)[0] || "Star A" },
+        { letter: "B", name: name1 },
+        { letter: "C", name: getRandomSameGenderDistractors(g1, [name1], 2)[1] || "Star C" },
+        { letter: "D", name: getRandomSameGenderDistractors(g1, [name1], 3)[2] || "Star D" }
+      ],
+      image_path: "collages/quiz_01_" + slug1 + ".jpg",
+      caption: "🎉 THE ANSWER IS: [B] " + name1 + "!\n\nCan you recognize this Hollywood icon celebrating a birthday today?\n\nTell us your favorite role of " + name1 + " in the comments! 👇",
+      hashtags: "#" + name1.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #HollywoodQuiz",
+      scheduled_publish_time: s1.timestamp,
+      scheduled_time_utc: s1.iso,
+      peak_window: "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)"
+    },
+    {
+      id: dateStr + "_quiz_02_" + slug2,
+      type: "photo_quiz_type2",
+      celebrity_name: name2,
+      birth_year: c2.birth_year || (c2.birth_date ? parseInt(c2.birth_date.split("-")[0]) : 1970),
+      age: c2.age || "",
+      gender: g2,
+      subtitle: "Born on this day! Can you identify " + name2 + "?",
+      correct_option: "A",
+      options: [
+        { letter: "A", name: name2 },
+        { letter: "B", name: dist2[0] },
+        { letter: "C", name: dist2[1] },
+        { letter: "D", name: dist2[2] }
+      ],
+      image_path: "collages/quiz_02_" + slug2 + ".jpg",
+      caption: "🎉 THE ANSWER IS: [A] " + name2 + "!\n\n(Photo B: " + dist2[0] + ", Photo C: " + dist2[1] + ", Photo D: " + dist2[2] + ")\n\nDid you spot the correct birthday star? Share your answer in the comments! 👇",
+      hashtags: "#" + name2.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #HollywoodQuiz",
+      scheduled_publish_time: s2.timestamp,
+      scheduled_time_utc: s2.iso,
+      peak_window: "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)"
+    },
+    {
+      id: dateStr + "_quiz_03_" + slug3,
+      type: "reel_quiz_type1",
+      celebrity_name: name3,
+      birth_year: c3.birth_year || (c3.birth_date ? parseInt(c3.birth_date.split("-")[0]) : 1975),
+      age: c3.age || "",
+      gender: g3,
+      correct_option: "A",
+      options: [
+        { letter: "A", name: name3 },
+        { letter: "B", name: getRandomSameGenderDistractors(g3, [name3], 1)[0] || "Star B" },
+        { letter: "C", name: getRandomSameGenderDistractors(g3, [name3], 2)[1] || "Star C" },
+        { letter: "D", name: getRandomSameGenderDistractors(g3, [name3], 3)[2] || "Star D" }
+      ],
+      reel_path: "reels/quiz_03_" + slug3 + ".mp4",
+      caption: "🎉 THE ANSWER IS: [A] " + name3 + "!\n\nHappy Birthday to " + name3 + "! How fast did you guess before the countdown reached zero? Drop your answer in the comments! 👇",
+      hashtags: "#" + name3.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #CelebrityQuiz #ReelQuiz",
+      scheduled_publish_time: s3.timestamp,
+      scheduled_time_utc: s3.iso,
+      peak_window: "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)"
+    },
+    {
+      id: dateStr + "_quiz_04_" + slug4,
+      type: "reel_quiz_type2",
+      celebrity_name: name4,
+      birth_year: c4.birth_year || (c4.birth_date ? parseInt(c4.birth_date.split("-")[0]) : 1965),
+      age: c4.age || "",
+      gender: g4,
+      subtitle: "Look closely at options A, B, C, and D!",
+      correct_option: "B",
+      options: [
+        { letter: "A", name: dist4[0] },
+        { letter: "B", name: name4 },
+        { letter: "C", name: dist4[1] },
+        { letter: "D", name: dist4[2] }
+      ],
+      reel_path: "reels/quiz_04_" + slug4 + ".mp4",
+      caption: "🎉 THE ANSWER IS: [B] " + name4 + "!\n\n(A: " + dist4[0] + ", B: " + name4 + ", C: " + dist4[1] + ", D: " + dist4[2] + ")\n\nHappy Birthday to " + name4 + "! Which movie or TV show of theirs is your favorite? Tell us in the comments! 👇",
+      hashtags: "#" + name4.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #HollywoodTrivia #ReelChallenge",
+      scheduled_publish_time: s4.timestamp,
+      scheduled_time_utc: s4.iso,
+      peak_window: "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
+    }
+  ];
+}
+
 async function normalizePayload(raw) {
   if (!raw) return null;
 
@@ -383,11 +510,29 @@ async function normalizePayload(raw) {
   let quizPosts = raw.quiz_posts || [];
   if (quizPosts.length === 0 && fs.existsSync(TODAY_POSTS_PATH)) {
     try {
-      const existing = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, 'utf8'));
+      const existing = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, "utf8"));
       if (existing.date === dateStr && Array.isArray(existing.quiz_posts) && existing.quiz_posts.length > 0) {
         quizPosts = existing.quiz_posts;
       }
     } catch(e) {}
+  }
+
+  // If still empty and we have at least 4 celebs from daily roster, build 4 quiz posts
+  if (quizPosts.length === 0 && celebs.length >= 4) {
+    quizPosts = await buildDailyQuizPayload(celebs, dateStr);
+  }
+
+  // Audit all quiz posts through Gender Guard (anti-dead-giveaway exception handler)
+  if (Array.isArray(quizPosts) && quizPosts.length > 0) {
+    for (let q = 0; q < quizPosts.length; q++) {
+      const post = quizPosts[q];
+      if (post.type === "photo_quiz_type2" || post.type === "reel_quiz_type2") {
+        const audit = await auditAndEnforceQuizGender(post);
+        if (audit.modified) {
+          quizPosts[q] = audit.post;
+        }
+      }
+    }
   }
 
   return {
