@@ -379,10 +379,22 @@ async function normalizePayload(raw) {
     posts.push(postObj);
   }
 
+    // Preserve or populate quiz_posts
+  let quizPosts = raw.quiz_posts || [];
+  if (quizPosts.length === 0 && fs.existsSync(TODAY_POSTS_PATH)) {
+    try {
+      const existing = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, 'utf8'));
+      if (existing.date === dateStr && Array.isArray(existing.quiz_posts) && existing.quiz_posts.length > 0) {
+        quizPosts = existing.quiz_posts;
+      }
+    } catch(e) {}
+  }
+
   return {
     date: dateStr,
     generated_at: raw.generated_at || new Date().toISOString(),
-    posts: posts
+    posts: posts,
+    quiz_posts: quizPosts
   };
 }
 

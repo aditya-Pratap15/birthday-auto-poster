@@ -191,5 +191,149 @@
       "youtube_video_id": "6vZ3S3FDWeM",
       "youtube_url": "https://www.youtube.com/shorts/6vZ3S3FDWeM"
     }
+  ],
+  "quiz_posts": [
+    {
+      "id": "2026-10-16_quiz_01_Flea",
+      "type": "photo_quiz_type1",
+      "celebrity_name": "Flea",
+      "birth_year": 1962,
+      "age": 64,
+      "gender": "male",
+      "subtitle": "Rock Hall of Fame Legend turns 64 today!",
+      "correct_option": "B",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Chad Smith"
+        },
+        {
+          "letter": "B",
+          "name": "Flea"
+        },
+        {
+          "letter": "C",
+          "name": "Anthony Kiedis"
+        },
+        {
+          "letter": "D",
+          "name": "John Frusciante"
+        }
+      ],
+      "image_path": "collages/quiz_01_Flea.jpg",
+      "caption": "🎉 THE ANSWER IS: [B] Flea (Michael Peter Balzary)! 🎸🔥\n\nToday, the Red Hot Chili Peppers' legendary bassist and energetic screen star turns 64!\n\nBorn October 16, 1962, in Melbourne, Australia, Flea redefined funk-rock bass playing with slap grooves, raw stage electricity, and iconic acting cameos in 'The Big Lebowski', 'Back to the Future', and 'Baby Driver'.\n\n💡 Did you guess correctly? Tell us your favorite Red Hot Chili Peppers song or Flea movie role in the comments below! 👇",
+      "comment": "Needles in Back to the Future Part II & III was played by Flea! Did you spot him?",
+      "hashtags": "#BornToday #Flea #RedHotChiliPeppers #RHCP #BassLegend #RockTrivia #MusicQuiz #October16",
+      "scheduled_publish_time": 1792159200,
+      "scheduled_time_utc": "2026-10-16T14:00:00Z",
+      "peak_window": "US Mid-Morning Trivia (10:00 AM EDT / 7:30 PM IST)"
+    },
+    {
+      "id": "2026-10-16_quiz_02_Suzanne_Somers",
+      "type": "photo_quiz_type2",
+      "celebrity_name": "Suzanne Somers",
+      "birth_year": 1946,
+      "age": 80,
+      "gender": "female",
+      "subtitle": "The iconic 'Three's Company' star was born on this day!",
+      "correct_option": "A",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Suzanne Somers"
+        },
+        {
+          "letter": "B",
+          "name": "Joyce DeWitt"
+        },
+        {
+          "letter": "C",
+          "name": "Farrah Fawcett"
+        },
+        {
+          "letter": "D",
+          "name": "Goldie Hawn"
+        }
+      ],
+      "image_path": "collages/quiz_02_Suzanne_Somers.jpg",
+      "caption": "🎉 THE ANSWER IS: [A] Suzanne Somers! 📺✨\n\nToday we honor the beloved television icon and author Suzanne Somers, who was born on October 16, 1946!\n\nAs Chrissy Snow on 'Three's Company' and Carol Foster Lambert on 'Step by Step', Suzanne brought effortless comic brilliance, charm, and laughter to American television for decades.\n\n(Photo B: Joyce DeWitt, Photo C: Farrah Fawcett, Photo D: Goldie Hawn)\n\n💡 Did you get the right photo? What is your fondest memory of Suzanne Somers? Share below! 👇",
+      "comment": "Suzanne Somers wrote over 25 books and built a fitness empire with the ThighMaster!",
+      "hashtags": "#SuzanneSomers #ThreesCompany #ChrissySnow #StepByStep #ClassicTV #HollywoodQuiz #BornToday #October16",
+      "scheduled_publish_time": 1792179000,
+      "scheduled_time_utc": "2026-10-16T19:30:00Z",
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)"
+    },
+    {
+      "id": "2026-10-16_quiz_03_Caterina_Scorsone",
+      "type": "reel_quiz_type1",
+      "celebrity_name": "Caterina Scorsone",
+      "birth_year": 1981,
+      "age": 45,
+      "gender": "female",
+      "subtitle": "Can you name this birthday star?",
+      "correct_option": "A",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Caterina Scorsone"
+        },
+        {
+          "letter": "B",
+          "name": "Ellen Pompeo"
+        },
+        {
+          "letter": "C",
+          "name": "Sarah Drew"
+        },
+        {
+          "letter": "D",
+          "name": "Chyler Leigh"
+        }
+      ],
+      "intro_voice_script": "Who is this famous birthday star? Option A: Caterina Scorsone. Option B: Ellen Pompeo. Option C: Sarah Drew. Option D: Chyler Leigh. Make your guess before the timer ends!",
+      "reveal_voice_script": "The correct answer is Option A, Caterina Scorsone! Happy forty-fifth birthday to the incredible Grey's Anatomy and Private Practice star! What is your favorite Amelia Shepherd moment?",
+      "reel_path": "reels/quiz_03_Caterina_Scorsone.mp4",
+      "caption": "🎉 DID YOU GUESS CORRECTLY? Option A: Caterina Scorsone turns 45 today! 🩺✨\n\nFrom Toronto child actor to commanding primetime television, Caterina Scorsone brought breathtaking emotional honesty to our screens as Dr. Amelia Shepherd across 15 seasons of 'Grey's Anatomy' and 'Private Practice'.\n\nHer raw portrayal of addiction, loss, and resilience has inspired millions worldwide, while her advocacy for Down syndrome has changed global conversations.\n\nHappy 45th Birthday Caterina! Where does Amelia Shepherd rank among your favorite Grey's characters? Tell us in the comments! 👇",
+      "hashtags": "#CaterinaScorsone #GreysAnatomy #AmeliaShepherd #PrivatePractice #HollywoodQuiz #BornToday #October16 #TVTrivia",
+      "scheduled_publish_time": 1792164600,
+      "scheduled_time_utc": "2026-10-16T15:30:00Z",
+      "peak_window": "US Lunchtime Quiz Reel (11:30 AM EDT / 9:00 PM IST)"
+    },
+    {
+      "id": "2026-10-16_quiz_04_Barry_Corbin",
+      "type": "reel_quiz_type2",
+      "celebrity_name": "Barry Corbin",
+      "birth_year": 1940,
+      "age": 86,
+      "gender": "male",
+      "subtitle": "Look closely at options A, B, C, and D!",
+      "correct_option": "B",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Sam Elliott"
+        },
+        {
+          "letter": "B",
+          "name": "Barry Corbin"
+        },
+        {
+          "letter": "C",
+          "name": "Robert Duvall"
+        },
+        {
+          "letter": "D",
+          "name": "Tommy Lee Jones"
+        }
+      ],
+      "intro_voice_script": "Which one is the legendary Barry Corbin? Look closely at Options A, B, C, and D. You have ten seconds to pick the right Hollywood star!",
+      "reveal_voice_script": "If you chose Option B, you got it right! Barry Corbin turns eighty-six today. From One Tree Hill and Northern Exposure to No Country for Old Men, what a true Texas screen legend!",
+      "reel_path": "reels/quiz_04_Barry_Corbin.mp4",
+      "caption": "🎉 THE ANSWER IS: [B] Barry Corbin turns 86 today! 🤠✨\n\n(A: Sam Elliott, B: Barry Corbin, C: Robert Duvall, D: Tommy Lee Jones)\n\nFrom serving in the US Marine Corps and riding cutting horses on Texas ranches to starring across six decades of cinema, Barry Corbin is one of America's truest screen treasures!\n\nWhether guiding young athletes as Coach Whitey Durham on 'One Tree Hill', commanding Maurice Minnifield on 'Northern Exposure', or starring in 'Urban Cowboy', 'WarGames', and 'No Country for Old Men', his gravelly voice and warmth are unmistakable.\n\nHappy 86th Birthday Barry Corbin! Where do you remember him from best? Share in the comments! 👇",
+      "hashtags": "#BarryCorbin #OneTreeHill #CoachWhitey #NorthernExposure #WarGames #NoCountryForOldMen #WesternCinema #BornToday #October16 #HollywoodTrivia",
+      "scheduled_publish_time": 1792184400,
+      "scheduled_time_utc": "2026-10-16T21:00:00Z",
+      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
+    }
   ]
 }
