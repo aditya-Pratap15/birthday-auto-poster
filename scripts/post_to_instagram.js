@@ -274,6 +274,113 @@ async function postInstagramCarousel(igUserId, token, caption, imageUrls) {
 }
 
 // -------------------------------------------------------------
+// 1b. Instagram Single Photo Publishing (for Quizzes & Spotlights)
+// -------------------------------------------------------------
+async function postInstagramSinglePhoto(igUserId, token, caption, imageUrl) {
+  if (!igUserId || !imageUrl) return { success: false, error: 'Missing IG ID or image URL' };
+
+  console.log(`    [📸 IG] Creating single photo container: ${imageUrl.slice(0, 70)}...`);
+  const postParams = {
+    access_token: token,
+    image_url: imageUrl,
+    caption: caption
+  };
+  const postData = new URLSearchParams(postParams).toString();
+
+  const containerId = await new Promise((resolve) => {
+    const req = https.request({
+      hostname: 'graph.facebook.com',
+      port: 443,
+      path: `/v26.0/${igUserId}/media`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(postData)
+      }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          resolve(parsed.id || null);
+        } catch (e) { resolve(null); }
+      });
+    });
+    req.on('error', () => resolve(null));
+    req.write(postData);
+    req.end();
+  });
+
+  if (!containerId) {
+    return { success: false, error: 'Failed to create single photo container' };
+  }
+
+  // Poll container readiness
+  let isReady = false;
+  let attempts = 0;
+  while (!isReady && attempts < 10) {
+    await new Promise(r => setTimeout(r, 2000));
+    attempts++;
+    const statusRes = await new Promise((resolve) => {
+      https.get(`https://graph.facebook.com/v26.0/${containerId}?fields=status_code&access_token=${token}`, res => {
+        let data = '';
+        res.on('data', c => data += c);
+        res.on('end', () => {
+          try { resolve(JSON.parse(data)); } catch (e) { resolve({}); }
+        });
+      }).on('error', () => resolve({}));
+    });
+
+    if (statusRes.status_code === 'FINISHED' || !statusRes.status_code) {
+      isReady = true;
+      break;
+    } else if (statusRes.status_code === 'ERROR') {
+      return { success: false, error: 'Single photo processing returned ERROR from Meta' };
+    }
+  }
+
+  // Publish Photo
+  console.log(`    [🚀 IG] Publishing single photo container (ID: ${containerId})...`);
+  const pubParams = {
+    access_token: token,
+    creation_id: containerId
+  };
+  const pubPostData = new URLSearchParams(pubParams).toString();
+
+  const publishRes = await new Promise((resolve) => {
+    const req = https.request({
+      hostname: 'graph.facebook.com',
+      port: 443,
+      path: `/v26.0/${igUserId}/media_publish`,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Length': Buffer.byteLength(pubPostData)
+      }
+    }, res => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          if (parsed.id) {
+            resolve({ success: true, id: parsed.id });
+          } else {
+            resolve({ success: false, error: parsed });
+          }
+        } catch (e) { resolve({ success: false, error: data }); }
+      });
+    });
+    req.on('error', err => resolve({ success: false, error: err.message }));
+    req.write(pubPostData);
+    req.end();
+  });
+
+  return publishRes;
+}
+
+// -------------------------------------------------------------
 // 2. Instagram Reel Resumable Publishing
 // -------------------------------------------------------------
 async function postInstagramReel(igUserId, token, caption, videoPath) {
@@ -451,7 +558,7 @@ async function main() {
     process.exit(0);
   }
 
-  // Parse CLI args: --target <1|2|3|auto> --type <carousel|reel|auto>
+  // Parse CLI args: --target <1|2|3|quiz_photo_1|quiz_reel_1|quiz_photo_2|quiz_reel_2|auto> --type <carousel|reel|photo|auto>
   const args = process.argv.slice(2);
   let targetArg = 'auto';
   const targetIdx = args.indexOf('--target');
@@ -463,6 +570,127 @@ async function main() {
   const typeIdx = args.indexOf('--type');
   if (typeIdx !== -1 && args[typeIdx + 1]) {
     typeArg = args[typeIdx + 1].toLowerCase();
+  }
+
+  const quizPosts = data.quiz_posts || [];
+
+  // Handle Quiz Target Drops
+  if (targetArg.startsWith('quiz')) {
+    let targetQuiz = null;
+    let quizAction = 'photo';
+
+    if (targetArg === 'quiz_photo_1' || targetArg === 'quiz_1') {
+      targetQuiz = quizPosts.find(q => q.type === 'photo_quiz_type1') || quizPosts[0];
+      quizAction = 'photo';
+    } else if (targetArg === 'quiz_reel_1' || targetArg === 'quiz_2') {
+      targetQuiz = quizPosts.find(q => q.type === 'reel_quiz_type1') || quizPosts[2];
+      quizAction = 'reel';
+    } else if (targetArg === 'quiz_photo_2' || targetArg === 'quiz_3') {
+      targetQuiz = quizPosts.find(q => q.type === 'photo_quiz_type2') || quizPosts[1];
+      quizAction = 'photo';
+    } else if (targetArg === 'quiz_reel_2' || targetArg === 'quiz_4') {
+      targetQuiz = quizPosts.find(q => q.type === 'reel_quiz_type2') || quizPosts[3];
+      quizAction = 'reel';
+    } else {
+      // Generic --target quiz: pick next unpublished quiz
+      if (typeArg === 'photo') {
+        targetQuiz = quizPosts.find(q => q.type && q.type.startsWith('photo_') && !q.ig_post_id);
+        quizAction = 'photo';
+      } else if (typeArg === 'reel') {
+        targetQuiz = quizPosts.find(q => q.type && q.type.startsWith('reel_') && !q.ig_reel_id);
+        quizAction = 'reel';
+      } else {
+        targetQuiz = quizPosts.find(q => (q.type && q.type.startsWith('photo_') && !q.ig_post_id) || (q.type && q.type.startsWith('reel_') && !q.ig_reel_id));
+        quizAction = targetQuiz && targetQuiz.type.startsWith('photo_') ? 'photo' : 'reel';
+      }
+    }
+
+    if (!targetQuiz) {
+      console.log(`[i] Target quiz (${targetArg}) already published or not found in today_posts.json. Nothing to do.`);
+      process.exit(0);
+    }
+
+    const celebName = targetQuiz.celebrity_name;
+    const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
+    console.log(`------------------------------------------------------`);
+    console.log(`🎯 Executing Instagram Action: [QUIZ ${quizAction.toUpperCase()}] for ${celebName} (${targetQuiz.type})`);
+    console.log(`   Window: ${targetQuiz.peak_window || 'Trivia Drop'}`);
+    console.log(`------------------------------------------------------\n`);
+
+    // Anti-duplicate check on live Instagram profile
+    const livePost = await findLiveInstagramPost(DEFAULT_IG_ID, DEFAULT_TOKEN, celebName, quizAction === 'reel' ? 'reel' : 'carousel');
+    if (livePost) {
+      console.log(`[🛡️ Anti-Duplicate Guard] Found live post on Instagram for ${celebName} (ID: ${livePost.id}). Skipping re-publish!`);
+      if (quizAction === 'photo') targetQuiz.ig_post_id = livePost.id;
+      if (quizAction === 'reel') targetQuiz.ig_reel_id = livePost.id;
+      fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      process.exit(0);
+    }
+
+    const rawCaption = `${targetQuiz.caption}\n\n${targetQuiz.hashtags || ''}`;
+    const igCaption = formatUnicodeBold(rawCaption);
+
+    if (quizAction === 'photo') {
+      if (targetQuiz.ig_post_id) {
+        console.log(`[i] Quiz photo already published for ${celebName} (${targetQuiz.ig_post_id}).`);
+        process.exit(0);
+      }
+      const rawGithubImg = targetQuiz.image_path
+        ? `https://raw.githubusercontent.com/aditya-Pratap15/birthday-auto-poster/main/${targetQuiz.image_path.replace(/\\/g, '/')}`
+        : null;
+
+      if (!rawGithubImg) {
+        console.error(`[!] No image path found for quiz photo (${targetQuiz.id}).`);
+        process.exit(1);
+      }
+
+      console.log(`[📸 IG] Publishing Quiz Photo for ${celebName}...`);
+      const photoRes = await postInstagramSinglePhoto(DEFAULT_IG_ID, DEFAULT_TOKEN, igCaption, rawGithubImg);
+      if (photoRes.success && photoRes.id) {
+        targetQuiz.ig_post_id = photoRes.id;
+        console.log(`    ✅ SUCCESS! Instagram Quiz Photo Published! ID: ${photoRes.id}`);
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      } else {
+        console.error(`    [!] Quiz Photo Error:`, photoRes.error);
+        const verifyPost = await findLiveInstagramPost(DEFAULT_IG_ID, DEFAULT_TOKEN, celebName, 'carousel');
+        if (verifyPost) {
+          targetQuiz.ig_post_id = verifyPost.id;
+          fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+        } else {
+          process.exit(1);
+        }
+      }
+    } else if (quizAction === 'reel') {
+      if (targetQuiz.ig_reel_id) {
+        console.log(`[i] Quiz reel already published for ${celebName} (${targetQuiz.ig_reel_id}).`);
+        process.exit(0);
+      }
+      let reelPath = targetQuiz.reel_path ? path.resolve(BASE_DIR, targetQuiz.reel_path) : '';
+      if (!reelPath || !fs.existsSync(reelPath)) {
+        console.error(`[!] Quiz reel video not found at ${reelPath}.`);
+        process.exit(1);
+      }
+
+      console.log(`[🎬 IG] Publishing Quiz Vertical Reel for ${celebName}...`);
+      const reelRes = await postInstagramReel(DEFAULT_IG_ID, DEFAULT_TOKEN, igCaption, reelPath);
+      if (reelRes.success && reelRes.id) {
+        targetQuiz.ig_reel_id = reelRes.id;
+        console.log(`    ✅ SUCCESS! Instagram Quiz Reel Published! ID: ${reelRes.id}`);
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      } else {
+        console.error(`    [!] Quiz Reel Error:`, reelRes.error);
+        const verifyReel = await findLiveInstagramPost(DEFAULT_IG_ID, DEFAULT_TOKEN, celebName, 'reel');
+        if (verifyReel) {
+          targetQuiz.ig_reel_id = verifyReel.id;
+          fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+        } else {
+          process.exit(1);
+        }
+      }
+    }
+
+    console.log('\n[🎉] Instagram Quiz Drop completed successfully!');
+    process.exit(0);
   }
 
   const topHeadliners = posts.slice(0, 3);

@@ -8,22 +8,34 @@ on:
     - cron: '0 12 * * *'   # 5:30 PM IST (12:00 UTC) -> Headliner 1: Photo Carousel
     - cron: '45 12 * * *'  # 6:15 PM IST (12:45 UTC) -> Headliner 1: Vertical Reel [+45m offset]
 
+    # Quiz Drop 1 (US Mid-Morning Trivia / 10:00 AM EDT)
+    - cron: '0 14 * * *'   # 7:30 PM IST (14:00 UTC) -> Quiz 1: Photo Quiz Type 1
+
+    # Quiz Drop 2 (US Midday Reel Challenge / 11:30 AM EDT)
+    - cron: '30 15 * * *'  # 9:00 PM IST (15:30 UTC) -> Quiz 2: Reel Quiz Type 1
+
     # Drop 2 (US Lunchtime Peak / 1:00 PM EDT)
     - cron: '0 17 * * *'   # 10:30 PM IST (17:00 UTC) -> Headliner 2: Photo Carousel
     - cron: '45 17 * * *'  # 11:15 PM IST (17:45 UTC) -> Headliner 2: Vertical Reel [+45m offset]
 
+    # Quiz Drop 3 (US Afternoon Trivia / 3:30 PM EDT)
+    - cron: '30 19 * * *'  # 1:00 AM IST +1 (19:30 UTC) -> Quiz 3: Photo Quiz Type 2 (4-Face Match)
+
+    # Quiz Drop 4 (US Evening Primetime Reel / 5:00 PM EDT)
+    - cron: '0 21 * * *'   # 2:30 AM IST +1 (21:00 UTC) -> Quiz 4: Reel Quiz Type 2 (Video Face Match)
+
     # Drop 3 (US Evening Primetime / 6:00 PM EDT)
-    - cron: '0 22 * * *'   # 3:30 AM IST (22:00 UTC) -> Headliner 3: Photo Carousel
-    - cron: '45 22 * * *'  # 4:15 AM IST (22:45 UTC) -> Headliner 3: Vertical Reel [+45m offset]
+    - cron: '0 22 * * *'   # 3:30 AM IST +1 (22:00 UTC) -> Headliner 3: Photo Carousel
+    - cron: '45 22 * * *'  # 4:15 AM IST +1 (22:45 UTC) -> Headliner 3: Vertical Reel [+45m offset]
 
   workflow_dispatch:
     inputs:
       celeb_target:
-        description: 'Headliner target (1, 2, 3, or auto)'
+        description: 'Target (1, 2, 3, quiz_photo_1, quiz_reel_1, quiz_photo_2, quiz_reel_2, or auto)'
         required: false
         default: 'auto'
       action_type:
-        description: 'Action type (carousel, reel, or auto)'
+        description: 'Action type (carousel, reel, photo, or auto)'
         required: false
         default: 'auto'
 
@@ -50,12 +62,44 @@ jobs:
       - name: Install FFmpeg & Multimedia Dependencies
         run: sudo apt-get update && sudo apt-get install -y ffmpeg
 
+      - name: Determine Scheduled Target
+        id: target
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "target=${{ github.event.inputs.celeb_target }}" >> $GITHUB_OUTPUT
+            echo "action=${{ github.event.inputs.action_type }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "target=${{ github.event.client_payload.celeb_target || 'auto' }}" >> $GITHUB_OUTPUT
+            echo "action=${{ github.event.client_payload.action_type || 'auto' }}" >> $GITHUB_OUTPUT
+          else
+            HOUR=$(date -u +%H)
+            MIN=$(date -u +%M)
+            echo "Current UTC Time: $HOUR:$MIN"
+            if [ "$HOUR" -eq 12 ]; then
+              if [ "$MIN" -ge 30 ]; then echo "target=1"; echo "action=reel"; else echo "target=1"; echo "action=carousel"; fi
+            elif [ "$HOUR" -eq 14 ]; then
+              echo "target=quiz_photo_1"; echo "action=photo"
+            elif [ "$HOUR" -eq 15 ]; then
+              echo "target=quiz_reel_1"; echo "action=reel"
+            elif [ "$HOUR" -eq 17 ]; then
+              if [ "$MIN" -ge 30 ]; then echo "target=2"; echo "action=reel"; else echo "target=2"; echo "action=carousel"; fi
+            elif [ "$HOUR" -eq 19 ]; then
+              echo "target=quiz_photo_2"; echo "action=photo"
+            elif [ "$HOUR" -eq 21 ]; then
+              echo "target=quiz_reel_2"; echo "action=reel"
+            elif [ "$HOUR" -eq 22 ]; then
+              if [ "$MIN" -ge 30 ]; then echo "target=3"; echo "action=reel"; else echo "target=3"; echo "action=carousel"; fi
+            else
+              echo "target=auto"; echo "action=auto"
+            fi >> $GITHUB_OUTPUT
+          fi
+
       - name: Post Scheduled Drop to Instagram
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID || '17841416842135384' }}
-          TARGET: ${{ github.event.inputs.celeb_target || github.event.client_payload.celeb_target || 'auto' }}
-          ACTION: ${{ github.event.inputs.action_type || github.event.client_payload.action_type || 'auto' }}
+          TARGET: ${{ steps.target.outputs.target }}
+          ACTION: ${{ steps.target.outputs.action }}
         run: node scripts/post_to_instagram.js --target "$TARGET" --type "$ACTION"
 
       - name: Sync Facebook Pinned Comments for Live Posts

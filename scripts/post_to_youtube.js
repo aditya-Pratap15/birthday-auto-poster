@@ -281,7 +281,72 @@ async function main() {
     }
   }
 
-  console.log('\n[🎉] YouTube Shorts processing complete!');
+    // -------------------------------------------------------------
+  // Video Quiz Reels for YouTube Shorts (Type 1 & Type 2)
+  // -------------------------------------------------------------
+  const quizPosts = data.quiz_posts || [];
+  const videoQuizzes = quizPosts.filter(q => q.type && q.type.startsWith('reel_'));
+
+  if (videoQuizzes.length > 0) {
+    console.log(`\n======================================================`);
+    console.log(`🎬 Processing ${videoQuizzes.length} Video Quiz Reels for YouTube Shorts...`);
+    console.log(`======================================================\n`);
+
+    for (let qIdx = 0; qIdx < videoQuizzes.length; qIdx++) {
+      const q = videoQuizzes[qIdx];
+      const celebName = q.celebrity_name;
+      const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
+
+      if (q.youtube_video_id) {
+        console.log(`[i] YouTube Quiz Short for ${celebName} already uploaded (${q.youtube_video_id}), skipping.`);
+        continue;
+      }
+
+      let reelPath = q.reel_path ? path.resolve(BASE_DIR, q.reel_path) : '';
+      if (!reelPath || !fs.existsSync(reelPath)) {
+        console.log(`[!] Video quiz reel file not found at ${q.reel_path}, skipping.`);
+        continue;
+      }
+
+      const nowTs = Math.floor(Date.now() / 1000);
+      const schedTs = q.scheduled_publish_time || (nowTs + 3600);
+
+      const title = `Guess The Star: ${celebName} Birthday Quiz! 🎬 #shorts #trivia`.slice(0, 95);
+      const rawDescription = `Can you recognize the birthday celebrity before time runs out?\n\n` +
+        `${q.caption || ''}\n\n` +
+        `Tell us how fast you guessed in the comments! 💬\n\n` +
+        `#shorts #quiz #celebrityquiz #trivia #borntoday #${safeName.toLowerCase()}`;
+      const description = formatUnicodeBold(rawDescription);
+      const tags = ['shorts', 'quiz', 'trivia', 'celebrity quiz', 'hollywood', celebName, 'entertainment'];
+
+      console.log(`[🎬] Uploading YouTube Quiz Short for: ${celebName} (${q.type})...`);
+      const uploadRes = await uploadYouTubeShort(accessToken, reelPath, {
+        title,
+        description,
+        tags
+      }, schedTs);
+
+      if (uploadRes.success && uploadRes.id) {
+        q.youtube_video_id = uploadRes.id;
+        q.youtube_url = uploadRes.url;
+        if (uploadRes.isScheduled) {
+          console.log(`    [✅] SUCCESS! Quiz Short Scheduled on YouTube! ID: ${uploadRes.id}`);
+          console.log(`    [🔗] Link: ${uploadRes.url}`);
+        } else {
+          console.log(`    [✅] SUCCESS! Quiz Short Published live to YouTube! ID: ${uploadRes.id}`);
+          console.log(`    [🔗] Link: ${uploadRes.url}`);
+        }
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      } else {
+        console.error(`    [!] YouTube Upload Error for ${celebName}:`, uploadRes.error || uploadRes);
+      }
+
+      console.log(`    Waiting 5 seconds before next upload...`);
+      await new Promise(r => setTimeout(r, 5000));
+    }
+  }
+
+  console.log('\n[🎬] YouTube Shorts processing complete!');
 }
 
 main().catch(err => {
