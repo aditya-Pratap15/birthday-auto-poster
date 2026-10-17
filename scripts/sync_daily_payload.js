@@ -294,51 +294,24 @@ function buildShuffledQuizOptions(targetName, gender, targetLetter) {
   });
 }
 
-function formatQuizCaption(hook, opts, correctLetter, targetName, bioCaption, bioComment, hashtags) {
-  const optLines = opts.map(o => '[' + o.letter + '] ' + o.name).join('
-');
+function formatQuizCaption(hook, correctLetter, targetName, bioCaption, bioComment, hashtags) {
   let storyBody = '';
   if (bioCaption && bioCaption.trim()) {
-    storyBody = '
-
-📖 THE STORY & LEGENDARY JOURNEY:
-' + bioCaption.trim();
+    storyBody = '\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n' + bioCaption.trim();
   }
   let triviaBody = '';
   if (bioComment && bioComment.trim()) {
-    triviaBody = '
-
-🌟 FASCINATING FACTS & TRIVIA:
-' + bioComment.trim();
+    triviaBody = '\n\n🌟 FASCINATING FACTS & TRIVIA:\n' + bioComment.trim();
   }
 
-  return hook + '
-
-' +
-    'Choose from the options below:
-' +
-    optLines + '
-
-' +
-    '💬 Drop your guess in the comments BEFORE scrolling down! 👇' +
+  return hook + '\n\n' +
+    '💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇' +
     storyBody +
-    triviaBody + '
-
-' +
-    '.
-.
-.
-.
-.
-' +
-    '💡 OFFICIAL ANSWER REVEAL:
-' +
-    'Option [' + correctLetter + ']: ' + targetName + '!
-
-' +
-    'Did you guess it right on your first try? Drop your favorite movie or show of theirs below! 🎬👇
-
-' +
+    triviaBody + '\n\n' +
+    '.\n.\n.\n.\n.\n' +
+    '💡 OFFICIAL ANSWER REVEAL:\n' +
+    'Option [' + correctLetter + ']: ' + targetName + '!\n\n' +
+    'Did you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n' +
     (hashtags || '');
 }
 
@@ -397,10 +370,10 @@ async function buildDailyQuizPayload(celebs, dateStr) {
   const hook3 = '⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their ' + (c3.age ? c3.age + 'th ' : '') + 'birthday today? ⏱️👇';
   const hook4 = '🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇';
 
-  const cap1 = formatQuizCaption(hook1, opts1, correct1, name1, c1.caption, c1.comment, hash1);
-  const cap2 = formatQuizCaption(hook2, opts2, correct2, name2, c2.caption, c2.comment, hash2);
-  const cap3 = formatQuizCaption(hook3, opts3, correct3, name3, c3.caption, c3.comment, hash3);
-  const cap4 = formatQuizCaption(hook4, opts4, correct4, name4, c4.caption, c4.comment, hash4);
+  const cap1 = formatQuizCaption(hook1, correct1, name1, c1.caption, c1.comment, hash1);
+  const cap2 = formatQuizCaption(hook2, correct2, name2, c2.caption, c2.comment, hash2);
+  const cap3 = formatQuizCaption(hook3, correct3, name3, c3.caption, c3.comment, hash3);
+  const cap4 = formatQuizCaption(hook4, correct4, name4, c4.caption, c4.comment, hash4);
 
   return [
     {
