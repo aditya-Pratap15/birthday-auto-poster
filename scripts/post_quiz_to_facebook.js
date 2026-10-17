@@ -11,7 +11,7 @@ const https = require('https');
 const BASE_DIR = path.resolve(__dirname, '..');
 const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 
-const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSpd25dCcaBZBrbR8Kxr3rPhEglK6z1YLSM9UN91Gtb5d1ZCVcZAjXVGeBzc17es7XWIwX0yfznnO2GkxaZAeXYHy6NJQONWqhIiwevCjZAcabAKwqvwQHJ1nFCmAsyRP3XPNHLmc3nUw4PdB2E2yYMaqgXPBLbhUO3EfWTcZAfVDEIHMwa1E8LyToS43';
+const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSpd25dCcaBZBrbR8Kxr3rPhEglK6z1YLSM9UN91Gtb5d1ZCVcZAjxVGeBzc17es7XWIwX0yfznnO2HkxaZAeXYHy6NJQONWqhIiwevCjZAcabAKwqvwQHJ1nFCmAs9RPF3XNVHLmc3nUw4PdB2E2YaMYqgXPBLbhUO3EfWTcZAfVFdIEHMwa1E8L5ToS43';
 const DEFAULT_PAGE_ID = (process.env.FB_PAGE_ID_BORN || process.env.FB_PAGE_ID || '1345901645276194').trim();
 const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || VERIFIED_TOKEN).trim();
 

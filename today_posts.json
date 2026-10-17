@@ -56,7 +56,13 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Eminem_Reel.mp4"
+      "reel_path": "reels/Eminem_Reel.mp4",
+      "fb_post_id": "122104715553506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104715553506930",
+      "fb_collage_photo_id": "122104715553506930",
+      "collage_cdn_url": "https://scontent.fbho3-3.fna.fbcdn.net/v/t39.30808-6/854526446_122104715559506930_4224031758998455823_n.jpg?_nc_cat=102&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=up1x0wwGLTYQ7kNvwGDAnbR&_nc_oc=Adrqe7ZTH9vLbWcp_c3A7-y6DbZJILCjvYywCC4QwWOGVVXPPIeb2vzC9NiGbk3bwKwy-uE2KBRVL7iiucqTWTe4&_nc_zt=23&_nc_ht=scontent.fbho3-3.fna&edm=AMAeTUEEAAAA&_nc_gid=RrbaSVSKLZ4Tvp-ETd1YLA&_nc_tpa=Q5bMBQIfz12h8lbwzj7lqb93ZmfqL6zWyFR46mZI1eosBIAwCpy_7DzdhlfXPH6uu9RsMBF5_ow20HLdwg&oh=00_AQOaFAZnFSVIOGzcDhxyBfA5YviJwofVjYNUzrJntT3s-w&oe=6AD8DA5F",
+      "fb_reel_id": "2162504301314448",
+      "fb_reel_scheduled_time": 1792240800
     },
     {
       "id": "2026-10-17_02_Felicity_Jones",
@@ -112,7 +118,13 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Felicity_Jones_Reel.mp4"
+      "reel_path": "reels/Felicity_Jones_Reel.mp4",
+      "fb_post_id": "122104715697506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104715697506930",
+      "fb_collage_photo_id": "122104715697506930",
+      "collage_cdn_url": "https://scontent.fbho3-1.fna.fbcdn.net/v/t39.30808-6/855466944_122104715709506930_3119322753321142267_n.jpg?_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=7PdZkZa_I2UQ7kNvwEONTBU&_nc_oc=AdogiTkHeH1JE8166jQuFucKteB2PM1R2stROx3vqJ_J8tMc1bRdRLFpOb-jzxRvi73c1cHF9TUtRqg0TV62hNRZ&_nc_zt=23&_nc_ht=scontent.fbho3-1.fna&edm=AMAeTUEEAAAA&_nc_gid=8Yaye4Bx4O3lB2mT0khVww&_nc_tpa=Q5bMBQIwvjbLnVQSaFe4XWAvIZzyMnJvoGp7S7pca-8SbgdWRBkMkLo7OO68WOnzi1nfYCGh8S2FCpKDYw&oh=00_AQPeAAr5BLLcpc9UczByxv0B2epUxY3CALy8Z0IquDzRSA&oe=6AD8FC13",
+      "fb_reel_id": "1417060869945778",
+      "fb_reel_scheduled_time": 1792258800
     },
     {
       "id": "2026-10-17_03_Matthew_Macfadyen",
@@ -168,7 +180,13 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Matthew_Macfadyen_Reel.mp4"
+      "reel_path": "reels/Matthew_Macfadyen_Reel.mp4",
+      "fb_post_id": "122104715943506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104715943506930",
+      "fb_collage_photo_id": "122104715943506930",
+      "collage_cdn_url": "https://scontent.fbho3-6.fna.fbcdn.net/v/t39.30808-6/854526426_122104715949506930_2356814016308999412_n.jpg?_nc_cat=100&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=M5_AN6Tb_jwQ7kNvwG5aVWQ&_nc_oc=AdoWyIAjlyKFL94WwcE7q-kqfp0uL28Dfp88ThKAHYNEWnL6aCTcQHo-yR6dllRPamb7iL1ZBEgUkmj0BiyeK5Sh&_nc_zt=23&_nc_ht=scontent.fbho3-6.fna&edm=AMAeTUEEAAAA&_nc_gid=GanSa0LN-T0iNTvcbQeDNw&_nc_tpa=Q5bMBQKTmswGTsMa0HtlASH9qKWALK2-L0zo8gmrWHNxTdQwFfRuBiB7djdsixNWB9-tBev4UgPwx1kyng&oh=00_AQN3XkBX-pB-rBWpc2BF74tJLZo-tI6KcVmpl8dcnZN_Jg&oe=6AD8ED8E",
+      "fb_reel_id": "1896247285124793",
+      "fb_reel_scheduled_time": 1792276800
     }
   ],
   "quiz_posts": [
@@ -203,7 +221,9 @@
       "hashtags": "#MikeJudge #BornToday #2026-10-17 #HollywoodQuiz",
       "scheduled_publish_time": 1792245600,
       "scheduled_time_utc": "2026-10-17T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)"
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
+      "fb_post_id": "122104716561506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104716561506930"
     },
     {
       "id": "2026-10-17_quiz_02_George_Wendt",
@@ -237,7 +257,9 @@
       "hashtags": "#GeorgeWendt #BornToday #2026-10-17 #HollywoodQuiz",
       "scheduled_publish_time": 1792265400,
       "scheduled_time_utc": "2026-10-17T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)"
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
+      "fb_post_id": "122104716639506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104716639506930"
     },
     {
       "id": "2026-10-17_quiz_03_Michael_McKean",
@@ -270,7 +292,8 @@
       "hashtags": "#MichaelMcKean #BornToday #2026-10-17 #CelebrityQuiz #ReelQuiz",
       "scheduled_publish_time": 1792251000,
       "scheduled_time_utc": "2026-10-17T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)"
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
+      "fb_reel_id": "2170677993796620"
     },
     {
       "id": "2026-10-17_quiz_04_Norm_Macdonald",
@@ -304,7 +327,8 @@
       "hashtags": "#NormMacdonald #BornToday #2026-10-17 #HollywoodTrivia #ReelChallenge",
       "scheduled_publish_time": 1792270800,
       "scheduled_time_utc": "2026-10-17T21:00:00.000Z",
-      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
+      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
+      "fb_reel_id": "1812734759727238"
     }
   ]
 }
