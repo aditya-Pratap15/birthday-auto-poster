@@ -311,13 +311,13 @@ async function main() {
       const nowTs = Math.floor(Date.now() / 1000);
       const schedTs = q.scheduled_publish_time || (nowTs + 3600);
 
-      const title = `Guess The Star: ${celebName} Birthday Quiz! 🎬 #shorts #trivia`.slice(0, 95);
-      const rawDescription = `Can you recognize the birthday celebrity before time runs out?\n\n` +
-        `${q.caption || ''}\n\n` +
-        `Tell us how fast you guessed in the comments! 💬\n\n` +
-        `#shorts #quiz #celebrityquiz #trivia #borntoday #${safeName.toLowerCase()}`;
+            const title = (q.type === 'reel_quiz_type1'
+        ? `Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts`
+        : `Which Hollywood Star Turns ${q.age || ''} Today? 🔍 Celebrity Quiz #shorts`).slice(0, 95);
+      const rawDescription = `${q.caption || ''}\n\n` +
+        `#shorts #quiz #celebrityquiz #trivia #borntoday #hollywood`;
       const description = formatUnicodeBold(rawDescription);
-      const tags = ['shorts', 'quiz', 'trivia', 'celebrity quiz', 'hollywood', celebName, 'entertainment'];
+      const tags = ['shorts', 'quiz', 'trivia', 'celebrity quiz', 'hollywood', 'entertainment', 'guess the star'];
 
       console.log(`[🎬] Uploading YouTube Quiz Short for: ${celebName} (${q.type})...`);
       const uploadRes = await uploadYouTubeShort(accessToken, reelPath, {

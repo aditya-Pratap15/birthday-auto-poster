@@ -272,6 +272,76 @@ async function getRawPayload() {
   return null;
 }
 
+function shuffleArray(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function buildShuffledQuizOptions(targetName, gender, targetLetter) {
+  const letters = ['A', 'B', 'C', 'D'];
+  const distractors = getRandomSameGenderDistractors(gender, [targetName], 3);
+  let distIdx = 0;
+  return letters.map(letter => {
+    if (letter === targetLetter) {
+      return { letter, name: targetName };
+    } else {
+      return { letter, name: distractors[distIdx++] || ('Star ' + letter) };
+    }
+  });
+}
+
+function formatQuizCaption(hook, opts, correctLetter, targetName, bioCaption, bioComment, hashtags) {
+  const optLines = opts.map(o => '[' + o.letter + '] ' + o.name).join('
+');
+  let storyBody = '';
+  if (bioCaption && bioCaption.trim()) {
+    storyBody = '
+
+📖 THE STORY & LEGENDARY JOURNEY:
+' + bioCaption.trim();
+  }
+  let triviaBody = '';
+  if (bioComment && bioComment.trim()) {
+    triviaBody = '
+
+🌟 FASCINATING FACTS & TRIVIA:
+' + bioComment.trim();
+  }
+
+  return hook + '
+
+' +
+    'Choose from the options below:
+' +
+    optLines + '
+
+' +
+    '💬 Drop your guess in the comments BEFORE scrolling down! 👇' +
+    storyBody +
+    triviaBody + '
+
+' +
+    '.
+.
+.
+.
+.
+' +
+    '💡 OFFICIAL ANSWER REVEAL:
+' +
+    'Option [' + correctLetter + ']: ' + targetName + '!
+
+' +
+    'Did you guess it right on your first try? Drop your favorite movie or show of theirs below! 🎬👇
+
+' +
+    (hashtags || '');
+}
+
 async function buildDailyQuizPayload(celebs, dateStr) {
   const [y, m, d] = dateStr.split("-").map(Number);
   const c1 = celebs[3] || celebs[0];
@@ -305,8 +375,32 @@ async function buildDailyQuizPayload(celebs, dateStr) {
   const s3 = getSched(15, 30);
   const s4 = getSched(21, 0);
 
-  const dist2 = getRandomSameGenderDistractors(g2, [name2], 3);
-  const dist4 = getRandomSameGenderDistractors(g4, [name4], 3);
+  // Guarantee all 4 daily quizzes have a randomized, unique answer letter across ['A', 'B', 'C', 'D']
+  const shuffledAnswerLetters = shuffleArray(['A', 'B', 'C', 'D']);
+  const correct1 = shuffledAnswerLetters[0];
+  const correct2 = shuffledAnswerLetters[1];
+  const correct3 = shuffledAnswerLetters[2];
+  const correct4 = shuffledAnswerLetters[3];
+
+  const opts1 = buildShuffledQuizOptions(name1, g1, correct1);
+  const opts2 = buildShuffledQuizOptions(name2, g2, correct2);
+  const opts3 = buildShuffledQuizOptions(name3, g3, correct3);
+  const opts4 = buildShuffledQuizOptions(name4, g4, correct4);
+
+  const hash1 = '#' + name1.replace(/\s+/g, '') + ' #BornToday #' + dateStr + ' #HollywoodQuiz #CelebrityTrivia';
+  const hash2 = '#' + name2.replace(/\s+/g, '') + ' #BornToday #' + dateStr + ' #FaceMatch #HollywoodQuiz';
+  const hash3 = '#' + name3.replace(/\s+/g, '') + ' #BornToday #' + dateStr + ' #CelebrityQuiz #ReelQuiz #Shorts';
+  const hash4 = '#' + name4.replace(/\s+/g, '') + ' #BornToday #' + dateStr + ' #HollywoodTrivia #ReelChallenge #Shorts';
+
+  const hook1 = '🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns ' + (c1.age || '') + ' today? 🤔👇';
+  const hook2 = '🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today\'s birthday star turning ' + (c2.age || '') + '? 🎬👇';
+  const hook3 = '⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their ' + (c3.age ? c3.age + 'th ' : '') + 'birthday today? ⏱️👇';
+  const hook4 = '🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇';
+
+  const cap1 = formatQuizCaption(hook1, opts1, correct1, name1, c1.caption, c1.comment, hash1);
+  const cap2 = formatQuizCaption(hook2, opts2, correct2, name2, c2.caption, c2.comment, hash2);
+  const cap3 = formatQuizCaption(hook3, opts3, correct3, name3, c3.caption, c3.comment, hash3);
+  const cap4 = formatQuizCaption(hook4, opts4, correct4, name4, c4.caption, c4.comment, hash4);
 
   return [
     {
@@ -316,16 +410,11 @@ async function buildDailyQuizPayload(celebs, dateStr) {
       birth_year: c1.birth_year || (c1.birth_date ? parseInt(c1.birth_date.split("-")[0]) : 1970),
       age: c1.age || "",
       gender: g1,
-      correct_option: "B",
-      options: [
-        { letter: "A", name: getRandomSameGenderDistractors(g1, [name1], 1)[0] || "Star A" },
-        { letter: "B", name: name1 },
-        { letter: "C", name: getRandomSameGenderDistractors(g1, [name1], 2)[1] || "Star C" },
-        { letter: "D", name: getRandomSameGenderDistractors(g1, [name1], 3)[2] || "Star D" }
-      ],
+      correct_option: correct1,
+      options: opts1,
       image_path: "collages/quiz_01_" + slug1 + ".jpg",
-      caption: "🎉 THE ANSWER IS: [B] " + name1 + "!\n\nCan you recognize this Hollywood icon celebrating a birthday today?\n\nTell us your favorite role of " + name1 + " in the comments! 👇",
-      hashtags: "#" + name1.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #HollywoodQuiz",
+      caption: cap1,
+      hashtags: hash1,
       scheduled_publish_time: s1.timestamp,
       scheduled_time_utc: s1.iso,
       peak_window: "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)"
@@ -337,17 +426,12 @@ async function buildDailyQuizPayload(celebs, dateStr) {
       birth_year: c2.birth_year || (c2.birth_date ? parseInt(c2.birth_date.split("-")[0]) : 1970),
       age: c2.age || "",
       gender: g2,
-      subtitle: "Born on this day! Can you identify " + name2 + "?",
-      correct_option: "A",
-      options: [
-        { letter: "A", name: name2 },
-        { letter: "B", name: dist2[0] },
-        { letter: "C", name: dist2[1] },
-        { letter: "D", name: dist2[2] }
-      ],
+      subtitle: "Born on this day! Can you identify the real birthday star?",
+      correct_option: correct2,
+      options: opts2,
       image_path: "collages/quiz_02_" + slug2 + ".jpg",
-      caption: "🎉 THE ANSWER IS: [A] " + name2 + "!\n\n(Photo B: " + dist2[0] + ", Photo C: " + dist2[1] + ", Photo D: " + dist2[2] + ")\n\nDid you spot the correct birthday star? Share your answer in the comments! 👇",
-      hashtags: "#" + name2.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #HollywoodQuiz",
+      caption: cap2,
+      hashtags: hash2,
       scheduled_publish_time: s2.timestamp,
       scheduled_time_utc: s2.iso,
       peak_window: "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)"
@@ -359,16 +443,11 @@ async function buildDailyQuizPayload(celebs, dateStr) {
       birth_year: c3.birth_year || (c3.birth_date ? parseInt(c3.birth_date.split("-")[0]) : 1975),
       age: c3.age || "",
       gender: g3,
-      correct_option: "A",
-      options: [
-        { letter: "A", name: name3 },
-        { letter: "B", name: getRandomSameGenderDistractors(g3, [name3], 1)[0] || "Star B" },
-        { letter: "C", name: getRandomSameGenderDistractors(g3, [name3], 2)[1] || "Star C" },
-        { letter: "D", name: getRandomSameGenderDistractors(g3, [name3], 3)[2] || "Star D" }
-      ],
+      correct_option: correct3,
+      options: opts3,
       reel_path: "reels/quiz_03_" + slug3 + ".mp4",
-      caption: "🎉 THE ANSWER IS: [A] " + name3 + "!\n\nHappy Birthday to " + name3 + "! How fast did you guess before the countdown reached zero? Drop your answer in the comments! 👇",
-      hashtags: "#" + name3.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #CelebrityQuiz #ReelQuiz",
+      caption: cap3,
+      hashtags: hash3,
       scheduled_publish_time: s3.timestamp,
       scheduled_time_utc: s3.iso,
       peak_window: "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)"
@@ -381,16 +460,11 @@ async function buildDailyQuizPayload(celebs, dateStr) {
       age: c4.age || "",
       gender: g4,
       subtitle: "Look closely at options A, B, C, and D!",
-      correct_option: "B",
-      options: [
-        { letter: "A", name: dist4[0] },
-        { letter: "B", name: name4 },
-        { letter: "C", name: dist4[1] },
-        { letter: "D", name: dist4[2] }
-      ],
+      correct_option: correct4,
+      options: opts4,
       reel_path: "reels/quiz_04_" + slug4 + ".mp4",
-      caption: "🎉 THE ANSWER IS: [B] " + name4 + "!\n\n(A: " + dist4[0] + ", B: " + name4 + ", C: " + dist4[1] + ", D: " + dist4[2] + ")\n\nHappy Birthday to " + name4 + "! Which movie or TV show of theirs is your favorite? Tell us in the comments! 👇",
-      hashtags: "#" + name4.replace(/\s+/g, "") + " #BornToday #" + dateStr + " #HollywoodTrivia #ReelChallenge",
+      caption: cap4,
+      hashtags: hash4,
       scheduled_publish_time: s4.timestamp,
       scheduled_time_utc: s4.iso,
       peak_window: "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
