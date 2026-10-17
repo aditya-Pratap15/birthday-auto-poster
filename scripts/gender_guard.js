@@ -138,6 +138,8 @@ async function auditAndEnforceQuizGender(quizPost) {
 
   // Update caption distractor breakdown if it mentions other photos
   if (quizPost.caption) {
+    const newOptionsBlock = newOptions.map(o => '[' + o.letter + '] ' + o.name).join('\n');
+    quizPost.caption = quizPost.caption.replace(/\[A\][^\n]+\n\[B\][^\n]+\n\[C\][^\n]+\n\[D\][^\n]+/, newOptionsBlock);
     const distractorList = newOptions
       .filter(o => o.letter !== correctLetter)
       .map(o => 'Photo ' + o.letter + ': ' + o.name)
