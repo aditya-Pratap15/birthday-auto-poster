@@ -222,8 +222,8 @@
       "scheduled_publish_time": 1792245600,
       "scheduled_time_utc": "2026-10-17T14:00:00.000Z",
       "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
-      "fb_post_id": "122104746813506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104746813506930"
+      "fb_post_id": "122104895025506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104895025506930"
     },
     {
       "id": "2026-10-17_quiz_02_George_Wendt",
@@ -258,8 +258,8 @@
       "scheduled_publish_time": 1792265400,
       "scheduled_time_utc": "2026-10-17T19:30:00.000Z",
       "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_post_id": "122104746921506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104746921506930"
+      "fb_post_id": "122104895133506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122104895133506930"
     },
     {
       "id": "2026-10-17_quiz_03_Michael_McKean",
@@ -293,7 +293,7 @@
       "scheduled_publish_time": 1792251000,
       "scheduled_time_utc": "2026-10-17T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "2341626423277670"
+      "fb_reel_id": "1638894114535903"
     },
     {
       "id": "2026-10-17_quiz_04_Norm_Macdonald",
@@ -328,7 +328,7 @@
       "scheduled_publish_time": 1792270800,
       "scheduled_time_utc": "2026-10-17T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1727402041700657"
+      "fb_reel_id": "2352483435284702"
     }
   ]
 }
