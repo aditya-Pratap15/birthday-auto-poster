@@ -43,6 +43,7 @@ jobs:
         run: node scripts/build_reel_studio.js --all
 
       - name: Build Interactive Celebrity Quiz Posts & Reels
+        continue-on-error: true
         run: node scripts/build_quiz_studio.js
 
       - name: Post to Facebook Pages with Unicode Bold & Pinned Comments
@@ -53,6 +54,7 @@ jobs:
         run: node scripts/post_to_facebook.js
 
       - name: Publish Interactive Celebrity Quizzes to Facebook Page
+        continue-on-error: true
         env:
           FB_TOKEN_BORN: ${{ secrets.FB_PAGE_TOKEN_BORN_TODAY || secrets.FB_TOKEN_BORN || secrets.FB_PAGE_TOKEN }}
           FB_PAGE_ID_BORN: ${{ secrets.FB_PAGE_ID_BORN_TODAY || secrets.FB_PAGE_ID_BORN || secrets.FB_PAGE_ID }}

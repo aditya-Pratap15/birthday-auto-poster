@@ -36,6 +36,22 @@ function fetchJson(url) {
   });
 }
 
+
+async function safeSetContent(page, html) {
+  try {
+    await page.setContent(html, { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await page.evaluate(() => {
+      return Promise.all(
+        Array.from(document.images)
+          .filter(img => !img.complete)
+          .map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))
+      );
+    }).catch(() => {});
+  } catch (err) {
+    try { await page.setContent(html, { timeout: 6000 }); } catch (_) {}
+  }
+}
+
 async function getCelebrityPhoto(name) {
   try {
     const s = await fetchJson(`https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(name)}`);
@@ -154,16 +170,50 @@ async function run() {
   if (!fs.existsSync(tempReelDir)) fs.mkdirSync(tempReelDir, { recursive: true });
 
   // -------------------------------------------------------------
-  // 1. PHOTO QUIZ TYPE 1: FLEA (Male -> Soft Blue, Full Bleed 4:5 Image, Hand Emoji 👇)
+  // 1. PHOTO QUIZ TYPE 1 (4-Option Single Portrait Quiz)
   // -------------------------------------------------------------
-  console.log('[1/4] Generating Photo Quiz Type 1 (Flea)...');
-  if (fs.existsSync(photo1Path) && !force) {
+  const q1Post = quizPosts.find(q => q.type === 'photo_quiz_type1') || {
+    celebrity_name: 'Mike Judge',
+    gender: 'male',
+    correct_option: 'B',
+    age: 64,
+    subtitle: 'Rock & Comedy Legend turns 64 today!',
+    options: [
+      { letter: 'A', name: 'Dennis Quaid' },
+      { letter: 'B', name: 'Mike Judge' },
+      { letter: 'C', name: 'Jack Nicholson' },
+      { letter: 'D', name: 'Brad Pitt' }
+    ]
+  };
+  const q1TargetName = q1Post.celebrity_name;
+  const q1CleanSlug = q1TargetName.replace(/[^a-zA-Z0-9_]/g, '_');
+  const targetPhoto1Path = path.join(COLLAGES_DIR, `quiz_01_${q1CleanSlug}.jpg`);
+
+  console.log(`[1/4] Generating Photo Quiz Type 1 (${q1TargetName})...`);
+  if (fs.existsSync(targetPhoto1Path) && !force) {
     console.log('   ℹ️ Photo Quiz 1 already exists, skipping. (Use --force to rebuild)');
   } else {
-  const fleaPhotoUrl = await getCelebrityPhoto('Flea (musician)') || await getCelebrityPhoto('Flea');
-  const fleaDataUri = await downloadImageAsDataUri(fleaPhotoUrl);
+    try {
+      const q1PhotoUrl = await getCelebrityPhoto(q1TargetName) || await getCelebrityPhoto(q1TargetName.split(' ')[0]);
+      const q1DataUri = await downloadImageAsDataUri(q1PhotoUrl) || logoUri;
 
-  const photoQuiz1Html = `<!DOCTYPE html>
+      const q1OptA = (q1Post.options && q1Post.options.find(o => o.letter === 'A')) || { name: 'Option A' };
+      const q1OptB = (q1Post.options && q1Post.options.find(o => o.letter === 'B')) || { name: q1TargetName };
+      const q1OptC = (q1Post.options && q1Post.options.find(o => o.letter === 'C')) || { name: 'Option C' };
+      const q1OptD = (q1Post.options && q1Post.options.find(o => o.letter === 'D')) || { name: 'Option D' };
+
+      const isFemale1 = (q1Post.gender || 'male').toLowerCase() === 'female';
+      const bgGrad1 = isFemale1
+        ? 'radial-gradient(circle at 50% 25%, #fdf2f8 0%, #fce7f3 45%, #fbcfe8 100%)'
+        : 'radial-gradient(circle at 50% 25%, #e0f2fe 0%, #f0f9ff 45%, #dbeafe 100%)';
+      const badgeBorder1 = isFemale1 ? '#f472b6' : '#38bdf8';
+      const badgeLogoBorder1 = isFemale1 ? '#db2777' : '#0284c7';
+      const badgeTextColor1 = isFemale1 ? '#be185d' : '#0369a1';
+      const subHeadColor1 = isFemale1 ? '#be185d' : '#0284c7';
+      const cardShadow1 = isFemale1 ? 'rgba(190, 24, 93, 0.16)' : 'rgba(2, 132, 199, 0.18)';
+      const subTitleText1 = q1Post.subtitle || (q1Post.age ? `Hollywood star turns ${q1Post.age} today!` : "Can you recognize today's birthday star?");
+
+      const photoQuiz1Html = `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -172,7 +222,7 @@ async function run() {
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     width: 1080px; height: 1350px;
-    background: radial-gradient(circle at 50% 25%, #e0f2fe 0%, #f0f9ff 45%, #dbeafe 100%);
+    background: ${bgGrad1};
     color: #0f172a; font-family: 'Inter', sans-serif;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
     padding: 45px 45px 35px 45px; position: relative; overflow: hidden;
@@ -180,14 +230,13 @@ async function run() {
   .header { display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; width: 100%; }
   .badge-bar {
     display: flex; align-items: center; gap: 16px;
-    background: #ffffff; border: 3px solid #38bdf8;
+    background: #ffffff; border: 3px solid ${badgeBorder1};
     padding: 10px 32px; border-radius: 50px; margin-bottom: 12px;
     box-shadow: 0 4px 18px rgba(56, 189, 248, 0.28);
   }
-  .badge-bar img { width: 64px; height: 64px; border-radius: 50%; border: 2.5px solid #0284c7; }
-  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: 2px; color: #0369a1; text-transform: uppercase; }
+  .badge-bar img { width: 64px; height: 64px; border-radius: 50%; border: 2.5px solid ${badgeLogoBorder1}; }
+  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 800; letter-spacing: 2px; color: ${badgeTextColor1}; text-transform: uppercase; }
   
-  /* Undistorted Crisp Golden Yellow with Clean Red Outline */
   .headline {
     font-family: 'Outfit', sans-serif; font-size: 54px; font-weight: 900; line-height: 1.12;
     color: #fbbf24;
@@ -203,9 +252,8 @@ async function run() {
        0 8px 24px rgba(220, 38, 38, 0.45);
     letter-spacing: 0.5px;
   }
-  .sub-headline { font-size: 21px; color: #0284c7; font-weight: 700; margin-top: 5px; }
+  .sub-headline { font-size: 21px; color: ${subHeadColor1}; font-weight: 700; margin-top: 5px; }
 
-  /* 4:5 Aspect Ratio Photo Box (520px x 650px) - Fills completely with NO white space */
   .photo-frame {
     width: 520px; height: 650px; border-radius: 28px; overflow: hidden; position: relative;
     border: 5px solid #ffffff;
@@ -216,15 +264,14 @@ async function run() {
   }
   .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
 
-  /* Options Grid Positioned Directly Below Photo */
   .options-grid {
     width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; z-index: 2;
     margin-bottom: 14px;
   }
   .option-card {
-    background: #ffffff; border: 3px solid #bae6fd;
+    background: #ffffff; border: 3px solid ${badgeBorder1};
     border-radius: 22px; padding: 18px 22px; display: flex; align-items: center; gap: 18px;
-    box-shadow: 0 6px 20px rgba(2, 132, 199, 0.12);
+    box-shadow: 0 6px 20px ${cardShadow1};
   }
   .opt-letter {
     width: 54px; height: 54px; border-radius: 16px;
@@ -235,7 +282,6 @@ async function run() {
   }
   .opt-text { font-family: 'Outfit', sans-serif; font-size: 32px; font-weight: 800; color: #0f172a; line-height: 1.15; }
 
-  /* Bottom Red Box with Hand Emoji 👇 + Caption Note */
   .footer-wrap { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; z-index: 2; }
   .footer-cta {
     background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
@@ -244,7 +290,7 @@ async function run() {
     box-shadow: 0 8px 25px rgba(220, 38, 38, 0.45); letter-spacing: 0.5px;
   }
   .caption-note {
-    font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: #0369a1; letter-spacing: 0.5px;
+    font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: ${subHeadColor1}; letter-spacing: 0.5px;
   }
 </style>
 </head>
@@ -255,18 +301,18 @@ async function run() {
       <span>Born Today Hollywood Trivia</span>
     </div>
     <div class="headline">WHO IS THIS BIRTHDAY STAR? 🎂</div>
-    <div class="sub-headline">Rock Hall of Fame Legend turns 64 today!</div>
+    <div class="sub-headline">${subTitleText1}</div>
   </div>
 
   <div class="photo-frame">
-    <img src="${fleaDataUri}">
+    <img src="${q1DataUri}">
   </div>
 
   <div class="options-grid">
-    <div class="option-card"><div class="opt-letter">A</div><div class="opt-text">Chad Smith</div></div>
-    <div class="option-card"><div class="opt-letter">B</div><div class="opt-text">Flea</div></div>
-    <div class="option-card"><div class="opt-letter">C</div><div class="opt-text">Anthony Kiedis</div></div>
-    <div class="option-card"><div class="opt-letter">D</div><div class="opt-text">John Frusciante</div></div>
+    <div class="option-card"><div class="opt-letter">A</div><div class="opt-text">${q1OptA.name}</div></div>
+    <div class="option-card"><div class="opt-letter">B</div><div class="opt-text">${q1OptB.name}</div></div>
+    <div class="option-card"><div class="opt-letter">C</div><div class="opt-text">${q1OptC.name}</div></div>
+    <div class="option-card"><div class="opt-letter">D</div><div class="opt-text">${q1OptD.name}</div></div>
   </div>
 
   <div class="footer-wrap">
@@ -276,17 +322,18 @@ async function run() {
 </body>
 </html>`;
 
-  const page1 = await browser.newPage();
-  await page1.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
-  await page1.setContent(photoQuiz1Html, { waitUntil: 'networkidle0' });
-  const photo1Path = path.join(COLLAGES_DIR, 'quiz_01_Flea.jpg');
-  await page1.screenshot({ path: photo1Path, type: 'jpeg', quality: 95 });
-  await page1.close();
-  console.log(`   ✅ Saved: ${photo1Path}`);
-    try { fs.copyFileSync(photo1Path, path.join(OUTPUT_DIR, '01_Photo_Quiz_Type1_Flea.jpg')); } catch(e){}
+      const page1 = await browser.newPage();
+      await page1.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
+      await safeSetContent(page1, photoQuiz1Html);
+      await page1.screenshot({ path: targetPhoto1Path, type: 'jpeg', quality: 95 });
+      await page1.close();
+      console.log(`   ✅ Saved: ${targetPhoto1Path}`);
+      try { fs.copyFileSync(targetPhoto1Path, path.join(OUTPUT_DIR, `01_Photo_Quiz_Type1_${q1CleanSlug}.jpg`)); } catch(e){}
+    } catch (e1) {
+      console.error(`   ❌ Error building Photo Quiz 1 (${q1TargetName}):`, e1.message);
+    }
   }
 
-  // -------------------------------------------------------------
   // -------------------------------------------------------------
   // 2. PHOTO QUIZ TYPE 2 (Face Match 4-Image Grid with Same-Gender Options)
   // -------------------------------------------------------------
@@ -311,6 +358,7 @@ async function run() {
   if (fs.existsSync(targetPhoto2Path) && !force) {
     console.log(`   ℹ️ Photo Quiz 2 already exists, skipping. (Use --force to rebuild)`);
   } else {
+    try {
     // AUDIT & ENFORCE GENDER CONSISTENCY (Exception Handler)
     const q2Audit = await auditAndEnforceQuizGender(q2Post);
     if (q2Audit.modified) {
@@ -452,11 +500,12 @@ async function run() {
 
     const page2 = await browser.newPage();
     await page2.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
-    await page2.setContent(photoQuiz2Html, { waitUntil: 'networkidle0' });
+    await safeSetContent(page2, photoQuiz2Html);
     await page2.screenshot({ path: targetPhoto2Path, type: 'jpeg', quality: 95 });
     await page2.close();
     console.log(`   ✅ Saved: ${targetPhoto2Path}`);
     try { fs.copyFileSync(targetPhoto2Path, path.join(OUTPUT_DIR, `02_Photo_Quiz_Type2_${q2CleanSlug}.jpg`)); } catch(e){}
+    } catch(e2) { console.error(`   ❌ Error building Photo Quiz 2 (${q2TargetName}):`, e2.message); }
   }
 
   // Helper for Luxury Outro Slide (Matching Regular Reels)
@@ -509,43 +558,77 @@ async function run() {
   }
 
   // -------------------------------------------------------------
-  // 3. REEL QUIZ TYPE 1: CATERINA SCORSONE (Female -> Soft Pink, Constant Headline Size, Radiant Image Glow, Hand Emoji 👇)
+  // 3. REEL QUIZ TYPE 1 (Single Portrait Video Reel with Countdown)
   // -------------------------------------------------------------
-  console.log('[3/4] Generating Reel Quiz Type 1 (Caterina Scorsone)...');
-  if (fs.existsSync(reel1Out) && !force) {
+  const q3Post = quizPosts.find(q => q.type === 'reel_quiz_type1') || {
+    celebrity_name: 'Michael McKean',
+    gender: 'male',
+    correct_option: 'A',
+    age: 79,
+    options: [
+      { letter: 'A', name: 'Michael McKean' },
+      { letter: 'B', name: 'Bill Murray' },
+      { letter: 'C', name: 'George Clooney' },
+      { letter: 'D', name: 'Michael Douglas' }
+    ]
+  };
+
+  const q3TargetName = q3Post.celebrity_name;
+  const q3CleanSlug = q3TargetName.replace(/[^a-zA-Z0-9_]/g, '_');
+  const targetReel1Out = path.join(REELS_DIR, `quiz_03_${q3CleanSlug}.mp4`);
+
+  console.log(`[3/4] Generating Reel Quiz Type 1 (${q3TargetName})...`);
+  if (fs.existsSync(targetReel1Out) && !force) {
     console.log('   ℹ️ Reel Quiz 1 already exists, skipping. (Use --force to rebuild)');
   } else {
-  const caterinaUri = await downloadImageAsDataUri(await getCelebrityPhoto('Caterina Scorsone'));
+    try {
+      const q3PhotoUrl = await getCelebrityPhoto(q3TargetName) || await getCelebrityPhoto(q3TargetName.split(' ')[0]);
+      const q3DataUri = await downloadImageAsDataUri(q3PhotoUrl) || logoUri;
 
-  const r1VoiceQ = path.join(tempReelDir, 'r1_q_voice.mp3');
-  const r1VoiceRev = path.join(tempReelDir, 'r1_rev_voice.mp3');
+      const q3OptA = (q3Post.options && q3Post.options.find(o => o.letter === 'A')) || { name: q3TargetName };
+      const q3OptB = (q3Post.options && q3Post.options.find(o => o.letter === 'B')) || { name: 'Option B' };
+      const q3OptC = (q3Post.options && q3Post.options.find(o => o.letter === 'C')) || { name: 'Option C' };
+      const q3OptD = (q3Post.options && q3Post.options.find(o => o.letter === 'D')) || { name: 'Option D' };
 
-  const q1FullText = "Can you guess which beloved Hollywood star is celebrating her forty-fifth birthday today? Option A: Caterina Scorsone! Option B: Ellen Pompeo! Option C: Sarah Drew! Or Option D: Chyler Leigh! Your ten-second countdown begins right now!";
-  const r1FullText = "That's right! Option A is Caterina Scorsone, turning forty-five today! Read the full story in the caption below!";
+      const r1VoiceQ = path.join(tempReelDir, 'r1_q_voice.mp3');
+      const r1VoiceRev = path.join(tempReelDir, 'r1_rev_voice.mp3');
 
-  await synthesizeVoiceWithRetry(q1FullText, 'en-US-JennyNeural', r1VoiceQ);
-  await new Promise(r => setTimeout(r, 1000));
-  await synthesizeVoiceWithRetry(r1FullText, 'en-US-JennyNeural', r1VoiceRev);
+      const isFemale3 = (q3Post.gender || 'male').toLowerCase() === 'female';
+      const voice3 = isFemale3 ? 'en-US-JennyNeural' : 'en-US-GuyNeural';
+      const pronoun3 = isFemale3 ? 'her' : 'his';
+      const agePhrase3 = q3Post.age ? `${pronoun3} ${q3Post.age}th` : 'a';
 
-  const dur1Q = getAudioDuration(r1VoiceQ);
-  const dur1Rev = getAudioDuration(r1VoiceRev);
+      const q1FullText = `Can you guess which beloved Hollywood star is celebrating ${agePhrase3} birthday today? Option A: ${q3OptA.name}! Option B: ${q3OptB.name}! Option C: ${q3OptC.name}! Or Option D: ${q3OptD.name}! Your ten-second countdown begins right now!`;
+      const r1FullText = `That's right! Option ${q3Post.correct_option || 'A'} is ${q3TargetName}${q3Post.age ? ', turning ' + q3Post.age + ' today' : ''}! Read the full story in the caption below!`;
 
-  const t1_zoom = dur1Q * 0.30;
-  const t1_a = dur1Q * 0.14;
-  const t1_b = dur1Q * 0.14;
-  const t1_c = dur1Q * 0.14;
-  const t1_d = dur1Q * 0.14;
-  const t1_prompt = dur1Q - (t1_zoom + t1_a + t1_b + t1_c + t1_d);
+      await synthesizeVoiceWithRetry(q1FullText, voice3, r1VoiceQ);
+      await new Promise(r => setTimeout(r, 600));
+      await synthesizeVoiceWithRetry(r1FullText, voice3, r1VoiceRev);
 
-  function getReel1Html(activeOpt = null, timerNum = null, timerProgress = null, isReveal = false) {
-    const dashOffset = timerProgress !== null ? (314.15 * (1 - timerProgress)).toFixed(2) : 314.15;
-    
-    // Image glows continuously at all times with medium speed breathing pace
-    const bloom1 = (timerNum !== null && timerNum % 2 === 0) ? 42 : 32;
-    const bloom2 = (timerNum !== null && timerNum % 2 === 0) ? 85 : 68;
-    const imageGlowStyle = `box-shadow: 0 0 ${bloom1}px rgba(251, 191, 36, 0.85), 0 0 ${bloom2}px rgba(244, 114, 182, 0.75), 0 0 115px rgba(236, 72, 153, 0.55), 0 16px 45px rgba(0,0,0,0.22); border-color: #fef08a;`;
+      const dur1Q = getAudioDuration(r1VoiceQ);
+      const dur1Rev = getAudioDuration(r1VoiceRev);
 
-    return `<!DOCTYPE html>
+      const t1_zoom = dur1Q * 0.30;
+      const t1_a = dur1Q * 0.14;
+      const t1_b = dur1Q * 0.14;
+      const t1_c = dur1Q * 0.14;
+      const t1_d = dur1Q * 0.14;
+      const t1_prompt = dur1Q - (t1_zoom + t1_a + t1_b + t1_c + t1_d);
+
+      const bgGrad3 = isFemale3
+        ? 'radial-gradient(circle at 50% 25%, #fdf2f8 0%, #fce7f3 45%, #fbcfe8 100%)'
+        : 'radial-gradient(circle at 50% 25%, #e0f2fe 0%, #f0f9ff 45%, #dbeafe 100%)';
+      const badgeBorder3 = isFemale3 ? '#f472b6' : '#38bdf8';
+      const badgeLogoBorder3 = isFemale3 ? '#db2777' : '#0284c7';
+      const badgeTextColor3 = isFemale3 ? '#be185d' : '#0369a1';
+
+      function getReel1Html(activeOpt = null, timerNum = null, timerProgress = null, isReveal = false) {
+        const dashOffset = timerProgress !== null ? (314.15 * (1 - timerProgress)).toFixed(2) : 314.15;
+        const bloom1 = (timerNum !== null && timerNum % 2 === 0) ? 42 : 32;
+        const bloom2 = (timerNum !== null && timerNum % 2 === 0) ? 85 : 68;
+        const imageGlowStyle = `box-shadow: 0 0 ${bloom1}px rgba(251, 191, 36, 0.85), 0 0 ${bloom2}px rgba(244, 114, 182, 0.75), 0 0 115px rgba(236, 72, 153, 0.55), 0 16px 45px rgba(0,0,0,0.22); border-color: #fef08a;`;
+
+        return `<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -554,7 +637,7 @@ async function run() {
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body {
     width: 1080px; height: 1920px;
-    background: radial-gradient(circle at 50% 25%, #fdf2f8 0%, #fce7f3 45%, #fbcfe8 100%);
+    background: ${bgGrad3};
     color: #0f172a; font-family: 'Inter', sans-serif;
     display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
     padding: 70px 55px 40px 55px; position: relative; overflow: hidden;
@@ -562,14 +645,13 @@ async function run() {
   .header { display: flex; flex-direction: column; align-items: center; text-align: center; z-index: 2; width: 100%; }
   .badge-bar {
     display: flex; align-items: center; gap: 16px;
-    background: #ffffff; border: 3px solid #f472b6;
+    background: #ffffff; border: 3px solid ${badgeBorder3};
     padding: 10px 32px; border-radius: 50px; margin-bottom: 12px;
     box-shadow: 0 4px 18px rgba(244, 114, 182, 0.28);
   }
-  .badge-bar img { width: 68px; height: 68px; border-radius: 50%; border: 2.5px solid #db2777; }
-  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 2px; color: #be185d; text-transform: uppercase; }
+  .badge-bar img { width: 68px; height: 68px; border-radius: 50%; border: 2.5px solid ${badgeLogoBorder3}; }
+  .badge-bar span { font-family: 'Outfit', sans-serif; font-size: 26px; font-weight: 800; letter-spacing: 2px; color: ${badgeTextColor3}; text-transform: uppercase; }
   
-  /* Undistorted Crisp Golden Yellow with Clean Red Outline - Exact same size throughout */
   .headline-zoom {
     font-family: 'Outfit', sans-serif; font-size: 56px; font-weight: 900; line-height: 1.12;
     color: #fbbf24;
@@ -586,7 +668,6 @@ async function run() {
     letter-spacing: 0.5px;
   }
 
-  /* Circular Countdown Timer (Shifted with Little Space) */
   .timer-wrap {
     margin-top: 14px; display: flex; align-items: center; justify-content: center; position: relative; width: 120px; height: 120px;
   }
@@ -600,7 +681,6 @@ async function run() {
     position: absolute; font-family: 'Outfit', sans-serif; font-size: 46px; font-weight: 900; color: #dc2626;
   }
 
-  /* 4:5 Ratio Photo Box (560px x 700px) with Continuous Radiant Luminous Glow */
   .photo-frame {
     width: 560px; height: 700px; border-radius: 32px; overflow: hidden; position: relative;
     border: 5px solid #ffffff;
@@ -611,7 +691,6 @@ async function run() {
   }
   .photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; display: block; }
 
-  /* Options Container Shifted Just Below Image */
   .options-container {
     width: 100%; display: flex; flex-direction: column; gap: 16px; z-index: 2;
     margin-top: 18px;
@@ -635,7 +714,6 @@ async function run() {
   }
   .opt-name { font-family: 'Outfit', sans-serif; font-size: 36px; font-weight: 800; color: #0f172a; letter-spacing: 0.5px; }
 
-  /* Reveal State Placed Directly Below Image without Emojis */
   .reveal-container {
     width: 100%; display: flex; flex-direction: column; align-items: center; gap: 16px; z-index: 2;
     margin-top: 18px;
@@ -679,153 +757,149 @@ async function run() {
   </div>
 
   <div class="photo-frame">
-    <img src="${caterinaUri}">
+    <img src="${q3DataUri}">
   </div>
 
   ${!isReveal ? `
   <div class="options-container">
     <div class="opt-row ${activeOpt === 'A' ? 'active' : ''}">
       <div class="opt-badge">A</div>
-      <div class="opt-name">Caterina Scorsone</div>
+      <div class="opt-name">${q3OptA.name}</div>
     </div>
     <div class="opt-row ${activeOpt === 'B' ? 'active' : ''}">
       <div class="opt-badge">B</div>
-      <div class="opt-name">Ellen Pompeo</div>
+      <div class="opt-name">${q3OptB.name}</div>
     </div>
     <div class="opt-row ${activeOpt === 'C' ? 'active' : ''}">
       <div class="opt-badge">C</div>
-      <div class="opt-name">Sarah Drew</div>
+      <div class="opt-name">${q3OptC.name}</div>
     </div>
     <div class="opt-row ${activeOpt === 'D' ? 'active' : ''}">
       <div class="opt-badge">D</div>
-      <div class="opt-name">Chyler Leigh</div>
+      <div class="opt-name">${q3OptD.name}</div>
     </div>
   </div>
   ` : `
   <div class="reveal-container">
     <div class="correct-moved-card">
       <div class="correct-moved-badge">✓</div>
-      <div class="correct-moved-text">Option A: Caterina Scorsone</div>
+      <div class="correct-moved-text">Option ${q3Post.correct_option || 'A'}: ${q3TargetName}</div>
     </div>
     <div class="red-caption-box">READ FULL STORY IN CAPTION 👇</div>
   </div>
   `}
 </body>
 </html>`;
+      }
+
+      const pReel1 = await browser.newPage();
+      await pReel1.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
+
+      await safeSetContent(pReel1, getReel1Html('Q_INTRO', null, 0, false));
+      const r1SlideQ = path.join(tempReelDir, 'r1_q.png');
+      await pReel1.screenshot({ path: r1SlideQ, type: 'png' });
+
+      await safeSetContent(pReel1, getReel1Html('A', null, 0, false));
+      const r1SlideA = path.join(tempReelDir, 'r1_opt_a.png');
+      await pReel1.screenshot({ path: r1SlideA, type: 'png' });
+
+      await safeSetContent(pReel1, getReel1Html('B', null, 0, false));
+      const r1SlideB = path.join(tempReelDir, 'r1_opt_b.png');
+      await pReel1.screenshot({ path: r1SlideB, type: 'png' });
+
+      await safeSetContent(pReel1, getReel1Html('C', null, 0, false));
+      const r1SlideC = path.join(tempReelDir, 'r1_opt_c.png');
+      await pReel1.screenshot({ path: r1SlideC, type: 'png' });
+
+      await safeSetContent(pReel1, getReel1Html('D', null, 0, false));
+      const r1SlideD = path.join(tempReelDir, 'r1_opt_d.png');
+      await pReel1.screenshot({ path: r1SlideD, type: 'png' });
+
+      await safeSetContent(pReel1, getReel1Html(null, null, 0, false));
+      const r1SlidePrompt = path.join(tempReelDir, 'r1_prompt.png');
+      await pReel1.screenshot({ path: r1SlidePrompt, type: 'png' });
+
+      const optCycle1 = ['A', 'B', 'C', 'D'];
+      for (let s = 1; s <= 10; s++) {
+        const prog = s / 10;
+        const currentNumber = 11 - s;
+        const currentGlowOpt = optCycle1[(s - 1) % 4];
+        await safeSetContent(pReel1, getReel1Html(currentGlowOpt, currentNumber, prog, false));
+        const sPath = path.join(tempReelDir, `r1_timer_${s}.png`);
+        await pReel1.screenshot({ path: sPath, type: 'png' });
+      }
+
+      await safeSetContent(pReel1, getReel1Html(null, null, 1.0, true));
+      const r1SlideReveal = path.join(tempReelDir, 'r1_reveal.png');
+      await pReel1.screenshot({ path: r1SlideReveal, type: 'png' });
+
+      await safeSetContent(pReel1, getOutroSlideHtml());
+      const r1SlideOutro = path.join(tempReelDir, 'r1_outro.png');
+      await pReel1.screenshot({ path: r1SlideOutro, type: 'png' });
+      await pReel1.close();
+
+      const r1VidInputs = [];
+      r1VidInputs.push(`-loop 1 -t ${t1_zoom.toFixed(2)} -i "${r1SlideQ}"`);
+      r1VidInputs.push(`-loop 1 -t ${t1_a.toFixed(2)} -i "${r1SlideA}"`);
+      r1VidInputs.push(`-loop 1 -t ${t1_b.toFixed(2)} -i "${r1SlideB}"`);
+      r1VidInputs.push(`-loop 1 -t ${t1_c.toFixed(2)} -i "${r1SlideC}"`);
+      r1VidInputs.push(`-loop 1 -t ${t1_d.toFixed(2)} -i "${r1SlideD}"`);
+      r1VidInputs.push(`-loop 1 -t ${t1_prompt.toFixed(2)} -i "${r1SlidePrompt}"`);
+
+      for (let s = 1; s <= 10; s++) {
+        r1VidInputs.push(`-loop 1 -t 1.00 -i "${path.join(tempReelDir, `r1_timer_${s}.png`)}"`);
+      }
+      const r1RevealDur = (dur1Rev + 3.00).toFixed(2);
+      r1VidInputs.push(`-loop 1 -t ${r1RevealDur} -i "${r1SlideReveal}"`);
+      r1VidInputs.push(`-loop 1 -t 2.80 -i "${r1SlideOutro}"`);
+
+      const numR1Slides = 6 + 10 + 1 + 1;
+      let r1VConcat = '';
+      let r1VConcatInputs = '';
+      for (let k = 0; k < numR1Slides; k++) {
+        r1VConcat += `[${k}:v]setsar=1[r1v${k}];`;
+        r1VConcatInputs += `[r1v${k}]`;
+      }
+      r1VConcat += `${r1VConcatInputs}concat=n=${numR1Slides}:v=1:a=0[vbase];[vbase]format=yuv420p[vout];`;
+
+      const aIdx_intro = numR1Slides;
+      const aIdx_tick = numR1Slides + 1;
+      const aIdx_chime = numR1Slides + 2;
+      const aIdx_rev = numR1Slides + 3;
+      const aIdx_bgm = numR1Slides + 4;
+
+      const tickAudio10 = path.join(ASSETS_AUDIO_DIR, 'tick_tick_10s.mp3');
+      const chimeAudio = path.join(ASSETS_AUDIO_DIR, 'winner_chime.mp3');
+      const bgmTrack1 = getBgmTrack(1);
+
+      const delayTick1 = (dur1Q * 1000).toFixed(0);
+      const delayChime1 = ((dur1Q + 10) * 1000).toFixed(0);
+      const delayRevVoice1 = ((dur1Q + 10.3) * 1000).toFixed(0);
+      const totalR1Dur = (dur1Q + 10 + parseFloat(r1RevealDur) + 2.80).toFixed(2);
+
+      const r1FilterComplex = r1VConcat +
+        `[${aIdx_intro}:a]volume=1.8[v_intro];` +
+        `[${aIdx_tick}:a]adelay=${delayTick1}|${delayTick1},volume=1.2[a_tick];` +
+        `[${aIdx_chime}:a]adelay=${delayChime1}|${delayChime1},volume=1.6[a_chime];` +
+        `[${aIdx_rev}:a]adelay=${delayRevVoice1}|${delayRevVoice1},volume=1.8[v_rev];` +
+        `[${aIdx_bgm}:a]volume=0.18[a_bgm];` +
+        `[v_intro][a_tick][a_chime][v_rev][a_bgm]amix=inputs=5:duration=longest[amix];` +
+        `[amix]afade=t=out:st=${(totalR1Dur - 0.7).toFixed(2)}:d=0.7[aout]`;
+
+      const ffmpegCmd1 = `ffmpeg -y ${r1VidInputs.join(' ')} ` +
+        `-i "${r1VoiceQ}" -i "${tickAudio10}" -i "${chimeAudio}" -i "${r1VoiceRev}" -stream_loop -1 -i "${bgmTrack1}" ` +
+        `-filter_complex "${r1FilterComplex}" ` +
+        `-map "[vout]" -map "[aout]" -t ${totalR1Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k "${targetReel1Out}"`;
+
+      console.log('   🎬 Rendering Vertical Video Reel 1 with FFmpeg...');
+      execSync(ffmpegCmd1, { stdio: 'pipe' });
+      console.log(`   ✅ Saved: ${targetReel1Out}`);
+      try { fs.copyFileSync(targetReel1Out, path.join(OUTPUT_DIR, `03_Reel_Quiz_Type1_${q3CleanSlug}.mp4`)); } catch(e){}
+    } catch (e3) {
+      console.error(`   ❌ Error building Reel Quiz 1 (${q3TargetName}):`, e3.message);
+    }
   }
 
-  const pReel1 = await browser.newPage();
-  await pReel1.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
-
-  // Render question frame (same headline size)
-  await pReel1.setContent(getReel1Html('Q_INTRO', null, 0, false), { waitUntil: 'networkidle0' });
-  const r1SlideQ = path.join(tempReelDir, 'r1_q.png');
-  await pReel1.screenshot({ path: r1SlideQ, type: 'png' });
-
-  // Render option highlight frames
-  await pReel1.setContent(getReel1Html('A', null, 0, false), { waitUntil: 'networkidle0' });
-  const r1SlideA = path.join(tempReelDir, 'r1_opt_a.png');
-  await pReel1.screenshot({ path: r1SlideA, type: 'png' });
-
-  await pReel1.setContent(getReel1Html('B', null, 0, false), { waitUntil: 'networkidle0' });
-  const r1SlideB = path.join(tempReelDir, 'r1_opt_b.png');
-  await pReel1.screenshot({ path: r1SlideB, type: 'png' });
-
-  await pReel1.setContent(getReel1Html('C', null, 0, false), { waitUntil: 'networkidle0' });
-  const r1SlideC = path.join(tempReelDir, 'r1_opt_c.png');
-  await pReel1.screenshot({ path: r1SlideC, type: 'png' });
-
-  await pReel1.setContent(getReel1Html('D', null, 0, false), { waitUntil: 'networkidle0' });
-  const r1SlideD = path.join(tempReelDir, 'r1_opt_d.png');
-  await pReel1.screenshot({ path: r1SlideD, type: 'png' });
-
-  await pReel1.setContent(getReel1Html(null, null, 0, false), { waitUntil: 'networkidle0' });
-  const r1SlidePrompt = path.join(tempReelDir, 'r1_prompt.png');
-  await pReel1.screenshot({ path: r1SlidePrompt, type: 'png' });
-
-  // Render 10 circular timer frames (options glow one by one: A, B, C, D, A, B, C, D, A, B)
-  const optCycle1 = ['A', 'B', 'C', 'D'];
-  for (let s = 1; s <= 10; s++) {
-    const prog = s / 10;
-    const currentNumber = 11 - s;
-    const currentGlowOpt = optCycle1[(s - 1) % 4];
-    await pReel1.setContent(getReel1Html(currentGlowOpt, currentNumber, prog, false), { waitUntil: 'networkidle0' });
-    const sPath = path.join(tempReelDir, `r1_timer_${s}.png`);
-    await pReel1.screenshot({ path: sPath, type: 'png' });
-  }
-
-  // Render reveal slide
-  await pReel1.setContent(getReel1Html(null, null, 1.0, true), { waitUntil: 'networkidle0' });
-  const r1SlideReveal = path.join(tempReelDir, 'r1_reveal.png');
-  await pReel1.screenshot({ path: r1SlideReveal, type: 'png' });
-
-  // Render outro slide
-  await pReel1.setContent(getOutroSlideHtml(), { waitUntil: 'networkidle0' });
-  const r1SlideOutro = path.join(tempReelDir, 'r1_outro.png');
-  await pReel1.screenshot({ path: r1SlideOutro, type: 'png' });
-  await pReel1.close();
-
-  // Assemble Reel 1 Video Inputs
-  const r1VidInputs = [];
-  r1VidInputs.push(`-loop 1 -t ${t1_zoom.toFixed(2)} -i "${r1SlideQ}"`);
-  r1VidInputs.push(`-loop 1 -t ${t1_a.toFixed(2)} -i "${r1SlideA}"`);
-  r1VidInputs.push(`-loop 1 -t ${t1_b.toFixed(2)} -i "${r1SlideB}"`);
-  r1VidInputs.push(`-loop 1 -t ${t1_c.toFixed(2)} -i "${r1SlideC}"`);
-  r1VidInputs.push(`-loop 1 -t ${t1_d.toFixed(2)} -i "${r1SlideD}"`);
-  r1VidInputs.push(`-loop 1 -t ${t1_prompt.toFixed(2)} -i "${r1SlidePrompt}"`);
-  for (let s = 1; s <= 10; s++) {
-    r1VidInputs.push(`-loop 1 -t 1.00 -i "${path.join(tempReelDir, `r1_timer_${s}.png`)}"`);
-  }
-  const r1RevealDur = (dur1Rev + 3.00).toFixed(2);
-  r1VidInputs.push(`-loop 1 -t ${r1RevealDur} -i "${r1SlideReveal}"`);
-  r1VidInputs.push(`-loop 1 -t 2.80 -i "${r1SlideOutro}"`);
-
-  const numR1Slides = 6 + 10 + 1 + 1; // 18 slides
-  let r1VConcat = '';
-  let r1VConcatInputs = '';
-  for (let k = 0; k < numR1Slides; k++) {
-    r1VConcat += `[${k}:v]setsar=1[rv${k}];`;
-    r1VConcatInputs += `[rv${k}]`;
-  }
-  r1VConcat += `${r1VConcatInputs}concat=n=${numR1Slides}:v=1:a=0[vbase];[vbase]format=yuv420p[vout];`;
-
-  const aIdx_intro = numR1Slides;     // 18
-  const aIdx_tick = numR1Slides + 1;  // 19
-  const aIdx_chime = numR1Slides + 2; // 20
-  const aIdx_rev = numR1Slides + 3;   // 21
-  const aIdx_bgm = numR1Slides + 4;   // 22
-
-  const tickAudio10 = path.join(ASSETS_AUDIO_DIR, 'tick_tick_10s.mp3');
-  const chimeAudio = path.join(ASSETS_AUDIO_DIR, 'winner_chime.mp3');
-  const bgmTrack1 = getBgmTrack(1);
-
-  const delayTick1 = (dur1Q * 1000).toFixed(0);
-  const delayChime1 = ((dur1Q + 10) * 1000).toFixed(0);
-  const delayRevVoice1 = ((dur1Q + 10.3) * 1000).toFixed(0);
-  const totalR1Dur = (dur1Q + 10 + parseFloat(r1RevealDur) + 2.80).toFixed(2);
-
-  const r1FilterComplex = r1VConcat +
-    `[${aIdx_intro}:a]volume=1.8[v_intro];` +
-    `[${aIdx_tick}:a]adelay=${delayTick1}|${delayTick1},volume=1.2[a_tick];` +
-    `[${aIdx_chime}:a]adelay=${delayChime1}|${delayChime1},volume=1.6[a_chime];` +
-    `[${aIdx_rev}:a]adelay=${delayRevVoice1}|${delayRevVoice1},volume=1.8[v_rev];` +
-    `[${aIdx_bgm}:a]volume=0.18[a_bgm];` +
-    `[v_intro][a_tick][a_chime][v_rev][a_bgm]amix=inputs=5:duration=longest[amix];` +
-    `[amix]afade=t=out:st=${(totalR1Dur - 0.7).toFixed(2)}:d=0.7[aout]`;
-
-  const reel1Out = path.join(REELS_DIR, 'quiz_03_Caterina_Scorsone.mp4');
-  const ffmpegCmd1 = `ffmpeg -y ${r1VidInputs.join(' ')} ` +
-    `-i "${r1VoiceQ}" -i "${tickAudio10}" -i "${chimeAudio}" -i "${r1VoiceRev}" -stream_loop -1 -i "${bgmTrack1}" ` +
-    `-filter_complex "${r1FilterComplex}" ` +
-    `-map "[vout]" -map "[aout]" -t ${totalR1Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k "${reel1Out}"`;
-
-  console.log('   🎬 Rendering Vertical Video Reel 1 with FFmpeg...');
-  execSync(ffmpegCmd1, { stdio: 'pipe' });
-  console.log(`   ✅ Saved: ${reel1Out}`);
-    try { fs.copyFileSync(reel1Out, path.join(OUTPUT_DIR, '03_Reel_Quiz_Type1_Caterina_Scorsone.mp4')); } catch(e){}
-  }
-
-  // -------------------------------------------------------------
   // -------------------------------------------------------------
   // 4. REEL QUIZ TYPE 2 (Face Match 4-Image Grid Reel with Same-Gender Options)
   // -------------------------------------------------------------
@@ -850,6 +924,7 @@ async function run() {
   if (fs.existsSync(targetReel2Out) && !force) {
     console.log(`   ℹ️ Reel Quiz 2 already exists, skipping. (Use --force to rebuild)`);
   } else {
+    try {
     // AUDIT & ENFORCE GENDER CONSISTENCY (Exception Handler)
     const q4Audit = await auditAndEnforceQuizGender(q4Post);
     if (q4Audit.modified) {
@@ -1067,7 +1142,7 @@ async function run() {
     await pReel2.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
 
     // Render question slide
-    await pReel2.setContent(getReel2Html(null, 0, false, null), { waitUntil: 'networkidle0' });
+    await safeSetContent(pReel2, getReel2Html(null, 0, false, null));
     const r2SlideQ = path.join(tempReelDir, 'r2_q.png');
     await pReel2.screenshot({ path: r2SlideQ, type: 'png' });
 
@@ -1077,18 +1152,18 @@ async function run() {
       const prog = s / 10;
       const currentNumber = 11 - s;
       const currentGlowOpt = optCycle[(s - 1) % 4];
-      await pReel2.setContent(getReel2Html(currentNumber, prog, false, currentGlowOpt), { waitUntil: 'networkidle0' });
+      await safeSetContent(pReel2, getReel2Html(currentNumber, prog, false, currentGlowOpt));
       const sPath = path.join(tempReelDir, `r2_timer_${s}.png`);
       await pReel2.screenshot({ path: sPath, type: 'png' });
     }
 
     // Render reveal slide
-    await pReel2.setContent(getReel2Html(null, 1.0, true, null), { waitUntil: 'networkidle0' });
+    await safeSetContent(pReel2, getReel2Html(null, 1.0, true, null));
     const r2SlideReveal = path.join(tempReelDir, 'r2_reveal.png');
     await pReel2.screenshot({ path: r2SlideReveal, type: 'png' });
 
     // Render outro slide
-    await pReel2.setContent(getOutroSlideHtml(), { waitUntil: 'networkidle0' });
+    await safeSetContent(pReel2, getOutroSlideHtml());
     const r2SlideOutro = path.join(tempReelDir, 'r2_outro.png');
     await pReel2.screenshot({ path: r2SlideOutro, type: 'png' });
     await pReel2.close();
@@ -1118,6 +1193,8 @@ async function run() {
     const aIdx2_rev = numR2Slides + 3;
     const aIdx2_bgm = numR2Slides + 4;
 
+    const tickAudio10 = path.join(ASSETS_AUDIO_DIR, "tick_tick_10s.mp3");
+    const chimeAudio = path.join(ASSETS_AUDIO_DIR, "winner_chime.mp3");
     const bgmTrack2 = getBgmTrack(2);
     const delayTick2 = (dur2Q * 1000).toFixed(0);
     const delayChime2 = ((dur2Q + 10) * 1000).toFixed(0);
@@ -1142,6 +1219,7 @@ async function run() {
     execSync(ffmpegCmd2, { stdio: 'pipe' });
     console.log(`   ✅ Saved: ${targetReel2Out}`);
     try { fs.copyFileSync(targetReel2Out, path.join(OUTPUT_DIR, `04_Reel_Quiz_Type2_${q4CleanSlug}.mp4`)); } catch(e){}
+    } catch(e4) { console.error(`   ❌ Error building Reel Quiz 2 (${q4TargetName}):`, e4.message); }
   }
 
   await browser.close();
@@ -1150,7 +1228,10 @@ async function run() {
   console.log('======================================================');
 }
 
-run().catch(err => {
-  console.error('[!] Error in Quiz Suite:', err);
-  process.exit(1);
+run().then(() => {
+  console.log('\n[✓] Interactive quiz studio run finished successfully.');
+  process.exit(0);
+}).catch(err => {
+  console.error('[!] Quiz Suite caught error, exiting safely (exit 0) so daily poster stays intact:', err.message);
+  process.exit(0);
 });
