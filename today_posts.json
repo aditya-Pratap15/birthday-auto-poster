@@ -55,7 +55,15 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Zac_Efron_Reel.mp4"
+      "reel_path": "reels/Zac_Efron_Reel.mp4",
+      "fb_post_id": "122105663001506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663001506930",
+      "fb_collage_photo_id": "122105663001506930",
+      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/856095400_122105663007506930_8653959749833949006_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=054031&_nc_ohc=HL7VsXQ0-00Q7kNvwEONshH&_nc_oc=Adquuq6JfPyntwmuwKJw255kgkqi9jp7GRSZzLSAvNL7xkHFA_A8iB_02XHqay_5Ft4&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=SqeVZuRUHFlZ8S3aAy86RA&_nc_tpa=Q5bMBQLnnz4-r_4HzFJvGkvxZiHccvHLVezf_KSwe97QN3fwskcvDUo-DINQIQ6lRPyKvenUZ49bIsSiKQ&oh=00_AQMSg3n9aWwPfCZcwk26kUq5ddCGYr9F8plZgzrT_GfO1g&oe=6ADA4436",
+      "fb_reel_id": "1162653556327469",
+      "fb_reel_scheduled_time": 1792327200,
+      "youtube_video_id": "3Kxf-IjUoCc",
+      "youtube_url": "https://www.youtube.com/shorts/3Kxf-IjUoCc"
     },
     {
       "id": "2026-10-18_02_Jean_Claude_Van_Damme",
@@ -111,7 +119,15 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Jean_Claude_Van_Damme_Reel.mp4"
+      "reel_path": "reels/Jean_Claude_Van_Damme_Reel.mp4",
+      "fb_post_id": "122105663253506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663253506930",
+      "fb_collage_photo_id": "122105663253506930",
+      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/854754818_122105663259506930_8933239570666880805_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=Q9fItnyGSjsQ7kNvwG1cYNK&_nc_oc=AdrkEPLE9ahM5p4nwXWRwYlUwaBY2ALDcn28fq4xRl5JGfXsN37ZvvISSdd_fahKByk&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=tbIhHzx6C8yGVkbKkVgOCg&_nc_tpa=Q5bMBQJFMT5OGW8M3yRRfrtgrDA0jDlRb71Jzu_Lcmi6uN4eLRPPKAGiHLOhPBX7GySG-shbqOQt7DbX_A&oh=00_AQPrzAlelOktYa4vNOisTV6NhD5UzwAzh709ajJVME6SBg&oe=6ADA442C",
+      "fb_reel_id": "1412316565294325",
+      "fb_reel_scheduled_time": 1792345200,
+      "youtube_video_id": "2KxZdMxsWQU",
+      "youtube_url": "https://www.youtube.com/shorts/2KxZdMxsWQU"
     },
     {
       "id": "2026-10-18_03_Chuck_Lorre",
@@ -167,7 +183,15 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Chuck_Lorre_Reel.mp4"
+      "reel_path": "reels/Chuck_Lorre_Reel.mp4",
+      "fb_post_id": "122105663499506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663499506930",
+      "fb_collage_photo_id": "122105663499506930",
+      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/854389456_122105663505506930_298106558078503108_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=054031&_nc_ohc=46Fk8LM5kaIQ7kNvwFxSIi-&_nc_oc=AdqaSv78dvesrn1Gh95Y7pK3AKm9yZ6u_B6WskxoQ4YswEbnUMcfRr3MFgr8nGivF-A&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=_MnqOpzwKZuYwyWKwOPGfw&_nc_tpa=Q5bMBQKm_hT2lyyw7eX0YasfQ3XGKe2m4osA2lu8J6h3D2sn3DWpUb3xPPk6-w9VeDYkHAju_COHoUrluQ&oh=00_AQPJ1GsoHTUzOKAAY7Og2Ph1AHFMsWS-oR7Z5WEIDYcP6w&oe=6ADA4E2D",
+      "fb_reel_id": "1121495753721888",
+      "fb_reel_scheduled_time": 1792363200,
+      "youtube_video_id": "DE_UTd2M3KM",
+      "youtube_url": "https://www.youtube.com/shorts/DE_UTd2M3KM"
     }
   ],
   "quiz_posts": [
@@ -202,7 +226,9 @@
       "hashtags": "#FreidaPinto #BornToday #2026-10-18 #HollywoodQuiz #CelebrityTrivia",
       "scheduled_publish_time": 1792332000,
       "scheduled_time_utc": "2026-10-18T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)"
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
+      "fb_post_id": "122105663799506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663799506930"
     },
     {
       "id": "2026-10-18_quiz_02_Tyler_Posey",
@@ -236,7 +262,9 @@
       "hashtags": "#TylerPosey #BornToday #2026-10-18 #FaceMatch #HollywoodQuiz",
       "scheduled_publish_time": 1792351800,
       "scheduled_time_utc": "2026-10-18T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)"
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
+      "fb_post_id": "122105663877506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663877506930"
     },
     {
       "id": "2026-10-18_quiz_03_Ne_Yo",
@@ -269,7 +297,10 @@
       "hashtags": "#Ne-Yo #BornToday #2026-10-18 #CelebrityQuiz #ReelQuiz #Shorts",
       "scheduled_publish_time": 1792337400,
       "scheduled_time_utc": "2026-10-18T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)"
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
+      "fb_reel_id": "1445613407450074",
+      "youtube_video_id": "ZfJBEecqKZA",
+      "youtube_url": "https://www.youtube.com/shorts/ZfJBEecqKZA"
     },
     {
       "id": "2026-10-18_quiz_04_Pam_Dawber",
@@ -303,7 +334,10 @@
       "hashtags": "#PamDawber #BornToday #2026-10-18 #HollywoodTrivia #ReelChallenge #Shorts",
       "scheduled_publish_time": 1792357200,
       "scheduled_time_utc": "2026-10-18T21:00:00.000Z",
-      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
+      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
+      "fb_reel_id": "1433241425449918",
+      "youtube_video_id": "d0ZIC6CjglE",
+      "youtube_url": "https://www.youtube.com/shorts/d0ZIC6CjglE"
     }
   ]
 }
