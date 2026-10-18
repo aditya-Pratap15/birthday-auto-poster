@@ -179,6 +179,26 @@ async function uploadYouTubeShort(accessToken, videoPath, metadata, scheduledPub
   });
 }
 
+function searchMyRecentVideos(accessToken) {
+  return new Promise((resolve) => {
+    https.get({
+      hostname: 'www.googleapis.com',
+      port: 443,
+      path: '/youtube/v3/search?part=snippet&forMine=true&type=video&order=date&maxResults=25',
+      headers: { 'Authorization': 'Bearer ' + accessToken }
+    }, res => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        try {
+          const parsed = JSON.parse(data);
+          resolve(parsed.items || []);
+        } catch (e) { resolve([]); }
+      });
+    }).on('error', () => resolve([]));
+  });
+}
+
 async function main() {
   console.log('======================================================');
   console.log('🎬 YouTube Shorts Auto Poster - Born Today Hollywood');
