@@ -209,6 +209,20 @@ function postFacebookReel(pageId, token, description, videoPath, scheduledPublis
     }
   });
 }
+function fetchScheduledPosts(pageId, token) {
+  return new Promise((resolve) => {
+    https.get('https://graph.facebook.com/v26.0/' + pageId + '/scheduled_posts?fields=id,message,scheduled_publish_time&limit=50&access_token=' + token, res => {
+      let d = ''; res.on('data', c => d += c);
+      res.on('end', () => {
+        try {
+          const p = JSON.parse(d);
+          resolve(p.data || []);
+        } catch (e) { resolve([]); }
+      });
+    }).on('error', () => resolve([]));
+  });
+}
+
 async function main() {
   if (!fs.existsSync(TODAY_POSTS_PATH)) {
     console.error(`[!] ${TODAY_POSTS_PATH} not found.`);
