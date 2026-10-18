@@ -74,29 +74,7 @@ jobs:
           rm -f current_subs.ass
           rm -rf temp_reel_assets/*
           # Clean non-headliner collages and reels (preserve top 3 for scheduled Instagram drops)
-          node -e "
-            const fs = require('fs');
-            const data = JSON.parse(fs.readFileSync('today_posts.json', 'utf8'));
-            const top3Names = (data.posts || []).slice(0, 3).map(p => (p.celebrity_name || '').replace(/[^a-zA-Z0-9]/g, '_'));
-            if (fs.existsSync('collages')) {
-              fs.readdirSync('collages').forEach(f => {
-                if (f === '.gitkeep') return;
-                const isTop3 = top3Names.some(name => f.startsWith(name));
-                if (!isTop3 && !f.startsWith("quiz_")) {
-                  try { fs.unlinkSync('collages/' + f); console.log('Cleaned non-headliner collage: ' + f); } catch(e){}
-                }
-              });
-            }
-            if (fs.existsSync('reels')) {
-              fs.readdirSync('reels').forEach(f => {
-                if (f === '.gitkeep') return;
-                const isTop3 = top3Names.some(name => f.startsWith(name));
-                if (!isTop3 && !f.startsWith("quiz_")) {
-                  try { fs.unlinkSync('reels/' + f); console.log('Cleaned non-headliner reel: ' + f); } catch(e){}
-                }
-              });
-            }
-          "
+          node scripts/clean_staged_media.js
           git add -A today_posts.json collages/ reels/
           git commit -m "chore(automation): sync schedule logs and stage headliner media [skip ci]" || echo "No changes to commit"
           git pull --rebase origin main || true
