@@ -2,6 +2,9 @@ name: Clean YouTube Duplicate Shorts
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/clean_youtube.yml'
 
 jobs:
   cleanup:
