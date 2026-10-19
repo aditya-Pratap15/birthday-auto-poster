@@ -1,12 +1,12 @@
 {
-  "date": "2026-10-18",
-  "generated_at": "2026-10-18T06:08:14+05:30",
+  "date": "2026-10-19",
+  "generated_at": "2026-10-19T06:57:04+05:30",
   "posts": [
     {
-      "id": "2026-10-18_01_Zac_Efron",
-      "celebrity_name": "Zac Efron",
-      "birth_year": 1987,
-      "age": 39,
+      "id": "2026-10-19_01_Jon_Favreau",
+      "celebrity_name": "Jon Favreau",
+      "birth_year": 1966,
+      "age": 60,
       "gender": "male",
       "country": "United States",
       "preset": "preset_viral_teaser",
@@ -21,60 +21,123 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "Disney poster boy mania,",
-        "line2": "escaped teen heartthrob trap",
-        "line2Highlight": "tore muscles in ring",
-        "line3Highlight": "to shock critics...",
+        "line1": "Wall Street clerk dropout,",
+        "line2": "bet career on RDJ",
+        "line2Highlight": "launched Marvel universe",
+        "line3Highlight": "to conquer Star Wars...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/pdWXP7XG6qqOoxoLid1DWYwmaMY.jpg",
-        "https://image.tmdb.org/t/p/original/6oXNHv7gAyXXYFpF943pKRsTtqQ.jpg",
-        "https://image.tmdb.org/t/p/original/6yL3AGhT3QBQBY6SSWIFWwdQySl.jpg",
-        "https://image.tmdb.org/t/p/original/fBNz88AA9cfsey8RRnny6W6IF8p.jpg",
-        "https://image.tmdb.org/t/p/original/guNQz8J5NFsBrUS8JwXVoB8yvCE.jpg"
+        "https://image.tmdb.org/t/p/original/tnx7iMVydPQXGOoLsxXl84PXtbA.jpg",
+        "https://image.tmdb.org/t/p/original/8MtRRnEHaBSw8Ztdl8saXiw1egP.jpg",
+        "https://image.tmdb.org/t/p/original/rOVBKURoR7TrG8MYxTuNUFj3E68.jpg",
+        "https://image.tmdb.org/t/p/original/xm2EPsKXWYwalnWeWtJyPvqxwMV.jpg",
+        "https://image.tmdb.org/t/p/original/sh0Ic89QqH8cqWUg7sCjtTBeQ6c.jpg"
       ],
-      "caption": "**Trapped inside Disney teen idol madness, he fought addiction and shattered bones to earn Oscar-caliber acclaim.**\n\nBorn October 18, 1987, in San Luis Obispo, California, today Zachary David Alexander Efron turns **39**.\n\nThe son of an electrical engineer, young Zac performed in local community theater, driving hours with his father to auditions before landing small television guest spots.\n\nIn 2006, *High School Musical* exploded into an international frenzy, trapping nineteen-year-old Zac under relentless paparazzi pursuit, screaming crowds, and heavy studio branding.\n\nWhile critics predicted he would fade with his teen fan base, Zac took massive creative risks, pivoting into hilarious R-rated comedy in *Neighbors*, soaring alongside Hugh Jackman in *The Greatest Showman*, and playing serial killer Ted Bundy.\n\nWhat pushed him to the brink was physical sacrifice, suffering severe insomnia and depression to achieve dangerous body transformations, culminating in his career-best, heartbreaking turn as Kevin Von Erich in *The Iron Claw*.\n\nAt 39, Zac Efron has transcended heartthrob origins to stand as one of cinema's most fearless and physically dedicated dramatic leading men.\n\n**Which Zac Efron performance proved his dramatic genius to you: Kevin Von Erich in The Iron Claw or Phillip Carlyle in The Greatest Showman? Vote below! 👇**",
-      "comment": "**The secret behind Zac Efron's jaw transformation...**\n\n* The rumors about Zac getting plastic surgery were debunked when he revealed he shattered his jaw at home after slipping in socks, requiring his masseter muscles to be completely reconstructed.\n* While training for *The Iron Claw*, Zac put on twenty pounds of pure muscle, training alongside professional wrestlers for months.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Trapped in the suffocating center of global teen idol mania, Zac Efron refused to be defined by a Disney musical. Fighting through painful injuries and relentless tabloid scrutiny, he delivered jaw-dropping comedy in Neighbors before shocking the world with his raw, heartbreaking performance in The Iron Claw. Happy thirty-ninth birthday to a fearless Hollywood star. What is your absolute favorite Zac Efron movie?",
-      "reel_caption": "From High School Musical hysteria to devastating brilliance in The Iron Claw, Zac Efron proved he is a heavyweight actor. What is your favorite Zac Efron movie? #ZacEfron #TheIronClaw #HighSchoolMusical #GreatestShowman #BornToday",
+      "caption": "**Quitting Wall Street to do improv, he defied Marvel executives to cast Robert Downey Jr. and made cinema history.**\n\nBorn October 19, 1966, in Queens, New York, today Jonathan Kolia Favreau turns **60**, standing as modern Hollywood's most influential architect.\n\nAfter quitting a Wall Street clerical desk in 1987, Jon moved to Chicago, sleeping on futons and surviving on diner coffee while performing unpaid improv comedy.\n\nHe maxed out credit cards to write and star in the 1996 indie cult classic *Swingers*, proving his uncanny knack for conversational dialogue before directing the holiday classic *Elf*.\n\nIn 2007, Marvel Studios refused to insure Robert Downey Jr. for *Iron Man*, but Jon waged war with executives, insisting Downey was the only man for Tony Stark, igniting a thirty-billion-dollar Marvel Cinematic Universe.\n\nHe revolutionized virtual production technology to reinvent *The Jungle Book* and *The Lion King*, before creating *The Mandalorian* to revitalize the entire *Star Wars* galaxy with Grogu.\n\nAt 60, Jon Favreau remains a storytelling titan who proved massive blockbuster spectacle works best with deep human heart.\n\n**What is Jon Favreau's greatest cinematic gift: launching Iron Man, directing Elf, or creating The Mandalorian? Share your pick below! 👇**",
+      "comment": "**The secret behind Jon Favreau's Iron Man casting battle...**\n\n* Marvel executives repeatedly told Jon that under no circumstances would they hire Robert Downey Jr. due to his past legal troubles, but Jon refused to shoot the film without him.\n* While filming *Elf*, Jon personally operated the hidden remote-control jack-in-the-box triggers to get genuine startled reactions from Will Ferrell.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "Quitting a boring desk job on Wall Street with no safety net, Jon Favreau took the biggest gamble in modern Hollywood history. He fought studio executives tooth and nail to cast Robert Downey Jr., launching Iron Man and the Marvel Cinematic Universe before revitalizing Star Wars with The Mandalorian. Happy sixtieth birthday to a monumental creative force. What is your absolute favorite Jon Favreau project?",
+      "reel_caption": "Jon Favreau fought Marvel executives to cast Robert Downey Jr. and launched a thirty-billion-dollar cinematic universe. What is your favorite Jon Favreau movie? #JonFavreau #IronMan #TheMandalorian #ElfMovie #Marvel #BornToday",
       "hashtags": [
-        "#ZacEfron",
-        "#TheIronClaw",
-        "#HighSchoolMusical",
-        "#TheGreatestShowman",
-        "#Neighbors",
-        "#HollywoodLeadingMan",
+        "#JonFavreau",
+        "#IronMan",
+        "#TheMandalorian",
+        "#Elf",
+        "#Swingers",
+        "#MarvelCinematicUniverse",
+        "#StarWars",
         "#BornToday",
-        "#October18"
+        "#October19"
       ],
-      "image_path": "collages/Zac_Efron_Page_1_Tribute.jpg",
-      "scheduled_publish_time": 1792324800,
-      "scheduled_time_utc": "2026-10-18T12:00:00.000Z",
+      "image_path": "collages/Jon_Favreau_Page_1_Tribute.jpg",
+      "scheduled_publish_time": 1792411200,
+      "scheduled_time_utc": "2026-10-19T12:00:00.000Z",
       "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Zac_Efron_Reel.mp4",
-      "fb_post_id": "122105663001506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663001506930",
-      "fb_collage_photo_id": "122105663001506930",
-      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/856095400_122105663007506930_8653959749833949006_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=054031&_nc_ohc=HL7VsXQ0-00Q7kNvwEONshH&_nc_oc=Adquuq6JfPyntwmuwKJw255kgkqi9jp7GRSZzLSAvNL7xkHFA_A8iB_02XHqay_5Ft4&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=SqeVZuRUHFlZ8S3aAy86RA&_nc_tpa=Q5bMBQLnnz4-r_4HzFJvGkvxZiHccvHLVezf_KSwe97QN3fwskcvDUo-DINQIQ6lRPyKvenUZ49bIsSiKQ&oh=00_AQMSg3n9aWwPfCZcwk26kUq5ddCGYr9F8plZgzrT_GfO1g&oe=6ADA4436",
-      "fb_reel_id": "1162653556327469",
-      "fb_reel_scheduled_time": 1792327200,
-      "youtube_video_id": "3Kxf-IjUoCc",
-      "youtube_url": "https://www.youtube.com/shorts/3Kxf-IjUoCc",
-      "ig_post_id": "17909790942488935",
-      "fb_comment_id": "122105663001506930_2642909372781183",
-      "ig_reel_id": "18109540081909132"
+      "reel_path": "reels/Jon_Favreau_Reel.mp4",
+      "fb_post_id": "122106481599506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122106481599506930",
+      "fb_collage_photo_id": "122106481599506930",
+      "collage_cdn_url": "https://scontent-atl3-1.xx.fbcdn.net/v/t39.30808-6/856346701_122106481605506930_2816115142138962818_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=Cz9edcFgj-oQ7kNvwHxs27v&_nc_oc=AdqhgsbNsahaC9FTjsFIAbD9Ly97pJdzWnTLVf0hqs4GrtrejfvwgkspPMh2bVilFEE&_nc_zt=23&_nc_ht=scontent-atl3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=nCSFwvl2_OxNYU-a8Olw7Q&_nc_tpa=Q5bMBQI5qvpPm5BlvZwdRm4CJ92ViTkgCvfWyMQC7Q0H4U6TBuWC_ph2uM14IwGsB6sSUx4eQ1cyCwYixQ&oh=00_AQPWas2OlYbibxaxjAP3vJaQzicHYh-T9QpEynk0o3qs1w&oe=6ADB5483",
+      "fb_reel_id": "1434704389722596",
+      "fb_reel_scheduled_time": 1792413600,
+      "youtube_video_id": "KoIaeXvV5p0",
+      "youtube_url": "https://www.youtube.com/shorts/KoIaeXvV5p0"
     },
     {
-      "id": "2026-10-18_02_Jean_Claude_Van_Damme",
-      "celebrity_name": "Jean-Claude Van Damme",
-      "birth_year": 1960,
-      "age": 66,
+      "id": "2026-10-19_02_John_Lithgow",
+      "celebrity_name": "John Lithgow",
+      "birth_year": 1945,
+      "age": 81,
       "gender": "male",
-      "country": "Belgium",
+      "country": "United States",
+      "preset": "preset_viral_teaser",
+      "teaserCard": {
+        "enabled": true,
+        "x": 45,
+        "y": 1161,
+        "width": 990,
+        "height": 200,
+        "bgColor": "#0d0f14",
+        "borderColor": "#b68c43",
+        "borderWidth": 2,
+        "cornerRadius": 14,
+        "badgeIcon": "crown",
+        "line1": "Shakespeare festival stage kid,",
+        "line2": "from alien high commander",
+        "line2Highlight": "to terrifying Trinity Killer",
+        "line3Highlight": "swept six Emmys...",
+        "ctaText": "Read the full story in caption →"
+      },
+      "photo_urls": [
+        "https://image.tmdb.org/t/p/original/ajfuBSm1HuVqFJlbTmAlza62Xxr.jpg",
+        "https://image.tmdb.org/t/p/original/8Y1sjBdnVR483S8PrnAQzlESwhx.jpg",
+        "https://image.tmdb.org/t/p/original/t1RVHdYEBG2Y88CSErENJxpZSXr.jpg",
+        "https://image.tmdb.org/t/p/original/4C3mUiRF4dQlIkudOHC7lZVaEaS.jpg",
+        "https://image.tmdb.org/t/p/original/vbY93g27ehOoTkonBnt173BjBJ7.jpg"
+      ],
+      "caption": "**From a slapstick alien to a bone-chilling serial killer, he defined acting greatness across six decades.**\n\nBorn October 19, 1945, in Rochester, New York, today John Arthur Lithgow turns **81**, revered as one of the most decorated stage and screen actors in American history.\n\nRaised in a theatrical family touring Shakespearean festivals, John studied at Harvard and LAMDA on a Fulbright scholarship, conquering Broadway with three Tony Awards.\n\nWhile Hollywood often pigeonholes actors, John possessed an astonishing chameleonic genius, earning back-to-back Oscar nominations for *The World According to Garp* and *Terms of Endearment*, while voicing Lord Farquaad in *Shrek*.\n\nFor six seasons, he brought madcap physical comedy to television as High Commander Dick Solomon in *3rd Rock from the Sun*, winning three Emmy Awards.\n\nHe chilled the world to its core as the terrifying Trinity Killer in *Dexter*, winning a fourth Emmy, before transforming into Winston Churchill in Netflix's *The Crown* to claim a sixth.\n\nAt 81, John Lithgow stands as a master of dramatic weight and unhinged joy who makes every story unforgettable.\n\n**Which John Lithgow performance blew your mind: Dick Solomon in 3rd Rock, the Trinity Killer in Dexter, or Churchill in The Crown? Tell us below! 👇**",
+      "comment": "**The secret behind John Lithgow's Oscar-nominated role in Garp...**\n\n* John earned an Academy Award nomination for playing transgender former football player Roberta Muldoon in *The World According to Garp*, a groundbreaking dramatic risk in 1982.\n* To play Winston Churchill in *The Crown*, John wore heavy silicone facial prosthetics and stuffed cotton inside his mouth to recreate Churchill's distinctive cadence.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "From Harvard halls to Broadway royalty, John Lithgow mastered every corner of performance. He made millions laugh hysterically as an eccentric alien on Third Rock from the Sun, chilled the world to its core as the Trinity Killer on Dexter, and embodied Winston Churchill in The Crown, collecting six Emmy Awards. Happy eighty-first birthday to a true acting colossus. What was his greatest performance?",
+      "reel_caption": "John Lithgow moved from hilarious alien antics on 3rd Rock to terrifying millions as the Trinity Killer in Dexter. What is your favorite John Lithgow role? #JohnLithgow #3rdRockFromTheSun #Dexter #TheCrown #BornToday",
+      "hashtags": [
+        "#JohnLithgow",
+        "#3rdRockFromTheSun",
+        "#Dexter",
+        "#TheCrown",
+        "#TermsOfEndearment",
+        "#Shrek",
+        "#EmmyWinner",
+        "#TonyWinner",
+        "#BornToday",
+        "#October19"
+      ],
+      "image_path": "collages/John_Lithgow_Page_2_Tribute.jpg",
+      "scheduled_publish_time": 1792429200,
+      "scheduled_time_utc": "2026-10-19T17:00:00.000Z",
+      "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
+      "page_name": "Born Today Hollywood",
+      "page_id_env": "FB_PAGE_ID_BORN",
+      "token_env": "FB_TOKEN_BORN",
+      "reel_path": "reels/John_Lithgow_Reel.mp4",
+      "fb_post_id": "122106481821506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122106481821506930",
+      "fb_collage_photo_id": "122106481821506930",
+      "collage_cdn_url": "https://scontent-atl3-2.xx.fbcdn.net/v/t39.30808-6/857014486_122106481827506930_974662055751333257_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=054031&_nc_ohc=lVD7tvpJJ6oQ7kNvwFagtUb&_nc_oc=Adp0NtyjuZgFDCFV0J-Ww5tZeMDqv6IJ0grI4Cl1qtuQh8FpDGSZLCNHg-mQbs1wTps&_nc_zt=23&_nc_ht=scontent-atl3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=Ioj5xZU9p-gf02sjRaicKw&_nc_tpa=Q5bMBQKKlg8yGrY8Z6Pp44TbyEvY174eRIJTIBEZn4n0ZeUUAg7YEOyn1NBH89h1o_iC3_u0R3B3SIqe2A&oh=00_AQOJs_sLVF_2eNDRBZNdqzEFj6VDc4SI3FQY5KppzBSWeA&oe=6ADB3E15",
+      "fb_reel_id": "1921635969205977",
+      "fb_reel_scheduled_time": 1792431600,
+      "youtube_video_id": "uokdckTRWjk",
+      "youtube_url": "https://www.youtube.com/shorts/uokdckTRWjk"
+    },
+    {
+      "id": "2026-10-19_03_Rebecca_Ferguson",
+      "celebrity_name": "Rebecca Ferguson",
+      "birth_year": 1983,
+      "age": 43,
+      "gender": "female",
+      "country": "Sweden",
       "preset": "preset_viral_teaser",
       "teaserCard": {
         "enabled": true,
@@ -87,267 +150,197 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "fire",
-        "line1": "Sleeping in rented car,",
-        "line2": "kicked above producer's head",
-        "line2Highlight": "landed Bloodsport lead",
-        "line3Highlight": "to rule action cinema...",
+        "line1": "Swedish surf shop clerk,",
+        "line2": "from soap opera",
+        "line2Highlight": "matched Tom Cruise",
+        "line3Highlight": "in billion-dollar blockbusters...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/7DP3bm3MS0qa0L8tBLHGebbCu6H.jpg",
-        "https://image.tmdb.org/t/p/original/vugNQUOjsNGRO4nDAi3oHCDucI7.jpg",
-        "https://image.tmdb.org/t/p/original/ljo6ukqTlFi9VCnOtsR5AEXGJQt.jpg",
-        "https://image.tmdb.org/t/p/original/v4hqSYeG17WOMp0xNjoWgi8Vbyn.jpg",
-        "https://image.tmdb.org/t/p/original/qAHXPJ4IybMsCbNY3811CytFj3H.jpg"
+        "https://image.tmdb.org/t/p/original/ra53cM1aNmdH0aFhj8yBqPOj2fb.jpg",
+        "https://image.tmdb.org/t/p/original/ty8ZPzaCBBlqIr5qzpOXI24iC8j.jpg",
+        "https://image.tmdb.org/t/p/original/lJloTOheuQSirSLXNA3JHsrMNfH.jpg",
+        "https://image.tmdb.org/t/p/original/1gEHQOr2w1si6wbtxUKsV05VOPt.jpg",
+        "https://image.tmdb.org/t/p/original/jTbJwrYqbralarBBh55eaWPoGbv.jpg"
       ],
-      "caption": "**Homeless on LA streets, he kicked over a producer's head outside a diner and invented nineties action cinema.**\n\nBorn October 18, 1960, in Berchem-Sainte-Agathe, Brussels, Belgium, today Jean-Claude Camille François Van Varenberg turns **66**.\n\nA skinny, bookish boy enrolled in shotokan karate and ballet at age eleven to build strength, Jean-Claude became a national karate champion before selling his gym in Brussels to pursue Hollywood.\n\nArriving in America unable to speak English, he slept in a car, delivered pizzas, and worked as a bouncer, facing constant casting rejection.\n\nSpotting Cannon Films producer Menahem Golan on a street, Jean-Claude threw a lightning-fast roundhouse kick inches above Golan's face without spilling his coffee, landing his breakout role in 1988's *Bloodsport*.\n\nWith his trademark splits, spin-kicks, and charismatic intensity, 'The Muscles from Brussels' dominated nineties box office smashes including *Kickboxer*, *Timecop*, and *Universal Soldier*, before stunning critics with his vulnerable meta-drama *JCVD*.\n\nAt 66, Jean-Claude Van Damme remains an immortal global action icon who turned martial arts into pure movie spectacle.\n\n**What is Jean-Claude Van Damme's ultimate martial arts classic: Bloodsport, Kickboxer, or Timecop? Tell us below! 👇**",
-      "comment": "**The secret behind Jean-Claude Van Damme's Bloodsport premiere...**\n\n* *Bloodsport* was shelved for two years by producers who thought it was unwatchable; Van Damme personally helped re-edit the film footage in the editing suite until the studio agreed to release it.\n* He studied classical ballet for five years, which he credited for the flexibility required for his famous helicopter split kicks.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Sleeping in a car on the streets of Hollywood with zero English, Jean-Claude Van Damme took the ultimate gamble. He threw a martial arts kick inches from a producer's face, winning the starring role in Bloodsport and becoming a global action phenomenon with Timecop and Kickboxer. Happy sixty-sixth birthday to the Muscles from Brussels. What is your favorite Jean-Claude Van Damme movie of all time?",
-      "reel_caption": "Homeless in Los Angeles, Jean-Claude Van Damme kicked a producer's coffee cup to land Bloodsport and became action royalty. What is your favorite JCVD film? #JeanClaudeVanDamme #JCVD #Bloodsport #Kickboxer #ActionHero #BornToday",
+      "caption": "**Teaching dance in a Swedish town, she joined Mission: Impossible and became cinema's fiercest leading lady.**\n\nBorn October 19, 1983, in Stockholm, Sweden, today Rebecca Louisa Ferguson Sundström turns **43**, celebrated for lethal elegance and commanding screen presence.\n\nStarting out in Swedish daytime television at fifteen, Rebecca walked away from acting in her twenties to teach Argentine tango and live quietly in a fishing village.\n\nIn 2013, her breakout performance in the BBC period drama *The White Queen* earned her a Golden Globe nomination, catching the eye of Tom Cruise.\n\nCast as rogue MI6 operative Ilsa Faust in *Mission: Impossible – Rogue Nation*, Rebecca performed dizzying rooftop combat and sniper stunts opposite Cruise, anchoring three consecutive blockbuster hits.\n\nShe commanded emotional reverence singing 'Never Enough' in *The Greatest Showman*, brought regal mystical power to Lady Jessica in Denis Villeneuve's *Dune* franchise, and executive produced Apple's hit sci-fi mystery *Silo*.\n\nAt 43, Rebecca Ferguson stands as an international powerhouse who combines razor-sharp intellect with blockbuster ferocity.\n\n**What is Rebecca Ferguson's ultimate screen performance: Ilsa Faust in Mission: Impossible, Lady Jessica in Dune, or Juliette in Silo? Vote below! 👇**",
+      "comment": "**The secret behind Rebecca Ferguson's Mission: Impossible stunts...**\n\n* Tom Cruise spotted Rebecca in *The White Queen* and hired her for *Mission: Impossible – Rogue Nation* without an audition; she arrived on set and immediately learned high-altitude wire stunts while overcoming severe vertigo.\n* While Loren Allred provided the singing vocals in *The Greatest Showman*, Rebecca memorized every lyric and belted live on set to capture raw emotional throat tension.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "Walking away from acting in her twenties to teach tango in a Swedish seaside town, Rebecca Ferguson made a sensational Hollywood return. Tom Cruise personally cast her as rogue operative Ilsa Faust in Mission Impossible, before she brought regal intensity to Lady Jessica in the Dune saga. Happy forty-third birthday to a mesmerizing screen icon. Which of her blockbuster roles is your favorite?",
+      "reel_caption": "Rebecca Ferguson went from a Swedish fishing village to performing jaw-dropping stunts in Mission: Impossible and commanding Dune. What is your favorite Rebecca Ferguson film? #RebeccaFerguson #MissionImpossible #Dune #Silo #BornToday",
       "hashtags": [
-        "#JeanClaudeVanDamme",
-        "#JCVD",
-        "#Bloodsport",
-        "#Kickboxer",
-        "#Timecop",
-        "#UniversalSoldier",
-        "#MartialArtsLegend",
+        "#RebeccaFerguson",
+        "#MissionImpossible",
+        "#IlsaFaust",
+        "#DuneMovie",
+        "#LadyJessica",
+        "#TheGreatestShowman",
+        "#Silo",
+        "#ActionQueen",
         "#BornToday",
-        "#October18"
+        "#October19"
       ],
-      "image_path": "collages/Jean_Claude_Van_Damme_Page_2_Tribute.jpg",
-      "scheduled_publish_time": 1792342800,
-      "scheduled_time_utc": "2026-10-18T17:00:00.000Z",
-      "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
-      "page_name": "Born Today Hollywood",
-      "page_id_env": "FB_PAGE_ID_BORN",
-      "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Jean_Claude_Van_Damme_Reel.mp4",
-      "fb_post_id": "122105663253506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663253506930",
-      "fb_collage_photo_id": "122105663253506930",
-      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/854754818_122105663259506930_8933239570666880805_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=Q9fItnyGSjsQ7kNvwG1cYNK&_nc_oc=AdrkEPLE9ahM5p4nwXWRwYlUwaBY2ALDcn28fq4xRl5JGfXsN37ZvvISSdd_fahKByk&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=tbIhHzx6C8yGVkbKkVgOCg&_nc_tpa=Q5bMBQJFMT5OGW8M3yRRfrtgrDA0jDlRb71Jzu_Lcmi6uN4eLRPPKAGiHLOhPBX7GySG-shbqOQt7DbX_A&oh=00_AQPrzAlelOktYa4vNOisTV6NhD5UzwAzh709ajJVME6SBg&oe=6ADA442C",
-      "fb_reel_id": "1412316565294325",
-      "fb_reel_scheduled_time": 1792345200,
-      "youtube_video_id": "2KxZdMxsWQU",
-      "youtube_url": "https://www.youtube.com/shorts/2KxZdMxsWQU",
-      "ig_post_id": "18195283861394732",
-      "fb_comment_id": "122105663253506930_1698128861678520",
-      "ig_reel_id": "17869287375660947"
-    },
-    {
-      "id": "2026-10-18_03_Chuck_Lorre",
-      "celebrity_name": "Chuck Lorre",
-      "birth_year": 1952,
-      "age": 74,
-      "gender": "male",
-      "country": "United States",
-      "preset": "preset_viral_teaser",
-      "teaserCard": {
-        "enabled": true,
-        "x": 45,
-        "y": 1161,
-        "width": 990,
-        "height": 200,
-        "bgColor": "#0d0f14",
-        "borderColor": "#b68c43",
-        "borderWidth": 2,
-        "cornerRadius": 14,
-        "badgeIcon": "crown",
-        "line1": "Broke touring pop guitarist,",
-        "line2": "from writing jingles",
-        "line2Highlight": "built sitcom dynasty",
-        "line3Highlight": "worth billions of dollars...",
-        "ctaText": "Read the full story in caption →"
-      },
-      "photo_urls": [
-        "https://image.tmdb.org/t/p/original/8OTRD3d6N0GKy1Z0LJaWZ3MVxXr.jpg",
-        "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Chuck_Lorre_at_San_Diego_Comic_Con_2026.jpg/1280px-Chuck_Lorre_at_San_Diego_Comic_Con_2026.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/9/9f/Chuck_Lorre.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/d/d3/Chuck_Lorre_%281%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/9/9e/Chuck_Lorre_at_PaleyFest_2013.jpg"
-      ],
-      "caption": "**Broke at thirty after dropping out of college, he wrote television theme songs before building comedy's biggest empire.**\n\nBorn October 18, 1952, in Plainview, Long Island, New York, today Charles Michael Levine, known globally as Chuck Lorre, turns **74**.\n\nA college dropout who spent his twenties touring as a struggling guitarist and writing radio jingles, Chuck hit rock bottom with no savings and a young family to feed.\n\nWhile television comedy struggled in the cable era, Chuck trusted an unorthodox instinct: fast-paced, character-driven multi-cam sitcoms built on flawed, eccentric outsiders.\n\nHe revolutionized American television, creating and producing monumental comedy smashes including *The Big Bang Theory*, *Two and a Half Men*, *Mom*, *Dharma & Greg*, *Young Sheldon*, and Netflix's acclaimed *The Kominsky Method*.\n\nBehind his legendary end-of-show 'vanity cards', Chuck poured his soul into philanthropic foundations, building clinics and funding STEM education for underprivileged students.\n\nAt 74, Chuck Lorre stands as the undisputed King of Sitcoms whose laughter brought hundreds of millions together every single week.\n\n**Which Chuck Lorre creation brought you more laughs: The Big Bang Theory, Two and a Half Men, or Young Sheldon? Drop your vote below! 👇**",
-      "comment": "**The secret behind Chuck Lorre's iconic end-credit vanity cards...**\n\n* Chuck wrote the iconic 1987 theme song for *Teenage Mutant Ninja Turtles* early in his career to make ends meet.\n* He has used the final second of his shows to publish over seven hundred personal essays called 'vanity cards', sharing intimate thoughts on philosophy, politics, and life.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Broke at thirty after touring as a struggling musician, Chuck Lorre turned personal setbacks into television history. By championing quirky outsiders, he created comedy empires with The Big Bang Theory, Two and a Half Men, and Young Sheldon, making billions while filling living rooms with laughter. Happy seventy-fourth birthday to the undisputed King of Sitcoms. What is your favorite show created by Chuck Lorre?",
-      "reel_caption": "Broke at thirty, Chuck Lorre became the King of Sitcoms, creating The Big Bang Theory and Two and a Half Men. What is your favorite Chuck Lorre show? #ChuckLorre #TheBigBangTheory #TwoAndAHalfMen #YoungSheldon #KingOfSitcoms #BornToday",
-      "hashtags": [
-        "#ChuckLorre",
-        "#TheBigBangTheory",
-        "#TwoAndAHalfMen",
-        "#YoungSheldon",
-        "#MomCBS",
-        "#SitcomRoyalty",
-        "#TelevisionLegend",
-        "#BornToday",
-        "#October18"
-      ],
-      "image_path": "collages/Chuck_Lorre_Page_3_Tribute.jpg",
-      "scheduled_publish_time": 1792360800,
-      "scheduled_time_utc": "2026-10-18T22:00:00.000Z",
+      "image_path": "collages/Rebecca_Ferguson_Page_3_Tribute.jpg",
+      "scheduled_publish_time": 1792447200,
+      "scheduled_time_utc": "2026-10-19T22:00:00.000Z",
       "peak_window": "US Prime Time (6:00 PM EDT / 3:30 AM IST +1)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Chuck_Lorre_Reel.mp4",
-      "fb_post_id": "122105663499506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663499506930",
-      "fb_collage_photo_id": "122105663499506930",
-      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/854389456_122105663505506930_298106558078503108_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=054031&_nc_ohc=46Fk8LM5kaIQ7kNvwFxSIi-&_nc_oc=AdqaSv78dvesrn1Gh95Y7pK3AKm9yZ6u_B6WskxoQ4YswEbnUMcfRr3MFgr8nGivF-A&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=_MnqOpzwKZuYwyWKwOPGfw&_nc_tpa=Q5bMBQKm_hT2lyyw7eX0YasfQ3XGKe2m4osA2lu8J6h3D2sn3DWpUb3xPPk6-w9VeDYkHAju_COHoUrluQ&oh=00_AQPJ1GsoHTUzOKAAY7Og2Ph1AHFMsWS-oR7Z5WEIDYcP6w&oe=6ADA4E2D",
-      "fb_reel_id": "1121495753721888",
-      "fb_reel_scheduled_time": 1792363200,
-      "youtube_video_id": "DE_UTd2M3KM",
-      "youtube_url": "https://www.youtube.com/shorts/DE_UTd2M3KM",
-      "ig_post_id": "18139066684726840",
-      "ig_reel_id": "18170405710481358",
-      "fb_comment_id": "122105663499506930_1115733561462731"
+      "reel_path": "reels/Rebecca_Ferguson_Reel.mp4",
+      "fb_post_id": "122106482079506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122106482079506930",
+      "fb_collage_photo_id": "122106482079506930",
+      "collage_cdn_url": "https://scontent-atl3-1.xx.fbcdn.net/v/t39.30808-6/856310835_122106482085506930_6294012036598097359_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=054031&_nc_ohc=vdPFmszancgQ7kNvwGpv7ck&_nc_oc=AdrNxwUB6uSuTZJguQYopIzdD3EaeX-UtS4Lk7p5O7PRGROIC7KOjA90UygUfBABBOY&_nc_zt=23&_nc_ht=scontent-atl3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=BkgJyQfr_kRF4sW988QPDA&_nc_tpa=Q5bMBQLR-CFqQVmdHjUS27Y_dQmOPEbuPIl2_dSzYgxuh8w9bnoPvkMX-oRoOJ2rwLsfQuEgTOsw2kr0-g&oh=00_AQMPszyGCwytIBMeSKx8B35FD0GSZwUsUh6VJbceYwpGhA&oe=6ADB519C",
+      "fb_reel_id": "2333842654036424",
+      "fb_reel_scheduled_time": 1792449600,
+      "youtube_video_id": "M5Zgwwh2oB0",
+      "youtube_url": "https://www.youtube.com/shorts/M5Zgwwh2oB0"
     }
   ],
   "quiz_posts": [
     {
-      "id": "2026-10-18_quiz_01_Freida_Pinto",
+      "id": "2026-10-19_quiz_01_Trey_Parker",
       "type": "photo_quiz_type1",
-      "celebrity_name": "Freida Pinto",
-      "birth_year": 1984,
-      "age": 42,
+      "celebrity_name": "Trey Parker",
+      "birth_year": 1969,
+      "age": 57,
+      "gender": "male",
+      "correct_option": "D",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Matt Damon"
+        },
+        {
+          "letter": "B",
+          "name": "Bill Murray"
+        },
+        {
+          "letter": "C",
+          "name": "Robert Duvall"
+        },
+        {
+          "letter": "D",
+          "name": "Trey Parker"
+        }
+      ],
+      "image_path": "collages/quiz_01_Trey_Parker.jpg",
+      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 57 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Armed with construction paper and glue sticks, he created South Park and built a multi-Emmy and Tony-winning empire.**\n\nBorn October 19, 1969, in Conifer, Colorado, today Randolph Severn 'Trey' Parker III turns **57**, recognized as one of the most prolific satirists in American history.\n\nMeeting creative partner Matt Stone in a film class at the University of Colorado, Trey spent weeks manually animating crude paper cutouts for an underground animated short titled *The Spirit of Christmas*.\n\nIn 1997, *South Park* debuted on Comedy Central, shocking traditional censors and becoming a global pop-culture phenomenon that has dominated television for nearly three decades across 320 episodes.\n\nRefusing to be boxed into animation, Trey wrote, directed, and voiced the marionette action masterpiece *Team America: World Police*, before co-creating the landmark Broadway musical *The Book of Mormon*, sweeping nine Tony Awards and a Grammy.\n\nOperating on an insane six-day production schedule per episode, Trey writes, directs, and voices Stan Marsh, Eric Cartman, and Mr. Garrison in total creative control.\n\nAt 57, Trey Parker remains a fearless comedic titan who proved nothing in society is sacred from razor-sharp mockery.\n\n**Which Trey Parker creation reigns supreme: classic South Park, Team America: World Police, or The Book of Mormon? Drop your vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Trey Parker's grueling South Park deadlines...**\n\n* Unlike traditional animated shows that take six to nine months per episode, Trey and his team write, voice, animate, and deliver every *South Park* episode in just six frantic days before air.\n* Trey and Matt famously attended the 2000 Academy Awards wearing replicas of Jennifer Lopez and Gwyneth Paltrow's red carpet dresses while on acid.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Trey Parker!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#TreyParker #BornToday #2026-10-19 #HollywoodQuiz #CelebrityTrivia",
+      "hashtags": "#TreyParker #BornToday #2026-10-19 #HollywoodQuiz #CelebrityTrivia",
+      "scheduled_publish_time": 1792418400,
+      "scheduled_time_utc": "2026-10-19T14:00:00.000Z",
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
+      "fb_post_id": "122106482187506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122106482187506930"
+    },
+    {
+      "id": "2026-10-19_quiz_02_Gillian_Jacobs",
+      "type": "photo_quiz_type2",
+      "celebrity_name": "Gillian Jacobs",
+      "birth_year": 1982,
+      "age": 44,
       "gender": "female",
+      "subtitle": "Born on this day! Can you identify the real birthday star?",
       "correct_option": "A",
       "options": [
         {
           "letter": "A",
-          "name": "Freida Pinto"
+          "name": "Gillian Jacobs"
         },
         {
           "letter": "B",
-          "name": "Scarlett Johansson"
+          "name": "Jamie Lee Curtis"
         },
         {
           "letter": "C",
-          "name": "Winona Ryder"
+          "name": "Meryl Streep"
         },
         {
           "letter": "D",
-          "name": "Catherine Zeta-Jones"
+          "name": "Natalie Portman"
         }
       ],
-      "image_path": "collages/quiz_01_Freida_Pinto.jpg",
-      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 42 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Auditioning for six straight months without booking a single commercial, her first film won eight Academy Awards.**\n\nBorn October 18, 1984, in Mumbai, India, today Freida Selena Pinto turns **42**, celebrated for grace, elegance, and global screen power.\n\nA literature graduate from St. Xavier's College, Freida hosted low-budget regional travel shows while enduring hundreds of modeling rejections across Mumbai.\n\nWhile international cinema overlooked South Asian talent for mainstream Hollywood leading roles, director Danny Boyle spotted her magnetic poise and emotional truth.\n\nIn 2008, *Slumdog Millionaire* made cinematic history, sweeping eight Oscars, earning Freida a BAFTA nomination as Latika, and making her an overnight global household name.\n\nShe transitioned directly into major studio blockbusters like *Rise of the Planet of the Apes* and *Immortals*, while dedicating her life as an ambassador for girls' global education.\n\nAt 42, Freida Pinto has proved that dignity, international talent, and cultural pride belong on the world's grandest stages.\n\n**Where did you first fall in love with Freida Pinto's screen presence: Slumdog Millionaire or Rise of the Planet of the Apes? Share below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Freida Pinto's Slumdog Millionaire audition...**\n\n* Freida underwent six exhausting months of auditions and chemistry readings with Danny Boyle before finally securing the role of Latika.\n* She has served as a global ambassador for Plan International's 'Because I am a Girl' campaign, advocating for the rights and education of young women worldwide.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Freida Pinto!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#FreidaPinto #BornToday #2026-10-18 #HollywoodQuiz #CelebrityTrivia",
-      "hashtags": "#FreidaPinto #BornToday #2026-10-18 #HollywoodQuiz #CelebrityTrivia",
-      "scheduled_publish_time": 1792332000,
-      "scheduled_time_utc": "2026-10-18T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
-      "fb_post_id": "122105663799506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663799506930"
-    },
-    {
-      "id": "2026-10-18_quiz_02_Tyler_Posey",
-      "type": "photo_quiz_type2",
-      "celebrity_name": "Tyler Posey",
-      "birth_year": 1991,
-      "age": 35,
-      "gender": "male",
-      "subtitle": "Born on this day! Can you identify the real birthday star?",
-      "correct_option": "B",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Dennis Quaid"
-        },
-        {
-          "letter": "B",
-          "name": "Tyler Posey"
-        },
-        {
-          "letter": "C",
-          "name": "Jack Nicholson"
-        },
-        {
-          "letter": "D",
-          "name": "Woody Harrelson"
-        }
-      ],
-      "image_path": "collages/quiz_02_Tyler_Posey.jpg",
-      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 35? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Starting as J-Lo's movie son, he took on the red eyes of a werewolf and led a decade-long pop-culture craze.**\n\nBorn October 18, 1991, in Santa Monica, California, today Tyler Garcia-Posey turns **35**, beloved across television fandom.\n\nThe son of actor and writer John Posey, Tyler began acting as a child, memorably playing Jennifer Lopez's son Ty in the hit romantic comedy *Maid in Manhattan*.\n\nWhile child stars often fade, Tyler brought infectious charisma, athletic stunt skills, and emotional vulnerability to television casting rooms.\n\nIn 2011, MTV launched *Teen Wolf*. Starring as Scott McCall, Tyler anchored one hundred episodes and a feature film as the beloved 'True Alpha', transforming the series into an international cultural juggernaut.\n\nThrough personal battles with grief after losing his mother to breast cancer in 2014, Tyler was open about mental health, connecting with millions of fans through punk rock and genuine vulnerability.\n\nAt 35, Tyler Posey stands as a compassionate, energetic fan favorite who conquered television fandom on authenticity and heart.\n\n**Are you still a loyal Teen Wolf fan, and what was Scott McCall's most epic alpha moment? Let us know below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Tyler Posey's Twilight near-casting...**\n\n* Tyler was one of the final two contenders to play Jacob Black in *The Twilight Saga* before the role went to his good friend Taylor Lautner.\n* He played all his own lacrosse and werewolf stunts during the early seasons of *Teen Wolf*, frequently arriving on set with real bruises.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Tyler Posey!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#TylerPosey #BornToday #2026-10-18 #FaceMatch #HollywoodQuiz",
-      "hashtags": "#TylerPosey #BornToday #2026-10-18 #FaceMatch #HollywoodQuiz",
-      "scheduled_publish_time": 1792351800,
-      "scheduled_time_utc": "2026-10-18T19:30:00.000Z",
+      "image_path": "collages/quiz_02_Gillian_Jacobs.jpg",
+      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 44? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Trained in intense Juilliard classical drama, she leaned into chaotic physical comedy and became a cult television icon.**\n\nBorn October 19, 1982, in Pittsburgh, Pennsylvania, today Gillian MacLaren Jacobs turns **44**, celebrated for razor-sharp comedic timing and raw emotional heart.\n\nTaking acting classes as an awkward eight-year-old in Pittsburgh, Gillian earned acceptance to the prestigious Juilliard School, graduating in 2004 while grinding through minor theatrical and indie roles.\n\nIn 2009, Dan Harmon cast her as Britta Perry in NBC's beloved meta-sitcom *Community*. Originally written as a conventional love interest, Gillian subverted expectations, transforming Britta into a hilariously earnest, anarchic, and lovable activist across six cult seasons.\n\nShe headlined Judd Apatow's acclaimed Netflix romantic comedy series *Love* as Mickey Dobbs, lent her voice as Atom Eve in Amazon's superhero sensation *Invincible*, and gave an unforgettable guest turn as Tiffany in *The Bear*.\n\nBeyond acting, Gillian stepped into directing, helming acclaimed documentaries spotlighting women in science and computing history.\n\nAt 44, Gillian Jacobs has built an enduring legacy on fearless comedic courage and creative integrity.\n\n**Where did Gillian Jacobs shine the brightest: Britta in Community, Mickey in Love, or Atom Eve in Invincible? Tell us below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Gillian Jacobs's teetotaler lifestyle...**\n\n* Despite playing characters who battle severe substance abuse on *Love* and *Community*, Gillian has never taken a sip of alcohol or smoked a cigarette in her entire life.\n* Dan Harmon completely overhauled Britta's character on *Community* after watching Gillian goof off between takes, realizing her natural goofiness was far funnier than a serious love interest.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Gillian Jacobs!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#GillianJacobs #BornToday #2026-10-19 #FaceMatch #HollywoodQuiz",
+      "hashtags": "#GillianJacobs #BornToday #2026-10-19 #FaceMatch #HollywoodQuiz",
+      "scheduled_publish_time": 1792438200,
+      "scheduled_time_utc": "2026-10-19T19:30:00.000Z",
       "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_post_id": "122105663877506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122105663877506930"
+      "fb_post_id": "122106482505506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122106482505506930"
     },
     {
-      "id": "2026-10-18_quiz_03_Ne_Yo",
+      "id": "2026-10-19_quiz_03_Michael_Gambon",
       "type": "reel_quiz_type1",
-      "celebrity_name": "Ne-Yo",
-      "birth_year": 1979,
-      "age": 47,
+      "celebrity_name": "Michael Gambon",
+      "birth_year": 1940,
+      "age": 86,
       "gender": "male",
       "correct_option": "C",
       "options": [
         {
           "letter": "A",
-          "name": "Samuel L. Jackson"
+          "name": "Hugh Jackman"
         },
         {
           "letter": "B",
-          "name": "Pierce Brosnan"
+          "name": "Willem Dafoe"
         },
         {
           "letter": "C",
-          "name": "Ne-Yo"
+          "name": "Michael Gambon"
         },
         {
           "letter": "D",
-          "name": "Matt Damon"
+          "name": "Christian Slater"
         }
       ],
-      "reel_path": "reels/quiz_03_Ne_Yo.mp4",
-      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 47th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Writing number-one hits for other artists while sleeping on couches, he stepped behind the mic to become an R&B legend.**\n\nBorn October 18, 1979, in Camden, Arkansas, and raised in Las Vegas by a single mother, today Shaffer Chimere Smith, known globally as Ne-Yo, turns **47**.\n\nAfter his first R&B group disbanded, Ne-Yo spent years ghostwriting in cramped studios, breaking through when he wrote Mario's Billboard number-one smash 'Let Me Love You'.\n\nDef Jam's Jay-Z recognized his superstar genius, releasing his 2006 debut album *In My Own Words*, which debuted at number one and birthed the timeless hit 'So Sick'.\n\nNe-Yo became one of the definitive songwriters and performers of the century, winning three Grammys, penning Beyoncé's 'Irreplaceable' and Rihanna's 'Take a Bow', and starring in films like *Red Tails* and *Stomp the Yard*.\n\nAt 47, Ne-Yo remains a master of timeless melody, fedora style, and sophisticated R&B storytelling.\n\n**Which Ne-Yo anthem still lives on your playlist: So Sick, Because of You, or Miss Independent? Share your vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Ne-Yo's songwriting for Beyoncé and Rihanna...**\n\n* A producer gave him the nickname 'Ne-Yo' because he saw music like Neo sees the digital matrix in *The Matrix*.\n* He wrote Beyoncé's massive anthem 'Irreplaceable' originally as a country ballad before transforming it into one of the biggest R&B-pop smashes in history.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Ne-Yo!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#Ne-Yo #BornToday #2026-10-18 #CelebrityQuiz #ReelQuiz #Shorts",
-      "hashtags": "#Ne-Yo #BornToday #2026-10-18 #CelebrityQuiz #ReelQuiz #Shorts",
-      "scheduled_publish_time": 1792337400,
-      "scheduled_time_utc": "2026-10-18T15:30:00.000Z",
+      "reel_path": "reels/quiz_03_Michael_Gambon.mp4",
+      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 86th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**A factory toolmaker, he lied about stage credits to Laurence Olivier and became Hogwarts's greatest headmaster.**\n\nBorn October 19, 1940, in Cabra, Dublin, Ireland, today Sir Michael John Gambon would have celebrated his **86th** birthday milestone.\n\nLeaving school at fifteen with no formal qualifications, Michael trained as an engineering toolmaker before auditioning for Laurence Olivier's National Theatre, blatantly inventing classical theater credits on his resume.\n\nKnighted by Queen Elizabeth II in 1998 for services to drama, Sir Michael dominated classical theater, earning three Laurence Olivier Awards and four British Academy Television Awards.\n\nFollowing the tragic passing of Richard Harris in 2002, Michael stepped into the flowing silver robes of Professor Albus Dumbledore across six *Harry Potter* blockbusters, bringing mischievous Irish twinkle, volcanic magical power, and gentle paternal warmth to billions of children worldwide.\n\nHe delivered masterclasses in *The King's Speech*, *Gosford Park*, and *The Cook, the Thief, His Wife & Her Lover*.\n\nRemembered for his roaring laughter, modesty, and towering theatrical presence, Sir Michael Gambon remains an eternal wizard of stage and screen.\n\n**Which Michael Gambon moment gave you the most chills: Dumbledore's duel in the Ministry of Magic or his wisdom in King's Cross? Share below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Michael Gambon's Dumbledore performance...**\n\n* Sir Michael famously admitted that he never read a single *Harry Potter* book, preferring to react purely to the emotional truth of the script on set.\n* BBC's *Top Gear* named their famous final racetrack corner 'Gambon' in his honor after he took the turn on two wheels at high speed during his test lap.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Michael Gambon!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#MichaelGambon #BornToday #2026-10-19 #CelebrityQuiz #ReelQuiz #Shorts",
+      "hashtags": "#MichaelGambon #BornToday #2026-10-19 #CelebrityQuiz #ReelQuiz #Shorts",
+      "scheduled_publish_time": 1792423800,
+      "scheduled_time_utc": "2026-10-19T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "1445613407450074",
-      "youtube_video_id": "ZfJBEecqKZA",
-      "youtube_url": "https://www.youtube.com/shorts/ZfJBEecqKZA"
+      "fb_reel_id": "1743006740873089",
+      "youtube_video_id": "tZ0D9sjjFTU",
+      "youtube_url": "https://www.youtube.com/shorts/tZ0D9sjjFTU"
     },
     {
-      "id": "2026-10-18_quiz_04_Pam_Dawber",
+      "id": "2026-10-19_quiz_04_Jason_Reitman",
       "type": "reel_quiz_type2",
-      "celebrity_name": "Pam Dawber",
-      "birth_year": 1951,
-      "age": 75,
-      "gender": "female",
+      "celebrity_name": "Jason Reitman",
+      "birth_year": 1977,
+      "age": 49,
+      "gender": "male",
       "subtitle": "Look closely at options A, B, C, and D!",
-      "correct_option": "D",
+      "correct_option": "B",
       "options": [
         {
           "letter": "A",
-          "name": "Jamie Lee Curtis"
+          "name": "Denzel Washington"
         },
         {
           "letter": "B",
-          "name": "Sigourney Weaver"
+          "name": "Jason Reitman"
         },
         {
           "letter": "C",
-          "name": "Scarlett Johansson"
+          "name": "Christian Bale"
         },
         {
           "letter": "D",
-          "name": "Pam Dawber"
+          "name": "Leonardo DiCaprio"
         }
       ],
-      "reel_path": "reels/quiz_04_Pam_Dawber.mp4",
-      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Paired with an unpredictable young genius named Robin Williams, she anchored television's wildest comedy smash.**\n\nBorn October 18, 1951, in Detroit, Michigan, today Pamela Dawber turns **75**, forever celebrated as one of television's most grounded comedic anchors.\n\nMoving to New York as a top fashion model, Pam studied voice and acting, signed by ABC to a talent development deal.\n\nIn 1978, she was cast as Mindy McConnell opposite Robin Williams in *Mork & Mindy*. While Williams unleashed hurricane-force unscripted comedic improvisation, Pam delivered brilliant, patient, warm comic timing that grounded the show into a ratings phenomenon.\n\nShe went on to star in *My Sister Sam*, won a People's Choice Award, and built one of Hollywood's most enduring marriages with actor Mark Harmon, prioritizing family away from the spotlight.\n\nAt 75, Pam Dawber remains a beloved television treasure who proved that great comedy requires the perfect, generous partner.\n\n**Did you watch Mork & Mindy every week, and what made Pam and Robin so magical together? Share your thoughts below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Pam Dawber's Mork & Mindy scripts...**\n\n* Writers often left large gaps in the *Mork & Mindy* scripts reading simply: 'Robin does his thing,' requiring Pam to react to wild, unscripted improvisations completely on camera.\n* She has been married to *NCIS* star Mark Harmon since 1987, keeping their private life entirely outside Hollywood circles.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Pam Dawber!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#PamDawber #BornToday #2026-10-18 #HollywoodTrivia #ReelChallenge #Shorts",
-      "hashtags": "#PamDawber #BornToday #2026-10-18 #HollywoodTrivia #ReelChallenge #Shorts",
-      "scheduled_publish_time": 1792357200,
-      "scheduled_time_utc": "2026-10-18T21:00:00.000Z",
+      "reel_path": "reels/quiz_04_Jason_Reitman.mp4",
+      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Stepping out of his father's shadow, he earned four Academy Award nominations before honoring family legacy.**\n\nBorn October 19, 1977, in Montreal, Quebec, Canada, today Jason R. Reitman turns **49**, renowned for humanistic wit and sharp cinematic storytelling.\n\nThe son of legendary *Ghostbusters* director Ivan Reitman, Jason spent his childhood on movie sets, initially rejecting directing to avoid nepotism accusations.\n\nHe broke out on his own terms with the satirical triumph *Thank You for Smoking*, before directing 2007's cultural phenomenon *Juno*, which earned him his first Academy Award nomination for Best Director at just thirty years old.\n\nHe followed with *Up in the Air*, earning three more Oscar nominations and sweeping Golden Globe and BAFTA writing awards, before stepping up to direct the emotional franchise revival *Ghostbusters: Afterlife* and 2024's acclaimed *Saturday Night*.\n\nAt 49, Jason Reitman stands as an exceptional auteur who bridges classic studio craftsmanship with raw emotional honesty.\n\n**Which Jason Reitman masterpiece is your favorite: Juno, Up in the Air, or Ghostbusters: Afterlife? Drop your thoughts below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Jason Reitman's Juno soundtrack triumph...**\n\n* Jason discovered indie musician Kimya Dawson and The Moldy Peaches on lead actress Elliot Page's personal MP3 player, creating the indie-folk soundtrack that hit number one on Billboard.\n* While filming *Ghostbusters: Afterlife*, his father Ivan Reitman was on set every day, watching his son continue the franchise he started thirty-five years earlier.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Jason Reitman!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#JasonReitman #BornToday #2026-10-19 #HollywoodTrivia #ReelChallenge #Shorts",
+      "hashtags": "#JasonReitman #BornToday #2026-10-19 #HollywoodTrivia #ReelChallenge #Shorts",
+      "scheduled_publish_time": 1792443600,
+      "scheduled_time_utc": "2026-10-19T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1433241425449918",
-      "youtube_video_id": "d0ZIC6CjglE",
-      "youtube_url": "https://www.youtube.com/shorts/d0ZIC6CjglE",
-      "ig_reel_id": "18358376320221725"
+      "fb_reel_id": "1316594000495262",
+      "youtube_video_id": "Nz8RKtHTfRU",
+      "youtube_url": "https://www.youtube.com/shorts/Nz8RKtHTfRU"
     }
   ]
 }
