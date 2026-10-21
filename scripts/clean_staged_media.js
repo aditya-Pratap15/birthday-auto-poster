@@ -13,12 +13,16 @@ try {
   const data = JSON.parse(fs.readFileSync(TODAY_POSTS, 'utf8'));
   const top3Names = (data.posts || []).slice(0, 3).map(p => (p.celebrity_name || '').replace(/[^a-zA-Z0-9]/g, '_'));
 
+  const todayQuizReelNames = (data.quiz_posts || []).map(q => path.basename(q.reel_path || ''));
+  const todayQuizCollageNames = (data.quiz_posts || []).map(q => path.basename(q.image_path || ''));
+
   const collagesDir = path.join(BASE_DIR, 'collages');
   if (fs.existsSync(collagesDir)) {
     fs.readdirSync(collagesDir).forEach(f => {
       if (f === '.gitkeep') return;
       const isTop3 = top3Names.some(name => f.startsWith(name));
-      if (!isTop3 && !f.startsWith('quiz_')) {
+      const isTodayQuiz = todayQuizCollageNames.includes(f);
+      if (!isTop3 && !isTodayQuiz) {
         try {
           fs.unlinkSync(path.join(collagesDir, f));
           console.log('[clean] Cleaned non-headliner collage:', f);
@@ -32,7 +36,8 @@ try {
     fs.readdirSync(reelsDir).forEach(f => {
       if (f === '.gitkeep') return;
       const isTop3 = top3Names.some(name => f.startsWith(name));
-      if (!isTop3 && !f.startsWith('quiz_')) {
+      const isTodayQuiz = todayQuizReelNames.includes(f);
+      if (!isTop3 && !isTodayQuiz) {
         try {
           fs.unlinkSync(path.join(reelsDir, f));
           console.log('[clean] Cleaned non-headliner reel:', f);
@@ -40,7 +45,7 @@ try {
       }
     });
   }
-  console.log('[clean] Headliner media staged successfully.');
+  console.log('[clean] Headliner and active quiz media staged successfully.');
 } catch (err) {
   console.error('[clean] Error during media cleanup:', err.message);
 }
