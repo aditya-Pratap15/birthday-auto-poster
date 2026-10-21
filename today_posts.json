@@ -1,13 +1,13 @@
 {
-  "date": "2026-10-20",
-  "generated_at": "2026-10-20T06:22:44+05:30",
+  "date": "2026-10-21",
+  "generated_at": "2026-10-21T06:12:00+05:30",
   "posts": [
     {
-      "id": "2026-10-20_01_Viggo_Mortensen",
-      "celebrity_name": "Viggo Mortensen",
-      "birth_year": 1958,
-      "age": 68,
-      "gender": "male",
+      "id": "2026-10-21_01_Carrie_Fisher",
+      "celebrity_name": "Carrie Fisher",
+      "birth_year": 1956,
+      "age": 70,
+      "gender": "female",
       "country": "United States",
       "preset": "preset_viral_teaser",
       "teaserCard": {
@@ -21,126 +21,56 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "Danish-American truck driver youth,",
-        "line2": "cast days into filming",
-        "line2Highlight": "wielded real steel sword",
-        "line3Highlight": "to become King Aragorn...",
+        "line1": "Shadow of Hollywood parents,",
+        "line2": "refused damsel in distress",
+        "line2Highlight": "fired laser blasters",
+        "line3Highlight": "as Princess Leia...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/vH5gVSpHAMhDaFWfh0Q7BG61O1y.jpg",
-        "https://image.tmdb.org/t/p/original/kIyavVDiV6veUbxxxhjITtFLdDY.jpg",
-        "https://image.tmdb.org/t/p/original/gYtVNMwX96fE9F0WVkdC0SGffkn.jpg",
-        "https://image.tmdb.org/t/p/original/2nWubLCBLQBCttZAktmro7nQnHs.jpg",
-        "https://image.tmdb.org/t/p/original/k8JUtK8tlhzV7YsFeMjIuzRYVKB.jpg"
+        "https://image.tmdb.org/t/p/original/of4yHmryKPy92eeskUQ7MRmjC3l.jpg",
+        "https://image.tmdb.org/t/p/original/2vmMjXMFW9ebX9VNKPW7WD6HLOR.jpg",
+        "https://image.tmdb.org/t/p/original/crDHAR22rsscqpPSBLd76B9lR1t.jpg",
+        "https://image.tmdb.org/t/p/original/8DOzF5eQMWdFwkVIevaEfrYXtLx.jpg",
+        "https://image.tmdb.org/t/p/original/rfJtncHewKVnHjqpIZvjn24ESeC.jpg"
       ],
-      "caption": "**Replacing an actor days into filming with zero rehearsal, he did his own deadly swordplay and became King Aragorn.**\n\nBorn October 20, 1958, in New York City, and raised across Argentina, Venezuela, and Denmark, today Viggo Peter Mortensen Jr. turns **68**.\n\nDriving trucks and loading ships in Europe as a young man, Viggo arrived in Hollywood broke, working odd jobs while enduring fifteen years of small supporting roles.\n\nWhen Peter Jackson fired his original Aragorn days into shooting *The Lord of the Rings*, Viggo hadn't read Tolkien, but his eleven-year-old son Henry urged him to board the plane to New Zealand.\n\nHe threw himself into total immersion, sleeping outdoors in his costume, deflecting real steel daggers with his sword, and refusing stunt doubles to anchor the greatest fantasy trilogy in cinema history.\n\nHe followed with three Academy Award nominations for *Eastern Promises*, *Captain Fantastic*, and *Green Book*, while writing poetry and publishing independent artists.\n\nAt 68, Viggo Mortensen embodies an uncompromising warrior-poet whose fierce dedication turned fiction into cinematic truth.\n\n**Which Viggo Mortensen masterpiece is your favorite: Aragorn in Lord of the Rings or Nikolai in Eastern Promises? Vote below! 👇**",
-      "comment": "**The secret behind Viggo Mortensen's Lord of the Rings stunts...**\n\n* In *The Two Towers*, Viggo famously broke two toes kicking an orc helmet and chipped a tooth in combat, asking crew to superglue it so he wouldn't stop shooting.\n* Master swordsman Bob Anderson called Viggo the most naturally gifted swordsman he ever trained in fifty years of Hollywood stunt work.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Boarding a flight to New Zealand with zero sword training after another actor was fired, Viggo Mortensen took the ultimate gamble. He performed his own dangerous stunts and deflected real blades to create the immortal King Aragorn in The Lord of the Rings, before earning three Oscar nominations. Happy sixty-eighth birthday to a true cinematic master. What is your absolute favorite Viggo Mortensen movie?",
-      "reel_caption": "Viggo Mortensen stepped onto the Lord of the Rings set with zero rehearsal and became the legendary King Aragorn. What is your favorite Viggo Mortensen movie? #ViggoMortensen #LordOfTheRings #Aragorn #EasternPromises #GreenBook #BornToday",
+      "caption": "**Refusing to play a helpless space princess, she grabbed a blaster and became cinema's ultimate galactic rebel.**\n\nBorn October 21, 1956, in Burbank, California, today Carrie Frances Fisher would have celebrated her **70th** milestone.\n\nThe daughter of pop singer Eddie Fisher and screen legend Debbie Reynolds, Carrie grew up under relentless media scrutiny, hiding in books before making her film debut at nineteen in *Shampoo*.\n\nIn 1977, George Lucas cast her as Princess Leia in *Star Wars*. Instead of a passive damsel, Carrie brought biting wit, royal dignity, and fierce defiance, turning cinnamon buns into the eternal symbol of galactic rebellion across four decades.\n\nBehind the silver screen, Carrie waged a courageous, public battle against bipolar disorder and addiction, transforming her pain into bestselling literary triumphs like *Postcards from the Edge* and becoming Hollywood's secret top script doctor.\n\nRemembered for her razor-sharp honesty, glittering humor, and beloved service French bulldog Gary, Carrie Fisher proved that real royalty speaks raw truth.\n\n**What was Carrie Fisher's finest moment: defying Darth Vader on the Death Star or her witty memoir Postcards from the Edge? Tell us below! 👇**",
+      "comment": "**The secret behind Carrie Fisher's Star Wars script doctoring...**\n\n* Carrie was Hollywood's most in-demand script doctor for over fifteen years, quietly polishing and rewriting iconic dialogue for *Sister Act*, *Hook*, *The Wedding Singer*, and the *Star Wars* prequels.\n* George Lucas famously banned her from wearing a bra under her white gown in *Star Wars*, claiming there was 'no underwear in space.'\n\nWhich of these facts surprised you the most?",
+      "reel_script": "Born into Hollywood royalty, Carrie Fisher refused to play a helpless maiden. Grabbing a laser blaster in Star Wars, she created the ultimate symbol of female rebellion as Princess Leia, before becoming one of Hollywood's most brilliant, uncredited script doctors and bestselling authors. Remembering our eternal galactic princess on her seventieth birthday. What was your favorite scene of hers? Tell us below.",
+      "reel_caption": "Carrie Fisher refused to be a passive space princess, wielding a blaster and razor wit as Princess Leia. What was your favorite Carrie Fisher moment? #CarrieFisher #PrincessLeia #StarWars #PostcardsFromTheEdge #BornToday",
       "hashtags": [
-        "#ViggoMortensen",
-        "#LordOfTheRings",
-        "#Aragorn",
-        "#LOTR",
-        "#EasternPromises",
-        "#GreenBook",
-        "#CaptainFantastic",
+        "#CarrieFisher",
+        "#PrincessLeia",
+        "#StarWars",
+        "#MayTheForceBeWithYou",
+        "#PostcardsFromTheEdge",
+        "#ScriptDoctor",
+        "#CinemaLegend",
         "#BornToday",
-        "#October20"
+        "#October21"
       ],
-      "image_path": "collages/Viggo_Mortensen_Page_1_Tribute.jpg",
-      "scheduled_publish_time": 1792497600,
-      "scheduled_time_utc": "2026-10-20T12:00:00.000Z",
+      "image_path": "collages/Carrie_Fisher_Page_1_Tribute.jpg",
+      "scheduled_publish_time": 1792584000,
+      "scheduled_time_utc": "2026-10-21T12:00:00.000Z",
       "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Viggo_Mortensen_Reel.mp4",
-      "fb_post_id": "122107475565506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122107475565506930",
-      "fb_collage_photo_id": "122107475565506930",
-      "collage_cdn_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t39.30808-6/858915541_122107475571506930_5751327999734013866_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=054031&_nc_ohc=kKI_a3RsMfMQ7kNvwFBW62_&_nc_oc=AdpL8GTF55vqE8k8LI7s5S9Fjbqrrw137L3WgNNnxPjS-DEFHumtOhq6oAhdpW2nyPI&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=T-RZ6Elh7zBfPik-0_aBUQ&_nc_tpa=Q5bMBQJne_gusURdw7u3NcFFsIyZqkifADBuruUlK9RHUcECjyMJLZunnxjR9lVa5mJ6GL5CpOoF4dMbpA&oh=00_AQP7qF1wL89_47ybWleW_ow9Z59JLLE8CyVvuO_i8RqQxg&oe=6ADC902D",
-      "fb_reel_id": "1761409118486404",
-      "fb_reel_scheduled_time": 1792500000,
-      "youtube_video_id": "l3K-uxY70Jo",
-      "youtube_url": "https://www.youtube.com/shorts/l3K-uxY70Jo",
-      "ig_post_id": "18348314560251140",
-      "fb_comment_id": "122107475565506930_1180485997643204",
-      "ig_reel_id": "17938379226124033"
+      "reel_path": "reels/Carrie_Fisher_Reel.mp4",
+      "fb_post_id": "122108366259506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122108366259506930",
+      "fb_collage_photo_id": "122108366259506930",
+      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/857417392_122108366265506930_8403829728805339016_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=054031&_nc_ohc=faiGX5Fk6UAQ7kNvwHElL_b&_nc_oc=AdrL7OOogByTne6lUadZoVfESuHWoowSo0dV6wESwCDnrTjFkzcycfvRo1tH86slwsU&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=gZrhAajzTvb4xH8jGJWUiA&_nc_tpa=Q5bMBQKupQroVf1kr1EEsFNwQSeOpo0GFWhlSayZXmbObDTxSfQRqEzORo3-32lLkVU3v3-JjlCfKbNipA&oh=00_AQOMEPQQVZLKhdPC3rirbjb7RpXqOc6EBaWQPUuwpcaWjQ&oe=6ADE026C",
+      "fb_reel_id": "4207395102854347",
+      "fb_reel_scheduled_time": 1792586400,
+      "youtube_video_id": "Y5GOCHVY0H0",
+      "youtube_url": "https://www.youtube.com/shorts/Y5GOCHVY0H0"
     },
     {
-      "id": "2026-10-20_02_John_Krasinski",
-      "celebrity_name": "John Krasinski",
-      "birth_year": 1979,
-      "age": 47,
-      "gender": "male",
-      "country": "United States",
-      "preset": "preset_viral_teaser",
-      "teaserCard": {
-        "enabled": true,
-        "x": 45,
-        "y": 1161,
-        "width": 990,
-        "height": 200,
-        "bgColor": "#0d0f14",
-        "borderColor": "#b68c43",
-        "borderWidth": 2,
-        "cornerRadius": 14,
-        "badgeIcon": "fire",
-        "line1": "Nearly quit acting in tears,",
-        "line2": "from paper company prankster",
-        "line2Highlight": "built horror blockbuster empire",
-        "line3Highlight": "in A Quiet Place...",
-        "ctaText": "Read the full story in caption →"
-      },
-      "photo_urls": [
-        "https://image.tmdb.org/t/p/original/pmVGDb6Yl6OyFcHVGbu1EYNfyFK.jpg",
-        "https://image.tmdb.org/t/p/original/qnFaKgzLyvhbE2S5k3VrYeBu6CP.jpg",
-        "https://image.tmdb.org/t/p/original/2bKS56G4bwn682whJ6h6kcOOZsI.jpg",
-        "https://image.tmdb.org/t/p/original/t6Aq1dAnxtlOtdevIMqQg5ZMCpl.jpg",
-        "https://image.tmdb.org/t/p/original/noQCkFKbOEMunHa39Nlfg25TdEx.jpg"
-      ],
-      "caption": "**Calling his mother in tears ready to quit acting, he waited three more weeks and won the role of Jim Halpert.**\n\nBorn October 20, 1979, in Newton, Massachusetts, today John Burke Krasinski turns **47**, standing as one of Hollywood's premier multi-hyphenates.\n\nWaiting tables and working as a script reader in New York, John called his mother in 2004 ready to pack up and come home, but she urged him to give it until the end of the year.\n\nThree weeks later, he auditioned for NBC's *The Office*, bringing his deadpan camera glance and boy-next-door heart to Jim Halpert across nine historic seasons.\n\nRefusing to stay in a comedic sitcom box, John transformed into a jacked action hero in *13 Hours* and Prime Video's *Jack Ryan*, before writing, directing, and starring alongside wife Emily Blunt in *A Quiet Place*, turning a seventeen-million-dollar thriller into a massive global blockbuster franchise.\n\nAt 47, John Krasinski has evolved from a struggling waiter into an A-list director and leading man on sheer vision and persistence.\n\n**What was John Krasinski's greatest triumph: Jim Halpert in The Office, directing A Quiet Place, or Jack Ryan? Drop your vote below! 👇**",
-      "comment": "**The secret behind John Krasinski's The Office audition...**\n\n* While waiting in the casting room, John unknowingly told executive producer Greg Daniels that American adaptations of British shows usually ruin everything, thinking Daniels was just another auditionee.\n* For *A Quiet Place*, John personally performed the terrifying motion-capture suit work for the sound-hunting blind alien monsters.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Crying in his car and ready to abandon acting forever, John Krasinski listened to his mother and gave his dream three more weeks. That decision gave television Jim Halpert on The Office, before John stepped behind the camera to write and direct the smash horror franchise A Quiet Place. Happy forty-seventh birthday to an extraordinary filmmaker. What is your favorite John Krasinski project?",
-      "reel_caption": "Weeks away from quitting acting forever, John Krasinski landed Jim Halpert on The Office and later created A Quiet Place. What is your favorite John Krasinski project? #JohnKrasinski #TheOffice #JimHalpert #AQuietPlace #JackRyan #BornToday",
-      "hashtags": [
-        "#JohnKrasinski",
-        "#TheOffice",
-        "#JimHalpert",
-        "#AQuietPlace",
-        "#JackRyan",
-        "#EmilyBlunt",
-        "#HollywoodDirector",
-        "#BornToday",
-        "#October20"
-      ],
-      "image_path": "collages/John_Krasinski_Page_2_Tribute.jpg",
-      "scheduled_publish_time": 1792515600,
-      "scheduled_time_utc": "2026-10-20T17:00:00.000Z",
-      "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
-      "page_name": "Born Today Hollywood",
-      "page_id_env": "FB_PAGE_ID_BORN",
-      "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/John_Krasinski_Reel.mp4",
-      "fb_post_id": "122107475721506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122107475721506930",
-      "fb_collage_photo_id": "122107475721506930",
-      "collage_cdn_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t39.30808-6/855519801_122107475727506930_2894373832117027072_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=054031&_nc_ohc=bPsG94BAJe0Q7kNvwEsrBYo&_nc_oc=Ado1pV1LesTByhvhZWLR__oot2P92Z-NOyKUmqRWMdaefvwI_KGldQ2GpFoi1aUQZ0I&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=kB3yQSJ4mHyxhJKVZef5LQ&_nc_tpa=Q5bMBQJTaBHQQfPMLebFQVZSry1a8AXfhOicRa6KMfDwbIDnyUrixjy84NacDfimNVv0Fkj9gYxAo4yVsw&oh=00_AQMWj7YsMGgeOsc-7pyt7V8lNvLVU93ABwhIJiBhZjAe1g&oe=6ADCB4A3",
-      "fb_reel_id": "1953882155587765",
-      "fb_reel_scheduled_time": 1792518000,
-      "youtube_video_id": "nyMBYcogo8M",
-      "youtube_url": "https://www.youtube.com/shorts/nyMBYcogo8M",
-      "ig_post_id": "17895303414610974",
-      "ig_reel_id": "17979006026917773",
-      "fb_comment_id": "122107475721506930_1811622529979466"
-    },
-    {
-      "id": "2026-10-20_03_Snoop_Dogg",
-      "celebrity_name": "Snoop Dogg",
-      "birth_year": 1971,
-      "age": 55,
+      "id": "2026-10-21_02_Glen_Powell",
+      "celebrity_name": "Glen Powell",
+      "birth_year": 1988,
+      "age": 38,
       "gender": "male",
       "country": "United States",
       "preset": "preset_viral_teaser",
@@ -155,199 +85,257 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "Long Beach street struggles,",
-        "line2": "from freestyle home cassette",
-        "line2Highlight": "became global pop titan",
-        "line3Highlight": "to carry Olympic torch...",
+        "line1": "Texas high school linebacker,",
+        "line2": "lost Rooster role",
+        "line2Highlight": "demanded Hangman rewrite",
+        "line3Highlight": "to conquer Hollywood...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/rbxBK2m6fEq0oHeMoBUMVYkJEdJ.jpg",
-        "https://image.tmdb.org/t/p/original/pZK0cegqTCy847UmgALbFG6qXTc.jpg",
-        "https://image.tmdb.org/t/p/original/7uYiy4mC79wyCtbPFThQOeHN8v9.jpg",
-        "https://image.tmdb.org/t/p/original/7eiG8VeWp9DJTVcLmxYNlj1Vk9m.jpg",
-        "https://image.tmdb.org/t/p/original/csctz5DzNPwQicMEhPiy5zNlzJl.jpg"
+        "https://image.tmdb.org/t/p/original/7eG0GB1GY3RXI7Tg3GoKrLO9mPW.jpg",
+        "https://image.tmdb.org/t/p/original/fUnIaJkdgvQTztyR1nLeUceSzly.jpg",
+        "https://image.tmdb.org/t/p/original/lRbbndkwOXyvep9Y7kHiwbh9Ji5.jpg",
+        "https://image.tmdb.org/t/p/original/m6D6tSmgEvYGxo2q0zrwyo1a4of.jpg",
+        "https://image.tmdb.org/t/p/original/xqjPFDHu8EjAwtbuWequh453bqH.jpg"
       ],
-      "caption": "**Facing court trials and street violence as a youth, his laid-back drawl turned him into the world's most beloved uncle.**\n\nBorn October 20, 1971, in Long Beach, California, today Calvin Cordozar Broadus Jr., known everywhere as Snoop Dogg, turns **55**.\n\nSinging and playing piano at Golgotha Trinity Baptist Church as a boy, Snoop survived street gang crossfire and prison stints, recording raw freestyle raps on cheap home cassette tapes.\n\nWhen Dr. Dre heard him freestyle over En Vogue on a mixtape, Snoop's silky smooth West Coast cadence transformed hip-hop on *The Chronic* and his diamond debut *Doggystyle*.\n\nHe expanded beyond music into Hollywood, delivering memorable acting turns in *Training Day*, *Starsky & Hutch*, and *Dolemite Is My Name*, before reinventing himself as an Olympic torchbearer, cookbook author, and universal pop-culture icon.\n\nWhat fans love is his peaceful transformation, turning from street survival to coaching youth football and spreading joy worldwide.\n\nAt 55, Snoop Dogg remains an untouchable cultural phenomenon whose chill charisma unites every generation on Earth.\n\n**Which Snoop Dogg anthem is the absolute classic: Gin and Juice, Drop It Like It's Hot, or Nuthin' but a 'G' Thang? Share below! 👇**",
-      "comment": "**The secret behind Snoop Dogg's childhood nickname...**\n\n* His mother gave him the nickname 'Snoopy' as a child because he loved the *Peanuts* cartoon dog and looked like him when smiling.\n* In 2005, Snoop founded the Snoop Youth Football League in Los Angeles, which has helped thousands of inner-city kids go to college and produced multiple NFL stars.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "From recording raw freestyle tapes in Long Beach bedrooms to commanding global stadium stages, Snoop Dogg redefined cool. With his effortless silky flow on Doggystyle and starring in Hollywood films like Training Day, he grew into the world's most universally loved cultural ambassador. Happy fifty-fifth birthday to a living hip-hop legend. What is your favorite Snoop Dogg song of all time?",
-      "reel_caption": "From Long Beach cassette tapes to carrying the Olympic torch, Snoop Dogg became the most universally beloved icon on Earth. What is your favorite Snoop Dogg track? #SnoopDogg #Doggystyle #GinAndJuice #DropItLikeItsHot #WestCoast #BornToday",
+      "caption": "**Devastated after losing the lead in Top Gun, Tom Cruise mentored him into cinema's most bankable new leading man.**\n\nBorn October 21, 1988, in Austin, Texas, today Glen Thomas Powell Jr. turns **38**, standing as modern cinema's charismatic savior.\n\nA former high school athlete, Glen spent fifteen years enduring hundreds of humiliating auditions and uncredited bit parts in Los Angeles, couch-surfing while trying to break through.\n\nWhen he lost the co-starring role of Rooster to Miles Teller for *Top Gun: Maverick*, Glen was heartbroken, but producer Tom Cruise took him aside and challenged him to turn rival pilot Hangman into an unforgettable swaggering hero.\n\nGlen stole the skies in *Top Gun: Maverick*, before single-handedly reviving the theatrical romantic comedy with Sydney Sweeney in *Anyone But You*, writing and starring in Richard Linklater's *Hit Man*, and taming tornadoes in *Twisters*.\n\nAt 38, Glen Powell has brought back the golden era of charismatic, crowd-pleasing Hollywood movie stardom on sheer hustle and southern charm.\n\n**Which Glen Powell blockbuster was your favorite: Hangman in Top Gun, Ben in Anyone But You, or Tyler in Twisters? Vote below! 👇**",
+      "comment": "**The secret behind Tom Cruise's mentorship of Glen Powell...**\n\n* After Glen agreed to play Hangman in *Top Gun: Maverick*, Tom Cruise paid for Glen's real-world pilot flight lessons so he could earn his pilot's license alongside him.\n* Glen co-wrote his breakout hit *Hit Man* alongside director Richard Linklater after reading a 2001 Texas Monthly magazine article.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "After losing the co-starring role in Top Gun: Maverick, Glen Powell almost walked away empty-handed. But Tom Cruise saw his star power and convinced him to play Hangman. Glen ran with it, reviving the romantic comedy in Anyone But You and conquering the box office in Twisters. Happy thirty-eighth birthday to Hollywood's hottest leading man. What is your favorite Glen Powell movie?",
+      "reel_caption": "Devastated after losing the lead in Top Gun: Maverick, Glen Powell turned Hangman into cinema gold. What is your favorite Glen Powell movie? #GlenPowell #TopGunMaverick #AnyoneButYou #Twisters #HitMan #BornToday",
       "hashtags": [
-        "#SnoopDogg",
-        "#Doggystyle",
-        "#GinAndJuice",
-        "#DropItLikeItsHot",
-        "#DeathRowRecords",
-        "#WestCoastRap",
-        "#OlympicTorch",
+        "#GlenPowell",
+        "#TopGunMaverick",
+        "#AnyoneButYou",
+        "#Twisters",
+        "#HitMan",
+        "#TomCruise",
+        "#HollywoodLeadingMan",
         "#BornToday",
-        "#October20"
+        "#October21"
       ],
-      "image_path": "collages/Snoop_Dogg_Page_3_Tribute.jpg",
-      "scheduled_publish_time": 1792533600,
-      "scheduled_time_utc": "2026-10-20T22:00:00.000Z",
+      "image_path": "collages/Glen_Powell_Page_2_Tribute.jpg",
+      "scheduled_publish_time": 1792602000,
+      "scheduled_time_utc": "2026-10-21T17:00:00.000Z",
+      "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
+      "page_name": "Born Today Hollywood",
+      "page_id_env": "FB_PAGE_ID_BORN",
+      "token_env": "FB_TOKEN_BORN",
+      "reel_path": "reels/Glen_Powell_Reel.mp4",
+      "fb_post_id": "122108366535506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122108366535506930",
+      "fb_collage_photo_id": "122108366535506930",
+      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/856317062_122108366541506930_5251449789043941937_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=dnTu2fQN9ZMQ7kNvwGl21rt&_nc_oc=AdoO7eOGzKQ0a3lCDJDpHmfyF7m1O_iDR-yvgfO6Z00F9Zx35Tr-GV2OcljXZ8YiiJY&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=SlKeWssrOW1F2Wr3NwAbdw&_nc_tpa=Q5bMBQKUS24SB1H9VNHt954yFGpM6ibrOpjoqQ7iL8fDRijNLxBfw8ZaCNPPGztosOHKlUgOZOPGVFYmDg&oh=00_AQNjeN8XIFCmzLSVjCb_hs0lX1n3mFKXj6nhH6tbZ0HItw&oe=6ADDFEB4",
+      "fb_reel_id": "4571886793067536",
+      "fb_reel_scheduled_time": 1792604400,
+      "youtube_video_id": "XrPTLToMDDo",
+      "youtube_url": "https://www.youtube.com/shorts/XrPTLToMDDo"
+    },
+    {
+      "id": "2026-10-21_03_Ken_Watanabe",
+      "celebrity_name": "Ken Watanabe",
+      "birth_year": 1959,
+      "age": 67,
+      "gender": "male",
+      "country": "Japan",
+      "preset": "preset_viral_teaser",
+      "teaserCard": {
+        "enabled": true,
+        "x": 45,
+        "y": 1161,
+        "width": 990,
+        "height": 200,
+        "bgColor": "#0d0f14",
+        "borderColor": "#b68c43",
+        "borderWidth": 2,
+        "cornerRadius": 14,
+        "badgeIcon": "crown",
+        "line1": "Overcame leukemia near death,",
+        "line2": "learned English in months",
+        "line2Highlight": "stole Last Samurai",
+        "line3Highlight": "to win Oscar nomination...",
+        "ctaText": "Read the full story in caption →"
+      },
+      "photo_urls": [
+        "https://image.tmdb.org/t/p/original/psAXOYp9SBOXvg6AXzARDedNQ9P.jpg",
+        "https://image.tmdb.org/t/p/original/wVJB3uo7sTANjv22iUYiFnVXkTz.jpg",
+        "https://image.tmdb.org/t/p/original/w2t30L5Cmr34myAaUobLoSgsLfS.jpg",
+        "https://image.tmdb.org/t/p/original/fhmiibBcdKSfhlYMr4jdwzxeR1g.jpg",
+        "https://image.tmdb.org/t/p/original/AqK1DSCibb8VuMO6t5qH1LVMIYG.jpg"
+      ],
+      "caption": "**Surviving life-threatening leukemia twice, he learned English in months and earned an Academy Award nomination.**\n\nBorn October 21, 1959, in Koide, Niigata, Japan, today Ken Watanabe turns **67**, revered as an international titan of commanding presence.\n\nThe son of two schoolteachers, Ken trained in Tokyo classical theater, rising to become Japan's premier samurai star before being diagnosed with acute myeloid leukemia in 1989, battling through chemotherapy relapses to return to the stage.\n\nIn 2003, director Edward Zwick cast him as Lord Katsumoto opposite Tom Cruise in *The Last Samurai*. Despite knowing very little English, Ken delivered a mesmerizing performance of quiet nobility that earned him an Oscar nomination for Best Supporting Actor.\n\nHe became Christopher Nolan's trusted collaborator in *Batman Begins* and *Inception*, starred in *Memoirs of a Geisha*, anchored the *Godzilla* franchise, and dominated television as detective Hiroto Katagiri in *Tokyo Vice*.\n\nAt 67, Ken Watanabe embodies dignity, survival, and profound cross-cultural mastery across world cinema.\n\n**What is Ken Watanabe's greatest screen performance: Katsumoto in The Last Samurai, Saito in Inception, or Tokyo Vice? Share below! 👇**",
+      "comment": "**The secret behind Ken Watanabe's Last Samurai casting...**\n\n* Ken had never acted in an English-language production when cast in *The Last Samurai*; he worked with vocal coaches for up to eight hours a day to master the script's rhythm.\n* In 2015, he made Broadway history as the first Japanese actor nominated for the Tony Award for Best Actor in a Musical for *The King and I*.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "Battling through life-threatening leukemia twice, Ken Watanabe turned near-fatal adversity into legendary strength. He learned English in months to star alongside Tom Cruise in The Last Samurai, earning an Academy Award nomination before mesmerizing the world in Inception and Tokyo Vice. Happy sixty-seventh birthday to an international cinema giant. What is your favorite movie starring Ken Watanabe? Tell us in the comments.",
+      "reel_caption": "Surviving life-threatening leukemia, Ken Watanabe mastered English and earned an Oscar nomination for The Last Samurai. What is your favorite Ken Watanabe role? #KenWatanabe #TheLastSamurai #Inception #Godzilla #TokyoVice #BornToday",
+      "hashtags": [
+        "#KenWatanabe",
+        "#TheLastSamurai",
+        "#Inception",
+        "#ChristopherNolan",
+        "#Godzilla",
+        "#TokyoVice",
+        "#OscarNominee",
+        "#BornToday",
+        "#October21"
+      ],
+      "image_path": "collages/Ken_Watanabe_Page_3_Tribute.jpg",
+      "scheduled_publish_time": 1792620000,
+      "scheduled_time_utc": "2026-10-21T22:00:00.000Z",
       "peak_window": "US Prime Time (6:00 PM EDT / 3:30 AM IST +1)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Snoop_Dogg_Reel.mp4",
-      "fb_post_id": "122107475985506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122107475985506930",
-      "fb_collage_photo_id": "122107475985506930",
-      "collage_cdn_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t39.30808-6/856899620_122107475991506930_6248261635496685567_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=054031&_nc_ohc=kSFBgBYsLOEQ7kNvwGjdWMI&_nc_oc=AdoFiCogrbkVDJR2A-k6XvLDeKe7tyWcosGVsD5DKFEEE5n_1xa8jSKVVLWnJCHIVO0&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=w2PqrYScCN1LU3Fl71MgOA&_nc_tpa=Q5bMBQKHn6NI7WVyZEZspftpwInJpfaIeoaoOlHgClngLeQU4krqFyvura7lIiTccY7ucc15YcDIu2LqLA&oh=00_AQPf8GZttMQFi7soZirhJty4A3AlAtDnxlSx7V65S9m-eA&oe=6ADCB216",
-      "fb_reel_id": "1092834203381843",
-      "fb_reel_scheduled_time": 1792536000,
-      "youtube_video_id": "loeX7_dgyCM",
-      "youtube_url": "https://www.youtube.com/shorts/loeX7_dgyCM",
-      "ig_post_id": "18199615720385986",
-      "ig_reel_id": "18030229607919687",
-      "fb_comment_id": "122107475985506930_1836734940816264"
+      "reel_path": "reels/Ken_Watanabe_Reel.mp4",
+      "fb_post_id": "122108366685506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122108366685506930",
+      "fb_collage_photo_id": "122108366685506930",
+      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/858569755_122108366691506930_2694836645310751531_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=B8fZ98F788kQ7kNvwEtFYmq&_nc_oc=AdqrFs1yK6AD4NuQWQIJ27HeVm2TxVN2tlbc5r7BwtGVyritWzr5p61wfORGVzEnNdM&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=nHauSNAFYpKCOowYvw-1yw&_nc_tpa=Q5bMBQIsjCTUvcSKCGTrYzE-SARTZqjwuchGyxUQLsci-96ZATGu4HZszyxMoawoen0uyxJGrebR78OhZA&oh=00_AQOGcRXqStmlsIp0Vo58vQ81DmXkwYo9zWvUskh9S4J7BQ&oe=6ADDDA7A",
+      "fb_reel_id": "1116190841195389",
+      "fb_reel_scheduled_time": 1792622400,
+      "youtube_video_id": "xq-WaN2P-Io",
+      "youtube_url": "https://www.youtube.com/shorts/xq-WaN2P-Io"
     }
   ],
   "quiz_posts": [
     {
-      "id": "2026-10-20_quiz_01_Danny_Boyle",
+      "id": "2026-10-21_quiz_01_Andrew_Scott",
       "type": "photo_quiz_type1",
-      "celebrity_name": "Danny Boyle",
-      "birth_year": 1956,
-      "age": 70,
+      "celebrity_name": "Andrew Scott",
+      "birth_year": 1976,
+      "age": 50,
       "gender": "male",
-      "correct_option": "B",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Tom Cruise"
-        },
-        {
-          "letter": "B",
-          "name": "Danny Boyle"
-        },
-        {
-          "letter": "C",
-          "name": "Dennis Quaid"
-        },
-        {
-          "letter": "D",
-          "name": "Anthony Hopkins"
-        }
-      ],
-      "image_path": "collages/quiz_01_Danny_Boyle.jpg",
-      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 70 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Nearly entering the Catholic priesthood as a teen, he turned kinetic punk energy into eight Academy Awards.**\n\nBorn October 20, 1956, in Radcliffe, Lancashire, England, today Danny Boyle turns **70**, recognized as cinema's master of visual adrenaline.\n\nRaised in a working-class Irish Catholic family, Danny spent eight years in seminary training before a priest persuaded him not to transfer to an actual monastery.\n\nIn 1996, his breakthrough indie sensation *Trainspotting* captured the frenetic soul of nineties Britain, followed by inventing the modern fast-running zombie subgenre with *28 Days Later*.\n\nIn 2008, his Mumbai masterpiece *Slumdog Millionaire* made history, grossing $378 million and sweeping eight Academy Awards including Best Director and Best Picture, before he directed the universally acclaimed 2012 London Olympics Opening Ceremony.\n\nAt 70, Danny Boyle remains an electric cinematic force who infuses kinetic editing, human grit, and soaring music into unforgettable movie magic.\n\n**Which Danny Boyle film hit you the hardest: Trainspotting, Slumdog Millionaire, or 28 Days Later? Drop your choice below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Danny Boyle's 2012 London Olympics Opening Ceremony...**\n\n* Danny turned down a knighthood from Queen Elizabeth II after directing the 2012 London Olympics Opening Ceremony because he believed in artistic egalitarianism rather than royal titles.\n* For *28 Days Later*, Danny and his crew shot in central London at dawn, having only minutes before commuter traffic resumed to capture the eerie empty city streets.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Danny Boyle!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#DannyBoyle #BornToday #2026-10-20 #HollywoodQuiz #CelebrityTrivia",
-      "hashtags": "#DannyBoyle #BornToday #2026-10-20 #HollywoodQuiz #CelebrityTrivia",
-      "scheduled_publish_time": 1792504800,
-      "scheduled_time_utc": "2026-10-20T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
-      "fb_post_id": "122107476201506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122107476201506930"
-    },
-    {
-      "id": "2026-10-20_quiz_02_William_Zabka",
-      "type": "photo_quiz_type2",
-      "celebrity_name": "William Zabka",
-      "birth_year": 1965,
-      "age": 61,
-      "gender": "male",
-      "subtitle": "Born on this day! Can you identify the real birthday star?",
-      "correct_option": "A",
-      "options": [
-        {
-          "letter": "A",
-          "name": "William Zabka"
-        },
-        {
-          "letter": "B",
-          "name": "Tom Hanks"
-        },
-        {
-          "letter": "C",
-          "name": "Michael Caine"
-        },
-        {
-          "letter": "D",
-          "name": "Pierce Brosnan"
-        }
-      ],
-      "image_path": "collages/quiz_02_William_Zabka.jpg",
-      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 61? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Vilified by fans on the street for decades, he redeemed Johnny Lawrence and turned Cobra Kai into a worldwide sensation.**\n\nBorn October 20, 1965, in New York City, today William Michael Zabka turns **61**, an inspiring symbol of Hollywood redemption.\n\nA wrestler who had never taken a single karate class, eighteen-year-old Billy was cast as blond bully Johnny Lawrence in 1984's *The Karate Kid*, delivering the iconic crane-kick defeat that defined eighties cinema.\n\nFor decades, strangers yelled at him in grocery stores, typecasting him as the perpetual villain while acting roles dried up.\n\nInstead of growing bitter, Billy stepped behind the camera, writing and producing the 2004 short film *Most*, which earned him an Academy Award nomination for Best Live Action Short.\n\nIn 2018, *Cobra Kai* flipped the script. Reprising Johnny Lawrence as a flawed, down-on-his-luck sensei seeking redemption, Billy's hilarious, vulnerable performance made Johnny the hero of millions across six seasons.\n\nAt 61, William Zabka proved that with patience and craft, the most hated villain can become the most beloved hero.\n\n**Was Johnny Lawrence the real hero of The Karate Kid all along? Let the Cobra Kai debate begin below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind William Zabka's real martial arts journey...**\n\n* Billy had zero martial arts experience when filming *The Karate Kid*; he learned Tang Soo Do specifically for the movie and loved it so much he earned his real-life green belt.\n* He earned an Academy Award nomination in 2004 as a producer and co-writer for the Czech drama short film *Most*.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: William Zabka!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#WilliamZabka #BornToday #2026-10-20 #FaceMatch #HollywoodQuiz",
-      "hashtags": "#WilliamZabka #BornToday #2026-10-20 #FaceMatch #HollywoodQuiz",
-      "scheduled_publish_time": 1792524600,
-      "scheduled_time_utc": "2026-10-20T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_post_id": "122107476297506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122107476297506930"
-    },
-    {
-      "id": "2026-10-20_quiz_03_Kenneth_Choi",
-      "type": "reel_quiz_type1",
-      "celebrity_name": "Kenneth Choi",
-      "birth_year": 1971,
-      "age": 55,
-      "gender": "male",
-      "correct_option": "C",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Al Pacino"
-        },
-        {
-          "letter": "B",
-          "name": "Leonardo DiCaprio"
-        },
-        {
-          "letter": "C",
-          "name": "Kenneth Choi"
-        },
-        {
-          "letter": "D",
-          "name": "Brad Pitt"
-        }
-      ],
-      "reel_path": "reels/quiz_03_Kenneth_Choi.mp4",
-      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 55th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Disowned by his strict immigrant parents for pursuing acting, he slept on friends' floors before conquering Hollywood.**\n\nBorn October 20, 1971, in Chicago, Illinois, today Kenneth Choi turns **55**, celebrated as one of television's most versatile, beloved character actors.\n\nThe son of Korean immigrants who expected him to become an engineer, Kenneth dropped out of Purdue University to chase acting, leading his shocked family to cut all ties for five years.\n\nArriving in Los Angeles with no money, Kenneth worked retail and lived out of his car while auditioning relentlessly for minor guest parts.\n\nHe broke into prestige cinema, starring as Howling Commando Jim Morita in *Captain America: The First Avenger*, his grandson Principal Morita in *Spider-Man: Homecoming*, and financial broker Chester Ming in Scorsese's *The Wolf of Wall Street*.\n\nIn 2018, he captured the world's heart as firefighter Howie 'Chimney' Han across eight seasons of ABC's smash hit *9-1-1*, delivering humor, heroism, and emotional depth.\n\nAt 55, Kenneth Choi has reconciled with his proud family, proving that following your deepest passion pays off in gold.\n\n**Where did Kenneth Choi impress you the most: Chimney on 9-1-1, Chester Ming in Wolf of Wall Street, or Captain America? Tell us below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Kenneth Choi's Marvel family connection...**\n\n* Kenneth is one of the only actors to play his own character's descendant in the Marvel Cinematic Universe, starring as WWII soldier Jim Morita in *Captain America* and his grandson Principal Morita in *Spider-Man: Homecoming*.\n* When Martin Scorsese cast him in *The Wolf of Wall Street*, Kenneth was told to aggressively mock Leonardo DiCaprio on set to build authentic comedic tension.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Kenneth Choi!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#KennethChoi #BornToday #2026-10-20 #CelebrityQuiz #ReelQuiz #Shorts",
-      "hashtags": "#KennethChoi #BornToday #2026-10-20 #CelebrityQuiz #ReelQuiz #Shorts",
-      "scheduled_publish_time": 1792510200,
-      "scheduled_time_utc": "2026-10-20T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "2157802318427207",
-      "youtube_video_id": "UhYriK7BdBg",
-      "youtube_url": "https://www.youtube.com/shorts/UhYriK7BdBg"
-    },
-    {
-      "id": "2026-10-20_quiz_04_Sam_Witwer",
-      "type": "reel_quiz_type2",
-      "celebrity_name": "Sam Witwer",
-      "birth_year": 1977,
-      "age": 49,
-      "gender": "male",
-      "subtitle": "Look closely at options A, B, C, and D!",
       "correct_option": "D",
       "options": [
         {
           "letter": "A",
-          "name": "Kurt Russell"
+          "name": "Tommy Lee Jones"
         },
         {
           "letter": "B",
-          "name": "Al Pacino"
+          "name": "Matt Damon"
         },
         {
           "letter": "C",
-          "name": "John Malkovich"
+          "name": "Will Smith"
         },
         {
           "letter": "D",
-          "name": "Sam Witwer"
+          "name": "Andrew Scott"
         }
       ],
-      "reel_path": "reels/quiz_04_Sam_Witwer.mp4",
-      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**An encyclopedic Star Wars fan, his thunderous voice resurrected Darth Maul and made video game history as Starkiller.**\n\nBorn October 20, 1977, in Glenview, Illinois, today Samuel Stewart Witwer turns **49**, revered as a titan of science-fiction storytelling.\n\nFronting Chicago rock bands and studying at Juilliard, Sam booked early television roles in *ER* and *Angel* before landing Crashdown on *Battlestar Galactica*.\n\nGeorge Lucas personally chose his face and voice to star as secret apprentice Galen Marek (Starkiller) in LucasArts' blockbuster game *Star Wars: The Force Unleashed*, grossing millions.\n\nHe brought terrifying operatic rage and tragic complexity to Darth Maul in *The Clone Wars* and *Star Wars Rebels*, screaming 'KENOBI!' in a performance celebrated across world fandom.\n\nHe starred as Davis Bloome (Doomsday) in *Smallville* and vampire Aidan Waite in *Being Human*, while streaming tabletop games and mentoring aspiring voice talent.\n\nAt 49, Sam Witwer stands as a beloved guardian of modern sci-fi lore whose passion matches the fans he inspires.\n\n**What is Sam Witwer's greatest Star Wars performance: Starkiller in The Force Unleashed or Darth Maul in Clone Wars? Share below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Sam Witwer's iconic 'KENOBI' scream...**\n\n* While recording Darth Maul's climactic showdown on Tatooine for *Star Wars Rebels*, Sam screamed 'KENOBI!' so loudly and with such ferocious force that he nearly passed out in the recording booth.\n* He is an expert *Star Wars* lore scholar who frequently helped Dave Filoni verify obscure canon continuity during production.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Sam Witwer!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#SamWitwer #BornToday #2026-10-20 #HollywoodTrivia #ReelChallenge #Shorts",
-      "hashtags": "#SamWitwer #BornToday #2026-10-20 #HollywoodTrivia #ReelChallenge #Shorts",
-      "scheduled_publish_time": 1792530000,
-      "scheduled_time_utc": "2026-10-20T21:00:00.000Z",
-      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1650931483349682",
-      "youtube_video_id": "Ydh9J6ozdHU",
-      "youtube_url": "https://www.youtube.com/shorts/Ydh9J6ozdHU"
+      "image_path": "collages/quiz_01_Andrew_Scott.jpg",
+      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 50 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Overcoming a childhood lisp, his theatrical genius created television's most electric villain and romantic icon.**\n\nBorn October 21, 1976, in Dublin, Ireland, today Andrew Scott turns **50**, standing as one of the most hypnotic actors of his generation.\n\nSent to elocution and drama classes as a boy to correct a pronounced speech lisp, Andrew fell in love with Dublin theater, dropping out of Trinity College to perform at the Abbey Theatre.\n\nIn 2010, his psychotic, singsong portrayal of criminal mastermind Jim Moriarty in BBC's *Sherlock* redefined villainy, winning him a BAFTA and terrifying millions with 'Did you miss me?'.\n\nHe then achieved romantic immortality as the 'Hot Priest' in Phoebe Waller-Bridge's Emmy-sweeping masterpiece *Fleabag*, generating a global obsession before commanding Netflix's neo-noir thriller *Ripley* and indie romance *All of Us Strangers*.\n\nAt 50, Andrew Scott has proved that theatrical fearlessness and intimate emotional vulnerability can command modern screen culture.\n\n**Which Andrew Scott performance captivated you more: Jim Moriarty in Sherlock or the Hot Priest in Fleabag? Drop your vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Andrew Scott's famous Fleabag chemistry...**\n\n* Phoebe Waller-Bridge wrote the role of the Priest specifically for Andrew, having been close friends with him for over a decade after acting together in a 2009 London play.\n* He delivered an astonishing, unbroken solo performance playing all twenty-six characters in an acclaimed London stage adaptation of Chekhov's *Vanya*.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Andrew Scott!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#AndrewScott #BornToday #2026-10-21 #HollywoodQuiz #CelebrityTrivia",
+      "hashtags": "#AndrewScott #BornToday #2026-10-21 #HollywoodQuiz #CelebrityTrivia",
+      "scheduled_publish_time": 1792591200,
+      "scheduled_time_utc": "2026-10-21T14:00:00.000Z",
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
+      "fb_post_id": "122108366811506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122108366811506930"
+    },
+    {
+      "id": "2026-10-21_quiz_02_Kim_Kardashian",
+      "type": "photo_quiz_type2",
+      "celebrity_name": "Kim Kardashian",
+      "birth_year": 1980,
+      "age": 46,
+      "gender": "female",
+      "subtitle": "Born on this day! Can you identify the real birthday star?",
+      "correct_option": "B",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Maggie Smith"
+        },
+        {
+          "letter": "B",
+          "name": "Kim Kardashian"
+        },
+        {
+          "letter": "C",
+          "name": "Halle Berry"
+        },
+        {
+          "letter": "D",
+          "name": "Sally Field"
+        }
+      ],
+      "image_path": "collages/quiz_02_Kim_Kardashian.jpg",
+      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 46? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Dismissed by critics, she turned reality TV fame into a four-billion-dollar empire and freed dozens of inmates.**\n\nBorn October 21, 1980, in Los Angeles, California, today Kimberly Noel Kardashian turns **46**.\n\nWorking as a boutique clerk and celebrity closet organizer for Paris Hilton, Kim turned a family reality TV pilot into a global media juggernaut across fourteen years of *Keeping Up with the Kardashians*.\n\nWhile industry critics mocked her staying power, Kim capitalized on social media disruption, launching shapewear giant SKIMS, valued at over four billion dollars.\n\nShe transitioned into acting, earning acclaim in *American Horror Story: Delicate*, while passing California's first-year law exam and personally lobbying the White House to free nonviolent federal prisoners.\n\nAt 46, Kim Kardashian has shattered every traditional business rule, standing as the ultimate symbol of modern digital influence and entrepreneurial hustle.\n\n**Love her or hate her, did Kim Kardashian completely rewrite the rules of modern celebrity culture? Share your thoughts below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Kim Kardashian's White House prison reform victory...**\n\n* Kim personally met with President Donald Trump in the Oval Office in 2018 to advocate for Alice Marie Johnson, a great-grandmother serving a life sentence for a first-time nonviolent drug offense, successfully securing her release.\n* She has spent over five years studying law through California's law office apprenticeship program, studying eighteen hours weekly.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Kim Kardashian!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#KimKardashian #BornToday #2026-10-21 #FaceMatch #HollywoodQuiz",
+      "hashtags": "#KimKardashian #BornToday #2026-10-21 #FaceMatch #HollywoodQuiz",
+      "scheduled_publish_time": 1792611000,
+      "scheduled_time_utc": "2026-10-21T19:30:00.000Z",
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
+      "fb_post_id": "122108367075506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122108367075506930"
+    },
+    {
+      "id": "2026-10-21_quiz_03_Doja_Cat",
+      "type": "reel_quiz_type1",
+      "celebrity_name": "Doja Cat",
+      "birth_year": 1995,
+      "age": 31,
+      "gender": "female",
+      "correct_option": "C",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Drew Barrymore"
+        },
+        {
+          "letter": "B",
+          "name": "Goldie Hawn"
+        },
+        {
+          "letter": "C",
+          "name": "Doja Cat"
+        },
+        {
+          "letter": "D",
+          "name": "Demi Moore"
+        }
+      ],
+      "reel_path": "reels/quiz_03_Doja_Cat.mp4",
+      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 31th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Making bedroom beats after dropping out of school, she went from viral novelty to multi-platinum pop royalty.**\n\nBorn October 21, 1995, in Tarzana, Los Angeles, California, today Amala Ratna Zandile Dlamini, known globally as Doja Cat, turns **31**.\n\nDropping out of high school at sixteen, Amala spent days scouring YouTube for instrumentals and recording tracks in her bedroom on GarageBand while sleeping on a mattress on the floor.\n\nWhen her novelty track 'Mooo!' blew up online in 2018, critics wrote her off as a temporary internet meme, but Doja possessed formidable rap bars, pop hooks, and visual genius.\n\nHer smash hits 'Say So', 'Kiss Me More', and 'Paint the Town Red' topped Billboard worldwide, earning sixteen Grammy nominations, a Grammy Award, and billion-stream milestones.\n\nAt 31, Doja Cat has weaponized internet culture to conquer global stadiums on pure musical versatility and boundary-pushing fashion.\n\n**Which Doja Cat hit is the absolute best: Paint the Town Red, Say So, or Kiss Me More? Let us know below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Doja Cat's viral 'Mooo!' creation...**\n\n* Doja wrote and recorded 'Mooo!' in just five hours in her bedroom while wearing a cow costume she ordered online, having no idea it would launch her mainstream music career.\n* She trained in classical ballet, tap, and traditional Indian dance as a child, which she credits for her intense music video choreography.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Doja Cat!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#DojaCat #BornToday #2026-10-21 #CelebrityQuiz #ReelQuiz #Shorts",
+      "hashtags": "#DojaCat #BornToday #2026-10-21 #CelebrityQuiz #ReelQuiz #Shorts",
+      "scheduled_publish_time": 1792596600,
+      "scheduled_time_utc": "2026-10-21T15:30:00.000Z",
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
+      "fb_reel_id": "1134476859024566",
+      "youtube_video_id": "OOfnabsBDsw",
+      "youtube_url": "https://www.youtube.com/shorts/OOfnabsBDsw"
+    },
+    {
+      "id": "2026-10-21_quiz_04_Will_Estes",
+      "type": "reel_quiz_type2",
+      "celebrity_name": "Will Estes",
+      "birth_year": 1978,
+      "age": 48,
+      "gender": "male",
+      "subtitle": "Look closely at options A, B, C, and D!",
+      "correct_option": "A",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Will Estes"
+        },
+        {
+          "letter": "B",
+          "name": "Jack Nicholson"
+        },
+        {
+          "letter": "C",
+          "name": "Sam Elliott"
+        },
+        {
+          "letter": "D",
+          "name": "Morgan Freeman"
+        }
+      ],
+      "reel_path": "reels/quiz_04_Will_Estes.mp4",
+      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**A child commercial actor, he spent fourteen seasons anchoring television's most famous law enforcement family.**\n\nBorn October 21, 1978, in Los Angeles, California, today William Estes Nipper turns **48**, celebrated for steady, heartfelt screen presence.\n\nBooking commercial and television guest spots as a kid, Will won praise as JJ Pryor in NBC's nostalgic drama *American Dreams*, before landing film roles in *U-571* and *The Dark Knight Rises*.\n\nIn 2010, CBS premiered *Blue Bloods*. As Harvard-educated NYPD officer Jamie Reagan, Will's quiet moral compass opposite Tom Selleck turned Sunday family dinners into an American television institution across nearly 300 episodes.\n\nAt 48, Will Estes stands as a consummate professional whose understated integrity anchored one of modern broadcast television's longest-running hits.\n\n**Was Jamie Reagan your favorite member of the Reagan family on Blue Bloods? Share your thoughts below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Will Estes's Blue Bloods family dinner scenes...**\n\n* The famous weekly Sunday family dinner scenes on *Blue Bloods* took over eight hours to shoot, and Will famously had to pace his eating so he wouldn't get sick across dozens of takes.\n* He is a passionate environmental activist who has served as a board member for the non-profit organization Vote Solar.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Will Estes!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#WillEstes #BornToday #2026-10-21 #HollywoodTrivia #ReelChallenge #Shorts",
+      "hashtags": "#WillEstes #BornToday #2026-10-21 #HollywoodTrivia #ReelChallenge #Shorts",
+      "scheduled_publish_time": 1792616400,
+      "scheduled_time_utc": "2026-10-21T21:00:00.000Z",
+      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
     }
   ]
 }
