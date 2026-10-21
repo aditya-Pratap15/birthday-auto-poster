@@ -52,13 +52,18 @@ async function safeSetContent(page, html) {
   }
 }
 
-async function getCelebrityPhoto(name) {
-  try {
-    const s = await fetchJson(`https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(name)}`);
-    const p = s?.results?.[0]?.profile_path;
-    if (p) return `https://image.tmdb.org/t/p/w780${p}`;
-  } catch(e){}
+async function getCelebrityPhoto(name, retries = 3) {
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const s = await fetchJson(`https://api.themoviedb.org/3/search/person?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(name)}`);
+      const p = s?.results?.[0]?.profile_path;
+      if (p) return `https://image.tmdb.org/t/p/w780${p}`;
+    } catch(e) {
+      if (attempt < retries) await new Promise(r => setTimeout(r, 600));
+    }
+  }
 
+  // Fallback to Wikipedia with compliant User-Agent
   try {
     const w = await fetchJson(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(name.replace(/ /g, '_'))}&prop=pageimages&format=json&pithumbsize=1000`);
     const pages = w?.query?.pages;
@@ -71,24 +76,44 @@ async function getCelebrityPhoto(name) {
   return null;
 }
 
-function downloadImageAsDataUri(url) {
+function downloadImageAsDataUri(url, retries = 2) {
   return new Promise((resolve) => {
     if (!url) return resolve(null);
-    url = url.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
     const parsed = new URL(url);
     const client = parsed.protocol === 'http:' ? require('http') : https;
-    client.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 BornTodayHollywood/1.0' } }, res => {
+    const req = client.get(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 BornTodayHollywood/1.0',
+        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+      }
+    }, res => {
       if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return resolve(downloadImageAsDataUri(res.headers.location));
+        return resolve(downloadImageAsDataUri(res.headers.location, retries));
+      }
+      if (res.statusCode !== 200) {
+        console.warn(`[!] Image download failed with status ${res.statusCode} for ${url}`);
+        return resolve(null);
+      }
+      const mime = res.headers['content-type'] || '';
+      if (!mime.startsWith('image/')) {
+        console.warn(`[!] Invalid content-type ${mime} for ${url}`);
+        return resolve(null);
       }
       const chunks = [];
       res.on('data', c => chunks.push(c));
       res.on('end', () => {
         const buf = Buffer.concat(chunks);
-        const mime = res.headers['content-type'] || 'image/jpeg';
         resolve(`data:${mime};base64,${buf.toString('base64')}`);
       });
-    }).on('error', () => resolve(null));
+    });
+    req.on('error', async (err) => {
+      if (retries > 0) {
+        await new Promise(r => setTimeout(r, 1000));
+        resolve(await downloadImageAsDataUri(url, retries - 1));
+      } else {
+        resolve(null);
+      }
+    });
   });
 }
 
@@ -942,10 +967,26 @@ async function run() {
     const r2OptD = q4Post.options.find(o => o.letter === 'D') || { name: 'Option D' };
 
     console.log(`   📸 Sourcing 4 same-gender portraits: A=${r2OptA.name}, B=${r2OptB.name}, C=${r2OptC.name}, D=${r2OptD.name}...`);
-    const r2UriA = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptA.name));
-    const r2UriB = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptB.name));
-    const r2UriC = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptC.name));
-    const r2UriD = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptD.name));
+    let r2UriA = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptA.name));
+    let r2UriB = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptB.name));
+    let r2UriC = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptC.name));
+    let r2UriD = await downloadImageAsDataUri(await getCelebrityPhoto(r2OptD.name));
+
+    const optsCheck = [
+      { letter: 'A', name: r2OptA.name, uri: r2UriA, set: u => r2UriA = u },
+      { letter: 'B', name: r2OptB.name, uri: r2UriB, set: u => r2UriB = u },
+      { letter: 'C', name: r2OptC.name, uri: r2UriC, set: u => r2UriC = u },
+      { letter: 'D', name: r2OptD.name, uri: r2UriD, set: u => r2UriD = u }
+    ];
+    for (const item of optsCheck) {
+      if (!item.uri) {
+        console.warn(`   ⚠️ Portrait for Option ${item.letter} (${item.name}) is missing, performing deep retry...`);
+        const fallbackPhoto = await getCelebrityPhoto(item.name, 5);
+        if (fallbackPhoto) {
+          item.set(await downloadImageAsDataUri(fallbackPhoto, 3));
+        }
+      }
+    }
 
     const r2CorrectOpt = q4Post.correct_option || 'B';
     const r2WinnerUriMap = { A: r2UriA, B: r2UriB, C: r2UriC, D: r2UriD };
