@@ -401,10 +401,30 @@ async function run() {
     const optD = q2Post.options.find(o => o.letter === 'D') || { name: 'Option D' };
 
     console.log(`   📸 Sourcing 4 same-gender portraits: A=${optA.name}, B=${optB.name}, C=${optC.name}, D=${optD.name}...`);
-    const uriA = await downloadImageAsDataUri(await getCelebrityPhoto(optA.name));
-    const uriB = await downloadImageAsDataUri(await getCelebrityPhoto(optB.name));
-    const uriC = await downloadImageAsDataUri(await getCelebrityPhoto(optC.name));
-    const uriD = await downloadImageAsDataUri(await getCelebrityPhoto(optD.name));
+    let uriA = await downloadImageAsDataUri(await getCelebrityPhoto(optA.name));
+    let uriB = await downloadImageAsDataUri(await getCelebrityPhoto(optB.name));
+    let uriC = await downloadImageAsDataUri(await getCelebrityPhoto(optC.name));
+    let uriD = await downloadImageAsDataUri(await getCelebrityPhoto(optD.name));
+
+    const q2OptsCheck = [
+      { letter: 'A', name: optA.name, uri: uriA, set: u => uriA = u },
+      { letter: 'B', name: optB.name, uri: uriB, set: u => uriB = u },
+      { letter: 'C', name: optC.name, uri: uriC, set: u => uriC = u },
+      { letter: 'D', name: optD.name, uri: uriD, set: u => uriD = u }
+    ];
+    for (const item of q2OptsCheck) {
+      if (!item.uri) {
+        console.warn(`   ⚠️ Portrait for Quiz 2 Option ${item.letter} (${item.name}) is missing, performing deep retry...`);
+        const fallbackPhoto = await getCelebrityPhoto(item.name, 5);
+        if (fallbackPhoto) {
+          item.set(await downloadImageAsDataUri(fallbackPhoto, 3));
+        }
+      }
+    }
+    uriA = uriA || logoUri;
+    uriB = uriB || logoUri;
+    uriC = uriC || logoUri;
+    uriD = uriD || logoUri;
 
     const isFemale = (q2Post.gender || 'female').toLowerCase() === 'female';
     const bgGrad = isFemale
@@ -987,6 +1007,10 @@ async function run() {
         }
       }
     }
+    r2UriA = r2UriA || logoUri;
+    r2UriB = r2UriB || logoUri;
+    r2UriC = r2UriC || logoUri;
+    r2UriD = r2UriD || logoUri;
 
     const r2CorrectOpt = q4Post.correct_option || 'B';
     const r2WinnerUriMap = { A: r2UriA, B: r2UriB, C: r2UriC, D: r2UriD };
