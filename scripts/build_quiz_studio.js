@@ -117,7 +117,38 @@ function downloadImageAsDataUri(url, retries = 2) {
   });
 }
 
-async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 3) {
+async function generateGoogleTTS(text, lang = 'en', outputPath) {
+  const words = (text || '').split(/\s+/);
+  const chunks = [];
+  let cur = '';
+  for (const w of words) {
+    if ((cur + ' ' + w).trim().length > 180) {
+      chunks.push(cur.trim());
+      cur = w;
+    } else {
+      cur = (cur + ' ' + w).trim();
+    }
+  }
+  if (cur) chunks.push(cur);
+
+  const audioBuffers = [];
+  for (const chunk of chunks) {
+    const buf = await new Promise((resolve, reject) => {
+      const url = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(chunk) + '&tl=' + lang + '&client=tw-ob';
+      https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, res => {
+        if (res.statusCode !== 200) return reject(new Error('Google TTS HTTP ' + res.statusCode));
+        const cArr = [];
+        res.on('data', d => cArr.push(d));
+        res.on('end', () => resolve(Buffer.concat(cArr)));
+      }).on('error', reject);
+    });
+    audioBuffers.push(buf);
+  }
+  fs.writeFileSync(outputPath, Buffer.concat(audioBuffers));
+  return outputPath;
+}
+
+async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 2) {
   for (let a = 1; a <= retries; a++) {
     try {
       const tts = new MsEdgeTTS();
@@ -134,8 +165,19 @@ async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 3) 
       });
       return destPath;
     } catch(err) {
-      if (a === retries) throw err;
-      await new Promise(r => setTimeout(r, 2000 * a));
+      console.warn(`    ⚠️ MsEdgeTTS attempt ${a} failed: ${err.message}`);
+      if (a === retries) {
+        console.warn(`    🛡️ Engaging Google TTS Fallback for Quiz Reel Voiceover...`);
+        try {
+          await generateGoogleTTS(text, 'en', destPath);
+          console.log(`    ✅ Google TTS Fallback successfully created audio at ${path.basename(destPath)}`);
+          return destPath;
+        } catch(fallbackErr) {
+          console.error(`    ❌ Google TTS Fallback also failed:`, fallbackErr.message);
+          throw fallbackErr;
+        }
+      }
+      await new Promise(r => setTimeout(r, 1000 * a));
     }
   }
 }
