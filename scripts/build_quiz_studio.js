@@ -4,7 +4,7 @@ const path = require('path');
 const https = require('https');
 const { execSync } = require('child_process');
 const puppeteer = require('puppeteer');
-const { MsEdgeTTS, OUTPUT_FORMAT } = require('msedge-tts');
+const { EdgeTTS } = require('node-edge-tts');
 
 // Support both standalone and within repo runs
 const AUTO_DIR = 'C:\\Users\\prata\\OneDrive\\Desktop\\Facebook-Automations\\1-born-today-hollywood';
@@ -151,21 +151,15 @@ async function generateGoogleTTS(text, lang = 'en', outputPath) {
 async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 2) {
   for (let a = 1; a <= retries; a++) {
     try {
-      const tts = new MsEdgeTTS();
-      await tts.setMetadata(voiceName, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3);
-      const audioChunks = [];
-      await new Promise((resolve, reject) => {
-        const { audioStream } = tts.toStream(text);
-        audioStream.on('data', chunk => audioChunks.push(chunk));
-        audioStream.on('end', () => {
-          fs.writeFileSync(destPath, Buffer.concat(audioChunks));
-          resolve();
-        });
-        audioStream.on('error', reject);
+      const tts = new EdgeTTS({
+        voice: voiceName,
+        lang: 'en-US',
+        outputFormat: 'audio-24khz-96kbitrate-mono-mp3'
       });
+      await tts.ttsPromise(text, destPath);
       return destPath;
     } catch(err) {
-      console.warn(`    ⚠️ MsEdgeTTS attempt ${a} failed: ${err.message}`);
+      console.warn(`    ⚠️ EdgeTTS attempt ${a} failed: ${err.message}`);
       if (a === retries) {
         console.warn(`    🛡️ Engaging Google TTS Fallback for Quiz Reel Voiceover...`);
         try {

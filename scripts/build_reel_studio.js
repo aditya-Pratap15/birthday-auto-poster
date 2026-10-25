@@ -26,7 +26,7 @@ const http = require('http');
 const { URL } = require('url');
 const { execSync } = require('child_process');
 const puppeteer = require('puppeteer');
-const { MsEdgeTTS, OUTPUT_FORMAT } = require('msedge-tts');
+const { EdgeTTS } = require('node-edge-tts');
 
 // Project Paths
 const ROOT_DIR = path.resolve(__dirname, '..');
@@ -338,45 +338,34 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       console.log(`    🎙️ Synthesizing narration with ${voice} (${isFemale ? 'Female' : 'Male'}) [Attempt ${attempt}/${maxRetries}]...`);
-      const tts = new MsEdgeTTS();
-      await tts.setMetadata(voice, OUTPUT_FORMAT.AUDIO_24KHZ_96KBITRATE_MONO_MP3, { wordBoundaryEnabled: true });
-
-      const boundaries = [];
-      const audioChunks = [];
-
-      await new Promise((resolve, reject) => {
-        const { audioStream, metadataStream } = tts.toStream(text);
-        audioStream.on('data', chunk => audioChunks.push(chunk));
-        if (metadataStream) {
-          metadataStream.on('data', data => {
-            try {
-              const json = JSON.parse(data.toString());
-              for (const item of (json.Metadata || [])) {
-                if (item.Type === 'WordBoundary' && item.Data) {
-                  boundaries.push({
-                    offset: item.Data.Offset,
-                    duration: item.Data.Duration,
-                    text: item.Data.text ? item.Data.text.Text : ''
-                  });
-                }
-              }
-            } catch (e) {}
-          });
-        }
-        audioStream.on('end', resolve);
-        audioStream.on('error', reject);
+      const tts = new EdgeTTS({
+        voice: voice,
+        lang: 'en-US',
+        outputFormat: 'audio-24khz-96kbitrate-mono-mp3',
+        saveSubtitles: true
       });
 
-      const buffer = Buffer.concat(audioChunks);
-      if (buffer.length === 0) {
-        throw new Error('Received empty audio buffer from TTS service');
+      await tts.ttsPromise(text, outputPath);
+
+      const subJsonPath = outputPath + '.json';
+      let boundaries = [];
+      if (fs.existsSync(subJsonPath)) {
+        try {
+          const cues = JSON.parse(fs.readFileSync(subJsonPath, 'utf8'));
+          boundaries = cues.map(c => ({
+            text: (c.part || '').trim(),
+            start: c.start / 1000,
+            end: c.end / 1000
+          })).filter(b => b.text.length > 0);
+          fs.unlinkSync(subJsonPath);
+        } catch (e) {}
       }
-      fs.writeFileSync(outputPath, buffer);
+
       const duration = getAudioDuration(outputPath);
       console.log(`    ✅ Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries)`);
       return { duration, boundaries };
     } catch (err) {
-      console.warn(`    [!] Tier 1 Neural TTS Attempt ${attempt} failed: ${err.message}`);
+      console.warn(`    [!] Neural TTS Attempt ${attempt} failed: ${err.message}`);
       if (attempt < maxRetries) {
         await new Promise(r => setTimeout(r, 2000));
       }
@@ -444,8 +433,8 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
         : `{\\b1\\c&H00FFFFFF&}${rawWord}`;
 
       return {
-        start: (b.offset || 0) / 10000000,
-        end: ((b.offset || 0) + (b.duration || 0)) / 10000000,
+        start: b.start !== undefined ? b.start : (b.offset || 0) / 10000000,
+        end: b.end !== undefined ? b.end : ((b.offset || 0) + (b.duration || 0)) / 10000000,
         raw: rawWord,
         styled,
         isSentenceEnd,
@@ -497,12 +486,18 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       events.push(`Dialogue: 0,${formatAssTime(chunkStart)},${formatAssTime(chunkEnd)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)}${chunkText}`);
     }
   } else {
-    const sentences = fullNarration.split(/(?<=[.?!])\s+/);
-    const chunkDur = voiceDuration / Math.max(1, sentences.length);
-    sentences.forEach((s, idx) => {
-      const start = idx * chunkDur;
-      const end = (idx + 1) * chunkDur;
-      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)\\b1\\c&H00FFFFFF&}${s}`);
+    // Robust fallback: NEVER show 3-4 lines all at once. Chunk words into short 2-3 word segments!
+    const allWords = fullNarration.split(/\s+/).filter(Boolean);
+    const wordDur = voiceDuration / Math.max(1, allWords.length);
+    const fallbackChunks = [];
+    for (let w = 0; w < allWords.length; w += 3) {
+      fallbackChunks.push(allWords.slice(w, w + 3));
+    }
+    fallbackChunks.forEach((grp, idx) => {
+      const start = idx * 3 * wordDur;
+      const end = Math.min(voiceDuration, (idx + 1) * 3 * wordDur);
+      const text = grp.join(' ');
+      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)\\b1\\c&H00FFFFFF&}${text}`);
     });
   }
 
