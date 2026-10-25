@@ -422,7 +422,7 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
 
       const isListNum = /^\d+\.$/.test(rawWord);
       // Punctuation break points
-      const isSentenceEnd = isListNum ? false : /[.!?…]+$/.test(rawWord);
+      const isSentenceEnd = isListNum ? false : /[.!?…]+['"”’)*_~]*$/.test(rawWord);
       const isClauseEnd = /[,;:\-—]$/.test(rawWord);
 
       const cleanToken = rawWord.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -470,7 +470,10 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       let chunkEnd;
       if (c + 1 < chunks.length) {
         const nextStart = chunks[c + 1][0].start;
-        if (nextStart - lastWord.end > 0.35) {
+        // If this chunk ends a sentence (full stop), clear screen with a natural pause before new sentence appears
+        if (lastWord.isSentenceEnd) {
+          chunkEnd = Math.min(nextStart - 0.06, lastWord.end + 0.18);
+        } else if (nextStart - lastWord.end > 0.35) {
           chunkEnd = lastWord.end + 0.15;
         } else {
           chunkEnd = Math.max(lastWord.end + 0.05, nextStart - 0.02);
@@ -486,16 +489,27 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       events.push(`Dialogue: 0,${formatAssTime(chunkStart)},${formatAssTime(chunkEnd)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)}${chunkText}`);
     }
   } else {
-    // Robust fallback: NEVER show 3-4 lines all at once. Chunk words into short 2-3 word segments!
+    // Robust fallback: NEVER show 3-4 lines all at once. Break on full stop or max 3 words!
     const allWords = fullNarration.split(/\s+/).filter(Boolean);
     const wordDur = voiceDuration / Math.max(1, allWords.length);
     const fallbackChunks = [];
-    for (let w = 0; w < allWords.length; w += 3) {
-      fallbackChunks.push(allWords.slice(w, w + 3));
+    let cur = [];
+    for (const w of allWords) {
+      cur.push(w);
+      const isEnd = /[.!?…]+['"”’)*_~]*$/.test(w) || cur.length >= 3;
+      if (isEnd) {
+        fallbackChunks.push(cur);
+        cur = [];
+      }
     }
-    fallbackChunks.forEach((grp, idx) => {
-      const start = idx * 3 * wordDur;
-      const end = Math.min(voiceDuration, (idx + 1) * 3 * wordDur);
+    if (cur.length > 0) fallbackChunks.push(cur);
+
+    let runningTime = 0;
+    fallbackChunks.forEach((grp) => {
+      const start = runningTime;
+      const dur = grp.length * wordDur;
+      const end = Math.min(voiceDuration, start + dur);
+      runningTime = end;
       const text = grp.join(' ');
       events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)\\b1\\c&H00FFFFFF&}${text}`);
     });
