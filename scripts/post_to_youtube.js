@@ -179,6 +179,30 @@ async function uploadYouTubeShort(accessToken, videoPath, metadata, scheduledPub
   });
 }
 
+function deleteVideo(accessToken, videoId) {
+  return new Promise((resolve) => {
+    const req = https.request({
+      hostname: 'www.googleapis.com',
+      port: 443,
+      path: `/youtube/v3/videos?id=${videoId}`,
+      method: 'DELETE',
+      headers: { 'Authorization': `Bearer ${accessToken}` }
+    }, res => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        console.log(`    [🗑️] YouTube delete result for ${videoId}: HTTP ${res.statusCode}`);
+        resolve(res.statusCode === 204 || res.statusCode === 200 || res.statusCode === 404);
+      });
+    });
+    req.on('error', err => {
+      console.warn(`    [!] Error deleting video ${videoId}:`, err.message);
+      resolve(false);
+    });
+    req.end();
+  });
+}
+
 function searchMyRecentVideos(accessToken) {
   return new Promise((resolve) => {
     https.get({
@@ -203,6 +227,11 @@ async function main() {
   console.log('======================================================');
   console.log('🎬 YouTube Shorts Auto Poster - Born Today Hollywood');
   console.log('======================================================\n');
+
+  const isForce = process.argv.includes('--force') || process.argv.includes('--replace') || process.env.FORCE_REPLACE === 'true';
+  if (isForce) {
+    console.log('[⚡] FORCE RE-UPLOAD ACTIVE: Existing YouTube Shorts will be deleted and replaced with new reels.\n');
+  }
 
   if (!fs.existsSync(TODAY_POSTS_PATH)) {
     console.error(`[!] today_posts.json not found at ${TODAY_POSTS_PATH}`);
@@ -241,7 +270,13 @@ async function main() {
     const celebName = post.celebrity_name;
     const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
 
-    if (post.youtube_video_id) {
+    if (isForce && post.youtube_video_id) {
+      console.log(`[🔄] Force replace active: deleting old YouTube Short for ${celebName} (${post.youtube_video_id})...`);
+      await deleteVideo(accessToken, post.youtube_video_id);
+      delete post.youtube_video_id;
+      delete post.youtube_url;
+      fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+    } else if (post.youtube_video_id) {
       console.log(`[i] YouTube Short for ${celebName} already uploaded (${post.youtube_video_id}), skipping.`);
       continue;
     }
@@ -317,7 +352,13 @@ async function main() {
       const celebName = q.celebrity_name;
       const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
 
-      if (q.youtube_video_id) {
+      if (isForce && q.youtube_video_id) {
+        console.log(`[🔄] Force replace active: deleting old YouTube Quiz Short for ${celebName} (${q.youtube_video_id})...`);
+        await deleteVideo(accessToken, q.youtube_video_id);
+        delete q.youtube_video_id;
+        delete q.youtube_url;
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      } else if (q.youtube_video_id) {
         console.log(`[i] YouTube Quiz Short for ${celebName} already uploaded (${q.youtube_video_id}), skipping.`);
         continue;
       }

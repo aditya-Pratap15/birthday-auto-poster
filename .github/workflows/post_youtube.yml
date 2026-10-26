@@ -1,7 +1,12 @@
-﻿name: Post to YouTube Shorts
+name: Post to YouTube Shorts
 
 on:
   workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force replace existing YouTube shorts'
+        type: boolean
+        default: true
 
 permissions:
   contents: write
@@ -26,7 +31,12 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-        run: node scripts/post_to_youtube.js
+        run: |
+          if [ "${{ github.event.inputs.force }}" = "true" ]; then
+            node scripts/post_to_youtube.js --force
+          else
+            node scripts/post_to_youtube.js
+          fi
 
       - name: Commit Updated YouTube IDs
         run: |
