@@ -232,7 +232,8 @@
       "scheduled_time_utc": "2026-10-26T14:00:00.000Z",
       "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
       "fb_post_id": "122110924797506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122110924797506930"
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122110924797506930",
+      "ig_post_id": "18124769219488171"
     },
     {
       "id": "2026-10-26_quiz_02_Jon_Heder",
@@ -304,7 +305,8 @@
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
       "fb_reel_id": "1707246184077472",
       "youtube_video_id": "1rO4qZYe0cI",
-      "youtube_url": "https://www.youtube.com/shorts/1rO4qZYe0cI"
+      "youtube_url": "https://www.youtube.com/shorts/1rO4qZYe0cI",
+      "ig_reel_id": "17909042499575345"
     },
     {
       "id": "2026-10-26_quiz_04_James_Pickens_Jr_",
