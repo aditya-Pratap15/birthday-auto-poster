@@ -117,63 +117,57 @@ function downloadImageAsDataUri(url, retries = 2) {
   });
 }
 
-async function generateGoogleTTS(text, lang = 'en', outputPath) {
-  const words = (text || '').split(/\s+/);
-  const chunks = [];
-  let cur = '';
-  for (const w of words) {
-    if ((cur + ' ' + w).trim().length > 180) {
-      chunks.push(cur.trim());
-      cur = w;
-    } else {
-      cur = (cur + ' ' + w).trim();
+async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 3) {
+  const pyScript = path.join(__dirname, 'edge_tts_generator.py');
+  if (fs.existsSync(pyScript)) {
+    const tempTextPath = destPath + '.txt';
+    const subJsonPath = destPath + '.json';
+    fs.writeFileSync(tempTextPath, text, 'utf8');
+
+    const pyCommands = [
+      `python3 "${pyScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`,
+      `python "${pyScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`,
+      `uv run --with edge-tts python "${pyScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`
+    ];
+
+    for (const cmd of pyCommands) {
+      try {
+        console.log(`    🎙️ Synthesizing quiz narration (${voiceName}) via Python Engine [${cmd.split(' ')[0]}]...`);
+        execSync(cmd, { stdio: 'pipe', timeout: 60000 });
+        if (fs.existsSync(destPath) && fs.statSync(destPath).size > 1000) {
+          try { if (fs.existsSync(subJsonPath)) fs.unlinkSync(subJsonPath); } catch (e) {}
+          try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) {}
+          console.log(`    ✅ Neural Quiz Voiceover created via Python Engine`);
+          return destPath;
+        }
+      } catch (e) {
+        // Fall through to next command
+      }
     }
+    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) {}
   }
-  if (cur) chunks.push(cur);
 
-  const audioBuffers = [];
-  for (const chunk of chunks) {
-    const buf = await new Promise((resolve, reject) => {
-      const url = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(chunk) + '&tl=' + lang + '&client=tw-ob';
-      https.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' } }, res => {
-        if (res.statusCode !== 200) return reject(new Error('Google TTS HTTP ' + res.statusCode));
-        const cArr = [];
-        res.on('data', d => cArr.push(d));
-        res.on('end', () => resolve(Buffer.concat(cArr)));
-      }).on('error', reject);
-    });
-    audioBuffers.push(buf);
-  }
-  fs.writeFileSync(outputPath, Buffer.concat(audioBuffers));
-  return outputPath;
-}
-
-async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 2) {
   for (let a = 1; a <= retries; a++) {
     try {
+      console.log(`    🎙️ Synthesizing quiz narration (${voiceName}) via Node Engine [Attempt ${a}/${retries}]...`);
       const tts = new EdgeTTS({
         voice: voiceName,
         lang: 'en-US',
-        outputFormat: 'audio-24khz-96kbitrate-mono-mp3'
+        outputFormat: 'audio-24khz-96kbitrate-mono-mp3',
+        timeout: 60000
       });
       await tts.ttsPromise(text, destPath);
+      console.log(`    ✅ Neural Quiz Voiceover created via Node Engine`);
       return destPath;
     } catch(err) {
-      console.warn(`    ⚠️ EdgeTTS attempt ${a} failed: ${err.message}`);
-      if (a === retries) {
-        console.warn(`    🛡️ Engaging Google TTS Fallback for Quiz Reel Voiceover...`);
-        try {
-          await generateGoogleTTS(text, 'en', destPath);
-          console.log(`    ✅ Google TTS Fallback successfully created audio at ${path.basename(destPath)}`);
-          return destPath;
-        } catch(fallbackErr) {
-          console.error(`    ❌ Google TTS Fallback also failed:`, fallbackErr.message);
-          throw fallbackErr;
-        }
+      console.warn(`    ⚠️ Node EdgeTTS attempt ${a} failed: ${err.message}`);
+      if (a < retries) {
+        await new Promise(r => setTimeout(r, 2000));
       }
-      await new Promise(r => setTimeout(r, 1000 * a));
     }
   }
+
+  throw new Error(`Failed to synthesize quiz voiceover with ${voiceName} after all neural engines were exhausted.`);
 }
 
 function getAudioDuration(filePath) {

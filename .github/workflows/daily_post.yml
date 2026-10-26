@@ -24,6 +24,14 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Setup Python and Install Edge-TTS Engine
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Latest Edge-TTS CLI
+        run: pip install --upgrade edge-tts
+
       - name: Install Node Dependencies
         run: npm install
 
