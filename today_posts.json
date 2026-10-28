@@ -1,12 +1,140 @@
 {
-  "date": "2026-10-27",
-  "generated_at": "2026-10-27T06:04:38+05:30",
+  "date": "2026-10-28",
+  "generated_at": "2026-10-28T06:18:10+05:30",
   "posts": [
     {
-      "id": "2026-10-27_01_John_Cleese",
-      "celebrity_name": "John Cleese",
-      "birth_year": 1939,
-      "age": 87,
+      "id": "2026-10-28_01_Julia_Roberts",
+      "celebrity_name": "Julia Roberts",
+      "birth_year": 1967,
+      "age": 59,
+      "gender": "female",
+      "country": "United States",
+      "preset": "preset_viral_teaser",
+      "teaserCard": {
+        "enabled": true,
+        "x": 45,
+        "y": 1161,
+        "width": 990,
+        "height": 200,
+        "bgColor": "#0d0f14",
+        "borderColor": "#b68c43",
+        "borderWidth": 2,
+        "cornerRadius": 14,
+        "badgeIcon": "crown",
+        "line1": "Shoe store clerk in Manhattan,",
+        "line2": "broke Hollywood pay ceiling",
+        "line2Highlight": "won Oscar for Erin Brockovich",
+        "line3Highlight": "as America's sweetheart...",
+        "ctaText": "Read the full story in caption →"
+      },
+      "photo_urls": [
+        "https://image.tmdb.org/t/p/original/fQacAdIa1WUNChQ6FgEko13eqOA.jpg",
+        "https://image.tmdb.org/t/p/original/1JDPfKCABYmBmiK3qnKXDwLWuWy.jpg",
+        "https://image.tmdb.org/t/p/original/mQ7076pL4Ac0ZzY4w31labWIdQt.jpg",
+        "https://image.tmdb.org/t/p/original/AhQMyQ10kz5g8Y3Fp54GPhgDxQS.jpg",
+        "https://image.tmdb.org/t/p/original/h13yvG0tRNMTAwciQXxYmQWdYW8.jpg"
+      ],
+      "caption": "**Scooping ice cream in Manhattan, she dared to bet on herself and broke Hollywood's female salary barrier forever.**\n\nBorn October 28, 1967, in Smyrna, Georgia, today Julia Fiona Roberts turns **59**, celebrated as the defining screen queen of modern cinema.\n\nDreaming of becoming a veterinarian before moving to New York, young Julia shared a tiny apartment with her siblings while scooping ice cream at Baskin-Robbins and selling athletic sneakers to pay rent.\n\nWhen studio executives cast her opposite Richard Gere in 1990, she trusted an unorthodox instinct: lighting up the screen with a wide, infectious laugh and unfiltered emotional vulnerability.\n\n*Pretty Woman* became a worldwide box-office sensation, but her true triumph arrived in 2000 when she became the first woman in history to command a twenty-million-dollar paycheck, winning the Academy Award for Best Actress in *Erin Brockovich*.\n\nFrom *Notting Hill* and *My Best Friend's Wedding* to *Ocean's Eleven*, her radiant charisma conquered global audiences without ever compromising her southern warmth.\n\nAt 59, Julia Roberts remains the timeless benchmark of Hollywood star power.\n\n**What is Julia Roberts's greatest performance: Pretty Woman, Erin Brockovich, or Notting Hill? Drop your vote below! 👇**",
+      "comment": "**The secret behind Julia Roberts's hospital bill...**\n\n* When Julia was born in 1967, civil rights leaders Martin Luther King Jr. and Coretta Scott King personally paid her parents' hospital bill to thank them for welcoming the King children into their Atlanta theater school.\n* For *Erin Brockovich*, she learned to write with her right hand despite being naturally left-handed to ensure absolute biographical accuracy.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "Before lighting up cinema with her million-dollar smile, Julia Roberts scooped ice cream in Manhattan while chasing auditions. She skyrocketed to global fame in Pretty Woman and shattered Hollywood's pay ceiling forever, winning the Best Actress Academy Award for Erin Brockovich. Happy fifty-ninth birthday to an enduring cinematic queen. What is your absolute favorite Julia Roberts movie of all time? Tell us in the comments.",
+      "reel_caption": "From scooping ice cream to becoming the first woman to earn twenty million dollars for a film, Julia Roberts defined Hollywood royalty. What is your favorite Julia Roberts movie? #JuliaRoberts #PrettyWoman #ErinBrockovich #NottingHill #BornToday",
+      "hashtags": [
+        "#JuliaRoberts",
+        "#PrettyWoman",
+        "#ErinBrockovich",
+        "#NottingHill",
+        "#OceansEleven",
+        "#OscarWinner",
+        "#HollywoodIcon",
+        "#BornToday",
+        "#October28"
+      ],
+      "image_path": "collages/Julia_Roberts_Page_1_Tribute.jpg",
+      "scheduled_publish_time": 1793188800,
+      "scheduled_time_utc": "2026-10-28T12:00:00.000Z",
+      "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
+      "page_name": "Born Today Hollywood",
+      "page_id_env": "FB_PAGE_ID_BORN",
+      "token_env": "FB_TOKEN_BORN",
+      "reel_path": "reels/Julia_Roberts_Reel.mp4",
+      "fb_post_id": "122111884641506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111884641506930",
+      "fb_collage_photo_id": "122111884641506930",
+      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/867340918_122111884647506930_2360795487795241450_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=054031&_nc_ohc=bt8_HgwXqpYQ7kNvwFFq2q1&_nc_oc=AdqUoEzZ8d86UthNIdTIx72-aSr_2MwQlJjJCagodcwUcdUym0iKDJe-CSvsehE3imk&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=5lHe9KIew6zlPO3eZspIAg&_nc_tpa=Q5bMBQItpSfb0pwY1MCJm6oPyIOhNZOnUkOuxiX_-s9T1NP-13CrKgCjkVzE7l3S9Mlbc9o1XdrIeUiHvQ&oh=00_AQS3P6J4Z0lRd607WcMlPecdk0_5qqsYwqO5oRkfInOv9Q&oe=6AE733A8",
+      "fb_reel_id": "29414861784797907",
+      "fb_reel_scheduled_time": 1793191200,
+      "youtube_video_id": "sWeSmy02Kj8",
+      "youtube_url": "https://www.youtube.com/shorts/sWeSmy02Kj8"
+    },
+    {
+      "id": "2026-10-28_02_Joaquin_Phoenix",
+      "celebrity_name": "Joaquin Phoenix",
+      "birth_year": 1974,
+      "age": 52,
+      "gender": "male",
+      "country": "United States",
+      "preset": "preset_viral_teaser",
+      "teaserCard": {
+        "enabled": true,
+        "x": 45,
+        "y": 1161,
+        "width": 990,
+        "height": 200,
+        "bgColor": "#0d0f14",
+        "borderColor": "#b68c43",
+        "borderWidth": 2,
+        "cornerRadius": 14,
+        "badgeIcon": "crown",
+        "line1": "Street busker in Puerto Rico,",
+        "line2": "overcame heartbreaking family tragedy",
+        "line2Highlight": "won Best Actor for Joker",
+        "line3Highlight": "to conquer world cinema...",
+        "ctaText": "Read the full story in caption →"
+      },
+      "photo_urls": [
+        "https://image.tmdb.org/t/p/original/u38k3hQBDwNX0VA22aQceDp9Iyv.jpg",
+        "https://image.tmdb.org/t/p/original/doX17Hg7X8d1cQmryWF22oRrpP.jpg",
+        "https://image.tmdb.org/t/p/original/1UzIGSKFH0A9ouwnMwQQWUiqV2s.jpg",
+        "https://image.tmdb.org/t/p/original/ajw5ngSP0PURgPAz6FAeqJBcbkk.jpg",
+        "https://image.tmdb.org/t/p/original/6Am3gD4CVdU7x8WBVNwN4KKAM0V.jpg"
+      ],
+      "caption": "**Surviving cult life and the tragic loss of his brother, he transformed deep pain into an Oscar-winning masterpiece.**\n\nBorn October 28, 1974, in San Juan, Puerto Rico, today Joaquín Rafael Phoenix turns **52**, revered as one of the most transformative actors in film history.\n\nRaised in a traveling religious cult across South America before escaping with his family to Los Angeles, young Joaquin sang and performed on street corners to help put food on the table.\n\nWhen his idolized older brother River Phoenix tragically collapsed and died in his arms in 1993, a grief-stricken nineteen-year-old Joaquin retreated from Hollywood, nearly walking away from acting forever.\n\nChanneling raw grief and brooding intensity into unvarnished art, he delivered unforgettable performances as Commodus in *Gladiator*, Johnny Cash in *Walk the Line*, and a lonely writer in *Her*.\n\nIn 2019, his emaciated, agonizing portrayal of Arthur Fleck in *Joker* shattered box-office records, grossing over one billion dollars and earning him the Academy Award for Best Actor.\n\nAt 52, Joaquin Phoenix stands as an uncompromising artist who gives every ounce of his soul to cinema.\n\n**Which Joaquin Phoenix performance is his absolute masterpiece: Joker, Gladiator, or Her? Share your pick below! 👇**",
+      "comment": "**The secret behind Joaquin Phoenix's Oscar tribute...**\n\n* While accepting his Best Actor Academy Award for *Joker* in 2020, Joaquin tearfully quoted a lyric written by his late brother River Phoenix at age seventeen: 'Run to the rescue with love and peace will follow.'\n* He lost fifty-two pounds on an extreme, medically supervised diet of apples and steamed vegetables to achieve Arthur Fleck's skeletal look in *Joker*.\n\nWhich fact moved you most?",
+      "reel_script": "After escaping a childhood cult and suffering the devastating loss of his brother River, Joaquin Phoenix nearly walked away from Hollywood forever. Instead, he channeled raw grief into breathtaking performances in Gladiator and Her, before dropping fifty-two pounds to capture the Best Actor Oscar for Joker. Happy fifty-second birthday to an uncompromising master of cinema. What is your favorite Joaquin Phoenix movie? Tell us below.",
+      "reel_caption": "From busking on street corners as a child to winning the Best Actor Oscar for Joker, Joaquin Phoenix redefined cinematic intensity. What was his greatest performance? #JoaquinPhoenix #Joker #Gladiator #WalkTheLine #OscarWinner #BornToday",
+      "hashtags": [
+        "#JoaquinPhoenix",
+        "#Joker",
+        "#Gladiator",
+        "#WalkTheLine",
+        "#HerMovie",
+        "#TheMaster",
+        "#OscarWinner",
+        "#BornToday",
+        "#October28"
+      ],
+      "image_path": "collages/Joaquin_Phoenix_Page_2_Tribute.jpg",
+      "scheduled_publish_time": 1793206800,
+      "scheduled_time_utc": "2026-10-28T17:00:00.000Z",
+      "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
+      "page_name": "Born Today Hollywood",
+      "page_id_env": "FB_PAGE_ID_BORN",
+      "token_env": "FB_TOKEN_BORN",
+      "reel_path": "reels/Joaquin_Phoenix_Reel.mp4",
+      "fb_post_id": "122111884845506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111884845506930",
+      "fb_collage_photo_id": "122111884845506930",
+      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/863289894_122111884851506930_3155340562259337843_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=054031&_nc_ohc=LbygVrLfTewQ7kNvwFD2bDF&_nc_oc=AdqxtyMhnRX8lZv9Qj3eq6rZ66qW1WK9gytJ1JKkiUPc-31KcfRD3d7dnFsY2KwqfuE&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=wHVvFpXKdWawAP9UvwbBCQ&_nc_tpa=Q5bMBQKoW2w5-Undru7xj2EEH6VA5Fj6V8_yef8skN7ojAOwlQJhCEUHBOK7rK4HQyLuyv_saxzPkFgI5w&oh=00_AQQCZeMMvfthjI6JMTVK3bDdn2b4AcKiWt0_jIrGHw_4fw&oe=6AE717DF",
+      "fb_reel_id": "1651792019687743",
+      "fb_reel_scheduled_time": 1793209200,
+      "youtube_video_id": "2x9Trpuk3fw",
+      "youtube_url": "https://www.youtube.com/shorts/2x9Trpuk3fw"
+    },
+    {
+      "id": "2026-10-28_03_Matt_Smith",
+      "celebrity_name": "Matt Smith",
+      "birth_year": 1982,
+      "age": 44,
       "gender": "male",
       "country": "United Kingdom",
       "preset": "preset_viral_teaser",
@@ -21,269 +149,59 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "Weston-super-Mare shoe clerk son,",
-        "line2": "from Cambridge law books",
-        "line2Highlight": "co-created Monty Python comedy",
-        "line3Highlight": "to conquer world satire...",
+        "line1": "Injured teenage soccer hopeful,",
+        "line2": "teacher forced onto stage",
+        "line2Highlight": "became Eleventh Doctor and Daemon",
+        "line3Highlight": "to rule fantasy television...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/nQpBf77cStmR35V0XOinm2zZMWG.jpg",
-        "https://image.tmdb.org/t/p/original/kDo8oCawN5ubyhzHN7YdOlpho60.jpg",
-        "https://image.tmdb.org/t/p/original/gLVFS25jDKF1YTSefbB9PqI7may.jpg",
-        "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/John_Cleese_%2855268018069%29.jpg/1280px-John_Cleese_%2855268018069%29.jpg",
-        "https://upload.wikimedia.org/wikipedia/commons/5/5e/John_Cleese_2008_bigger_crop.jpg"
+        "https://image.tmdb.org/t/p/original/wxMdHj4UA6LgIU5MiA7CKySZeVU.jpg",
+        "https://image.tmdb.org/t/p/original/xr2GSp8Pm6fT5VGm0I9tsWVcZ8q.jpg",
+        "https://image.tmdb.org/t/p/original/fH1GxtUvAP0bnBsZDlAceNrcXiY.jpg",
+        "https://image.tmdb.org/t/p/original/b3AYe7kkImkB35CoYwlUqHnJGF8.jpg",
+        "https://image.tmdb.org/t/p/original/erugfFGzZFpETReKjIuxzGvL21R.jpg"
       ],
-      "caption": "**His father legally changed their name from Cheese. He turned absurdity into the crown jewel of British comedy.**\n\nBorn October 27, 1939, in Weston-super-Mare, Somerset, today John Marwood Cleese turns **87**, celebrated as the towering giant of modern satire.\n\nThe son of an insurance salesman whose original family surname was Cheese, John studied law at Cambridge University, spending late nights performing sketches with the Footlights dramatic club instead of preparing for the courtroom.\n\nRejecting conventional British sitcom structures, he trusted an unorthodox comedic instinct: pairing physical slapstick with deadpan intellectual madness, silly walks, and explosive exasperation.\n\nHe co-founded the legendary comedy troupe *Monty Python*, wrote and starred in *Fawlty Towers* as manic hotelier Basil Fawlty, and earned an Academy Award nomination for writing the box-office smash *A Fish Called Wanda*.\n\nFrom introducing James Bond's gadgets as Q to playing Nearly Headless Nick in *Harry Potter* and King Harold in *Shrek 2*, his distinctive voice charmed four generations of moviegoers.\n\nAt 87, John Cleese remains an unrepentant master of subversive laughter.\n\n**What is John Cleese's finest masterpiece: Monty Python and the Holy Grail, Fawlty Towers, or A Fish Called Wanda? Drop your vote below! 👇**",
-      "comment": "**The secret behind John Cleese's family surname...**\n\n* John's father, Reginald Francis Cheese, was so embarrassed by his culinary last name that he legally changed it to Cleese when enlisting in the British Army during World War I.\n* John co-wrote and starred in *Fawlty Towers* with his then-wife Connie Booth, basing hotel manager Basil Fawlty on an actual eccentric hotel owner they encountered in Torquay.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Trading a quiet career in law for surreal sketch comedy, John Cleese co-founded Monty Python and revolutionized satire forever. He created the iconic sitcom Fawlty Towers, earned an Academy Award nomination for A Fish Called Wanda, and voiced King Harold in Shrek. Happy eighty-seventh birthday to an undisputed legend of comedy. What is your favorite John Cleese role or sketch? Let us know below.",
-      "reel_caption": "His family name was originally Cheese before John Cleese co-founded Monty Python and created Fawlty Towers. What was your favorite John Cleese movie or sketch? #JohnCleese #MontyPython #FawltyTowers #AFishCalledWanda #HarryPotter #BornToday",
+      "caption": "**A spinal injury destroyed his soccer dreams at sixteen. Today, he commands dragons and the TARDIS worldwide.**\n\nBorn October 28, 1982, in Northampton, England, today Matthew Robert Smith turns **44**, celebrated as one of Britain's most magnetic screen actors.\n\nA rising youth soccer prodigy signed to Nottingham Forest and Leicester City, Matt was devastated at sixteen when severe spondylolysis ended his athletic career in an instant.\n\nSeeing his despair, a drama teacher secretly signed him up for a school play without his consent, gently pushing a reluctant athlete toward the stage.\n\nAt just twenty-six, he shocked the world by becoming the youngest actor ever cast as the Doctor in *Doctor Who*, defining an era with his tweed jacket, bowtie, and whimsical alien soul before earning an Emmy nomination as young Prince Philip in *The Crown*.\n\nHe reached new heights of fantasy royalty commanding dragons as the rogue Prince Daemon Targaryen in HBO's *House of the Dragon*.\n\nAt 44, Matt Smith proves that when one door violently closes, a universe of possibilities opens.\n\n**Who was Matt Smith's greatest character: The Eleventh Doctor, Prince Daemon Targaryen, or Prince Philip? Vote below! 👇**",
+      "comment": "**The secret behind Matt Smith's Doctor Who bowtie...**\n\n* Matt Smith was initially skeptical about acting because he feared it would damage his social standing as an athlete, but his high school teacher persisted until he joined London's National Youth Theatre.\n* The Eleventh Doctor's signature catchphrase 'Bow ties are cool' originated because Matt personally insisted on wearing a real bowtie during costume fittings for *Doctor Who*.\n\nWhich fact surprised you most?",
+      "reel_script": "When a severe spinal condition shattered his dreams of professional soccer at sixteen, Matt Smith thought his future was over. His high school drama teacher forced him onto the stage, leading him to become the youngest actor ever cast in Doctor Who and the commanding rogue Prince Daemon Targaryen in House of the Dragon. Happy forty-fourth birthday to a true fantasy icon. What is your favorite Matt Smith role? Tell us below.",
+      "reel_caption": "After a back injury shattered his soccer career at sixteen, Matt Smith became the youngest Doctor Who and commanded House of the Dragon. What is your favorite Matt Smith role? #MattSmith #DoctorWho #HouseOfTheDragon #DaemonTargaryen #TheCrown #BornToday",
       "hashtags": [
-        "#JohnCleese",
-        "#MontyPython",
-        "#FawltyTowers",
-        "#AFishCalledWanda",
-        "#HarryPotter",
-        "#Shrek",
-        "#BritishComedy",
+        "#MattSmith",
+        "#DoctorWho",
+        "#HouseOfTheDragon",
+        "#DaemonTargaryen",
+        "#TheCrown",
+        "#EleventhDoctor",
+        "#TARDIS",
         "#BornToday",
-        "#October27"
+        "#October28"
       ],
-      "image_path": "collages/John_Cleese_Page_1_Tribute.jpg",
-      "scheduled_publish_time": 1793102400,
-      "scheduled_time_utc": "2026-10-27T12:00:00.000Z",
-      "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
-      "page_name": "Born Today Hollywood",
-      "page_id_env": "FB_PAGE_ID_BORN",
-      "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/John_Cleese_Reel.mp4",
-      "fb_post_id": "122111423193506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111423193506930",
-      "fb_collage_photo_id": "122111423193506930",
-      "collage_cdn_url": "https://scontent-sea5-1.xx.fbcdn.net/v/t39.30808-6/862803596_122111423199506930_5096526237119009087_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=054031&_nc_ohc=b3OmefcyqqcQ7kNvwFvXqmJ&_nc_oc=AdpgMSj1_qeTicRhKjNEl7uAyD-k_wFMWdvRbqepaW905jmdfYT7wP5hP1-v05PAwP8&_nc_zt=23&_nc_ht=scontent-sea5-1.xx&edm=AMAeTUEEAAAA&_nc_gid=Nf0rp4W9pgF4PwdF6yfbaA&_nc_tpa=Q5bMBQKga1iqERRpnpLfa-7LNT16XOOIP625JYJLDD-eBctiI6vqGjfT3z7KUqWD3q3sHwgPhy8gBaa97g&oh=00_AQMUQdXLUX_uV6UDXacH5-Twu-f4pYMCgvEghybaVSAchQ&oe=6AE5C454",
-      "fb_reel_id": "1661391325691211",
-      "fb_reel_scheduled_time": 1793104800,
-      "youtube_video_id": "3hfR4bvwmxM",
-      "youtube_url": "https://www.youtube.com/shorts/3hfR4bvwmxM",
-      "ig_post_id": "18138603424633332",
-      "fb_comment_id": "122111423193506930_29453356937589929",
-      "ig_reel_id": "18024333572932694"
-    },
-    {
-      "id": "2026-10-27_02_Roberto_Benigni",
-      "celebrity_name": "Roberto Benigni",
-      "birth_year": 1952,
-      "age": 74,
-      "gender": "male",
-      "country": "Italy",
-      "preset": "preset_viral_teaser",
-      "teaserCard": {
-        "enabled": true,
-        "x": 45,
-        "y": 1161,
-        "width": 990,
-        "height": 200,
-        "bgColor": "#0d0f14",
-        "borderColor": "#b68c43",
-        "borderWidth": 2,
-        "cornerRadius": 14,
-        "badgeIcon": "crown",
-        "line1": "Tuscan farm laborer son,",
-        "line2": "jumped over Oscar seats",
-        "line2Highlight": "won Best Actor for Life Is Beautiful",
-        "line3Highlight": "to capture global hearts...",
-        "ctaText": "Read the full story in caption →"
-      },
-      "photo_urls": [
-        "https://image.tmdb.org/t/p/original/ba1Sg02XxCphu6E1dWDMAH1GzeE.jpg",
-        "https://image.tmdb.org/t/p/original/noelOhwX1oaNSvU9NLKhPrHTFI3.jpg",
-        "https://image.tmdb.org/t/p/original/8UZXJeXerHvmWRskcYD3d1YBXcK.jpg",
-        "https://image.tmdb.org/t/p/original/wY0Js6VFt1APR6ooGz2X4NdyVsN.jpg",
-        "https://image.tmdb.org/t/p/original/yVJWCNDFHMjXm4XXeaQFFTxGUNE.jpg"
-      ],
-      "caption": "**Climbing over theater seats to accept his Oscar from Sophia Loren, he showed the world that life is truly beautiful.**\n\nBorn October 27, 1952, in Manciano La Misericordia, Tuscany, today Roberto Remigio Benigni turns **74**, revered as Italian cinema's most radiant poet of joy.\n\nRaised in extreme poverty by a factory laborer father who survived years inside a Nazi concentration camp, young Roberto worked as an apprentice magician and street clown in Florence to make ends meet.\n\nWhen critics claimed a tragic historical atrocity could never be explored through comedy, Roberto trusted an unorthodox instinct: using whimsical humor as a father's ultimate shield of love for his young son.\n\nHis 1997 masterpiece *Life Is Beautiful* captured the Grand Prix at Cannes and won three Academy Awards, making Benigni the first performer in cinema history to win Best Actor for a non-English speaking role.\n\nAt the 71st Academy Awards, his joyful leap across the backs of theater seats into the arms of Sophia Loren became an immortal Oscar moment of pure human celebration.\n\nAt 74, Roberto Benigni proves that boundless love and imagination can conquer the darkest shadows of history.\n\n**Did Life Is Beautiful move you to tears or laughter? Share your favorite memory of this cinematic masterpiece below! 👇**",
-      "comment": "**The secret behind Roberto Benigni's Oscar leap...**\n\n* Roberto's father, Luigi Benigni, survived two grueling years in a Nazi labor camp, and his bedtime stories of survival inspired the heart of *Life Is Beautiful*.\n* When Sophia Loren shouted 'Robertoooo!' at the Oscars, Benigni literally climbed over the velvet auditorium seats to reach the stage, creating an unforgettable broadcast moment.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Growing up in a Tuscan village with no money, Roberto Benigni heard his father recount surviving a wartime labor camp. Drawing on that courage, Roberto directed and starred in Life Is Beautiful, becoming the first performer ever to win the Best Actor Academy Award for a non-English role. Happy seventy-fourth birthday to cinema's master of joy. What is your favorite scene from Life Is Beautiful? Tell us below.",
-      "reel_caption": "Inspired by his father's survival in a Nazi camp, Roberto Benigni made Life Is Beautiful and won the Best Actor Oscar. What did this masterpiece mean to you? #RobertoBenigni #LifeIsBeautiful #LaVitaEBella #OscarWinner #ItalianCinema #BornToday",
-      "hashtags": [
-        "#RobertoBenigni",
-        "#LifeIsBeautiful",
-        "#LaVitaEBella",
-        "#BestActor",
-        "#OscarWinner",
-        "#ItalianCinema",
-        "#SophiaLoren",
-        "#BornToday",
-        "#October27"
-      ],
-      "image_path": "collages/Roberto_Benigni_Page_2_Tribute.jpg",
-      "scheduled_publish_time": 1793120400,
-      "scheduled_time_utc": "2026-10-27T17:00:00.000Z",
-      "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
-      "page_name": "Born Today Hollywood",
-      "page_id_env": "FB_PAGE_ID_BORN",
-      "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Roberto_Benigni_Reel.mp4",
-      "fb_post_id": "122111423289506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111423289506930",
-      "fb_collage_photo_id": "122111423289506930",
-      "collage_cdn_url": "https://scontent-sea5-1.xx.fbcdn.net/v/t39.30808-6/865818151_122111423379506930_1483225167939611647_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=054031&_nc_ohc=38s47glEyvkQ7kNvwF6WbV6&_nc_oc=Adr4HzQ1p3iuqP3yxj_qLzMvTJYLQ_lkRlMNqAHIfbzOERnnKxUNad9fDqHubVzytcM&_nc_zt=23&_nc_ht=scontent-sea5-1.xx&edm=AMAeTUEEAAAA&_nc_gid=48xJ6n-qk5PmzdV_909k_g&_nc_tpa=Q5bMBQKvkiyM8twHfHaQU4K3cXBCB39FHduERcgSAOyaGbl7ltAAeMotEg1dyJdKNBOmOm9eFFA_mpVJVA&oh=00_AQPUIiKr9nO8nuV939Uow3WBDFyKAsbawk1ukYKzb6HvMA&oe=6AE5D3DE",
-      "fb_reel_id": "1094567646811607",
-      "fb_reel_scheduled_time": 1793122800,
-      "youtube_video_id": "51DUuAAHx3w",
-      "youtube_url": "https://www.youtube.com/shorts/51DUuAAHx3w",
-      "ig_post_id": "18102830201040995",
-      "fb_comment_id": "122111423289506930_3440418519464218",
-      "ig_reel_id": "18077853629440954"
-    },
-    {
-      "id": "2026-10-27_03_Patrick_Fugit",
-      "celebrity_name": "Patrick Fugit",
-      "birth_year": 1982,
-      "age": 44,
-      "gender": "male",
-      "country": "United States",
-      "preset": "preset_viral_teaser",
-      "teaserCard": {
-        "enabled": true,
-        "x": 45,
-        "y": 1161,
-        "width": 990,
-        "height": 200,
-        "bgColor": "#0d0f14",
-        "borderColor": "#b68c43",
-        "borderWidth": 2,
-        "cornerRadius": 14,
-        "badgeIcon": "star",
-        "line1": "Salt Lake teenage skateboarder,",
-        "line2": "beat out thousands",
-        "line2Highlight": "starred in Almost Famous",
-        "line3Highlight": "to capture rock history...",
-        "ctaText": "Read the full story in caption →"
-      },
-      "photo_urls": [
-        "https://image.tmdb.org/t/p/original/bsONcodcqRKV97p1Oo1jcPkEnDA.jpg",
-        "https://image.tmdb.org/t/p/original/paVZPfAUxM7AbloJkn2JYcOr1G1.jpg",
-        "https://image.tmdb.org/t/p/original/xIFFNkkCDv4rfrbLissiU0OjLV.jpg",
-        "https://image.tmdb.org/t/p/original/37RM0m1mDJ4YxC3n7QgwpXSUpkp.jpg",
-        "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/Patrick_Fugit_in_2018.jpg/1280px-Patrick_Fugit_in_2018.jpg"
-      ],
-      "caption": "**A sixteen-year-old skater from Utah, he beat thousands of Hollywood hopefuls to lead Cameron Crowe's masterpiece.**\n\nBorn October 27, 1982, in Salt Lake City, Utah, today Patrick Raymond Fugit turns **44**, celebrated as the soul of cinema's greatest rock-and-roll odyssey.\n\nA passionate high school skateboarder taking local community theater workshops, Patrick sent a home audition tape to Los Angeles with zero professional film credits to his name.\n\nDirector Cameron Crowe had searched nationwide for an actor to play his autobiographical teenage alter ego William Miller, trusting an unorthodox instinct: casting Patrick for his earnest, wide-eyed innocence.\n\nIn 2000, *Almost Famous* exploded into an Oscar-winning cultural touchstone, with Patrick anchoring the film opposite Philip Seymour Hoffman, Kate Hudson, and Billy Crudup as the young journalist touring with Stillwater.\n\nRefusing to be trapped by teen fame, he built a versatile career across indie cinema and dark thrillers, playing Officer Jim Gilpin in David Fincher's *Gone Girl* and starring in Cinemax's horror drama *Outcast*.\n\nAt 44, Patrick Fugit remains the golden standard for youthful heart and authentic screen presence.\n\n**Was Almost Famous the greatest music movie ever made? Drop your favorite line or rock track below! 👇**",
-      "comment": "**The secret behind Patrick Fugit's Almost Famous casting...**\n\n* Director Cameron Crowe auditioned over a thousand actors across the globe before watching Patrick's homemade audition tape from Salt Lake City, immediately realizing Patrick had the honest, unvarnished charm he needed.\n* To prepare him for the 1970s rock lifestyle, Crowe gave Patrick an extensive box of classic vinyl records and had him study classic rock journalism.\n\nWhich fact surprised you most?",
-      "reel_script": "With no major movie credits, sixteen-year-old Utah skateboarder Patrick Fugit sent an audition tape to Hollywood. Director Cameron Crowe handpicked him over thousands of actors to star as teenage rock journalist William Miller in the Oscar-winning masterpiece Almost Famous. He later showcased his versatility in David Fincher's Gone Girl. Happy forty-fourth birthday to a beloved screen presence. What is your favorite Patrick Fugit movie? Tell us below.",
-      "reel_caption": "At sixteen years old, Utah skateboarder Patrick Fugit was picked by Cameron Crowe to lead Almost Famous. What was your favorite moment from this rock classic? #PatrickFugit #AlmostFamous #CameronCrowe #PennyLane #GoneGirl #BornToday",
-      "hashtags": [
-        "#PatrickFugit",
-        "#AlmostFamous",
-        "#CameronCrowe",
-        "#WilliamMiller",
-        "#Stillwater",
-        "#GoneGirl",
-        "#IndieCinema",
-        "#BornToday",
-        "#October27"
-      ],
-      "image_path": "collages/Patrick_Fugit_Page_3_Tribute.jpg",
-      "scheduled_publish_time": 1793138400,
-      "scheduled_time_utc": "2026-10-27T22:00:00.000Z",
+      "image_path": "collages/Matt_Smith_Page_3_Tribute.jpg",
+      "scheduled_publish_time": 1793224800,
+      "scheduled_time_utc": "2026-10-28T22:00:00.000Z",
       "peak_window": "US Prime Time (6:00 PM EDT / 3:30 AM IST +1)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Patrick_Fugit_Reel.mp4",
-      "fb_post_id": "122111423529506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111423529506930",
-      "fb_collage_photo_id": "122111423529506930",
-      "collage_cdn_url": "https://scontent-sea5-1.xx.fbcdn.net/v/t39.30808-6/866285269_122111423535506930_50263396501832273_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=054031&_nc_ohc=ESbiz4D1GsUQ7kNvwFLvswb&_nc_oc=Adrzd9vUPOqKN7jbowrCdzfSlVTGtPgEkx2qmaVGx09_t5c-pU7b6hGw2i766J4e9O0&_nc_zt=23&_nc_ht=scontent-sea5-1.xx&edm=AMAeTUEEAAAA&_nc_gid=2rvtFqnGM6gnfhgqLHadZQ&_nc_tpa=Q5bMBQIjvMTJd3xZxT-3E3iKxUcsS5P3NGzmJ_bCvX3IPYGAtHhpxep8ut7g1ABPu9J72iNcACURePFI2w&oh=00_AQN2c8kNkzN2MXMNVlw5r6c3-rqDm_j0NYtfaOS89E6Jxw&oe=6AE5D27C",
-      "fb_reel_id": "1536663384954443",
-      "fb_reel_scheduled_time": 1793140800,
-      "youtube_video_id": "8-tGmsqONkU",
-      "youtube_url": "https://www.youtube.com/shorts/8-tGmsqONkU",
-      "fb_comment_id": "122111423529506930_1819087059295755",
-      "ig_post_id": "17962390212231059",
-      "ig_reel_id": "17896944456610546"
+      "reel_path": "reels/Matt_Smith_Reel.mp4",
+      "fb_post_id": "122111885037506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111885037506930",
+      "fb_collage_photo_id": "122111885037506930",
+      "collage_cdn_url": "https://scontent-iad3-2.xx.fbcdn.net/v/t39.30808-6/866103708_122111885043506930_3305928486421034435_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=054031&_nc_ohc=7qJe8t3VeVYQ7kNvwE1gszI&_nc_oc=AdqNv0mrN3fw7m_sdxUZArLjb4tKxVNwFjQ9zt8Ra43wixXDdxznbMqNVlsXGnbQ1_c&_nc_zt=23&_nc_ht=scontent-iad3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=7rom1Haln_fZUQpf0jGmSA&_nc_tpa=Q5bMBQLU_CKS3BKvd1sMltVdZtsLoTjFlR_uUiKHlV9Wv9El9731rX0zasWMj95F6fAAYEBxewYdvicj1Q&oh=00_AQTlMb_B2Agd0RhOTu0cIdnA_JF1zZm_4TuTU5NztgNOcA&oe=6AE737F1",
+      "fb_reel_id": "1151307617581043",
+      "fb_reel_scheduled_time": 1793227200,
+      "youtube_video_id": "QStNkSi0g0c",
+      "youtube_url": "https://www.youtube.com/shorts/QStNkSi0g0c"
     }
   ],
   "quiz_posts": [
     {
-      "id": "2026-10-27_quiz_01_Robert_Picardo",
+      "id": "2026-10-28_quiz_01_Gwendoline_Christie",
       "type": "photo_quiz_type1",
-      "celebrity_name": "Robert Picardo",
-      "birth_year": 1953,
-      "age": 73,
-      "gender": "male",
-      "correct_option": "D",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Samuel L. Jackson"
-        },
-        {
-          "letter": "B",
-          "name": "Dustin Hoffman"
-        },
-        {
-          "letter": "C",
-          "name": "Christian Slater"
-        },
-        {
-          "letter": "D",
-          "name": "Robert Picardo"
-        }
-      ],
-      "image_path": "collages/quiz_01_Robert_Picardo.jpg",
-      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 73 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**He dropped out of pre-med at Yale to act. Years later, he became television's most famous holographic doctor.**\n\nBorn October 27, 1953, in Philadelphia, Pennsylvania, today Robert Alphonse Picardo turns **73**, treasured across generations as a sci-fi and television icon.\n\nEntering Yale University intending to follow family expectations and become a medical physician, Robert made a daring pivot when acting mentors urged him to pursue theater, graduating with a drama degree instead.\n\nGrinding through guest roles and earning an Emmy nomination as gym teacher Coach Cutlip on *The Wonder Years*, Robert auditioned for *Star Trek: Voyager* in 1994, originally eyeing Neelix before reading for the Emergency Medical Hologram.\n\nHis dry comedic exasperation and intellectual depth transformed The Doctor into the breakout character of *Star Trek: Voyager* across seven seasons, earning global fandom and reprising his role in *Star Trek: First Contact*.\n\nHe expanded his sci-fi legacy as Richard Woolsey across *Stargate SG-1* and *Stargate Atlantis*, while collaborating with director Joe Dante on cult favorites like *Innerspace* and *Gremlins 2*.\n\nAt 73, Robert Picardo proves that the detour from your planned life often leads to your true calling.\n\n**State the nature of your medical emergency! What is your favorite Robert Picardo role: Star Trek, The Wonder Years, or Stargate? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Robert Picardo's Star Trek audition...**\n\n* Robert originally entered Yale University as a pre-med biology major before dropping medical school for acting, making his casting as the Emergency Medical Hologram in *Star Trek: Voyager* a poetic twist of fate.\n* During his audition for The Doctor, Picardo ad-libbed the line 'Somebody forgot to turn off my program', which convinced the producers on the spot.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Robert Picardo!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#RobertPicardo #BornToday #2026-10-27 #HollywoodQuiz #CelebrityTrivia",
-      "hashtags": "#RobertPicardo #BornToday #2026-10-27 #HollywoodQuiz #CelebrityTrivia",
-      "scheduled_publish_time": 1793109600,
-      "scheduled_time_utc": "2026-10-27T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
-      "fb_post_id": "122111423667506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111423667506930",
-      "ig_post_id": "18160831447504102"
-    },
-    {
-      "id": "2026-10-27_quiz_02_Troy_Gentile",
-      "type": "photo_quiz_type2",
-      "celebrity_name": "Troy Gentile",
-      "birth_year": 1993,
-      "age": 33,
-      "gender": "male",
-      "subtitle": "Born on this day! Can you identify the real birthday star?",
-      "correct_option": "A",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Troy Gentile"
-        },
-        {
-          "letter": "B",
-          "name": "Denzel Washington"
-        },
-        {
-          "letter": "C",
-          "name": "Morgan Freeman"
-        },
-        {
-          "letter": "D",
-          "name": "Matt Damon"
-        }
-      ],
-      "image_path": "collages/quiz_02_Troy_Gentile.jpg",
-      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 33? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Cast twice as young Jack Black, he channeled unhinged comedic energy into ten seasons of prime-time TV.**\n\nBorn October 27, 1993, in Boca Raton, Florida, and raised in Los Angeles, today Troy Francis Gentile turns **33**, celebrated as one of modern comedy's most manic sitcom stars.\n\nRaised by an advertising mother and taking his mother's maiden name, Troy started acting in local community theater as a child, standing out with fearless, high-octane physical comedy.\n\nIn 2006, directors recognized his uncanny mimicry of rock-comedy star Jack Black, casting him as young Nacho in *Nacho Libre* and young JB in *Tenacious D in The Pick of Destiny* in the very same year.\n\nIn 2013, creator Adam F. Goldberg cast him as the delusional, hockey-playing middle brother Barry Goldberg ('Big Tasty') on ABC's *The Goldbergs*, anchoring the nostalgic comedy across ten seasons and 229 episodes.\n\nHis karate kicks, rap battles, and big-hearted emotional meltdowns turned Barry into an iconic eighties tribute character.\n\nAt 33, Troy Gentile proves that relentless enthusiasm and genuine heart never go out of style.\n\n**Was Barry Goldberg your favorite character on The Goldbergs? Drop your favorite Big Tasty moment below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Troy Gentile's young Jack Black double-casting...**\n\n* In 2006, Troy accomplished the rare feat of playing young Jack Black in two separate feature films released months apart: Jared Hess's *Nacho Libre* and the rock musical *Tenacious D in The Pick of Destiny*.\n* Troy played Barry Goldberg across 229 episodes of *The Goldbergs*, perfectly replicating the real-life Barry Goldberg's fiery temper and love of hockey.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Troy Gentile!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#TroyGentile #BornToday #2026-10-27 #FaceMatch #HollywoodQuiz",
-      "hashtags": "#TroyGentile #BornToday #2026-10-27 #FaceMatch #HollywoodQuiz",
-      "scheduled_publish_time": 1793129400,
-      "scheduled_time_utc": "2026-10-27T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_post_id": "122111423925506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111423925506930",
-      "ig_post_id": "18110274872281022"
-    },
-    {
-      "id": "2026-10-27_quiz_03_Kelly_Osbourne",
-      "type": "reel_quiz_type1",
-      "celebrity_name": "Kelly Osbourne",
-      "birth_year": 1984,
-      "age": 42,
+      "celebrity_name": "Gwendoline Christie",
+      "birth_year": 1978,
+      "age": 48,
       "gender": "female",
       "correct_option": "C",
       "options": [
@@ -293,65 +211,134 @@
         },
         {
           "letter": "B",
-          "name": "Lisa Kudrow"
+          "name": "Jamie Lee Curtis"
         },
         {
           "letter": "C",
-          "name": "Kelly Osbourne"
+          "name": "Gwendoline Christie"
         },
         {
           "letter": "D",
-          "name": "Jamie Lee Curtis"
+          "name": "Sigourney Weaver"
         }
       ],
-      "reel_path": "reels/quiz_03_Kelly_Osbourne.mp4",
-      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 42th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Thrust into reality TV cameras at seventeen, she survived tabloid cruelty to become a fearless media icon.**\n\nBorn October 27, 1984, in Westminster, London, today Kelly Michelle Lee Osbourne turns **42**, honored as an authentic pop-culture trailblazer.\n\nThe daughter of heavy metal royalty Ozzy and Sharon Osbourne, Kelly grew up touring the world in tour buses before MTV planted cameras in her family living room in 2002.\n\n*The Osbournes* became an unprecedented global reality phenomenon, but it exposed seventeen-year-old Kelly to vicious public scrutiny, body-shaming, and personal battles with substance addiction.\n\nRefusing to be defined as just a rock star's kid, Kelly followed an unorthodox instinct: weaponizing her sharp British wit, candid vulnerability, and fearless style into a solo media career.\n\nShe scored a UK number-one single with 'Changes', finished third on *Dancing with the Stars*, and commanded E!'s *Fashion Police* alongside Joan Rivers for five hit seasons, while becoming an author and outspoken advocate for recovery.\n\nAt 42, Kelly Osbourne remains a triumphant symbol of resilience, sobriety, and self-made reinvention.\n\n**What is Kelly Osbourne's greatest pop-culture era: The Osbournes, Dancing with the Stars, or Fashion Police? Share below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Kelly Osbourne's chart-topping duet...**\n\n* In 2003, Kelly recorded a duet version of Black Sabbath's ballad 'Changes' with her father Ozzy Osbourne, making it to number one on the UK Singles Chart thirty-one years after the song's original release.\n* She co-hosted E!'s smash hit *Fashion Police* for over four years alongside legendary comedian Joan Rivers, who served as a cherished mentor and mother figure.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Kelly Osbourne!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#KellyOsbourne #BornToday #2026-10-27 #CelebrityQuiz #ReelQuiz #Shorts",
-      "hashtags": "#KellyOsbourne #BornToday #2026-10-27 #CelebrityQuiz #ReelQuiz #Shorts",
-      "scheduled_publish_time": 1793115000,
-      "scheduled_time_utc": "2026-10-27T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "1743905773963688",
-      "youtube_video_id": "JT9SstOJnn0",
-      "youtube_url": "https://www.youtube.com/shorts/JT9SstOJnn0",
-      "ig_reel_id": "18107519756369964"
+      "image_path": "collages/quiz_01_Gwendoline_Christie.jpg",
+      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 48 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Told she was too tall to ever work on screen, she donned armor and forged television's most noble knight.**\n\nBorn October 28, 1978, in Worthing, West Sussex, today Gwendoline Tracey Philippa Christie turns **48**, celebrated as an empowering trailblazer of screen royalty.\n\nTraining as a rhythmic gymnast until a spinal injury ended her athletic career at age eleven, Gwendoline faced cruel rejection in drama school, where mentors warned her that standing six-foot-three would prevent her from ever getting cast.\n\nRefusing to shrink herself, she trusted an unorthodox instinct when fantasy fans rallied online to suggest her for George R.R. Martin's fierce warrior Brienne of Tarth.\n\nShe gained fourteen pounds of lean muscle and trained in sword fighting for HBO's *Game of Thrones*, earning a Primetime Emmy nomination and winning millions of hearts as the honorable knight of the Seven Kingdoms.\n\nShe conquered blockbuster franchises as Captain Phasma in *Star Wars*, Lucifer Morningstar in *The Sandman*, and Principal Larissa Weems in Tim Burton's *Wednesday*.\n\nAt 48, Gwendoline Christie stands tall as a beacon of individuality, grace, and unmatched strength.\n\n**Was Brienne of Tarth the most honorable character in Game of Thrones history? Drop your tribute below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Gwendoline Christie's Game of Thrones transformation...**\n\n* To audition for Brienne of Tarth, Gwendoline cut off her long feminine hair, stopped wearing makeup, and began working out with a professional trainer to gain fourteen pounds of muscle mass.\n* When HBO did not submit her for Emmy consideration for *Game of Thrones*' final season, Gwendoline paid the $225 submission fee herself and earned a well-deserved Primetime Emmy nomination.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Gwendoline Christie!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#GwendolineChristie #BornToday #2026-10-28 #HollywoodQuiz #CelebrityTrivia",
+      "hashtags": "#GwendolineChristie #BornToday #2026-10-28 #HollywoodQuiz #CelebrityTrivia",
+      "scheduled_publish_time": 1793196000,
+      "scheduled_time_utc": "2026-10-28T14:00:00.000Z",
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
+      "fb_post_id": "122111885121506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111885121506930"
     },
     {
-      "id": "2026-10-27_quiz_04_David_Walton",
-      "type": "reel_quiz_type2",
-      "celebrity_name": "David Walton",
-      "birth_year": 1978,
-      "age": 48,
+      "id": "2026-10-28_quiz_02_Annie_Potts",
+      "type": "photo_quiz_type2",
+      "celebrity_name": "Annie Potts",
+      "birth_year": 1952,
+      "age": 74,
+      "gender": "female",
+      "subtitle": "Born on this day! Can you identify the real birthday star?",
+      "correct_option": "A",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Annie Potts"
+        },
+        {
+          "letter": "B",
+          "name": "Jane Fonda"
+        },
+        {
+          "letter": "C",
+          "name": "Winona Ryder"
+        },
+        {
+          "letter": "D",
+          "name": "Salma Hayek"
+        }
+      ],
+      "image_path": "collages/quiz_02_Annie_Potts.jpg",
+      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 74? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Surviving a horrific car crash at twenty-one, she answered the Ghostbusters phone and made history.**\n\nBorn October 28, 1952, in Nashville, Tennessee, and raised in Franklin, Kentucky, today Anne Hampton 'Annie' Potts turns **74**, revered as one of television and film's most beloved comedic anchors.\n\nAt just twenty-one years old, Annie was in a devastating automobile accident that broke several bones and crushed both of her legs below the waist, leaving her hospitalized for months in full-body casts and fighting to walk again.\n\nDefying doctors through sheer resilience, she pursued Hollywood auditions with an unorthodox flair: pairing sharp southern wit with dry, razor-sharp deadpan delivery.\n\nDirector Ivan Reitman cast her as receptionist Janine Melnitz in the 1984 phenomenon *Ghostbusters*, where her iconic line 'Ghostbusters, whaddya want?!' entered pop-culture folklore, followed by seven seasons starring in *Designing Women*.\n\nShe voiced porcelain heroine Bo Peep across four *Toy Story* films and stole hearts for seven seasons as the sassy, poker-playing Meemaw on *Young Sheldon*.\n\nAt 74, Annie Potts's enduring comedic warmth continues to delight audiences of all ages.\n\n**What is Annie Potts's most unforgettable role: Janine in Ghostbusters, Designing Women, or Meemaw in Young Sheldon? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Annie Potts's Ghostbusters look...**\n\n* On her very first morning on the set of *Ghostbusters*, Annie borrowed a pair of oversized cat-eye glasses from the film's set designer, creating Janine Melnitz's instantly recognizable trademark look on the spot.\n* At age twenty-one, she survived a catastrophic crash with a drag racer that crushed both of her legs, requiring multiple reconstructive surgeries before she ever appeared on camera.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Annie Potts!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#AnniePotts #BornToday #2026-10-28 #FaceMatch #HollywoodQuiz",
+      "hashtags": "#AnniePotts #BornToday #2026-10-28 #FaceMatch #HollywoodQuiz",
+      "scheduled_publish_time": 1793215800,
+      "scheduled_time_utc": "2026-10-28T19:30:00.000Z",
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
+      "fb_post_id": "122111885181506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122111885181506930"
+    },
+    {
+      "id": "2026-10-28_quiz_03_Finn_Wittrock",
+      "type": "reel_quiz_type1",
+      "celebrity_name": "Finn Wittrock",
+      "birth_year": 1984,
+      "age": 42,
       "gender": "male",
-      "subtitle": "Look closely at options A, B, C, and D!",
       "correct_option": "B",
       "options": [
         {
           "letter": "A",
-          "name": "Morgan Freeman"
+          "name": "Matt Damon"
         },
         {
           "letter": "B",
-          "name": "David Walton"
+          "name": "Finn Wittrock"
         },
         {
           "letter": "C",
-          "name": "Alec Baldwin"
+          "name": "Brad Pitt"
         },
         {
           "letter": "D",
-          "name": "Samuel L. Jackson"
+          "name": "Christopher Walken"
         }
       ],
-      "reel_path": "reels/quiz_04_David_Walton.mp4",
-      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**One of seven siblings from Boston, he waited tables before becoming modern television's most charming romantic lead.**\n\nBorn October 27, 1978, in Boston, Massachusetts, today David B. Walton turns **48**, celebrated as a fan-favorite comedic leading man.\n\nRaised in a busy household of seven children, David graduated from Brown University in 2001, heading straight to New York City where he waited restaurant tables between off-Broadway plays and rejected pilot auditions.\n\nRather than forcing himself into cookie-cutter action roles, David trusted an unorthodox instinct: leaning into effortless, breezy charisma and warm romantic timing.\n\nHe captured hearts across five seasons of Fox's *New Girl* as Dr. Sam Sweeney—Jess's charming pediatrician boyfriend—before leading NBC's *About a Boy* and starring in the hit comedy *Bad Moms* and Showtime's *Masters of Sex*.\n\nMarried to actress Majandra Delfino and raising two children, he balances Hollywood stardom with family devotion.\n\nAt 48, David Walton proves that genuine charm and comic timing never lose their appeal.\n\n**Was Dr. Sam Sweeney the best boyfriend Jess ever had on New Girl? Drop your vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind David Walton's New Girl popularity...**\n\n* David Walton's character Dr. Sam Sweeney was originally intended for a short multi-episode arc in season two of *New Girl*, but fans and writers loved his chemistry with Zooey Deschanel so much that they brought him back in season five.\n* David graduated from Brown University in 2001, where he actively performed in Shakespearean and experimental theatrical productions.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: David Walton!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#DavidWalton #BornToday #2026-10-27 #HollywoodTrivia #ReelChallenge #Shorts",
-      "hashtags": "#DavidWalton #BornToday #2026-10-27 #HollywoodTrivia #ReelChallenge #Shorts",
-      "scheduled_publish_time": 1793134800,
-      "scheduled_time_utc": "2026-10-27T21:00:00.000Z",
+      "reel_path": "reels/quiz_03_Finn_Wittrock.mp4",
+      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 42th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Rejecting drama school to wash dishes in Los Angeles, he returned to conquer Broadway and American Horror Story.**\n\nBorn October 28, 1984, in Lenox, Massachusetts, today Peter 'Finn' Wittrock Jr. turns **42**, recognized as one of American television's most magnetic dramatic chameleons.\n\nGrowing up backstage at Shakespeare & Company where his father worked, Finn was accepted into Juilliard at seventeen but boldly turned it down to work odd jobs and bit parts in Los Angeles before realizing he needed classical discipline, re-auditioning and graduating from Juilliard's Drama Division.\n\nLegendary director Mike Nichols handpicked him to play Happy Loman in Broadway's *Death of a Salesman* alongside Philip Seymour Hoffman, catching the eye of television titan Ryan Murphy.\n\nHis chilling, aristocratic breakdown as sociopath Dandy Mott in *American Horror Story: Freak Show* earned him a Primetime Emmy nomination and instant cult reverence, followed by roles in *The Big Short* and *La La Land*.\n\nBalancing chilling dark roles with deep humanity, he continues to lead prestige television and feature films.\n\nAt 42, Finn Wittrock proves that classical rigor fuels fearless modern storytelling.\n\n**Was Dandy Mott the most terrifying villain in American Horror Story history? Share your thoughts below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Finn Wittrock's Broadway breakthrough...**\n\n* Director Mike Nichols cast Finn as Happy Loman on Broadway alongside Philip Seymour Hoffman and Andrew Garfield, earning him a Theatre World Award.\n* He was accepted to Juilliard out of high school but turned it down to work in Los Angeles, re-auditioning two years later.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Finn Wittrock!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#FinnWittrock #BornToday #2026-10-28 #CelebrityQuiz #ReelQuiz #Shorts",
+      "hashtags": "#FinnWittrock #BornToday #2026-10-28 #CelebrityQuiz #ReelQuiz #Shorts",
+      "scheduled_publish_time": 1793201400,
+      "scheduled_time_utc": "2026-10-28T15:30:00.000Z",
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
+      "fb_reel_id": "1407526701558356",
+      "youtube_video_id": "VRvaA-J52M8",
+      "youtube_url": "https://www.youtube.com/shorts/VRvaA-J52M8"
+    },
+    {
+      "id": "2026-10-28_quiz_04_Troian_Bellisario",
+      "type": "reel_quiz_type2",
+      "celebrity_name": "Troian Bellisario",
+      "birth_year": 1985,
+      "age": 41,
+      "gender": "female",
+      "subtitle": "Look closely at options A, B, C, and D!",
+      "correct_option": "D",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Jennifer Aniston"
+        },
+        {
+          "letter": "B",
+          "name": "Drew Barrymore"
+        },
+        {
+          "letter": "C",
+          "name": "Geena Davis"
+        },
+        {
+          "letter": "D",
+          "name": "Troian Bellisario"
+        }
+      ],
+      "reel_path": "reels/quiz_04_Troian_Bellisario.mp4",
+      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Refusing to trade on her family name, she battled private perfectionism and became a generation's mystery icon.**\n\nBorn October 28, 1985, in Los Angeles, California, today Troian Avery Bellisario turns **41**, celebrated as a fierce actress and courageous indie storyteller.\n\nDespite being the daughter of legendary television producer Donald P. Bellisario, Troian struggled under intense private pressures of perfectionism and self-harm during high school, fighting for her own artistic identity at the USC School of Dramatic Arts.\n\nWhen auditioning for Freeform's teen mystery pilot, she trusted an unorthodox instinct: infusing her character with high-strung intellectual drive, intense loyalty, and hidden vulnerability.\n\nAs Spencer Hastings on *Pretty Little Liars*, Troian anchored seven seasons and 160 episodes as the brilliant detective of the group, winning six Teen Choice Awards and directing episodes herself.\n\nShe wrote, produced, and starred in the acclaimed indie feature *Feed* to demystify eating disorder recovery, while winning an Emmy Award for the short-form series *Lauren*.\n\nAt 41, Troian Bellisario shows that speaking your raw truth is the ultimate artistic power.\n\n**Who was your favorite liar on Pretty Little Liars: Spencer, Hanna, Aria, or Emily? Drop your vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Troian Bellisario's Pretty Little Liars directing...**\n\n* Troian made her professional television directorial debut on season seven of *Pretty Little Liars*, directing episode fifteen, 'In the Eye Abides the Heart', after shadowing directors for years on set.\n* She wrote and produced the 2017 semi-autobiographical drama film *Feed*, drawing on her real-life personal recovery from an eating disorder during high school.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Troian Bellisario!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#TroianBellisario #BornToday #2026-10-28 #HollywoodTrivia #ReelChallenge #Shorts",
+      "hashtags": "#TroianBellisario #BornToday #2026-10-28 #HollywoodTrivia #ReelChallenge #Shorts",
+      "scheduled_publish_time": 1793221200,
+      "scheduled_time_utc": "2026-10-28T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1735762691555235",
-      "youtube_video_id": "CP4vAMwiAUw",
-      "youtube_url": "https://www.youtube.com/shorts/CP4vAMwiAUw",
-      "ig_reel_id": "18635298832059811"
+      "fb_reel_id": "1660095662193280",
+      "youtube_video_id": "AWCNtUYKZRs",
+      "youtube_url": "https://www.youtube.com/shorts/AWCNtUYKZRs"
     }
   ]
 }
