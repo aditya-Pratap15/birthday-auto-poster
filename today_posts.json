@@ -64,7 +64,19 @@
       "fb_reel_id": "992556447245242",
       "fb_reel_scheduled_time": 1793450400,
       "youtube_video_id": "3vmhr-dCvqk",
-      "youtube_url": "https://www.youtube.com/shorts/3vmhr-dCvqk"
+      "youtube_url": "https://www.youtube.com/shorts/3vmhr-dCvqk",
+      "viral_teaser": {
+        "line1": "BAKING LATEX MASKS",
+        "line2": "BET HIS LIFE",
+        "punchline_red": [
+          "11",
+          "OSCARS"
+        ]
+      },
+      "thematic_asset": {
+        "asset_name": "The One Ring",
+        "asset_prompt": "A glowing golden Ring of Power with fiery Elvish script, floating centered on solid white background."
+      }
     },
     {
       "id": "2026-10-31_02_Letitia_Wright",
@@ -128,7 +140,19 @@
       "fb_reel_id": "3826053767548321",
       "fb_reel_scheduled_time": 1793468400,
       "youtube_video_id": "DsnB2RKPCWM",
-      "youtube_url": "https://www.youtube.com/shorts/DsnB2RKPCWM"
+      "youtube_url": "https://www.youtube.com/shorts/DsnB2RKPCWM",
+      "viral_teaser": {
+        "line1": "BATTLING DEPRESSION",
+        "line2": "SECRET PAIN",
+        "punchline_red": [
+          "BLACK",
+          "PANTHER"
+        ]
+      },
+      "thematic_asset": {
+        "asset_name": "Black Panther Vibranium Necklace",
+        "asset_prompt": "Sleek vibranium claw necklace with sharp metallic claws and purple energy accents, on solid white background."
+      }
     },
     {
       "id": "2026-10-31_03_John_Candy",
@@ -192,7 +216,19 @@
       "fb_reel_id": "880551621750633",
       "fb_reel_scheduled_time": 1793486400,
       "youtube_video_id": "LQ5ZfeE5lik",
-      "youtube_url": "https://www.youtube.com/shorts/LQ5ZfeE5lik"
+      "youtube_url": "https://www.youtube.com/shorts/LQ5ZfeE5lik",
+      "viral_teaser": {
+        "line1": "LOST HIS FATHER",
+        "line2": "KNEE INJURY",
+        "punchline_red": [
+          "COMEDY",
+          "LEGEND"
+        ]
+      },
+      "thematic_asset": {
+        "asset_name": "Vintage Leather Traveler Suitcase",
+        "asset_prompt": "Vintage brown textured leather traveler suitcase with brass latches, on solid white background."
+      }
     }
   ],
   "quiz_posts": [
