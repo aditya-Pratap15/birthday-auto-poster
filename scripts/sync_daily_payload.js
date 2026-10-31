@@ -534,6 +534,8 @@ async function normalizePayload(raw) {
       gender: c.gender || 'male',
       country: c.country || 'USA',
       preset: 'preset_viral_teaser',
+      viral_teaser: c.viral_teaser || null,
+      thematic_asset: c.thematic_asset || null,
       teaserCard: teaserCard,
       photo_urls: finalPhotos,
       caption: c.caption || '',

@@ -167,7 +167,12 @@ async function ensureCutout(post, cleanSlug) {
 // -------------------------------------------------------------
 // 2. Thematic Asset Resolver
 // -------------------------------------------------------------
-function getThematicAssetBase64(cleanSlug) {
+function getThematicAssetBase64(cleanSlug, post = {}) {
+  // If thematic_asset with direct base64 was passed in post
+  if (post.thematic_asset && post.thematic_asset.asset_b64) {
+    return post.thematic_asset.asset_b64;
+  }
+
   const s = cleanSlug.toLowerCase();
   let assetFile = null;
 
@@ -197,7 +202,18 @@ function getThematicAssetBase64(cleanSlug) {
 // -------------------------------------------------------------
 function getTeaserLines(post) {
   if (post.viral_teaser) {
-    return post.viral_teaser;
+    const vt = post.viral_teaser;
+    const punch = vt.punchline_red || vt.redLines || [];
+    return {
+      line1: (vt.line1 || '').toUpperCase(),
+      line2: (vt.line2 || '').toUpperCase(),
+      redLines: (Array.isArray(punch) ? punch : [punch]).map(w => String(w).toUpperCase()),
+      arrowTop: vt.arrowTop || 484,
+      arrowLeft: vt.arrowLeft || 580,
+      assetTop: vt.assetTop || 690,
+      assetRight: vt.assetRight || 56,
+      assetSize: vt.assetSize || 370
+    };
   }
 
   const name = (post.celebrity_name || '').toLowerCase();
@@ -572,7 +588,7 @@ async function main() {
     const cutoutB64 = await ensureCutout(post, cleanSlug);
 
     // 2. Ensure 1:1 Thematic Asset
-    const assetB64 = getThematicAssetBase64(cleanSlug);
+    const assetB64 = getThematicAssetBase64(cleanSlug, post);
 
     // 3. Resolve Teaser Lines
     const teaser = getTeaserLines(post);
