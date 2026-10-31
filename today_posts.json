@@ -74,8 +74,9 @@
         ]
       },
       "thematic_asset": {
-        "asset_name": "The One Ring",
-        "asset_prompt": "A glowing golden Ring of Power with fiery Elvish script, floating centered on solid white background."
+        "asset_name": "Gollum (The Lord of the Rings)",
+        "asset_prompt": "Cinematic character cutout of Gollum crouching on a rock holding the golden One Ring.",
+        "asset_filename": "peter_gollum_cutout.png"
       },
       "ig_post_id": "17908741053581730",
       "fb_comment_id": "122113134105506930_1680427337001117"
@@ -152,8 +153,9 @@
         ]
       },
       "thematic_asset": {
-        "asset_name": "Black Panther Vibranium Necklace",
-        "asset_prompt": "Sleek vibranium claw necklace with sharp metallic claws and purple energy accents, on solid white background."
+        "asset_name": "Shuri (Black Panther: Wakanda Forever)",
+        "asset_prompt": "Shuri in Wakanda Forever salute with Black Panther Vibranium helmet.",
+        "asset_filename": "letitia_shuri_cutout.png"
       }
     },
     {
@@ -228,8 +230,9 @@
         ]
       },
       "thematic_asset": {
-        "asset_name": "Vintage Leather Traveler Suitcase",
-        "asset_prompt": "Vintage brown textured leather traveler suitcase with brass latches, on solid white background."
+        "asset_name": "Del Griffith (Planes, Trains and Automobiles)",
+        "asset_prompt": "Del Griffith in iconic blue winter parka, trapper hat, red mittens, and suitcase.",
+        "asset_filename": "john_del_griffith_cutout.png"
       }
     }
   ],

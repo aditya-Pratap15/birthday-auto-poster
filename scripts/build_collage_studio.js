@@ -173,10 +173,24 @@ function getThematicAssetBase64(cleanSlug, post = {}) {
     return post.thematic_asset.asset_b64;
   }
 
+  // If specific asset_filename is specified in post payload
+  if (post.thematic_asset && post.thematic_asset.asset_filename) {
+    const customPath = path.join(THEMATIC_ASSETS_DIR, post.thematic_asset.asset_filename);
+    if (fs.existsSync(customPath)) {
+      return fs.readFileSync(customPath).toString('base64');
+    }
+  }
+
   const s = cleanSlug.toLowerCase();
   let assetFile = null;
 
-  if (s.includes('winona')) {
+  if (s.includes('peter') || s.includes('jackson')) {
+    assetFile = 'peter_gollum_cutout.png';
+  } else if (s.includes('letitia') || s.includes('wright')) {
+    assetFile = 'letitia_shuri_cutout.png';
+  } else if (s.includes('john') || s.includes('candy')) {
+    assetFile = 'john_del_griffith_cutout.png';
+  } else if (s.includes('winona')) {
     assetFile = 'winona_handcuffs_cutout.png';
   } else if (s.includes('richard') || s.includes('dreyfuss')) {
     assetFile = 'richard_book_cutout.png';
