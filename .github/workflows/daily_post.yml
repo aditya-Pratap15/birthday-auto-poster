@@ -29,8 +29,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Latest Edge-TTS CLI
-        run: pip install --upgrade edge-tts
+      - name: Install Latest Edge-TTS & Local ML Background Remover
+        run: pip install --upgrade edge-tts rembg onnxruntime pillow
 
       - name: Install Node Dependencies
         run: npm install

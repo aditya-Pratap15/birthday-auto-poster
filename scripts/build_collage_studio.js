@@ -1,567 +1,616 @@
 #!/usr/bin/env node
 /**
- * Authentic Studio Collage Builder (Headless Chromium)
- * Uses the EXACT HTML5 Canvas rendering pipeline from collage-maker/app.js!
- * Renders custom backgrounds, Google Fonts, gold gradients, drop shadows, and frames.
+ * Viral 4:5 Portrait Master Poster Engine (1080 x 1350 Native)
+ * Replaces the legacy collage maker with the high-CTR viral photo post template.
+ *
+ * Pipeline:
+ * 1. Automated Background Removal (BRIA RMBG-1.4 with local caching in assets/cutouts/)
+ * 2. 1:1 Thematic Asset Integration (pointing target for viral arrow)
+ * 3. Right-Aligned Viral Teaser Headline (black setup + stacked red punchline words)
+ * 4. Grounded Celebrity Cutout with slim white border and contour drop shadow
+ * 5. Celebrity Name Badge at corner above footer with fixed red vertical bar
+ * 6. Clean footer with Bebas Neue CTA & Red Laurel Star Logo
  */
 
 const fs = require('fs');
 const path = require('path');
-const http = require('http');
 const https = require('https');
 const puppeteer = require('puppeteer');
 
 const BASE_DIR = path.resolve(__dirname, '..');
-const STUDIO_DIR = path.join(BASE_DIR, 'collage-maker');
-const PRESETS_DIR = path.join(BASE_DIR, 'presets');
-const COLLAGES_DIR = path.join(BASE_DIR, 'collages');
 const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
+const COLLAGES_DIR = path.join(BASE_DIR, 'collages');
+const CUTOUTS_DIR = path.join(BASE_DIR, 'assets/cutouts');
+const THEMATIC_ASSETS_DIR = path.join(BASE_DIR, 'assets/thematic_assets');
+const LOGO_PATH = path.join(BASE_DIR, 'collage-maker/red_laurel_logo.png');
 
 if (!fs.existsSync(COLLAGES_DIR)) fs.mkdirSync(COLLAGES_DIR, { recursive: true });
+if (!fs.existsSync(CUTOUTS_DIR)) fs.mkdirSync(CUTOUTS_DIR, { recursive: true });
+if (!fs.existsSync(THEMATIC_ASSETS_DIR)) fs.mkdirSync(THEMATIC_ASSETS_DIR, { recursive: true });
 
-const MIME_TYPES = {
-  '.html': 'text/html',
-  '.css': 'text/css',
-  '.js': 'text/javascript',
-  '.json': 'application/json',
-  '.png': 'image/png',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
-  '.webp': 'image/webp',
-  '.svg': 'image/svg+xml',
-  '.ttf': 'font/ttf',
-  '.otf': 'font/otf',
-  '.woff': 'font/woff',
-  '.woff2': 'font/woff2'
-};
-
-// 1. Start local studio web server
-function startServer(port = 3000) {
-  return new Promise((resolve, reject) => {
-    const server = http.createServer((req, res) => {
-      let reqPath = req.url.split('?')[0];
-      if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
-      const filePath = path.join(STUDIO_DIR, reqPath);
-
-      fs.stat(filePath, (err, stats) => {
-        if (err || !stats.isFile()) {
-          res.writeHead(404, { 'Content-Type': 'text/plain' });
-          res.end('404 Not Found');
-          return;
-        }
-
-        const ext = path.extname(filePath).toLowerCase();
-        const contentType = MIME_TYPES[ext] || 'application/octet-stream';
-        res.writeHead(200, {
-          'Content-Type': contentType,
-          'Access-Control-Allow-Origin': '*'
-        });
-        fs.createReadStream(filePath).pipe(res);
-      });
-    });
-
-    server.listen(port, '127.0.0.1', () => {
-      console.log(`[✓] Studio web server listening on http://127.0.0.1:${port}`);
-      resolve(server);
-    });
-    server.on('error', reject);
-  });
+// Read Red Laurel Logo base64
+let logoBase64 = '';
+if (fs.existsSync(LOGO_PATH)) {
+  logoBase64 = fs.readFileSync(LOGO_PATH).toString('base64');
 }
 
-function fetchJson(url) {
-  return new Promise((resolve) => {
-    const headers = { 'User-Agent': 'BornTodayHollywoodBot/1.0 (contact@borntoday.com)' };
-    https.get(url, { headers, timeout: 8000 }, (res) => {
-      let body = '';
-      res.on('data', chunk => body += chunk);
+// -------------------------------------------------------------
+// 1. HTTP Helpers for BRIA Background Removal API
+// -------------------------------------------------------------
+function postJSON(urlStr, data) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(urlStr);
+    const body = JSON.stringify(data);
+    const req = https.request({
+      hostname: u.hostname,
+      port: 443,
+      path: u.pathname,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body)
+      }
+    }, res => {
+      let resData = '';
+      res.on('data', c => resData += c);
       res.on('end', () => {
         try {
-          resolve(JSON.parse(body));
-        } catch (e) {
-          resolve(null);
+          resolve({ status: res.statusCode, body: JSON.parse(resData) });
+        } catch(e) {
+          resolve({ status: res.statusCode, raw: resData });
         }
       });
-    }).on('error', () => resolve(null));
+    });
+    req.on('error', reject);
+    req.write(body);
+    req.end();
   });
 }
 
-function downloadAsDataUri(url, retries = 2, maxRedirects = 5) {
-  if (!url || typeof url !== 'string') return Promise.resolve(null);
-  url = url.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
-  url = url.replace('https://media.themoviedb.org/', 'https://image.tmdb.org/');
-  if (url.includes('commons.wikimedia.org/wiki/File:')) return Promise.resolve(null);
-  if (url.startsWith('data:image')) return Promise.resolve(url);
-
-  // Support local relative or absolute image files
-  let localPath = url;
-  if (!path.isAbsolute(localPath)) {
-    localPath = path.resolve(BASE_DIR, localPath);
-  }
-  if (fs.existsSync(localPath) && fs.statSync(localPath).isFile()) {
-    try {
-      const ext = path.extname(localPath).toLowerCase();
-      const mime = MIME_TYPES[ext] || 'image/jpeg';
-      const buf = fs.readFileSync(localPath);
-      return Promise.resolve(`data:${mime};base64,${buf.toString('base64')}`);
-    } catch (e) {
-      return Promise.resolve(null);
-    }
-  }
-
-  return new Promise((resolve) => {
-    try {
-      const parsed = new URL(url);
-      const client = parsed.protocol === 'http:' ? http : https;
-      const headers = { 
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 BornTodayHollywoodBot/1.0',
-        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
-      };
-
-      const req = client.get(url, { headers, timeout: 15000 }, (res) => {
-        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
-          const redirectUrl = new URL(res.headers.location, url).toString();
-          return resolve(downloadAsDataUri(redirectUrl, retries, maxRedirects - 1));
-        }
-        if (res.statusCode === 429 && retries > 0) {
-          setTimeout(() => {
-            resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
-          }, 1500);
-          return;
-        }
-        if (res.statusCode !== 200) {
-          if (retries > 0) {
-            setTimeout(() => {
-              resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
-            }, 1000);
-            return;
+function getSSEResult(sseUrl) {
+  return new Promise((resolve, reject) => {
+    https.get(sseUrl, res => {
+      let buffer = '';
+      res.on('data', chunk => {
+        buffer += chunk.toString();
+        const lines = buffer.split('\n');
+        for (const line of lines) {
+          if (line.startsWith('data:')) {
+            try {
+              const data = JSON.parse(line.replace('data:', '').trim());
+              if (Array.isArray(data) && data[1] && data[1].url) {
+                res.destroy();
+                return resolve(data[1].url);
+              }
+            } catch (e) {}
           }
-          resolve(null);
-          return;
-        }
-        const chunks = [];
-        res.on('data', chunk => chunks.push(chunk));
-        res.on('end', () => {
-          const buf = Buffer.concat(chunks);
-          if (buf.length < 500) {
-            resolve(null);
-            return;
-          }
-          const mime = res.headers['content-type'] || 'image/jpeg';
-          resolve(`data:${mime};base64,${buf.toString('base64')}`);
-        });
-      });
-      req.on('timeout', () => {
-        req.destroy();
-        if (retries > 0) {
-          resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
-        } else {
-          resolve(null);
         }
       });
-      req.on('error', () => {
-        if (retries > 0) {
-          resolve(downloadAsDataUri(url, retries - 1, maxRedirects));
-        } else {
-          resolve(null);
-        }
-      });
-    } catch (e) {
-      resolve(null);
-    }
+      res.on('end', () => resolve(null));
+    }).on('error', reject);
   });
 }
 
-// 2. Fetch real high-res Wikipedia & Wikimedia Commons photos across different eras
-const NON_PERSON_KEYWORDS = [
-  'map', 'flag', 'chart', 'diagram', 'plan', 'locator', 'coat_of_arms', 'signature',
-  'autograph', 'grave', 'house', 'building', 'star', 'walk_of_fame', 'plaque', 'poster',
-  'cover', 'sound', 'video', 'screenshot', 'wax', 'car', 'aircraft', 'stamp', 'coin',
-  'billboard', 'street', 'statue', 'county', 'district', 'cdp', 'income', 'distribution',
-  'club', 'elementary', 'center', 'hot_shoppe', 'shoes', 'logo', 'icon', 'symbol',
-  'village', 'truck', 'bus', 'vehicle', 'traction', 'cd', 'album',
-  'australia', 'western_australia', 'landscape', 'aerial', 'skyline', 'scenery', 'suburb', 'geography', 'panorama', 'cityscape', 'mountain', 'beach', 'river', 'forest', 'park'
-];
-
-function isCleanPersonPhoto(title, celebName = '') {
-  if (!title) return false;
-  const lower = title.toLowerCase();
-  if (!lower.endsWith('.jpg') && !lower.endsWith('.jpeg') && !lower.endsWith('.png') && !lower.endsWith('.webp')) return false;
-  for (const b of NON_PERSON_KEYWORDS) {
-    if (lower.includes(b)) return false;
-  }
-  if (celebName && celebName.toLowerCase().includes('chevy chase') && lower.includes('maryland')) {
-    return false;
-  }
-  return true;
+function downloadBinary(urlStr, dest) {
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(dest);
+    https.get(urlStr, res => {
+      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+        return downloadBinary(res.headers.location, dest).then(resolve).catch(reject);
+      }
+      res.pipe(file);
+      file.on('finish', () => file.close(resolve));
+    }).on('error', reject);
+  });
 }
 
-function extractYear(title, dateStr) {
-  const combined = (title || '') + ' ' + (dateStr || '');
-  const m = combined.match(/\b(19\d\d|20\d\d)\b/);
-  return m ? parseInt(m[1]) : null;
-}
-
-function getEventSignature(title) {
-  return (title || '').toLowerCase()
-    .replace(/^file:/, '')
-    .replace(/\.(jpg|jpeg|png|webp)$/, '')
-    .replace(/cropped/g, '')
-    .replace(/crop/g, '')
-    .replace(/\(\d+\)/g, '')
-    .replace(/\d+/g, '')
-    .replace(/[-_().,]/g, ' ')
-    .trim()
-    .replace(/\s+/g, ' ');
-}
-
-async function fetchCelebrityTimelinePhotos(celebName, birthYear = null) {
-  const cleanName = celebName.replace(/\./g, '');
-  const searchTerms = [
-    cleanName,
-    celebName.replace(/\s+[A-Z]\.?\s+/g, ' '),
-    celebName
-  ];
-
-  const candidates = [];
-  const seenUrls = new Set();
-  const seenSignatures = new Set();
-
-  function sanitizeWikiUrl(u) {
-    if (!u || typeof u !== 'string') return null;
-    let s = u.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
-    if (s.includes('commons.wikimedia.org/wiki/File:')) return null;
-    return s.split('?')[0];
+// Ensure transparent cutout exists (download & call BRIA if needed)
+async function ensureCutout(post, cleanSlug) {
+  const localCutout = path.join(CUTOUTS_DIR, `${cleanSlug}_cutout.png`);
+  if (fs.existsSync(localCutout) && fs.statSync(localCutout).size > 1000) {
+    console.log(`    [✓] Using cached cutout: ${path.basename(localCutout)}`);
+    return fs.readFileSync(localCutout).toString('base64');
   }
 
-  function addCandidate(title, dateStr, url) {
-    if (!url || !isCleanPersonPhoto(title, celebName)) return;
-    const cleanU = sanitizeWikiUrl(url);
-    if (!cleanU || seenUrls.has(cleanU)) return;
-
-    const yr = extractYear(title, dateStr);
-    if (birthYear && yr && (yr < birthYear || yr > 2026)) return;
-
-    const sig = getEventSignature(title);
-    if (sig && seenSignatures.has(sig)) return;
-
-    seenUrls.add(cleanU);
-    if (sig) seenSignatures.add(sig);
-
-    candidates.push({ title, year: yr, sig, url: cleanU });
+  // Also check numbered fallback in CUTOUTS_DIR
+  const files = fs.readdirSync(CUTOUTS_DIR);
+  const match = files.find(f => f.toLowerCase().includes(cleanSlug.toLowerCase().split('_')[0]) && f.endsWith('_cutout.png'));
+  if (match) {
+    const p = path.join(CUTOUTS_DIR, match);
+    console.log(`    [✓] Using existing cutout match: ${match}`);
+    return fs.readFileSync(p).toString('base64');
   }
 
-  // A. Wikipedia Article Primary Portrait (with redirects=1)
+  const photoUrl = (post.photo_urls && post.photo_urls[0]) || null;
+  if (!photoUrl) {
+    console.warn(`    [!] No photo URL available for background removal.`);
+    return null;
+  }
+
+  console.log(`    ✂️ Invoking BRIA RMBG-1.4 background removal for ${post.celebrity_name}...`);
   try {
-    const pData = await fetchJson(`https://en.wikipedia.org/w/api.php?action=query&titles=${encodeURIComponent(celebName.replace(/ /g, '_'))}&prop=pageimages&redirects=1&format=json&pithumbsize=1200`);
-    if (pData?.query?.pages) {
-      for (const k of Object.keys(pData.query.pages)) {
-        const thumb = pData.query.pages[k]?.thumbnail?.source;
-        if (thumb) {
-          addCandidate(`${celebName} Wikipedia Portrait`, '2024', thumb);
-        }
+    const payload = {
+      data: [{ path: photoUrl, url: photoUrl, orig_name: `${cleanSlug}.jpg`, meta: { _type: 'gradio.FileData' } }]
+    };
+    const res = await postJSON('https://briaai-bria-rmbg-1-4.hf.space/gradio_api/call/run', payload);
+    if (res.body && res.body.event_id) {
+      const resultUrl = await getSSEResult(`https://briaai-bria-rmbg-1-4.hf.space/gradio_api/call/run/${res.body.event_id}`);
+      if (resultUrl) {
+        await downloadBinary(resultUrl, localCutout);
+        console.log(`    ✅ Background removed & saved to ${localCutout}`);
+        return fs.readFileSync(localCutout).toString('base64');
       }
     }
-  } catch (e) {}
-
-  // B. Commons Search with plain name (without quotes, broad file search)
-  for (const st of searchTerms) {
-    try {
-      const sData = await fetchJson(`https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=${encodeURIComponent(st)}&gsrnamespace=6&gsrlimit=40&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=900&format=json`);
-      if (sData?.query?.pages) {
-        for (const k of Object.keys(sData.query.pages)) {
-          const item = sData.query.pages[k];
-          const meta = item.imageinfo?.[0]?.extmetadata;
-          const date = meta?.DateTimeOriginal?.value || meta?.DateTime?.value;
-          const u = item.imageinfo?.[0]?.thumburl || item.imageinfo?.[0]?.url;
-          addCandidate(item.title || '', date, u);
-        }
-      }
-    } catch (e) {}
-    if (candidates.length >= 15) break;
+  } catch (err) {
+    console.warn(`    [!] BRIA background removal error (${err.message}). Trying local Python ML fallback.`);
   }
 
-  // C. Commons Category Members
-  for (const st of searchTerms) {
-    try {
-      const cData = await fetchJson(`https://commons.wikimedia.org/w/api.php?action=query&generator=categorymembers&gcmtitle=Category:${encodeURIComponent(st)}&gcmnamespace=6&gcmlimit=50&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=900&format=json`);
-      if (cData?.query?.pages) {
-        for (const k of Object.keys(cData.query.pages)) {
-          const item = cData.query.pages[k];
-          const meta = item.imageinfo?.[0]?.extmetadata;
-          const date = meta?.DateTimeOriginal?.value || meta?.DateTime?.value;
-          const u = item.imageinfo?.[0]?.thumburl || item.imageinfo?.[0]?.url;
-          addCandidate(item.title || '', date, u);
-        }
-      }
-    } catch (e) {}
-    if (candidates.length >= 25) break;
+  // Fallback to local Python rembg
+  const tempInput = path.join(BASE_DIR, 'assets', `${cleanSlug}_temp.jpg`);
+  try {
+    await downloadBinary(photoUrl, tempInput);
+    const { execSync } = require('child_process');
+    execSync(`python scripts/remove_background.py "${tempInput}" "${localCutout}"`, { stdio: 'inherit' });
+    if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
+    if (fs.existsSync(localCutout)) {
+      console.log(`    ✅ Local ML cutout generated: ${localCutout}`);
+      return fs.readFileSync(localCutout).toString('base64');
+    }
+  } catch (fallbackErr) {
+    console.warn(`    [!] Local ML fallback failed (${fallbackErr.message}).`);
+    if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
   }
 
-  return candidates;
+  return null;
 }
 
-function loadPreset(gender = 'female', presetName = null) {
-  if (presetName) {
-    const custom = path.join(PRESETS_DIR, presetName.endsWith('.json') ? presetName : `${presetName}.json`);
-    if (fs.existsSync(custom)) return JSON.parse(fs.readFileSync(custom, 'utf8'));
+// -------------------------------------------------------------
+// 2. Thematic Asset Resolver
+// -------------------------------------------------------------
+function getThematicAssetBase64(cleanSlug) {
+  const s = cleanSlug.toLowerCase();
+  let assetFile = null;
+
+  if (s.includes('winona')) {
+    assetFile = 'winona_handcuffs_cutout.png';
+  } else if (s.includes('richard') || s.includes('dreyfuss')) {
+    assetFile = 'richard_book_cutout.png';
+  } else if (s.includes('tracee') || s.includes('ross')) {
+    assetFile = 'tracee_mic_cutout.png';
+  } else {
+    // Check if any matching asset exists in directory
+    const files = fs.readdirSync(THEMATIC_ASSETS_DIR);
+    assetFile = files.find(f => f.toLowerCase().includes(s.split('_')[0])) || files[0] || null;
   }
-  const mainTemplate = path.join(PRESETS_DIR, 'main_template.json');
-  if (fs.existsSync(mainTemplate)) {
-    return JSON.parse(fs.readFileSync(mainTemplate, 'utf8'));
+
+  if (assetFile) {
+    const p = path.join(THEMATIC_ASSETS_DIR, assetFile);
+    if (fs.existsSync(p)) {
+      return fs.readFileSync(p).toString('base64');
+    }
   }
-  const viralTeaser = path.join(PRESETS_DIR, 'preset_viral_teaser.json');
-  if (fs.existsSync(viralTeaser)) {
-    return JSON.parse(fs.readFileSync(viralTeaser, 'utf8'));
-  }
-  const fallback = path.join(PRESETS_DIR, 'preset_female.json');
-  if (fs.existsSync(fallback)) {
-    return JSON.parse(fs.readFileSync(fallback, 'utf8'));
-  }
-  return { canvasWidth: 1080, canvasHeight: 1440, frames: [], textLayers: [], stickers: [] };
+  return null;
 }
 
-
-async function ensureWatermarkBadge(browser) {
-  const badgePath = path.join(BASE_DIR, 'collage-maker', 'watermark_badge.png');
-  const logoPath = path.join(BASE_DIR, 'page_logo.png');
-  if (!fs.existsSync(logoPath)) return null;
-
-  if (fs.existsSync(badgePath)) {
-    return 'data:image/png;base64,' + fs.readFileSync(badgePath).toString('base64');
+// -------------------------------------------------------------
+// 3. Teaser Headline Content Formatter
+// -------------------------------------------------------------
+function getTeaserLines(post) {
+  if (post.viral_teaser) {
+    return post.viral_teaser;
   }
 
-  console.log('    [*] Rendering subtle top-right watermark badge for collages...');
-  const logoB64 = fs.readFileSync(logoPath).toString('base64');
-  const badgePage = await browser.newPage();
-  await badgePage.setViewport({ width: 240, height: 240, deviceScaleFactor: 2 });
-  const html = `
-    <!DOCTYPE html>
-    <html>
-    <body style="margin:0;padding:0;background:transparent;display:flex;align-items:center;justify-content:center;width:240px;height:240px;">
-      <div style="width:180px;height:180px;border-radius:50%;overflow:hidden;opacity:0.42;box-shadow:0 4px 14px rgba(0,0,0,0.25);border:4px solid rgba(212,175,55,0.75);background:rgba(10,10,12,0.45);">
-        <img src="data:image/png;base64,${logoB64}" style="width:100%;height:100%;object-fit:cover;" />
+  const name = (post.celebrity_name || '').toLowerCase();
+  if (name.includes('winona')) {
+    return {
+      line1: 'BEVERLY HILLS',
+      line2: 'PEAK OF FAME',
+      redLines: ['SHOCKING', 'ARREST'],
+      arrowTop: 484,
+      arrowLeft: 580,
+      assetTop: 690,
+      assetRight: 56,
+      assetSize: 370
+    };
+  } else if (name.includes('richard')) {
+    return {
+      line1: 'BRANDED',
+      line2: 'DUMB DOG',
+      redLines: ['SECRET DYSLEXIA'],
+      arrowTop: 390,
+      arrowLeft: 570,
+      assetTop: 620,
+      assetRight: 64,
+      assetSize: 390
+    };
+  } else if (name.includes('tracee')) {
+    return {
+      line1: 'DROPPED REAL NAME',
+      line2: 'SECRET AUDITIONS',
+      redLines: ['HIDING', 'DIANA ROSS'],
+      arrowTop: 484,
+      arrowLeft: 580,
+      assetTop: 690,
+      assetRight: 56,
+      assetSize: 370
+    };
+  }
+
+  // Fallback generation from teaserCard / story
+  const tc = post.teaserCard || {};
+  const l1 = (tc.line1 || 'HOLLYWOOD LEGEND').replace(/[,.]/g, '').toUpperCase();
+  const l2 = (tc.line2 || 'RISING ICON').replace(/[,.]/g, '').toUpperCase();
+  const punch = (tc.line3Highlight || tc.line2Highlight || 'TRUE STORY').replace(/[,.]/g, '').toUpperCase();
+
+  return {
+    line1: l1.slice(0, 22),
+    line2: l2.slice(0, 22),
+    redLines: [punch.slice(0, 18)],
+    arrowTop: 484,
+    arrowLeft: 580,
+    assetTop: 690,
+    assetRight: 56,
+    assetSize: 370
+  };
+}
+
+// -------------------------------------------------------------
+// 4. Native 1080 x 1350 HTML Generator
+// -------------------------------------------------------------
+function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser }) {
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      width: 1080px;
+      height: 1350px;
+      background: #ffffff;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+
+    .master-poster {
+      width: 1080px;
+      height: 1350px;
+      background: #ffffff;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stage {
+      flex: 1;
+      width: 100%;
+      height: 1246px;
+      background: #ffffff;
+      position: relative;
+    }
+
+    /* RIGHT-ALIGNED VIRAL TEASER BLOCK */
+    .teaser-right-block {
+      position: absolute;
+      top: 48px;
+      right: 48px;
+      z-index: 5;
+      font-family: 'Anton', 'Bebas Neue', sans-serif;
+      text-transform: uppercase;
+      text-align: right;
+      user-select: none;
+    }
+    .teaser-line-black {
+      font-size: 116px;
+      line-height: 0.92;
+      color: #181818;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+    .teaser-line-red {
+      font-size: 116px;
+      line-height: 0.92;
+      color: #d32020;
+      letter-spacing: 1px;
+      white-space: nowrap;
+    }
+
+    /* VIRAL BENT DOWN-ARROW (-15% SIZE: 220px x 166px) */
+    .arrow-container {
+      position: absolute;
+      top: ${teaser.arrowTop}px;
+      left: ${teaser.arrowLeft}px;
+      z-index: 7;
+      pointer-events: none;
+    }
+    .viral-arrow-svg {
+      width: 220px;
+      height: 166px;
+      display: block;
+    }
+
+    /* THEMATIC 1:1 ASSET CUTOUT */
+    .thematic-asset-container {
+      position: absolute;
+      top: ${teaser.assetTop}px;
+      right: ${teaser.assetRight}px;
+      width: ${teaser.assetSize}px;
+      height: ${teaser.assetSize}px;
+      z-index: 8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.25));
+      pointer-events: none;
+    }
+    .thematic-asset-img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* CELEBRITY CUTOUT: Grounded bottom-left with slim 6px white contour + 32px drop shadow */
+    .celebrity-shadow-wrapper {
+      position: absolute;
+      left: 0px;
+      bottom: 0px;
+      width: 622px;
+      height: 932px;
+      z-index: 10;
+      filter: drop-shadow(0 0 32px rgba(0, 0, 0, 0.62));
+    }
+    .celebrity-white-stroke {
+      width: 100%;
+      height: 100%;
+      filter: url(#white-border-filter);
+      -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
+      mask-image: linear-gradient(to right, rgba(0,0,0,1) 95%, rgba(0,0,0,0) 100%);
+    }
+    .celebrity-white-stroke img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+      object-position: left bottom;
+    }
+
+    /* CELEBRITY NAME BADGE: Right corner directly above footer with slim 6px red bar */
+    .name-badge-block {
+      position: absolute;
+      right: 32px;
+      bottom: 12px;
+      z-index: 15;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 14px;
+      user-select: none;
+    }
+    .celeb-name-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 50px;
+      line-height: 1;
+      letter-spacing: 2.4px;
+      color: #111111;
+      text-transform: uppercase;
+      font-weight: 400;
+      white-space: nowrap;
+      text-shadow: 0 0 16px #ffffff, 0 0 28px #ffffff;
+    }
+    .red-accent-bar {
+      width: 6px;
+      height: 44px;
+      background: #d32020;
+      border-radius: 3px;
+      flex-shrink: 0;
+    }
+
+    /* FOOTER BAR: Clean 104px height, centered Bebas Neue CTA */
+    .footer-bar {
+      height: 104px;
+      width: 100%;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      padding-left: 48px;
+      padding-right: 48px;
+      position: relative;
+      z-index: 20;
+    }
+    .cta-text {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      color: #000000;
+      letter-spacing: 1.6px;
+      word-spacing: 8px;
+      line-height: 1;
+    }
+
+    /* RED LAUREL STAR LOGO */
+    .corner-overlay-logo {
+      position: absolute;
+      right: 28px;
+      bottom: 4px;
+      width: 122px;
+      height: 122px;
+      opacity: 0.95;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .corner-overlay-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+  </style>
+</head>
+<body>
+
+  <svg width="0" height="0" style="position:absolute;">
+    <filter id="white-border-filter" x="-20%" y="-20%" width="140%" height="140%">
+      <feMorphology in="SourceAlpha" operator="dilate" radius="6" result="dilated"/>
+      <feFlood flood-color="#ffffff" flood-opacity="1" result="white"/>
+      <feComposite in="white" in2="dilated" operator="in" result="stroke"/>
+      <feMerge>
+        <feMergeNode in="stroke"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </svg>
+
+  <div class="master-poster">
+    <div class="stage">
+      
+      <!-- Right-Aligned Teaser Block -->
+      <div class="teaser-right-block">
+        <div class="teaser-line-black">${teaser.line1}</div>
+        <div class="teaser-line-black">${teaser.line2}</div>
+        <div>
+          ${teaser.redLines.map(w => `<div class="teaser-line-red">${w}</div>`).join('')}
+        </div>
       </div>
-    </body>
-    </html>
-  `;
-  await badgePage.setContent(html);
-  await badgePage.screenshot({ path: badgePath, omitBackground: true });
-  await badgePage.close();
-  return 'data:image/png;base64,' + fs.readFileSync(badgePath).toString('base64');
+
+      <!-- Viral Bent Down-Arrow (-15% Size, pointy back) -->
+      <div class="arrow-container">
+        <svg class="viral-arrow-svg" viewBox="0 0 160 120">
+          <path d="M 15,18 
+                   C 45,22 75,42 92,72 
+                   L 80,82 
+                   L 142,100 
+                   L 132,45 
+                   L 115,62 
+                   C 98,35 68,18 30,12 
+                   Z" 
+                fill="#d32020" 
+                filter="drop-shadow(0 6px 16px rgba(0,0,0,0.22))" />
+        </svg>
+      </div>
+
+      <!-- 1:1 Thematic Asset Cutout -->
+      ${assetB64 ? `
+      <div class="thematic-asset-container">
+        <img class="thematic-asset-img" src="data:image/png;base64,${assetB64}" alt="Asset">
+      </div>` : ''}
+
+      <!-- Celebrity Cutout -->
+      ${cutoutB64 ? `
+      <div class="celebrity-shadow-wrapper">
+        <div class="celebrity-white-stroke">
+          <img src="data:image/png;base64,${cutoutB64}" alt="Celebrity">
+        </div>
+      </div>` : ''}
+
+      <!-- Celebrity Name Badge -->
+      <div class="name-badge-block">
+        <span class="celeb-name-text">${celebName}</span>
+        <span class="red-accent-bar"></span>
+      </div>
+
+    </div>
+
+    <footer class="footer-bar">
+      <span class="cta-text">READ FULL STORY IN CAPTION  →</span>
+    </footer>
+
+    ${logoB64 ? `
+    <div class="corner-overlay-logo">
+      <img src="data:image/png;base64,${logoB64}" alt="Red Laurel Logo">
+    </div>` : ''}
+  </div>
+
+</body>
+</html>`;
 }
 
+// -------------------------------------------------------------
+// 5. Main Execution Loop
+// -------------------------------------------------------------
 async function main() {
   if (!fs.existsSync(TODAY_POSTS_PATH)) {
-    console.error(`[!] ${TODAY_POSTS_PATH} not found.`);
+    console.error(`[!] today_posts.json not found: ${TODAY_POSTS_PATH}`);
     process.exit(1);
   }
 
-  const data = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, 'utf8'));
-  let posts = data.posts || [];
-  if (posts.length === 0 && data.celebs) {
-    posts = [];
-    for (const celeb of data.celebs) {
-      for (const p of celeb.posts || []) {
-        p.celebrity_name = celeb.name;
-        p.age = celeb.age;
-        p.birth_year = celeb.birth_year || (2026 - parseInt(celeb.age || 50));
-        p.gender = celeb.gender || 'female';
-        p.photo_urls = celeb.photo_urls || p.photo_urls || [];
-        posts.push(p);
-      }
-    }
-  }
-
-  // Purge any stale collage images so only fresh scheduled posts are kept
-  if (fs.existsSync(COLLAGES_DIR)) {
-    const files = fs.readdirSync(COLLAGES_DIR);
-    for (const f of files) {
-      if (f !== '.gitkeep') {
-        try { fs.unlinkSync(path.join(COLLAGES_DIR, f)); } catch (e) {}
-      }
-    }
-  }
+  const rawData = fs.readFileSync(TODAY_POSTS_PATH, 'utf8');
+  const data = JSON.parse(rawData);
+  const posts = data.posts || [];
 
   if (posts.length === 0) {
-    console.log(`[i] today_posts.json is empty (0 posts). Clean slate waiting for new schedule.`);
+    console.log(`[i] today_posts.json is empty (0 posts). Clean slate.`);
     process.exit(0);
   }
 
-  console.log(`[*] Launching Studio Collage Engine for ${posts.length} daily posts...`);
-  const server = await startServer(3000);
+  console.log(`\n======================================================`);
+  console.log(`🚀 VIRAL 4:5 POSTER ENGINE (1080x1350 NATIVE)`);
+  console.log(`   Processing ${posts.length} daily celebrity photo posts...`);
+  console.log(`======================================================\n`);
 
   const browser = await puppeteer.launch({
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security']
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
   });
 
-  const watermarkBadgeUri = await ensureWatermarkBadge(browser);
-
   const page = await browser.newPage();
-  await page.setViewport({ width: 1080, height: 1440, deviceScaleFactor: 1 });
-  await page.goto('http://127.0.0.1:3000/index.html', { waitUntil: 'networkidle2' });
+  await page.setViewport({ width: 1080, height: 1350, deviceScaleFactor: 1 });
 
   for (let idx = 0; idx < posts.length; idx++) {
     const post = posts[idx];
     const celebName = post.celebrity_name || post.name || `Celebrity_${idx + 1}`;
-    const gender = post.gender || 'female';
-    const age = post.age || '';
-    const birthYear = post.birth_year || '';
-    let rawPhotoUrls = post.photo_urls || [];
-
     const cleanSlug = celebName.replace(/[^a-zA-Z0-9_]/g, '_');
     const imagePath = `collages/${cleanSlug}_Page_${idx + 1}_Tribute.jpg`;
     const destPath = path.join(BASE_DIR, imagePath);
 
-    console.log(`\n[+] Post #${idx + 1}: ${celebName} (${gender.toUpperCase()}) -> ${imagePath}`);
+    console.log(`[+] Post #${idx + 1}: ${celebName} -> ${imagePath}`);
 
-    // 1. Prioritize verified photo_urls (TMDb / payload) and local disk cache for 100% sync with reel
-    let finalFramePhotos = [];
-    if (rawPhotoUrls && rawPhotoUrls.length >= 3) {
-      console.log(`    🎯 Synchronizing collage with verified payload photo_urls (${rawPhotoUrls.length} available)...`);
-      for (let pIdx = 0; pIdx < Math.min(5, rawPhotoUrls.length); pIdx++) {
-        const u = rawPhotoUrls[pIdx];
-        const cachedLocal = path.join(BASE_DIR, 'temp_reel_assets', `${cleanSlug}_photo_${pIdx + 1}.jpg`);
-        let dUri = null;
-        if (fs.existsSync(cachedLocal) && fs.statSync(cachedLocal).size > 1000) {
-          dUri = await downloadAsDataUri(cachedLocal);
-        }
-        if (!dUri) {
-          dUri = await downloadAsDataUri(u);
-          if (dUri && dUri.startsWith('data:image')) {
-            try {
-              if (!fs.existsSync(path.join(BASE_DIR, 'temp_reel_assets'))) {
-                fs.mkdirSync(path.join(BASE_DIR, 'temp_reel_assets'), { recursive: true });
-              }
-              const b64 = dUri.split(',')[1];
-              fs.writeFileSync(cachedLocal, Buffer.from(b64, 'base64'));
-            } catch (e) {}
-          }
-        }
-        if (dUri) finalFramePhotos.push(dUri);
-      }
-    }
+    // 1. Ensure Background Cutout
+    const cutoutB64 = await ensureCutout(post, cleanSlug);
 
-    // 2. Fallback to Wikipedia search ONLY if fewer than 3 photos are available
-    if (finalFramePhotos.length < 3) {
-      console.log(`    ⚠️ Fallback: Searching Wikipedia timeline photos...`);
-      const timelineCandidates = await fetchCelebrityTimelinePhotos(celebName, birthYear);
+    // 2. Ensure 1:1 Thematic Asset
+    const assetB64 = getThematicAssetBase64(cleanSlug);
 
-      const downloadedCandidates = [];
-      const seenData = new Set();
-      for (const cand of timelineCandidates) {
-        const dataUri = await downloadAsDataUri(cand.url);
-        if (dataUri) {
-          const fingerprint = dataUri.slice(100, 300);
-          if (!seenData.has(fingerprint)) {
-            seenData.add(fingerprint);
-            downloadedCandidates.push({ ...cand, dataUri, fingerprint });
-          }
-        }
-        if (downloadedCandidates.length >= 15) break;
-      }
+    // 3. Resolve Teaser Lines
+    const teaser = getTeaserLines(post);
 
-      const heroItem = downloadedCandidates[0] || null;
-      const polaroidPool = downloadedCandidates.filter(c => !heroItem || (c.url !== heroItem.url && c.fingerprint !== heroItem.fingerprint));
-      const datedPolaroids = polaroidPool.filter(c => c.year).sort((a, b) => a.year - b.year);
-      const undatedPolaroids = polaroidPool.filter(c => !c.year);
+    // 4. Build Native 1080 x 1350 HTML
+    const html = buildNativePosterHtml({
+      celebName: celebName.toUpperCase(),
+      cutoutB64,
+      assetB64,
+      logoB64: logoBase64,
+      teaser
+    });
 
-      const selectedMilestones = [];
-      let lastEraYear = 0;
-      for (const dp of datedPolaroids) {
-        if (!lastEraYear || Math.abs(dp.year - lastEraYear) >= 3) {
-          selectedMilestones.push(dp);
-          lastEraYear = dp.year;
-          if (selectedMilestones.length === 4) break;
-        }
-      }
-      if (selectedMilestones.length < 4) {
-        for (const dp of datedPolaroids) {
-          if (!selectedMilestones.find(m => m.fingerprint === dp.fingerprint)) {
-            selectedMilestones.push(dp);
-            if (selectedMilestones.length === 4) break;
-          }
-        }
-      }
-      if (selectedMilestones.length < 4) {
-        for (const up of undatedPolaroids) {
-          if (!selectedMilestones.find(m => m.fingerprint === up.fingerprint)) {
-            selectedMilestones.push(up);
-            if (selectedMilestones.length === 4) break;
-          }
-        }
-      }
+    await page.setContent(html, { waitUntil: 'networkidle0' });
 
-      finalFramePhotos = [
-        heroItem ? heroItem.dataUri : null,
-        ...selectedMilestones.slice(0, 4).map(m => m.dataUri)
-      ];
-    }
-
-    // Safeguard: Ensure all 5 canvas slots are populated
-    // Never duplicate photo 0 - ensure only distinct photos are assigned
-
-    console.log(`    [✓] Assigned 5 Frame Photos (Guaranteed Unique: ${new Set(finalFramePhotos.filter(Boolean)).size}/5)`);
-
-    const presetData = loadPreset(gender, post.preset || post.preset_name);
-    if (post.teaserCard) {
-      presetData.teaserCard = { ...(presetData.teaserCard || {}), ...post.teaserCard };
-    }
-
-    if (watermarkBadgeUri) {
-      if (!presetData.stickers) presetData.stickers = [];
-      presetData.stickers.push({
-        label: 'Watermark Badge',
-        src: watermarkBadgeUri,
-        x: 985,
-        y: 76,
-        width: 108,
-        height: 108,
-        opacity: 1,
-        shadowBlur: 6
+    // 5. Screenshot full 1080 x 1350 poster
+    const posterEl = await page.$('.master-poster');
+    if (posterEl) {
+      await posterEl.screenshot({
+        path: destPath,
+        type: 'jpeg',
+        quality: 95
       });
-    }
-
-    if (presetData.bgCustomImage && !presetData.bgCustomImage.startsWith('data:')) {
-      const bgFullPath = path.join(STUDIO_DIR, presetData.bgCustomImage);
-      if (fs.existsSync(bgFullPath)) {
-        const bgBuf = fs.readFileSync(bgFullPath);
-        presetData.bgCustomImage = `data:image/png;base64,${bgBuf.toString('base64')}`;
-      }
-    }
-
-    const payload = {
-      presetData,
-      celebName,
-      birthYear,
-      age,
-      photoUrls: finalFramePhotos
-    };
-
-    // Execute exact rendering pipeline in Chromium
-    const dataUrl = await page.evaluate(async (p) => {
-      return await window.renderAutomationCollage(p);
-    }, payload);
-
-    if (dataUrl && dataUrl.startsWith('data:image/jpeg;base64,')) {
-      const base64Data = dataUrl.replace(/^data:image\/jpeg;base64,/, '');
-      fs.writeFileSync(destPath, Buffer.from(base64Data, 'base64'));
-      console.log(`    [✓] Pixel-perfect studio tribute generated: ${destPath}`);
+      console.log(`    ✅ Rendered native 1080x1350 poster: ${destPath}`);
       post.image_path = imagePath;
     } else {
-      console.error(`    [!] Failed to export canvas image for ${celebName}`);
+      console.error(`    [!] Could not locate .master-poster element for ${celebName}`);
     }
   }
 
   await browser.close();
-  server.close();
 
   // Save synchronized JSON
   fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
-  console.log(`\n[✓] All ${posts.length} collages rendered identically to Collage Studio!`);
+  console.log(`\n[✓] All ${posts.length} photo posts rendered & synchronized in today_posts.json!`);
 }
 
 main().catch(err => {
-  console.error('[!] Studio Render Error:', err);
+  console.error('[!] Fatal Error in Poster Engine:', err);
   process.exit(1);
 });
