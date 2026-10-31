@@ -1,14 +1,14 @@
 {
-  "date": "2026-10-30",
-  "generated_at": "2026-10-30T06:50:32+05:30",
+  "date": "2026-10-31",
+  "generated_at": "2026-10-31T06:20:53+05:30",
   "posts": [
     {
-      "id": "2026-10-30_01_Henry_Winkler",
-      "celebrity_name": "Henry Winkler",
-      "birth_year": 1945,
-      "age": 81,
+      "id": "2026-10-31_01_Peter_Jackson",
+      "celebrity_name": "Peter Jackson",
+      "birth_year": 1961,
+      "age": 65,
       "gender": "male",
-      "country": "United States",
+      "country": "New Zealand",
       "preset": "preset_viral_teaser",
       "teaserCard": {
         "enabled": true,
@@ -21,60 +21,58 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "Branded dumb dog by parents,",
-        "line2": "improvised through secret dyslexia",
-        "line2Highlight": "immortalized The Fonz in leather",
-        "line3Highlight": "to become cultural legend...",
+        "line1": "Baking latex monster masks,",
+        "line2": "bet life on Middle-earth",
+        "line2Highlight": "swept eleven Oscars for Rings",
+        "line3Highlight": "to conquer cinema history...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/5Y51B0maVYvKRoS43lwlYh1M52X.jpg",
-        "https://image.tmdb.org/t/p/original/c35LVOjB1gbY5iYzhN9PGIXUHWt.jpg",
-        "https://image.tmdb.org/t/p/original/aEMH7PSTOYAFzrlQwDsl9NxGVXM.jpg",
-        "https://image.tmdb.org/t/p/original/mGlSRA5RDswEDmY8oWEizXliShp.jpg",
-        "https://image.tmdb.org/t/p/original/43rXHypaxT9OzU2PykJ5qRCe76n.jpg"
+        "https://image.tmdb.org/t/p/original/bNc908d59Ba8VDNr4eCcm4G1cR.jpg",
+        "https://image.tmdb.org/t/p/original/4hh7hips4xc6kgpNDQKQH3goRvJ.jpg",
+        "https://image.tmdb.org/t/p/original/mSUq2pe1g7j2aAf03k6bIbeLB56.jpg",
+        "https://image.tmdb.org/t/p/original/kHNsP1SOZ2LfqqoGUm7Icwheai7.jpg",
+        "https://image.tmdb.org/t/p/original/pZfTbckf915zwOTMGNkntL3YkY2.jpg"
       ],
-      "caption": "**Called a dumb dog by his parents due to dyslexia, he put on a leather jacket and became the coolest man on Earth.**\n\nBorn October 30, 1945, in Manhattan, New York City, today Henry Franklin Winkler turns **81**, cherished worldwide as an American television icon of supreme warmth.\n\nStruggling through severe undiagnosed dyslexia as a boy, Henry was scolded and ridiculed by his parents, who nicknamed him 'dummer Hund' (dumb dog), but he refused to give up on his acting dream, improvising his way through the Yale School of Drama.\n\nWhen auditioning for *Happy Days* in 1973, producers envisioned a tall blond greaser, but Henry trusted an unorthodox instinct: infusing petty delinquent Arthur Fonzarelli with swagger, chivalry, and an iconic thumbs-up 'Ayy!'.\n\nThe Fonz exploded into a global pop-culture phenomenon across eleven seasons, placing his leather jacket in the Smithsonian, before Henry developed the original *MacGyver* and starred in *Arrested Development* and *The Waterboy*.\n\nAt age seventy-two, forty-two years after his first nomination, he won his first Primetime Emmy Award for playing acting teacher Gene Cousineau in HBO's *Barry*.\n\nAt 81, Henry Winkler proves that kindness and perseverance conquer every label.\n\n**What was Henry Winkler's greatest role: The Fonz in Happy Days, Gene Cousineau in Barry, or Barry Zuckerkorn? Vote below! 👇**",
-      "comment": "**The secret behind Henry Winkler's Smithsonian jacket...**\n\n* Henry did not find out he had dyslexia until age thirty-one, when his stepson Jed was diagnosed and Henry realized the same symptoms applied to him, later writing the best-selling *Hank Zipzer* children's book series.\n* ABC executives originally banned Fonzie's leather jacket, allowing him to wear it only when standing next to his motorcycle.\n\nWhich fact surprised you most?",
-      "reel_script": "Ridiculed by his parents and called a dumb dog because of undiagnosed dyslexia, Henry Winkler refused to give up. He auditioned for Happy Days, improvised his lines, and created the coolest character in television history as The Fonz, before winning an Emmy for Barry at age seventy-two. Happy eighty-first birthday to a true television treasure. What is your favorite Henry Winkler moment? Tell us below.",
-      "reel_caption": "Called a dumb dog as a kid due to undiagnosed dyslexia, Henry Winkler became The Fonz on Happy Days and won an Emmy for Barry. What was his best role? #HenryWinkler #HappyDays #TheFonz #BarryHBO #ArrestedDevelopment #BornToday",
+      "caption": "**Baking monster heads in his mother's kitchen oven, he gambled everything to bring Middle-earth to life.**\n\nBorn October 31, 1961, in Pukerua Bay, New Zealand, today Sir Peter Robert Jackson turns **65**, celebrated as modern cinema's greatest mythmaker.\n\nAn obsessive self-taught school-leaver who made no-budget splatter films on weekends, Peter baked foam latex masks in his parents' kitchen oven, forcing his family to eat sausages for dinner because his monster props occupied the stove.\n\nWhen Hollywood studio bosses declared J.R.R. Tolkien's fantasy trilogy completely unfilmable, Peter trusted a radical instinct: shooting all three massive epics simultaneously across the rugged mountains of New Zealand.\n\n*The Lord of the Rings* became a global box-office and cultural titan, culminating in *The Return of the King* sweeping eleven Academy Awards out of eleven nominations—tying the all-time Oscar record.\n\nCarrying the weight of a nation's film industry through years of sleepless eighteen-hour days, he pioneered digital visual effects with Wētā FX and restored history in *They Shall Not Grow Old* and *The Beatles: Get Back*.\n\nAt 65, Peter Jackson proves that backyard imagination and relentless courage can build immortal worlds.\n\n**Which Peter Jackson masterpiece reigns supreme: The Fellowship of the Ring, The Two Towers, or The Return of the King? Vote below! 👇**",
+      "comment": "**The secret behind Peter Jackson's kitchen oven masks...**\n\n* While filming his 1987 debut *Bad Taste*, Peter baked latex alien masks in his mother's kitchen oven every Sunday for four years, forcing his parents to eat cold sausages for dinner.\n* *The Return of the King* won all eleven Academy Awards it was nominated for in 2004, achieving the largest clean sweep in Oscar history.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "Shooting homemade movies on weekends and baking monster masks in his parents oven, Peter Jackson was told Tolkien's masterpiece was impossible to film. He gambled everything shooting three epics at once in New Zealand, sweeping eleven Academy Awards for The Return of the King and changing cinema history forever. Happy sixty-fifth birthday to a visionary filmmaker. What is your absolute favorite Lord of the Rings moment? Tell us below.",
+      "reel_caption": "From baking rubber monster masks in his mother's oven to sweeping eleven Academy Awards for The Lord of the Rings, Peter Jackson made history. What is your favorite Rings film? #PeterJackson #LordOfTheRings #LOTR #TheHobbit #Weta #BornToday",
       "hashtags": [
-        "#HenryWinkler",
-        "#HappyDays",
-        "#TheFonz",
-        "#BarryHBO",
-        "#ArrestedDevelopment",
-        "#TheWaterboy",
-        "#EmmyWinner",
+        "#PeterJackson",
+        "#LordOfTheRings",
+        "#LOTR",
+        "#TheReturnOfTheKing",
+        "#TheHobbit",
+        "#KingKong",
+        "#OscarWinner",
         "#BornToday",
-        "#October30"
+        "#October31"
       ],
-      "image_path": "collages/Henry_Winkler_Page_1_Tribute.jpg",
-      "scheduled_publish_time": 1793361600,
-      "scheduled_time_utc": "2026-10-30T12:00:00.000Z",
+      "image_path": "collages/Peter_Jackson_Page_1_Tribute.jpg",
+      "scheduled_publish_time": 1793448000,
+      "scheduled_time_utc": "2026-10-31T12:00:00.000Z",
       "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Henry_Winkler_Reel.mp4",
-      "fb_post_id": "122112729885506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122112729885506930",
-      "fb_collage_photo_id": "122112729885506930",
-      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/873068421_122112729891506930_7219685315250885261_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=054031&_nc_ohc=CHg77Hb4GKYQ7kNvwEZNlSc&_nc_oc=AdobQKUImhOzGgniea2F27jLrdwc1Ra-zIYMeIXHfElO3wy8EJ6O-AtLw0_rh2tzRBM&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=aBCe-PTVeIYTLSPsUtiECA&_nc_tpa=Q5bMBQJyvQJkd4g9UmqFwUv4VlNolsbFIBka3naK7gz4I3HtLcHFH97MIeQpGxN07l4pBfrSOTcdopfpWg&oh=00_AQSsVORJHjOPxwVnbHb70bil1qTRUNp458L1TB3mICjFsQ&oe=6AE9E795",
-      "fb_reel_id": "1481644641689745",
-      "fb_reel_scheduled_time": 1793364000,
-      "youtube_video_id": "G5DJ61LOwYw",
-      "youtube_url": "https://www.youtube.com/shorts/G5DJ61LOwYw",
-      "ig_post_id": "17992889436025773",
-      "ig_reel_id": "17912605722519154"
+      "reel_path": "reels/Peter_Jackson_Reel.mp4",
+      "fb_post_id": "122113134105506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113134105506930",
+      "fb_collage_photo_id": "122113134105506930",
+      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/877005168_122113134111506930_3015389703158649952_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=054031&_nc_ohc=OQViR2UhTCsQ7kNvwHZstpN&_nc_oc=AdqDIg8J3gbOpkoQU0Pb2zM6LkyOwetMwn5dHy0OW9U1F7NF3LN8jjrTSiEfLwoRIWk&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=q_piypfAjAB49lskKPGW5g&_nc_tpa=Q5bMBQIqwmyrRuYqRhHDZP7apGVX2SM5jXjg8TMllQpE62-QEh7ucxlE04NJiRg2UYjANK_01FEKtw-1DQ&oh=00_AQSb1JSXHxbVQ2Lad2gGflSB4DCfbwoMcjKOlZlDTEUnXA&oe=6AEB1429",
+      "fb_reel_id": "992556447245242",
+      "fb_reel_scheduled_time": 1793450400,
+      "youtube_video_id": "3vmhr-dCvqk",
+      "youtube_url": "https://www.youtube.com/shorts/3vmhr-dCvqk"
     },
     {
-      "id": "2026-10-30_02_Nia_Long",
-      "celebrity_name": "Nia Long",
-      "birth_year": 1970,
-      "age": 56,
+      "id": "2026-10-31_02_Letitia_Wright",
+      "celebrity_name": "Letitia Wright",
+      "birth_year": 1993,
+      "age": 33,
       "gender": "female",
-      "country": "United States",
+      "country": "Guyana",
       "preset": "preset_viral_teaser",
       "teaserCard": {
         "enabled": true,
@@ -87,61 +85,58 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "South Los Angeles retail worker,",
-        "line2": "stole Boyz n the Hood",
-        "line2Highlight": "ruled nineties Black cinema classics",
-        "line3Highlight": "as undisputed leading lady...",
+        "line1": "Tottenham immigrant church choir,",
+        "line2": "battled through deep depression",
+        "line2Highlight": "carried Black Panther mantle forward",
+        "line3Highlight": "as Wakanda's protector...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/heVQkCGKUuKKRjRJaZIBrEKGhYA.jpg",
-        "https://image.tmdb.org/t/p/original/28ELj8cD7VuQyEagMdxvw7TGaWq.jpg",
-        "https://image.tmdb.org/t/p/original/2HnplqKDWkLyReeeAPsbEctkpPQ.jpg",
-        "https://image.tmdb.org/t/p/original/m2opIz9dRPZQODme4nNt0JFeucw.jpg",
-        "https://image.tmdb.org/t/p/original/gPJwy7QC6iY3AqKkXcXAzInBcwX.jpg"
+        "https://image.tmdb.org/t/p/original/f7PevpEeBqwzACPhoZ8K3ktrKvE.jpg",
+        "https://image.tmdb.org/t/p/original/jJoQw4rLIR5aUkri7Wds9yugAuJ.jpg",
+        "https://image.tmdb.org/t/p/original/4jdsjY5jKwoNpCMd5nnJFsDmieY.jpg",
+        "https://image.tmdb.org/t/p/original/p8acjtsBrj2VPAgAIUhxHYrMa7U.jpg",
+        "https://image.tmdb.org/t/p/original/i6fbYNn5jWA6swWtaqgzaj02RMc.jpg"
       ],
-      "caption": "**Working retail in South Los Angeles, she caught John Singleton's eye and became the timeless queen of Black cinema.**\n\nBorn October 30, 1970, in Brooklyn, New York, and raised in South Los Angeles, today Nia Talita Long turns **56**, celebrated as an enduring leading lady of modern Hollywood.\n\nRaised by a hardworking single mother who taught printmaking, young Nia studied acting on weekends while balancing shifts at retail stores, dreaming of breaking through an industry that offered few multidimensional roles to young Black women.\n\nHer life changed when visionary director John Singleton cast her as Brandi in the 1991 landmark classic *Boyz n the Hood*, trusting an unorthodox instinct: radiating girl-next-door warmth paired with fierce emotional backbone.\n\nShe captured hearts as Will Smith's bride-to-be Lisa Wilkes on *The Fresh Prince of Bel-Air*, headlined beloved comedy hits like *Friday* and *Big Momma's House*, and starred in romantic masterpieces *Love Jones*, *Soul Food*, and *The Best Man*.\n\nA two-time NAACP Image Award winner, she joined the blockbuster Michael Jackson biopic *Michael* portraying family matriarch Katherine Jackson.\n\nAt 56, Nia Long remains the golden standard for grace, beauty, and authentic screen magnetism.\n\n**What was Nia Long's ultimate classic movie: Love Jones, The Best Man, Boyz n the Hood, or Friday? Share your vote below! 👇**",
-      "comment": "**The secret behind Nia Long's Fresh Prince casting...**\n\n* Jada Pinkett Smith originally auditioned for the role of Will Smith's fiancée Lisa Wilkes on *The Fresh Prince of Bel-Air*, but was considered too short at five feet, leading producers to cast Nia Long instead.\n* Nia and Ice Cube have starred together in three separate beloved films: *Boyz n the Hood*, *Friday*, and *Are We There Yet?*.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Balancing acting classes with retail shifts in South Los Angeles, Nia Long got her big break when John Singleton cast her in Boyz n the Hood. She captured the world as Lisa on The Fresh Prince of Bel-Air and starred in timeless classics like Love Jones, The Best Man, and Friday. Happy fifty-sixth birthday to a true cinematic queen. What is your absolute favorite Nia Long movie? Let us know below.",
-      "reel_caption": "From Boyz n the Hood to The Fresh Prince of Bel-Air and Love Jones, Nia Long has been the undisputed queen of cinema for three decades. What was your favorite role of hers? #NiaLong #BoyzNTheHood #FreshPrince #LoveJones #Friday #BornToday",
+      "caption": "**Overcoming crippling depression as a young Londoner, she honored Chadwick Boseman and became the Black Panther.**\n\nBorn October 31, 1993, in Georgetown, Guyana, and raised in Tottenham, London, today Letitia Michelle Wright turns **33**, recognized worldwide as a resilient Marvel superstar.\n\nMoving to England at age eight and inspired to act after watching Keke Palmer in *Akeelah and the Bee*, Letitia faced severe clinical depression at age twenty, nearly walking away from her career before finding healing through faith and community.\n\nDirector Ryan Coogler cast her as Wakanda's brilliant vibranium tech prodigy Shuri in 2018's *Black Panther*, instantly turning her into a beloved global superhero icon.\n\nWhen co-star and screen brother Chadwick Boseman tragically passed away in 2020, Letitia carried the profound grief of an entire franchise on her shoulders, stepping into the suit as the new Black Panther in *Wakanda Forever*.\n\nBalancing blockbuster pressure with raw dramatic brilliance in Steve McQueen's *Small Axe*, she inspires young women of color across the globe.\n\nAt 33, Letitia Wright embodies the unbreakable warrior spirit of Wakanda.\n\n**Was Shuri taking up the Black Panther mantle one of Marvel's most emotional moments? Share your thoughts below! 👇**",
+      "comment": "**The secret behind Letitia Wright's acting inspiration...**\n\n* Letitia decided to become an actress at age twelve after watching Keke Palmer in the 2006 film *Akeelah and the Bee*, realizing young Black girls could lead powerful Hollywood stories.\n* During her audition for *Black Panther*, she tested alongside Chadwick Boseman, and their immediate sibling chemistry convinced director Ryan Coogler on the spot.\n\nWhich fact moved you most?",
+      "reel_script": "Inspiring millions as Wakanda's tech genius Shuri, Letitia Wright almost quit acting at twenty while battling severe depression. Following the tragic loss of Chadwick Boseman, she channeled real grief into raw heroism, stepping forward to lead Black Panther Wakanda Forever and earning worldwide admiration. Happy thirty-third birthday to a resilient and brilliant superhero star. What was your favorite Shuri moment in the Marvel Universe? Let us know below.",
+      "reel_caption": "From battling depression as a teenager in London to honoring Chadwick Boseman and becoming the new Black Panther, Letitia Wright is an inspiring warrior. Wakanda Forever! #LetitiaWright #BlackPanther #WakandaForever #Shuri #Marvel #BornToday",
       "hashtags": [
-        "#NiaLong",
-        "#BoyzNTheHood",
-        "#TheFreshPrinceOfBelAir",
-        "#LoveJones",
-        "#TheBestMan",
-        "#FridayMovie",
-        "#SoulFood",
+        "#LetitiaWright",
+        "#BlackPanther",
+        "#WakandaForever",
+        "#Shuri",
+        "#MarvelCinematicUniverse",
+        "#SmallAxe",
+        "#Wakanda",
         "#BornToday",
-        "#October30"
+        "#October31"
       ],
-      "image_path": "collages/Nia_Long_Page_2_Tribute.jpg",
-      "scheduled_publish_time": 1793379600,
-      "scheduled_time_utc": "2026-10-30T17:00:00.000Z",
+      "image_path": "collages/Letitia_Wright_Page_2_Tribute.jpg",
+      "scheduled_publish_time": 1793466000,
+      "scheduled_time_utc": "2026-10-31T17:00:00.000Z",
       "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Nia_Long_Reel.mp4",
-      "fb_post_id": "122112730095506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122112730095506930",
-      "fb_collage_photo_id": "122112730095506930",
-      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/854812394_122112730101506930_7633535168101237424_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=054031&_nc_ohc=GCXOQnEQ930Q7kNvwGxjFQ1&_nc_oc=AdrLJ79ndAI73PQ3U6m2BWEnbo9bGFWCcuc5-9CgpIKDlfEXETU3Rq25N-qsyXbtn7A&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=QMcl3yPpQWwUIPYwCWNjww&_nc_tpa=Q5bMBQIXfgByqQfkmBkwPiTdpyIJFyiPfWdEw5e0usiGRABYBpHC0MNUQat3nITWchuj75ySkUpFq9_qbw&oh=00_AQRKPQBB5nnit5L9ot-bLbXjiRG18JNyIYrR_Cu7z1FBRw&oe=6AE9D487",
-      "fb_reel_id": "4455179661398905",
-      "fb_reel_scheduled_time": 1793382000,
-      "youtube_video_id": "nQ6kyXWRX7w",
-      "youtube_url": "https://www.youtube.com/shorts/nQ6kyXWRX7w",
-      "fb_comment_id": "122112730095506930_1133237519639966",
-      "ig_post_id": "17935293495408626",
-      "ig_reel_id": "18358564060223777"
+      "reel_path": "reels/Letitia_Wright_Reel.mp4",
+      "fb_post_id": "122113134297506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113134297506930",
+      "fb_collage_photo_id": "122113134297506930",
+      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/876485562_122113134303506930_4785629540610117790_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=054031&_nc_ohc=AcKdEyN4ZLEQ7kNvwGHepWF&_nc_oc=AdoQiz0tH6GVoMUzqOnVMNyJt1KOgAIOkFB-fxwDJo85IKR6m2RX3aqv2zB9zMJAWVA&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=d75AGidXXcd7gDD-rQCP2A&_nc_tpa=Q5bMBQK8zwwAObp7gMd-P1fDvL-8FBhCUfVVUjUWUTQ-SIDeh8ZLVdTKr4DLaVb-MEb1JTRomcvVbiiNKA&oh=00_AQQdZtOkybprbxCqaDZHrEa2IPcENYircR_LHqwlVqm9xg&oe=6AEB2307",
+      "fb_reel_id": "3826053767548321",
+      "fb_reel_scheduled_time": 1793468400,
+      "youtube_video_id": "DsnB2RKPCWM",
+      "youtube_url": "https://www.youtube.com/shorts/DsnB2RKPCWM"
     },
     {
-      "id": "2026-10-30_03_Kevin_Pollak",
-      "celebrity_name": "Kevin Pollak",
-      "birth_year": 1957,
-      "age": 69,
+      "id": "2026-10-31_03_John_Candy",
+      "celebrity_name": "John Candy",
+      "birth_year": 1950,
+      "age": 76,
       "gender": "male",
-      "country": "United States",
+      "country": "Canada",
       "preset": "preset_viral_teaser",
       "teaserCard": {
         "enabled": true,
@@ -153,204 +148,197 @@
         "borderColor": "#b68c43",
         "borderWidth": 2,
         "cornerRadius": 14,
-        "badgeIcon": "crown",
-        "line1": "San Francisco standup comic grinder,",
-        "line2": "from smoky club stages",
-        "line2Highlight": "stole The Usual Suspects and Casino",
-        "line3Highlight": "as character royalty...",
+        "badgeIcon": "heart",
+        "line1": "Father died fifth birthday,",
+        "line2": "knee injury crushed sports",
+        "line2Highlight": "gave world Del Griffith",
+        "line3Highlight": "in Planes Trains Automobiles...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/ss4vL5itVF1I2AEC64k1vb79GEq.jpg",
-        "https://image.tmdb.org/t/p/original/jWhKIVtmc3vIoS2l1VsdNwMAMJB.jpg",
-        "https://image.tmdb.org/t/p/original/2S5eVHJvGWWtjp6oUZXngQ7MKoD.jpg",
-        "https://image.tmdb.org/t/p/original/nAM4DErA2fXnwfq5lkIHPxjkwoS.jpg",
-        "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/KevinPollakMar08.jpg/1280px-KevinPollakMar08.jpg"
+        "https://image.tmdb.org/t/p/original/uvLWbMDE6UfWNF5tfrsrC9NqeEA.jpg",
+        "https://image.tmdb.org/t/p/original/fV3ToInjF83VdNxMBTpRpSrDZsx.jpg",
+        "https://image.tmdb.org/t/p/original/r8fwhr6jVp63BJl06qFis3eWTzB.jpg",
+        "https://image.tmdb.org/t/p/original/xOoA2gFdnl0qe9esbG0FJvCY0Fh.jpg",
+        "https://image.tmdb.org/t/p/original/npbUYgmhP4dtC0VUmIZ5B8g70Dr.jpg"
       ],
-      "caption": "**Grinding through smoky comedy clubs at seventeen, he traded standup mics for cinema's most iconic crime lineups.**\n\nBorn October 30, 1957, in San Francisco, California, today Kevin Elliot Pollak turns **69**, honored as one of American film and television's most versatile character masters.\n\nBeginning standup comedy at just seventeen, Kevin spent a decade touring comedy clubs across the country, sleeping in cheap motels and mastering razor-sharp celebrity impressions before daring to transition into dramatic screen acting.\n\nRejecting conventional Hollywood leading-man types, Kevin trusted an unorthodox instinct: blending acerbic wit, cynical realism, and lightning-fast comedic timing into unforgettable supporting roles.\n\nHe entered cinematic history as cynical robber Todd Hockney in *The Usual Suspects*, Lt. Sam Weinberg in Rob Reiner's *A Few Good Men*, and corrupt casino executive Phillip Green in Martin Scorsese's *Casino*.\n\nFor five acclaimed seasons, he delighted modern audiences as passionate garment factory owner Moishe Maisel in Amazon's smash hit *The Marvelous Mrs. Maisel*.\n\nAt 69, Kevin Pollak proves that impeccable timing and character dedication always outlast flashy stardom.\n\n**What was Kevin Pollak's greatest performance: The Usual Suspects, A Few Good Men, Casino, or Mrs. Maisel? Vote below! 👇**",
-      "comment": "**The secret behind Kevin Pollak's World Series of Poker run...**\n\n* In 2012, Kevin proved his real-life poker skills by competing in the prestigious World Series of Poker Main Event, finishing 134th out of 6,598 players to take home over $52,000.\n* During the famous police lineup scene in *The Usual Suspects*, the actors kept breaking into genuine laughter because Benicio del Toro was quietly passing gas between takes.\n\nWhich fact surprised you most?",
-      "reel_script": "Starting standup comedy at seventeen in San Francisco, Kevin Pollak spent ten years touring before Hollywood came calling. He held his own opposite Tom Cruise and Jack Nicholson in A Few Good Men, made film history in The Usual Suspects, and charmed audiences on The Marvelous Mrs. Maisel. Happy sixty-ninth birthday to a master of character acting. What is your favorite Kevin Pollak movie? Tell us below.",
-      "reel_caption": "From standup comedy clubs to the iconic police lineup in The Usual Suspects and A Few Good Men, Kevin Pollak is an acting heavyweight. What is your favorite Kevin Pollak movie? #KevinPollak #TheUsualSuspects #AFewGoodMen #Casino #MrsMaisel #BornToday",
+      "caption": "**Losing his father on his fifth birthday, he masked private pain with the warmest laughter in cinema history.**\n\nBorn October 31, 1950, in Newmarket, Ontario, today we celebrate what would have been the **76th** birthday of comedy legend John Franklin Candy.\n\nTragically losing his father to heart disease on his fifth birthday, John was a high school football tackle whose dreams of playing professionally ended after a catastrophic knee injury, leading him to Toronto's Second City stage.\n\nPairing slapstick physical genius with deep, unvarnished human vulnerability, John created screen characters whose clumsy goodness broke your heart.\n\nHe defined eighteens comedy in *Stripes*, *Splash*, and *Spaceballs*, before delivering his crowning dramatic-comedy triumph alongside Steve Martin in John Hughes's Thanksgiving masterpiece *Planes, Trains and Automobiles*.\n\nAs shower-curtain-ring salesman Del Griffith, his improvised monologue—'I like me. My wife likes me'—remains one of the most poignant scenes ever filmed, followed by beloved hits in *Uncle Buck* and *Cool Runnings*.\n\nPassing away far too young at age forty-three in 1994, his gentle spirit and enormous heart live on forever.\n\n**What is John Candy's most unforgettable movie: Planes, Trains and Automobiles, Uncle Buck, or Cool Runnings? Drop your tribute below! 👇**",
+      "comment": "**The secret behind John Candy's hotel room monologue...**\n\n* In *Planes, Trains and Automobiles*, director John Hughes allowed John Candy to improvise the heart-wrenching motel room speech: 'I like me. My wife likes me. My customers like me', creating an emotional cinematic masterpiece.\n* John Candy was a co-owner of the Canadian Football League's Toronto Argonauts, hoisting the championship Grey Cup in 1991.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "After a devastating knee injury ended his football dreams, John Candy turned to comedy and became the beloved, beating heart of cinema. In Planes, Trains and Automobiles and Uncle Buck, his giant frame and tender soul created characters that made the world both laugh and cry. Remembering a true comedy legend on his seventy-sixth birthday. What is your all-time favorite John Candy movie? Tell us below.",
+      "reel_caption": "Losing his father on his fifth birthday, John Candy gave the world Uncle Buck, Spaceballs, and Planes, Trains and Automobiles. Remembering a comedy giant on his birthday! #JohnCandy #PlanesTrainsAndAutomobiles #UncleBuck #CoolRunnings #Spaceballs #BornToday",
       "hashtags": [
-        "#KevinPollak",
-        "#TheUsualSuspects",
-        "#AFewGoodMen",
-        "#CasinoMovie",
-        "#TheMarvelousMrsMaisel",
-        "#CharacterActor",
-        "#StandupComedy",
+        "#JohnCandy",
+        "#PlanesTrainsAndAutomobiles",
+        "#UncleBuck",
+        "#CoolRunnings",
+        "#Spaceballs",
+        "#DelGriffith",
+        "#ComedyLegend",
         "#BornToday",
-        "#October30"
+        "#October31"
       ],
-      "image_path": "collages/Kevin_Pollak_Page_3_Tribute.jpg",
-      "scheduled_publish_time": 1793397600,
-      "scheduled_time_utc": "2026-10-30T22:00:00.000Z",
+      "image_path": "collages/John_Candy_Page_3_Tribute.jpg",
+      "scheduled_publish_time": 1793484000,
+      "scheduled_time_utc": "2026-10-31T22:00:00.000Z",
       "peak_window": "US Prime Time (6:00 PM EDT / 3:30 AM IST +1)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Kevin_Pollak_Reel.mp4",
-      "fb_post_id": "122112730335506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122112730335506930",
-      "fb_collage_photo_id": "122112730335506930",
-      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/876839248_122112730341506930_5685913536638440212_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=RjcVk8E-vZsQ7kNvwFzGjF5&_nc_oc=AdqvKOw_UnrsW4sRZV_HnzLzbshf4HaPJOW26uR_S-2uGlkSq8seb7feXxdl2Ef4m3o&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=b8aSE5odtOhnDtticNv_AQ&_nc_tpa=Q5bMBQKBvbI3lTkLLKSZ0CiZTj8nDxF1sFh2BuERuxMpWDGma_rQ4uVpDWGDtWo8DpVbdBkcsS2bCpRMDg&oh=00_AQTfMF7zDcWcmJ7njgneMWpGzZv_pOkC3O7WPZTyBzJwOw&oe=6AE9DBDB",
-      "fb_reel_id": "3000038603697094",
-      "fb_reel_scheduled_time": 1793400000,
-      "youtube_video_id": "Fxp7bCs_rUU",
-      "youtube_url": "https://www.youtube.com/shorts/Fxp7bCs_rUU",
-      "ig_post_id": "18111811226621333",
-      "fb_comment_id": "122112730335506930_1822762682259353",
-      "ig_reel_id": "18096211913672913"
+      "reel_path": "reels/John_Candy_Reel.mp4",
+      "fb_post_id": "122113134711506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113134711506930",
+      "fb_collage_photo_id": "122113134711506930",
+      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/861379400_122113134723506930_8939731499612490242_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=ZW1zox-NZiUQ7kNvwHS-mG-&_nc_oc=Adr9Il62-tZioUvkGQrrIUrEUGVRzR93LO5-5_m9uUC8nL5BGQBkDk5ojcWOIsmJ5t4&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=PJJ5ABPLFEfxaynyAD9NHg&_nc_tpa=Q5bMBQIABL3zDWTm6vL3-V4mEne_j9XSErNPMHlP6kk-c--42byLTf053zcidpZlwHkOJmcP0JHlLPkxnw&oh=00_AQQlbvT8KBVRj40FeBrf5PsWc_eXvBqNG8_sCaxId79BaQ&oe=6AEB30E8",
+      "fb_reel_id": "880551621750633",
+      "fb_reel_scheduled_time": 1793486400,
+      "youtube_video_id": "LQ5ZfeE5lik",
+      "youtube_url": "https://www.youtube.com/shorts/LQ5ZfeE5lik"
     }
   ],
   "quiz_posts": [
     {
-      "id": "2026-10-30_quiz_01_Matthew_Morrison",
+      "id": "2026-10-31_quiz_01_Dermot_Mulroney",
       "type": "photo_quiz_type1",
-      "celebrity_name": "Matthew Morrison",
-      "birth_year": 1978,
-      "age": 48,
+      "celebrity_name": "Dermot Mulroney",
+      "birth_year": 1963,
+      "age": 63,
       "gender": "male",
       "correct_option": "A",
       "options": [
         {
           "letter": "A",
-          "name": "Matthew Morrison"
+          "name": "Dermot Mulroney"
         },
         {
           "letter": "B",
+          "name": "George Clooney"
+        },
+        {
+          "letter": "C",
           "name": "Russell Crowe"
         },
         {
-          "letter": "C",
-          "name": "Pierce Brosnan"
-        },
-        {
           "letter": "D",
-          "name": "Hugh Jackman"
+          "name": "John Malkovich"
         }
       ],
-      "image_path": "collages/quiz_01_Matthew_Morrison.jpg",
-      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 48 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Dropping out of drama school to dance in Broadway ensembles, he picked up a microphone and led a global phenomenon.**\n\nBorn October 30, 1978, in Fort Ord, California, today Matthew James Morrison turns **48**, celebrated across stage and screen as musical theater's consummate leading man.\n\nEnrolling at NYU's Tisch School of the Arts, Matthew dropped out during his sophomore year to pay his bills dancing in the Broadway ensemble of *Footloose*, facing months of rejection while auditioning for leading musical roles.\n\nHe trusted an unorthodox instinct: combining old-school Gene Kelly tap-and-jazz elegance with contemporary pop vocals and emotional sincerity.\n\nHe originated heartthrob Link Larkin in Broadway's smash *Hairspray* and earned a Tony Award nomination for *The Light in the Piazza*, before Ryan Murphy handpicked him to star as Spanish teacher and glee club director Will Schuester on Fox's *Glee*.\n\n*Glee* became a worldwide cultural juggernaut, earning him Primetime Emmy and Golden Globe nominations while selling millions of albums.\n\nAt 48, Matthew Morrison remains a dazzling triple-threat performer who inspired millions of kids to sing and dance.\n\n**Was Will Schuester the best TV teacher ever? What was your favorite performance of his on Glee? Share your thoughts below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Matthew Morrison's Broadway boy band...**\n\n* Before his television breakthrough on *Glee*, Matthew briefly joined the boy band LMNT in 2001, but quit before their debut album released because he felt pop boy bands were artistically restrictive compared to Broadway theater.\n* He originated the lead role of author J.M. Barrie in the original Broadway production of *Finding Neverland* in 2015.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Matthew Morrison!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#MatthewMorrison #BornToday #2026-10-30 #HollywoodQuiz #CelebrityTrivia",
-      "hashtags": "#MatthewMorrison #BornToday #2026-10-30 #HollywoodQuiz #CelebrityTrivia",
-      "scheduled_publish_time": 1793368800,
-      "scheduled_time_utc": "2026-10-30T14:00:00.000Z",
+      "image_path": "collages/quiz_01_Dermot_Mulroney.jpg",
+      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 63 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**A secret master cellist on blockbuster scores, he became romantic comedy's most swooned-over leading man.**\n\nBorn October 31, 1963, in Alexandria, Virginia, today Dermot Patrick Mulroney turns **63**, celebrated as Hollywood's effortlessly charming screen gentleman.\n\nA classically trained cellist since childhood who played in youth orchestras throughout Virginia, Dermot studied theater at Northwestern University before heading west to Los Angeles.\n\nHe broke out as young gunslinger Dirty Steve Stephens in the 1988 western *Young Guns*, but reached pop-culture immortality opposite Julia Roberts and Cameron Diaz in 1997's romantic comedy touchstone *My Best Friend's Wedding*.\n\nUnknown to many moviegoers, he maintained an active parallel career as a studio cellist, playing in Hollywood orchestras for composer Michael Giacchino on blockbuster scores like *Rogue One: A Star Wars Story*, *Star Trek Into Darkness*, and *Spider-Man: Homecoming*.\n\nFrom *August: Osage County* to *Scream VI* and *Anyone But You*, his raspy voice and versatile charm command every genre.\n\nAt 63, Dermot Mulroney proves that true artists let their craft speak in harmony.\n\n**Was Dermot Mulroney in My Best Friend's Wedding the ultimate nineties romantic lead? Share your favorite movie of his below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Dermot Mulroney's cello soundtrack career...**\n\n* In addition to his leading-man acting career, Dermot is a professional studio cellist who has played in the orchestra for over twenty major film soundtracks, including *Rogue One: A Star Wars Story*, *Mission: Impossible - Ghost Protocol*, and *Jurassic World*.\n* He has starred opposite Julia Roberts in three separate acclaimed projects: *My Best Friend's Wedding*, *August: Osage County*, and the Amazon series *Homecoming*.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Dermot Mulroney!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#DermotMulroney #BornToday #2026-10-31 #HollywoodQuiz #CelebrityTrivia",
+      "hashtags": "#DermotMulroney #BornToday #2026-10-31 #HollywoodQuiz #CelebrityTrivia",
+      "scheduled_publish_time": 1793455200,
+      "scheduled_time_utc": "2026-10-31T14:00:00.000Z",
       "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
-      "fb_post_id": "122112730509506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122112730509506930",
-      "ig_post_id": "18120847289057895"
+      "fb_post_id": "122113134999506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113134999506930"
     },
     {
-      "id": "2026-10-30_quiz_02_Harry_Hamlin",
+      "id": "2026-10-31_quiz_02_Piper_Perabo",
       "type": "photo_quiz_type2",
-      "celebrity_name": "Harry Hamlin",
-      "birth_year": 1951,
-      "age": 75,
-      "gender": "male",
-      "subtitle": "Born on this day! Can you identify the real birthday star?",
-      "correct_option": "B",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Nicolas Cage"
-        },
-        {
-          "letter": "B",
-          "name": "Harry Hamlin"
-        },
-        {
-          "letter": "C",
-          "name": "Woody Harrelson"
-        },
-        {
-          "letter": "D",
-          "name": "Dennis Quaid"
-        }
-      ],
-      "image_path": "collages/quiz_02_Harry_Hamlin.jpg",
-      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 75? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**From slaying Medusa with stop-motion monsters to ruling eighties television, he defined prime-time legal drama.**\n\nBorn October 30, 1951, in Pasadena, California, today Harry Robinson Hamlin turns **75**, honored as an enduring leading man of Hollywood fantasy and television drama.\n\nThe son of an aeronautical engineer, Harry earned dual degrees in drama and psychology from Yale University, honing classical theater chops at the American Conservatory Theater before catching director Stanley Donen's eye.\n\nIn 1981, he starred as mythic Greek hero Perseus in Ray Harryhausen's fantasy classic *Clash of the Titans*, performing across stop-motion legends, flying Pegasus, and decapitating Medusa to capture international box-office glory.\n\nHe transitioned to prime-time royalty in 1986 as passionate defense attorney Michael Kuzak in Steven Bochco's groundbreaking drama *L.A. Law*, earning three Golden Globe nominations and being named People's 'Sexiest Man Alive'.\n\nHe reinvented his dramatic edge with a Primetime Emmy-nominated turn as slick advertising executive Jim Cutler on AMC's *Mad Men*.\n\nAt 75, Harry Hamlin remains a versatile, charismatic gentleman of the screen.\n\n**What was Harry Hamlin's most iconic role: Perseus in Clash of the Titans, L.A. Law, or Jim Cutler on Mad Men? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Harry Hamlin's Perseus video game return...**\n\n* Twenty-six years after starring in *Clash of the Titans*, Harry reprised his role as Perseus by providing voice acting for the hero in the hit 2007 PlayStation video game *God of War II*.\n* Harry graduated from Yale University in 1974 with dual Bachelor of Arts degrees in both drama and psychology before training in San Francisco.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Harry Hamlin!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#HarryHamlin #BornToday #2026-10-30 #FaceMatch #HollywoodQuiz",
-      "hashtags": "#HarryHamlin #BornToday #2026-10-30 #FaceMatch #HollywoodQuiz",
-      "scheduled_publish_time": 1793388600,
-      "scheduled_time_utc": "2026-10-30T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_post_id": "122112730575506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122112730575506930",
-      "ig_post_id": "17881066962631601"
-    },
-    {
-      "id": "2026-10-30_quiz_03_Janel_Parrish",
-      "type": "reel_quiz_type1",
-      "celebrity_name": "Janel Parrish",
-      "birth_year": 1988,
-      "age": 38,
+      "celebrity_name": "Piper Perabo",
+      "birth_year": 1976,
+      "age": 50,
       "gender": "female",
-      "correct_option": "D",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Meg Ryan"
-        },
-        {
-          "letter": "B",
-          "name": "Sandra Bullock"
-        },
-        {
-          "letter": "C",
-          "name": "Meryl Streep"
-        },
-        {
-          "letter": "D",
-          "name": "Janel Parrish"
-        }
-      ],
-      "reel_path": "reels/quiz_03_Janel_Parrish.mp4",
-      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 38th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Turned down for the hero, she was cast months later as television's most iconic teen mystery villain.**\n\nBorn October 30, 1988, in Kāneʻohe, Hawaii, today Janel Meilani Parrish turns **38**, celebrated worldwide as modern teen mystery's ultimate scene-stealer.\n\nA piano prodigy at age six who won local Hawaiian talent contests, Janel performed as Young Cosette in the national touring production of *Les Misérables* before moving to Los Angeles at fourteen to chase acting dreams.\n\nWhen auditioning for Freeform's *Pretty Little Liars*, she originally read for Spencer Hastings and was rejected, but producers called her back months later to read for the bullied-nerd-turned-queen-bee Mona Vanderwaal.\n\nHer chilling, complex portrayal culminated in the historic season two finale reveal that Mona was the original 'A', earning her four Teen Choice Awards for Choice TV Villain and cementing her as a pop-culture icon.\n\nShe starred as Margot Covey in Netflix's romantic hit trilogy *To All the Boys I've Loved Before* and finished third on *The Masked Singer*.\n\nAt 38, Janel Parrish proves that bringing depth to villains creates immortal art.\n\n**Was Mona Vanderwaal the greatest villain in Pretty Little Liars history? Share your favorite Mona quote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Janel Parrish's PLL audition...**\n\n* Janel originally auditioned for the role of Spencer Hastings on *Pretty Little Liars*, but after Troian Bellisario was cast, showrunners called Janel back specifically to play Mona Vanderwaal.\n* She discovered that her character was the original secret villain 'A' only one week before filming the iconic season two finale episode.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Janel Parrish!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#JanelParrish #BornToday #2026-10-30 #CelebrityQuiz #ReelQuiz #Shorts",
-      "hashtags": "#JanelParrish #BornToday #2026-10-30 #CelebrityQuiz #ReelQuiz #Shorts",
-      "scheduled_publish_time": 1793374200,
-      "scheduled_time_utc": "2026-10-30T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "1291519279778431",
-      "youtube_video_id": "JrYLwl1s7J8",
-      "youtube_url": "https://www.youtube.com/shorts/JrYLwl1s7J8",
-      "ig_reel_id": "18063836534787047"
-    },
-    {
-      "id": "2026-10-30_quiz_04_Michael_Beach",
-      "type": "reel_quiz_type2",
-      "celebrity_name": "Michael Beach",
-      "birth_year": 1963,
-      "age": 63,
-      "gender": "male",
-      "subtitle": "Look closely at options A, B, C, and D!",
+      "subtitle": "Born on this day! Can you identify the real birthday star?",
       "correct_option": "C",
       "options": [
         {
           "letter": "A",
-          "name": "Matt Damon"
+          "name": "Demi Moore"
         },
         {
           "letter": "B",
-          "name": "Russell Crowe"
+          "name": "Susan Sarandon"
         },
         {
           "letter": "C",
-          "name": "Michael Beach"
+          "name": "Piper Perabo"
         },
         {
           "letter": "D",
-          "name": "Alec Baldwin"
+          "name": "Diane Keaton"
         }
       ],
-      "reel_path": "reels/quiz_04_Michael_Beach.mp4",
-      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Raised by a single mother in Boston, he conquered Juilliard and became television's most reliable dramatic anchor.**\n\nBorn October 30, 1963, in Roxbury, Boston, Massachusetts, today Michael Anthony Beach turns **63**, respected as one of cinema and television's most compelling character actors.\n\nRaised by his mother in a tough Boston neighborhood with three siblings, Michael was an athletic prodigy who discovered theater after an injury, earning acceptance to the prestigious Juilliard School's Drama Division in New York.\n\nRejecting flashy, superficial roles, Michael trusted an unorthodox instinct: infusing morally complex, emotionally volatile characters with grounded humanity.\n\nHe delivered powerhouse turns opposite Angela Bassett in *Waiting to Exhale* and *Soul Food*, played Jeanie Boulet's troubled husband Al on NBC's *ER*, and starred as paramedic Monte 'Doc' Parker on *Third Watch*.\n\nHe transitioned to modern blockbuster franchises in DC's *Aquaman* and Taylor Sheridan's gritty hits *Mayor of Kingstown* and *Tulsa King*.\n\nAt 63, Michael Beach remains a master of intense, commanding screen gravitas.\n\n**What was Michael Beach's most memorable performance: Waiting to Exhale, Third Watch, or Mayor of Kingstown? Drop your pick below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Michael Beach's Juilliard training...**\n\n* Michael originally aspired to become a professional athlete, but after suffering a high school sports injury, he auditioned for a school play and won a scholarship to the elite Juilliard School.\n* He is one of the few actors to portray father figures in both major superhero universes, appearing as Black Manta's father in *Aquaman* and in Marvel's *The New Mutants*.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Michael Beach!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#MichaelBeach #BornToday #2026-10-30 #HollywoodTrivia #ReelChallenge #Shorts",
-      "hashtags": "#MichaelBeach #BornToday #2026-10-30 #HollywoodTrivia #ReelChallenge #Shorts",
-      "scheduled_publish_time": 1793394000,
-      "scheduled_time_utc": "2026-10-30T21:00:00.000Z",
+      "image_path": "collages/quiz_02_Piper_Perabo.jpg",
+      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 50? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Waiting tables in Manhattan, she danced on the bar in Coyote Ugly and conquered five seasons of espionage.**\n\nBorn October 31, 1976, in Dallas, Texas, and raised in New Jersey, today Piper Lisa Perabo celebrates her **50th** milestone birthday, celebrated as an electric screen powerhouse.\n\nNamed after Oscar-nominated actress Piper Laurie, Piper moved to New York City after earning her theater degree, waiting tables at a local restaurant while facing endless rejections for film roles.\n\nHer life changed when Jerry Bruckheimer cast her as aspiring songwriter Violet Sanford in 2000's *Coyote Ugly*, where her fiery bar-top dances and LeAnn Rimes anthems made her an instant pop-culture sensation.\n\nShe earned a Golden Globe nomination for Best Actress starring as CIA operative Annie Walker across five seasons of *Covert Affairs*, performing her own martial arts combat.\n\nShe brought fierce intensity to Christopher Nolan's *The Prestige*, Rian Johnson's *Looper*, and starred as environmental activist Summer Higgins opposite Kevin Costner on *Yellowstone*.\n\nAt 50, Piper Perabo continues to challenge herself with fearlessness and magnetic grit.\n\n**What was Piper Perabo's greatest role: Violet in Coyote Ugly, Annie in Covert Affairs, or Summer in Yellowstone? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Piper Perabo's Coyote Ugly singing...**\n\n* While Piper performed all the bar dances and piano playing herself in *Coyote Ugly*, country pop star LeAnn Rimes provided the singing voice for Violet's original songs on the chart-topping soundtrack.\n* Piper's parents named her after actress Piper Laurie, who starred in the 1961 classic *The Hustler* and 1976's *Carrie*.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Piper Perabo!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#PiperPerabo #BornToday #2026-10-31 #FaceMatch #HollywoodQuiz",
+      "hashtags": "#PiperPerabo #BornToday #2026-10-31 #FaceMatch #HollywoodQuiz",
+      "scheduled_publish_time": 1793475000,
+      "scheduled_time_utc": "2026-10-31T19:30:00.000Z",
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
+      "fb_post_id": "122113135095506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113135095506930"
+    },
+    {
+      "id": "2026-10-31_quiz_03_Rob_Schneider",
+      "type": "reel_quiz_type1",
+      "celebrity_name": "Rob Schneider",
+      "birth_year": 1963,
+      "age": 63,
+      "gender": "male",
+      "correct_option": "D",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Tom Cruise"
+        },
+        {
+          "letter": "B",
+          "name": "Harrison Ford"
+        },
+        {
+          "letter": "C",
+          "name": "Gene Hackman"
+        },
+        {
+          "letter": "D",
+          "name": "Rob Schneider"
+        }
+      ],
+      "reel_path": "reels/quiz_03_Rob_Schneider.mp4",
+      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 63th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Starting standup at fifteen in Bay Area clubs, he invented the copy guy on SNL and became comedy royalty.**\n\nBorn October 31, 1963, in San Francisco, California, today Robert Michael Schneider turns **63**, celebrated for his shameless, high-energy slapstick comedy.\n\nHoning his standup routine as a teenager in local clubs and opening for Jerry Seinfeld, Rob was hired as a writer on *Saturday Night Live* in 1988 before quickly graduating to the main cast alongside Adam Sandler and Chris Farley.\n\nHis hilariously irritating copy machine clerk Richard Laymer ('The Richmeister! Makin' copies!') became a national catchphrase, earning him three Primetime Emmy Award nominations.\n\nHe built an enduring partnership with Adam Sandler's Happy Madison Productions, headlining box-office hits like *Deuce Bigalow: Male Gigolo*, *The Animal*, and *The Hot Chick*, while stealing scenes in *Big Daddy* and *50 First Dates*.\n\nFather to Grammy-nominated singer Elle King, he continues to tour the world doing standup comedy on his own terms.\n\nAt 63, Rob Schneider remains an unapologetic champion of pure, unabashed laughter.\n\n**Which Rob Schneider comedy classic made you laugh the hardest: Deuce Bigalow, The Hot Chick, or The Animal? Share below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Rob Schneider's copy machine character...**\n\n* Rob originally based the *Saturday Night Live* character Richard Laymer on a real-life employee he encountered at a post office in California who constantly narrated people's actions.\n* Rob is the father of singer-songwriter Elle King, who hit number one on the charts with her smash rock song 'Ex's & Oh's'.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Rob Schneider!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#RobSchneider #BornToday #2026-10-31 #CelebrityQuiz #ReelQuiz #Shorts",
+      "hashtags": "#RobSchneider #BornToday #2026-10-31 #CelebrityQuiz #ReelQuiz #Shorts",
+      "scheduled_publish_time": 1793460600,
+      "scheduled_time_utc": "2026-10-31T15:30:00.000Z",
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
+      "fb_reel_id": "1586003063213907",
+      "youtube_video_id": "QwrxsSO0sJQ",
+      "youtube_url": "https://www.youtube.com/shorts/QwrxsSO0sJQ"
+    },
+    {
+      "id": "2026-10-31_quiz_04_Vanessa_Marano",
+      "type": "reel_quiz_type2",
+      "celebrity_name": "Vanessa Marano",
+      "birth_year": 1992,
+      "age": 34,
+      "gender": "female",
+      "subtitle": "Look closely at options A, B, C, and D!",
+      "correct_option": "B",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Natalie Portman"
+        },
+        {
+          "letter": "B",
+          "name": "Vanessa Marano"
+        },
+        {
+          "letter": "C",
+          "name": "Winona Ryder"
+        },
+        {
+          "letter": "D",
+          "name": "Helen Mirren"
+        }
+      ],
+      "reel_path": "reels/quiz_04_Vanessa_Marano.mp4",
+      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Her mother took her to an agent expecting a rejection. She was signed instantly and made television history.**\n\nBorn October 31, 1992, in Los Angeles, California, today Vanessa Nicole Marano turns **34**, recognized as an authentic, groundbreaking television star.\n\nHer mother, who operated a children's theater, didn't want her daughters in show business and deliberately took seven-year-old Vanessa to the strictest talent agent in town hoping for a quick rejection, only for the agency to sign Vanessa on the spot.\n\nShe gained early acclaim as Luke Danes' quirky estranged daughter April Nardini on *Gilmore Girls*, before winning the lead role of artistic rebel Bay Kennish on Freeform's *Switched at Birth* in 2011.\n\nLearning American Sign Language and anchoring five seasons and over one hundred episodes, she helped create television's first prime-time series to feature deaf and hard-of-hearing storylines prominently, winning a Peabody Award.\n\nProducing and starring alongside sister Laura Marano in *Saving Zoë*, she continues to champion independent female storytelling.\n\nAt 34, Vanessa Marano proves that unexpected paths often lead to groundbreaking legacies.\n\n**Was Switched at Birth one of the best family dramas of the 2010s? Drop your favorite Bay Kennish moment below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Vanessa Marano's agent story...**\n\n* Vanessa's mother took her to a strict talent agency hoping she would be rejected and quit acting, but the agent signed Vanessa and sister Laura on the spot.\n* For *Switched at Birth*, Vanessa mastered American Sign Language, helping lead the first scripted TV episode filmed entirely in ASL.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Vanessa Marano!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#VanessaMarano #BornToday #2026-10-31 #HollywoodTrivia #ReelChallenge #Shorts",
+      "hashtags": "#VanessaMarano #BornToday #2026-10-31 #HollywoodTrivia #ReelChallenge #Shorts",
+      "scheduled_publish_time": 1793480400,
+      "scheduled_time_utc": "2026-10-31T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1310616637822109",
-      "youtube_video_id": "pmhSEnbs6hc",
-      "youtube_url": "https://www.youtube.com/shorts/pmhSEnbs6hc",
-      "ig_reel_id": "18098814200649238"
+      "fb_reel_id": "1943767673270267",
+      "youtube_video_id": "gmFSYR9NaCo",
+      "youtube_url": "https://www.youtube.com/shorts/gmFSYR9NaCo"
     }
   ]
 }
