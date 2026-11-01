@@ -168,12 +168,27 @@ async function ensureCutout(post, cleanSlug) {
 // 2. Thematic Asset Resolver
 // -------------------------------------------------------------
 function getThematicAssetBase64(cleanSlug, post = {}) {
-  // If thematic_asset with direct base64 was passed in post
+  // 1. If direct base64 was passed
   if (post.thematic_asset && post.thematic_asset.asset_b64) {
     return post.thematic_asset.asset_b64;
   }
 
-  // If specific asset_filename is specified in post payload
+  // 2. If dedicated asset_cutout_path was generated during Drive sync
+  if (post.thematic_asset && post.thematic_asset.asset_cutout_path) {
+    const directPath = path.resolve(BASE_DIR, post.thematic_asset.asset_cutout_path);
+    if (fs.existsSync(directPath)) {
+      console.log(`    [★] Using Drive-sourced character cutout: ${path.basename(directPath)}`);
+      return fs.readFileSync(directPath).toString('base64');
+    }
+  }
+
+  // 3. Direct downloaded cutout matches
+  const directCutout = path.join(THEMATIC_ASSETS_DIR, `${cleanSlug}_character_cutout.png`);
+  if (fs.existsSync(directCutout)) {
+    return fs.readFileSync(directCutout).toString('base64');
+  }
+
+  // 4. If specific asset_filename is specified in post payload
   if (post.thematic_asset && post.thematic_asset.asset_filename) {
     const customPath = path.join(THEMATIC_ASSETS_DIR, post.thematic_asset.asset_filename);
     if (fs.existsSync(customPath)) {

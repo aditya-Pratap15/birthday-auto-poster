@@ -242,6 +242,111 @@ function fetchUrlWithRedirects(url, maxRedirects = 5) {
   });
 }
 
+
+function extractDriveFileId(str) {
+  if (!str || typeof str !== 'string') return null;
+  const match = str.match(/\/d\/([a-zA-Z0-9_-]+)/) || str.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (match) return match[1];
+  if (/^[a-zA-Z0-9_-]{25,50}$/.test(str.trim())) return str.trim();
+  return null;
+}
+
+function downloadBinaryFile(url, destPath, maxRedirects = 5) {
+  return new Promise((resolve) => {
+    if (maxRedirects <= 0) return resolve(false);
+    try {
+      const parsed = new URL(url);
+      const client = parsed.protocol === 'http:' ? http : https;
+      client.get(url, { headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' }, timeout: 15000 }, res => {
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+          const nextUrl = new URL(res.headers.location, url).toString();
+          return resolve(downloadBinaryFile(nextUrl, destPath, maxRedirects - 1));
+        }
+        if (res.statusCode !== 200) {
+          return resolve(false);
+        }
+        const chunks = [];
+        res.on('data', c => chunks.push(c));
+        res.on('end', () => {
+          const buf = Buffer.concat(chunks);
+          if (buf.length > 500) {
+            fs.writeFileSync(destPath, buf);
+            resolve(true);
+          } else {
+            resolve(false);
+          }
+        });
+      }).on('error', () => resolve(false));
+    } catch (e) {
+      resolve(false);
+    }
+  });
+}
+
+async function downloadAndProcessDriveAsset(assetInfo, cleanSlug) {
+  if (!assetInfo) return null;
+  const targetDir = path.join(BASE_DIR, 'assets', 'thematic_assets');
+  if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
+
+  const rawPath = path.join(targetDir, `${cleanSlug}_drive_raw.png`);
+  const cutoutPath = path.join(targetDir, `${cleanSlug}_character_cutout.png`);
+
+  // Direct base64 support
+  if (assetInfo.asset_b64) {
+    try {
+      const buf = Buffer.from(assetInfo.asset_b64, 'base64');
+      fs.writeFileSync(rawPath, buf);
+      console.log(`    [✓ Drive Asset] Staged base64 asset for ${cleanSlug}`);
+      return processCutoutWithRembg(rawPath, cutoutPath);
+    } catch (e) {}
+  }
+
+  // Drive File ID or Download Link support
+  const fileId = assetInfo.drive_file_id || 
+    (assetInfo.drive_url ? extractDriveFileId(assetInfo.drive_url) : null) ||
+    (assetInfo.asset_url ? extractDriveFileId(assetInfo.asset_url) : null);
+
+  let downloadUrl = null;
+  if (fileId) {
+    downloadUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+  } else if (assetInfo.drive_url && assetInfo.drive_url.startsWith('http')) {
+    downloadUrl = assetInfo.drive_url;
+  } else if (assetInfo.asset_url && assetInfo.asset_url.startsWith('http')) {
+    downloadUrl = assetInfo.asset_url;
+  }
+
+  if (downloadUrl) {
+    console.log(`    [📥 Drive Asset] Downloading character asset for ${cleanSlug} from Google Drive...`);
+    const ok = await downloadBinaryFile(downloadUrl, rawPath);
+    if (ok && fs.existsSync(rawPath)) {
+      console.log(`    [✓ Drive Asset] Successfully downloaded asset: ${rawPath}`);
+      return processCutoutWithRembg(rawPath, cutoutPath);
+    } else {
+      console.warn(`    [!] Could not download Drive asset from: ${downloadUrl}`);
+    }
+  }
+
+  return null;
+}
+
+function processCutoutWithRembg(inputPath, outputPath) {
+  try {
+    const { execSync } = require('child_process');
+    const pyScript = path.join(BASE_DIR, 'scripts', 'remove_background.py');
+    if (fs.existsSync(pyScript)) {
+      console.log(`    [✂️ Cutout] Removing background from Drive asset...`);
+      execSync(`python "${pyScript}" "${inputPath}" "${outputPath}"`, { stdio: 'pipe' });
+      if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 1000) {
+        console.log(`    [✓ Cutout] Transparent character cutout created: ${path.basename(outputPath)}`);
+        return path.relative(BASE_DIR, outputPath).replace(/\\/g, '/');
+      }
+    }
+  } catch (e) {
+    console.warn(`    [!] rembg processing note: ${e.message}`);
+  }
+  return path.relative(BASE_DIR, inputPath).replace(/\\/g, '/');
+}
+
 async function getRawPayload() {
   const argFile = process.argv[2];
   if (argFile && fs.existsSync(argFile)) {
@@ -507,6 +612,13 @@ async function normalizePayload(raw) {
     const birthDateStr = c.birth_date || (c.birth_year ? `${c.birth_year}-${dateStr.substring(5)}` : dateStr.substring(5));
     const finalPhotos = await fetchFiveCelebrityPhotos(celebName, birthDateStr);
 
+    // DRIVE ASSET SOURCING: Ingest and process Drive character asset for top 3 celebrities
+    let assetCutoutRelative = null;
+    const rawAssetObj = c.thematic_asset || c.iconic_character || null;
+    if (idx < 3 && rawAssetObj) {
+      assetCutoutRelative = await downloadAndProcessDriveAsset(rawAssetObj, cleanSlug);
+    }
+
     const rawTeaser = c.teaser_card || c.teaserCard || {};
     const teaserCard = {
       enabled: true,
@@ -535,7 +647,7 @@ async function normalizePayload(raw) {
       country: c.country || 'USA',
       preset: 'preset_viral_teaser',
       viral_teaser: c.viral_teaser || null,
-      thematic_asset: c.thematic_asset || null,
+      thematic_asset: rawAssetObj ? { ...rawAssetObj, asset_cutout_path: assetCutoutRelative } : null,
       teaserCard: teaserCard,
       photo_urls: finalPhotos,
       caption: c.caption || '',
