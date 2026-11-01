@@ -1,15 +1,27 @@
 {
-  "date": "2026-10-31",
-  "generated_at": "2026-10-31T06:20:53+05:30",
+  "date": "2026-11-01",
+  "generated_at": "2026-11-01T06:34:10+05:30",
   "posts": [
     {
-      "id": "2026-10-31_01_Peter_Jackson",
-      "celebrity_name": "Peter Jackson",
-      "birth_year": 1961,
-      "age": 65,
-      "gender": "male",
-      "country": "New Zealand",
+      "id": "2026-11-01_01_Toni_Collette",
+      "celebrity_name": "Toni Collette",
+      "birth_year": 1972,
+      "age": 54,
+      "gender": "female",
+      "country": "Australia",
       "preset": "preset_viral_teaser",
+      "viral_teaser": {
+        "line1": "FAKED SICKNESS",
+        "line2": "DOCTORS CUT APPENDIX",
+        "punchline_red": [
+          "HORROR",
+          "QUEEN"
+        ]
+      },
+      "thematic_asset": {
+        "asset_name": "Hereditary Miniature Wooden Dollhouse Diorama",
+        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an eerie handcrafted miniature wooden dollhouse diorama depicting a shadowy living room with miniature furniture and a sinister golden crowned mannequin, celebrating the horror masterpiece Hereditary, dramatic lighting and fine wooden textures, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio."
+      },
       "teaserCard": {
         "enabled": true,
         "x": 45,
@@ -21,75 +33,71 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "Baking latex monster masks,",
-        "line2": "bet life on Middle-earth",
-        "line2Highlight": "swept eleven Oscars for Rings",
-        "line3Highlight": "to conquer cinema history...",
+        "line1": "Sydney truck driver daughter,",
+        "line2": "faked appendicitis as kid",
+        "line2Highlight": "terrified world in Hereditary",
+        "line3Highlight": "to win Emmy...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/bNc908d59Ba8VDNr4eCcm4G1cR.jpg",
-        "https://image.tmdb.org/t/p/original/4hh7hips4xc6kgpNDQKQH3goRvJ.jpg",
-        "https://image.tmdb.org/t/p/original/mSUq2pe1g7j2aAf03k6bIbeLB56.jpg",
-        "https://image.tmdb.org/t/p/original/kHNsP1SOZ2LfqqoGUm7Icwheai7.jpg",
-        "https://image.tmdb.org/t/p/original/pZfTbckf915zwOTMGNkntL3YkY2.jpg"
+        "https://image.tmdb.org/t/p/original/lzXRh16qe4HHeBN6tMyw0DHvaMn.jpg",
+        "https://image.tmdb.org/t/p/original/y892JoUEhea7arMVXbInU1jMVSQ.jpg",
+        "https://image.tmdb.org/t/p/original/vhIJYDc0j6wBY3TF3cmkjxmwCLE.jpg",
+        "https://image.tmdb.org/t/p/original/bcWWoX703nt2wkPQitEhYa1UR5r.jpg",
+        "https://image.tmdb.org/t/p/original/wHjhp4zPHRejHYRTCpNF2C4hpXp.jpg"
       ],
-      "caption": "**Baking monster heads in his mother's kitchen oven, he gambled everything to bring Middle-earth to life.**\n\nBorn October 31, 1961, in Pukerua Bay, New Zealand, today Sir Peter Robert Jackson turns **65**, celebrated as modern cinema's greatest mythmaker.\n\nAn obsessive self-taught school-leaver who made no-budget splatter films on weekends, Peter baked foam latex masks in his parents' kitchen oven, forcing his family to eat sausages for dinner because his monster props occupied the stove.\n\nWhen Hollywood studio bosses declared J.R.R. Tolkien's fantasy trilogy completely unfilmable, Peter trusted a radical instinct: shooting all three massive epics simultaneously across the rugged mountains of New Zealand.\n\n*The Lord of the Rings* became a global box-office and cultural titan, culminating in *The Return of the King* sweeping eleven Academy Awards out of eleven nominations—tying the all-time Oscar record.\n\nCarrying the weight of a nation's film industry through years of sleepless eighteen-hour days, he pioneered digital visual effects with Wētā FX and restored history in *They Shall Not Grow Old* and *The Beatles: Get Back*.\n\nAt 65, Peter Jackson proves that backyard imagination and relentless courage can build immortal worlds.\n\n**Which Peter Jackson masterpiece reigns supreme: The Fellowship of the Ring, The Two Towers, or The Return of the King? Vote below! 👇**",
-      "comment": "**The secret behind Peter Jackson's kitchen oven masks...**\n\n* While filming his 1987 debut *Bad Taste*, Peter baked latex alien masks in his mother's kitchen oven every Sunday for four years, forcing his parents to eat cold sausages for dinner.\n* *The Return of the King* won all eleven Academy Awards it was nominated for in 2004, achieving the largest clean sweep in Oscar history.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Shooting homemade movies on weekends and baking monster masks in his parents oven, Peter Jackson was told Tolkien's masterpiece was impossible to film. He gambled everything shooting three epics at once in New Zealand, sweeping eleven Academy Awards for The Return of the King and changing cinema history forever. Happy sixty-fifth birthday to a visionary filmmaker. What is your absolute favorite Lord of the Rings moment? Tell us below.",
-      "reel_caption": "From baking rubber monster masks in his mother's oven to sweeping eleven Academy Awards for The Lord of the Rings, Peter Jackson made history. What is your favorite Rings film? #PeterJackson #LordOfTheRings #LOTR #TheHobbit #Weta #BornToday",
+      "caption": "**She faked appendicitis so convincingly at eleven that doctors removed it. Today, she rules psychological cinema.**\n\nBorn November 1, 1972, in Blacktown, Sydney, Australia, today Toni Collett turns **54**, revered as one of the most fearlessly transformative actresses in screen history.\n\nThe daughter of a truck driver, young Toni discovered her uncanny dramatic intensity early, convincing surgeons to remove her healthy appendix before dropping out of high school to pursue Sydney theater.\n\nAfter gaining forty pounds to deliver her breakthrough triumph in *Muriel's Wedding*, she trusted an unorthodox instinct: avoiding safe Hollywood glamour to plunge headfirst into agonizing emotional truth.\n\nShe earned an Academy Award nomination as the haunted mother in M. Night Shyamalan's *The Sixth Sense*, charmed the world in *Little Miss Sunshine*, and delivered a tour-de-force horror masterclass in Ari Aster's *Hereditary*.\n\nWinning both an Emmy and a Golden Globe for portraying multiple personalities in *United States of Tara*, she remains an uncompromising titan of cinema and television.\n\nAt 54, Toni Collette proves that absolute emotional honesty makes performance immortal.\n\n**What was Toni Collette's absolute masterpiece: Hereditary, The Sixth Sense, or Little Miss Sunshine? Drop your vote below! 👇**",
+      "comment": "**The secret behind Toni Collette's childhood appendix surgery...**\n\n* When Toni was eleven years old, she faked severe stomach pain so dramatically that hospital doctors operated and removed her appendix, only discovering afterward that it was completely healthy.\n* For *Muriel's Wedding*, Toni had just seven weeks to gain over forty pounds under a nutritionist's supervision to play the ABBA-loving Muriel Heslop.\n\nWhich fact surprised you most?",
+      "reel_script": "As an eleven-year-old in Sydney, Toni Collette faked appendicitis so convincingly that doctors actually removed her healthy appendix. She brought that terrifying emotional commitment to Hollywood, earning an Oscar nomination for The Sixth Sense and delivering an unforgettable performance in the horror masterpiece Hereditary. Happy fifty-fourth birthday to a true acting chameleon. What is your favorite Toni Collette movie of all time? Tell us below.",
+      "reel_caption": "At eleven years old, Toni Collette faked appendicitis so well doctors removed it. She went on to rule The Sixth Sense and Hereditary. What was her greatest role? #ToniCollette #Hereditary #TheSixthSense #LittleMissSunshine #HorrorQueen #BornToday",
       "hashtags": [
-        "#PeterJackson",
-        "#LordOfTheRings",
-        "#LOTR",
-        "#TheReturnOfTheKing",
-        "#TheHobbit",
-        "#KingKong",
-        "#OscarWinner",
+        "#ToniCollette",
+        "#Hereditary",
+        "#TheSixthSense",
+        "#LittleMissSunshine",
+        "#KnivesOut",
+        "#UnitedStatesOfTara",
+        "#OscarNominee",
         "#BornToday",
-        "#October31"
+        "#November1"
       ],
-      "image_path": "collages/Peter_Jackson_Page_1_Tribute.jpg",
-      "scheduled_publish_time": 1793448000,
-      "scheduled_time_utc": "2026-10-31T12:00:00.000Z",
+      "image_path": "collages/Toni_Collette_Page_1_Tribute.jpg",
+      "scheduled_publish_time": 1793534400,
+      "scheduled_time_utc": "2026-11-01T12:00:00.000Z",
       "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Peter_Jackson_Reel.mp4",
-      "fb_post_id": "1345901645276194_122113317603506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/1345901645276194_122113317603506930",
-      "fb_collage_photo_id": "122113317477506930",
-      "collage_cdn_url": "https://scontent-iad6-1.xx.fbcdn.net/v/t39.30808-6/877005168_122113134111506930_3015389703158649952_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=054031&_nc_ohc=OQViR2UhTCsQ7kNvwHZstpN&_nc_oc=AdqDIg8J3gbOpkoQU0Pb2zM6LkyOwetMwn5dHy0OW9U1F7NF3LN8jjrTSiEfLwoRIWk&_nc_zt=23&_nc_ht=scontent-iad6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=q_piypfAjAB49lskKPGW5g&_nc_tpa=Q5bMBQIqwmyrRuYqRhHDZP7apGVX2SM5jXjg8TMllQpE62-QEh7ucxlE04NJiRg2UYjANK_01FEKtw-1DQ&oh=00_AQSb1JSXHxbVQ2Lad2gGflSB4DCfbwoMcjKOlZlDTEUnXA&oe=6AEB1429",
-      "fb_reel_id": "992556447245242",
-      "fb_reel_scheduled_time": 1793450400,
-      "youtube_video_id": "3vmhr-dCvqk",
-      "youtube_url": "https://www.youtube.com/shorts/3vmhr-dCvqk",
+      "reel_path": "reels/Toni_Collette_Reel.mp4",
+      "fb_post_id": "122113510965506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113510965506930",
+      "fb_collage_photo_id": "122113510965506930",
+      "collage_cdn_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/856463214_122113510971506930_4707798357001813839_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=054031&_nc_ohc=klZDfrMx_uUQ7kNvwGGiHt_&_nc_oc=AdoRhsolTBkw9mqxLdYmTerHmbpuqGoriV-vQ6d0h6pZQJ42RRnZ_KJEDe3mbZXNMOU&_nc_zt=23&_nc_ht=scontent-lga3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=0tR80KQfOFUvBBsLAEynrg&_nc_tpa=Q5bMBQJ5dFYJ8jIZp_l3IoVIHhrhwMjAB-MvNg6bFlWl9P3NmZ_GPeeIvNvXHOQjjE_oKeeqw18Vlm-FyA&oh=00_AQQbcma8vr34IQ-jFUXs4UTj42c4hOJSfQkeDThtGoQFKA&oe=6AEC799C",
+      "fb_reel_id": "2303687987151969",
+      "fb_reel_scheduled_time": 1793536800,
+      "youtube_video_id": "7esC4sVf4mc",
+      "youtube_url": "https://www.youtube.com/shorts/7esC4sVf4mc"
+    },
+    {
+      "id": "2026-11-01_02_Penn_Badgley",
+      "celebrity_name": "Penn Badgley",
+      "birth_year": 1986,
+      "age": 40,
+      "gender": "male",
+      "country": "United States",
+      "preset": "preset_viral_teaser",
       "viral_teaser": {
-        "line1": "BAKED RUBBER MASKS",
-        "line2": "SWEPT RECORD",
+        "line1": "PREMATURE SURVIVOR",
+        "line2": "VOICED NINTENDO MARIO",
         "punchline_red": [
-          "11",
-          "OSCARS"
+          "CULT",
+          "STALKER"
         ]
       },
       "thematic_asset": {
-        "asset_name": "Gollum (The Lord of the Rings)",
-        "asset_prompt": "Cinematic character cutout of Gollum crouching on a rock holding the golden One Ring.",
-        "asset_filename": "peter_gollum_cutout.png"
+        "asset_name": "YOU Soundproof Glass Bookstore Cage Vault",
+        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an illuminated transparent soundproof glass vault cage with a single dark wooden desk, vintage typewriter, and an antique leather-bound book inside, celebrating the thriller series YOU, dramatic lighting and glass reflections, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio."
       },
-      "ig_post_id": "18141866371621342",
-      "fb_comment_id": "122113317603506930_1804772500574657",
-      "ig_reel_id": "18121346422961209"
-    },
-    {
-      "id": "2026-10-31_02_Letitia_Wright",
-      "celebrity_name": "Letitia Wright",
-      "birth_year": 1993,
-      "age": 33,
-      "gender": "female",
-      "country": "Guyana",
-      "preset": "preset_viral_teaser",
       "teaserCard": {
         "enabled": true,
         "x": 45,
@@ -100,76 +108,72 @@
         "borderColor": "#b68c43",
         "borderWidth": 2,
         "cornerRadius": 14,
-        "badgeIcon": "crown",
-        "line1": "Tottenham immigrant church choir,",
-        "line2": "battled through deep depression",
-        "line2Highlight": "carried Black Panther mantle forward",
-        "line3Highlight": "as Wakanda's protector...",
+        "badgeIcon": "fire",
+        "line1": "Premature baby survival miracle,",
+        "line2": "skipped high school classes",
+        "line2Highlight": "haunted world as Joe",
+        "line3Highlight": "in thriller YOU...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/f7PevpEeBqwzACPhoZ8K3ktrKvE.jpg",
-        "https://image.tmdb.org/t/p/original/jJoQw4rLIR5aUkri7Wds9yugAuJ.jpg",
-        "https://image.tmdb.org/t/p/original/4jdsjY5jKwoNpCMd5nnJFsDmieY.jpg",
-        "https://image.tmdb.org/t/p/original/p8acjtsBrj2VPAgAIUhxHYrMa7U.jpg",
-        "https://image.tmdb.org/t/p/original/i6fbYNn5jWA6swWtaqgzaj02RMc.jpg"
+        "https://image.tmdb.org/t/p/original/3ekfkoj3YmRlCtez4OOZoVPiO7a.jpg",
+        "https://image.tmdb.org/t/p/original/cWvqsJyD8wLZ9GXs2DqqepBIfdD.jpg",
+        "https://image.tmdb.org/t/p/original/yGofS1VZyNw4Fedi7P0qS8p6S3j.jpg",
+        "https://image.tmdb.org/t/p/original/7NtfavGGJdZPfKhw11tGQSOmyFA.jpg",
+        "https://image.tmdb.org/t/p/original/6j6ILOUCksXkUYZ0SIcUrCMXA8q.jpg"
       ],
-      "caption": "**Overcoming crippling depression as a young Londoner, she honored Chadwick Boseman and became the Black Panther.**\n\nBorn October 31, 1993, in Georgetown, Guyana, and raised in Tottenham, London, today Letitia Michelle Wright turns **33**, recognized worldwide as a resilient Marvel superstar.\n\nMoving to England at age eight and inspired to act after watching Keke Palmer in *Akeelah and the Bee*, Letitia faced severe clinical depression at age twenty, nearly walking away from her career before finding healing through faith and community.\n\nDirector Ryan Coogler cast her as Wakanda's brilliant vibranium tech prodigy Shuri in 2018's *Black Panther*, instantly turning her into a beloved global superhero icon.\n\nWhen co-star and screen brother Chadwick Boseman tragically passed away in 2020, Letitia carried the profound grief of an entire franchise on her shoulders, stepping into the suit as the new Black Panther in *Wakanda Forever*.\n\nBalancing blockbuster pressure with raw dramatic brilliance in Steve McQueen's *Small Axe*, she inspires young women of color across the globe.\n\nAt 33, Letitia Wright embodies the unbreakable warrior spirit of Wakanda.\n\n**Was Shuri taking up the Black Panther mantle one of Marvel's most emotional moments? Share your thoughts below! 👇**",
-      "comment": "**The secret behind Letitia Wright's acting inspiration...**\n\n* Letitia decided to become an actress at age twelve after watching Keke Palmer in the 2006 film *Akeelah and the Bee*, realizing young Black girls could lead powerful Hollywood stories.\n* During her audition for *Black Panther*, she tested alongside Chadwick Boseman, and their immediate sibling chemistry convinced director Ryan Coogler on the spot.\n\nWhich fact moved you most?",
-      "reel_script": "Inspiring millions as Wakanda's tech genius Shuri, Letitia Wright almost quit acting at twenty while battling severe depression. Following the tragic loss of Chadwick Boseman, she channeled real grief into raw heroism, stepping forward to lead Black Panther Wakanda Forever and earning worldwide admiration. Happy thirty-third birthday to a resilient and brilliant superhero star. What was your favorite Shuri moment in the Marvel Universe? Let us know below.",
-      "reel_caption": "From battling depression as a teenager in London to honoring Chadwick Boseman and becoming the new Black Panther, Letitia Wright is an inspiring warrior. Wakanda Forever! #LetitiaWright #BlackPanther #WakandaForever #Shuri #Marvel #BornToday",
+      "caption": "**Surviving a fragile premature birth, he skipped high school and became modern television's most chilling antihero.**\n\nBorn November 1, 1986, in Baltimore, Maryland, today Penn Dayton Badgley celebrates his **40th** milestone birthday, recognized as a defining leading man of psychological thriller television.\n\nBorn two months premature and resuscitated multiple times as an infant, Penn showed early intellectual maturity, testing out of high school at thirteen and taking college courses at Santa Monica College while voicing Nintendo video game characters.\n\nHe achieved worldwide teen stardom as lonely Brooklyn outsider Dan Humphrey across six seasons of *Gossip Girl*, shock-revealed in the series finale as Gossip Girl himself.\n\nRefusing to remain a heartthrob caricature, Penn embraced an unorthodox psychological challenge: transforming into toxic romantic stalker Joe Goldberg on Netflix's smash hit thriller *YOU*.\n\nAnchoring five gripping seasons, his velvety inner monologue dissecting obsession and modern intimacy turned Joe Goldberg into a worldwide cultural obsession.\n\nAt 40, Penn Badgley proves that dissecting dark human contradictions creates unforgettable screen art.\n\n**Was Joe Goldberg in YOU television's most magnetic psychological villain? Drop your favorite Joe quote below! 👇**",
+      "comment": "**The secret behind Penn Badgley's Nintendo voice acting...**\n\n* At age eleven, Penn worked as a professional voice actor for Nintendo, voicing child characters in iconic Nintendo 64 titles like *Mario Golf* and *Mario Tennis*.\n* He was born two months premature, and his mother had to learn infant CPR because his breathing stopped multiple times during his first year of life.\n\nWhich of these facts surprised you the most?",
+      "reel_script": "Born two months premature and resuscitated as an infant, Penn Badgley tested out of high school at thirteen to chase his acting dreams. He became a teen sensation on Gossip Girl before completely reinventing himself as the terrifyingly charismatic stalker Joe Goldberg on Netflix's global phenomenon YOU. Happy fortieth milestone birthday to a captivating dramatic talent. What was your favorite season of YOU? Let us know below.",
+      "reel_caption": "From Dan Humphrey on Gossip Girl to chilling the entire world as Joe Goldberg on Netflix's YOU, Penn Badgley turns 40 today! What was your favorite Joe Goldberg season? #PennBadgley #YouNetflix #JoeGoldberg #GossipGirl #DanHumphrey #BornToday",
       "hashtags": [
-        "#LetitiaWright",
-        "#BlackPanther",
-        "#WakandaForever",
-        "#Shuri",
-        "#MarvelCinematicUniverse",
-        "#SmallAxe",
-        "#Wakanda",
+        "#PennBadgley",
+        "#YouNetflix",
+        "#JoeGoldberg",
+        "#GossipGirl",
+        "#DanHumphrey",
+        "#EasyA",
+        "#MilestoneBirthday",
         "#BornToday",
-        "#October31"
+        "#November1"
       ],
-      "image_path": "collages/Letitia_Wright_Page_2_Tribute.jpg",
-      "scheduled_publish_time": 1793466000,
-      "scheduled_time_utc": "2026-10-31T17:00:00.000Z",
+      "image_path": "collages/Penn_Badgley_Page_2_Tribute.jpg",
+      "scheduled_publish_time": 1793552400,
+      "scheduled_time_utc": "2026-11-01T17:00:00.000Z",
       "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Letitia_Wright_Reel.mp4",
-      "fb_post_id": "122113316847506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113316847506930",
-      "fb_collage_photo_id": "122113316847506930",
-      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/876485562_122113134303506930_4785629540610117790_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=054031&_nc_ohc=AcKdEyN4ZLEQ7kNvwGHepWF&_nc_oc=AdoQiz0tH6GVoMUzqOnVMNyJt1KOgAIOkFB-fxwDJo85IKR6m2RX3aqv2zB9zMJAWVA&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=d75AGidXXcd7gDD-rQCP2A&_nc_tpa=Q5bMBQK8zwwAObp7gMd-P1fDvL-8FBhCUfVVUjUWUTQ-SIDeh8ZLVdTKr4DLaVb-MEb1JTRomcvVbiiNKA&oh=00_AQQdZtOkybprbxCqaDZHrEa2IPcENYircR_LHqwlVqm9xg&oe=6AEB2307",
-      "fb_reel_id": "3826053767548321",
-      "fb_reel_scheduled_time": 1793468400,
-      "youtube_video_id": "DsnB2RKPCWM",
-      "youtube_url": "https://www.youtube.com/shorts/DsnB2RKPCWM",
+      "reel_path": "reels/Penn_Badgley_Reel.mp4",
+      "fb_post_id": "122113511241506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511241506930",
+      "fb_collage_photo_id": "122113511241506930",
+      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/863593416_122113511247506930_2953295504792820195_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=054031&_nc_ohc=-Tvwy_b2G4sQ7kNvwEe9yJN&_nc_oc=AdqqIBCsySC7bhJrgeHVgx63YCQZpXTI7P6o6ID5ZdADyuzzpsrzigngZa1twAYEpZk&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=gGeZlueG3Uez1DhFvy2dzA&_nc_tpa=Q5bMBQIGzYaKfH6pkJwMQb79lEg5_9Rv7Xnm8gDKq1D7NVR7HUTkDw28LogVomTjmqpqV36sIuZRIMb3Bg&oh=00_AQSQEUiu00BcTuPCPzfaYojGmlbB-zwgsEenzYiPbZjfng&oe=6AEC8861",
+      "fb_reel_id": "1797200538173079",
+      "fb_reel_scheduled_time": 1793554800,
+      "youtube_video_id": "I6-m_jtYUFw",
+      "youtube_url": "https://www.youtube.com/shorts/I6-m_jtYUFw"
+    },
+    {
+      "id": "2026-11-01_03_Anthony_Ramos",
+      "celebrity_name": "Anthony Ramos",
+      "birth_year": 1991,
+      "age": 35,
+      "gender": "male",
+      "country": "United States",
+      "preset": "preset_viral_teaser",
       "viral_teaser": {
-        "line1": "OVERCAME DEPRESSION",
-        "line2": "TO BECOME NEW",
+        "line1": "BUSHWICK PROJECTS",
+        "line2": "TEACHER PAID FEE",
         "punchline_red": [
-          "BLACK",
-          "PANTHER"
+          "HAMILTON",
+          "TITAN"
         ]
       },
       "thematic_asset": {
-        "asset_name": "Shuri (Black Panther: Wakanda Forever)",
-        "asset_prompt": "Shuri in Wakanda Forever salute with Black Panther Vibranium helmet.",
-        "asset_filename": "letitia_shuri_cutout.png"
+        "asset_name": "Hamilton Continental Army Revolutionary Soldier",
+        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an energetic young colonial revolutionary soldier in a 1776 Continental Army blue and buff uniform with brass buttons, holding a tricorn hat, smiling proudly in a triumphant heroic pose, celebrating the musical Hamilton, dramatic theatrical lighting, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio."
       },
-      "fb_comment_id": "122113316847506930_1410319337931853",
-      "ig_post_id": "18197042635347914",
-      "ig_reel_id": "17956334055275406"
-    },
-    {
-      "id": "2026-10-31_03_John_Candy",
-      "celebrity_name": "John Candy",
-      "birth_year": 1950,
-      "age": 76,
-      "gender": "male",
-      "country": "Canada",
-      "preset": "preset_viral_teaser",
       "teaserCard": {
         "enabled": true,
         "x": 45,
@@ -180,217 +184,197 @@
         "borderColor": "#b68c43",
         "borderWidth": 2,
         "cornerRadius": 14,
-        "badgeIcon": "heart",
-        "line1": "Father died fifth birthday,",
-        "line2": "knee injury crushed sports",
-        "line2Highlight": "gave world Del Griffith",
-        "line3Highlight": "in Planes Trains Automobiles...",
+        "badgeIcon": "star",
+        "line1": "Bushwick projects kid,",
+        "line2": "teacher paid application fee",
+        "line2Highlight": "originated Hamilton on Broadway",
+        "line3Highlight": "to conquer Hollywood...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/uvLWbMDE6UfWNF5tfrsrC9NqeEA.jpg",
-        "https://image.tmdb.org/t/p/original/fV3ToInjF83VdNxMBTpRpSrDZsx.jpg",
-        "https://image.tmdb.org/t/p/original/r8fwhr6jVp63BJl06qFis3eWTzB.jpg",
-        "https://image.tmdb.org/t/p/original/xOoA2gFdnl0qe9esbG0FJvCY0Fh.jpg",
-        "https://image.tmdb.org/t/p/original/npbUYgmhP4dtC0VUmIZ5B8g70Dr.jpg"
+        "https://image.tmdb.org/t/p/original/gCeRfH3aetIpZwKxe8Wl4ZYcQg5.jpg",
+        "https://image.tmdb.org/t/p/original/seFm2fKh6reyZaaCg7DmRpodLCw.jpg",
+        "https://image.tmdb.org/t/p/original/2Stnm8PQI7xHkVwINb4MhS7LOuR.jpg",
+        "https://image.tmdb.org/t/p/original/eGh3WwRz6lFDL0We1jMMYZSs1oW.jpg",
+        "https://image.tmdb.org/t/p/original/ityTHqIXFT3laID4j4ptlnc84zq.jpg"
       ],
-      "caption": "**Losing his father on his fifth birthday, he masked private pain with the warmest laughter in cinema history.**\n\nBorn October 31, 1950, in Newmarket, Ontario, today we celebrate what would have been the **76th** birthday of comedy legend John Franklin Candy.\n\nTragically losing his father to heart disease on his fifth birthday, John was a high school football tackle whose dreams of playing professionally ended after a catastrophic knee injury, leading him to Toronto's Second City stage.\n\nPairing slapstick physical genius with deep, unvarnished human vulnerability, John created screen characters whose clumsy goodness broke your heart.\n\nHe defined eighteens comedy in *Stripes*, *Splash*, and *Spaceballs*, before delivering his crowning dramatic-comedy triumph alongside Steve Martin in John Hughes's Thanksgiving masterpiece *Planes, Trains and Automobiles*.\n\nAs shower-curtain-ring salesman Del Griffith, his improvised monologue—'I like me. My wife likes me'—remains one of the most poignant scenes ever filmed, followed by beloved hits in *Uncle Buck* and *Cool Runnings*.\n\nPassing away far too young at age forty-three in 1994, his gentle spirit and enormous heart live on forever.\n\n**What is John Candy's most unforgettable movie: Planes, Trains and Automobiles, Uncle Buck, or Cool Runnings? Drop your tribute below! 👇**",
-      "comment": "**The secret behind John Candy's hotel room monologue...**\n\n* In *Planes, Trains and Automobiles*, director John Hughes allowed John Candy to improvise the heart-wrenching motel room speech: 'I like me. My wife likes me. My customers like me', creating an emotional cinematic masterpiece.\n* John Candy was a co-owner of the Canadian Football League's Toronto Argonauts, hoisting the championship Grey Cup in 1991.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "After a devastating knee injury ended his football dreams, John Candy turned to comedy and became the beloved, beating heart of cinema. In Planes, Trains and Automobiles and Uncle Buck, his giant frame and tender soul created characters that made the world both laugh and cry. Remembering a true comedy legend on his seventy-sixth birthday. What is your all-time favorite John Candy movie? Tell us below.",
-      "reel_caption": "Losing his father on his fifth birthday, John Candy gave the world Uncle Buck, Spaceballs, and Planes, Trains and Automobiles. Remembering a comedy giant on his birthday! #JohnCandy #PlanesTrainsAndAutomobiles #UncleBuck #CoolRunnings #Spaceballs #BornToday",
+      "caption": "**Unable to afford a college fee, his teacher stepped in. Today, he headlines Broadway and Hollywood blockbusters.**\n\nBorn November 1, 1991, in Bushwick, Brooklyn, New York, today Anthony Paul Ramos Martinez turns **35**, celebrated as an electric musical and action leading man.\n\nRaised by a resilient single mother in Brooklyn public housing, young Anthony almost abandoned his college dreams because his family couldn't afford a fifty-dollar audition application fee, until a high school teacher generously paid it out of her own pocket.\n\nGraduating from the American Musical and Dramatic Academy, Anthony auditioned for an experimental hip-hop musical by Lin-Manuel Miranda, trusting an unorthodox instinct: infusing his dual roles with raw street authenticity, swagger, and heartbreaking tenderness.\n\nHe originated John Laurens and Philip Hamilton in the Broadway phenomenon *Hamilton*, earned a Golden Globe nomination starring as Usnavi in *In the Heights*, and headlined action blockbusters *Transformers: Rise of the Beasts* and *Twisters*.\n\nSurviving the punishing vocal grind of eight shows a week and navigating the whirlwind of sudden international fame, he poured his vulnerability into original soul albums.\n\nAt 35, Anthony Ramos proves that when community lifts you up, your voice can shake the world.\n\n**What is Anthony Ramos's best performance: Hamilton, In the Heights, Transformers, or Twisters? Vote below! 👇**",
+      "comment": "**The secret behind Anthony Ramos's life-changing teacher...**\n\n* When Anthony was preparing for college, his family had zero money for application fees; his high school teacher Sara Steinweiss personally gave him the $50 fee, allowing him to audition and earn a full scholarship to AMDA.\n* In *Hamilton*, Anthony originated both revolutionary soldier John Laurens in Act One and Alexander Hamilton's tragic son Philip in Act Two.\n\nWhich fact surprised you most?",
+      "reel_script": "Growing up in Brooklyn public housing, Anthony Ramos almost missed college because he couldn't afford the fifty-dollar application fee, until a teacher stepped in and paid it. He went on to make Broadway history originating two iconic roles in Hamilton, before starring in In the Heights and headlining Transformers. Happy thirty-fifth birthday to a phenomenal talent. What is your favorite Anthony Ramos role? Tell us below.",
+      "reel_caption": "His high school teacher paid his fifty-dollar college application fee. Anthony Ramos went on to originate Hamilton on Broadway and star in Transformers. Never forget where you came from! #AnthonyRamos #Hamilton #InTheHeights #Transformers #Twisters #BornToday",
       "hashtags": [
-        "#JohnCandy",
-        "#PlanesTrainsAndAutomobiles",
-        "#UncleBuck",
-        "#CoolRunnings",
-        "#Spaceballs",
-        "#DelGriffith",
-        "#ComedyLegend",
+        "#AnthonyRamos",
+        "#Hamilton",
+        "#InTheHeights",
+        "#TransformersRiseOfTheBeasts",
+        "#Twisters",
+        "#BroadwayStar",
+        "#BushwickPride",
         "#BornToday",
-        "#October31"
+        "#November1"
       ],
-      "image_path": "collages/John_Candy_Page_3_Tribute.jpg",
-      "scheduled_publish_time": 1793484000,
-      "scheduled_time_utc": "2026-10-31T22:00:00.000Z",
+      "image_path": "collages/Anthony_Ramos_Page_3_Tribute.jpg",
+      "scheduled_publish_time": 1793570400,
+      "scheduled_time_utc": "2026-11-01T22:00:00.000Z",
       "peak_window": "US Prime Time (6:00 PM EDT / 3:30 AM IST +1)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/John_Candy_Reel.mp4",
-      "fb_post_id": "122113316205506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113316205506930",
-      "fb_collage_photo_id": "122113316205506930",
-      "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/861379400_122113134723506930_8939731499612490242_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=054031&_nc_ohc=ZW1zox-NZiUQ7kNvwHS-mG-&_nc_oc=Adr9Il62-tZioUvkGQrrIUrEUGVRzR93LO5-5_m9uUC8nL5BGQBkDk5ojcWOIsmJ5t4&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=PJJ5ABPLFEfxaynyAD9NHg&_nc_tpa=Q5bMBQIABL3zDWTm6vL3-V4mEne_j9XSErNPMHlP6kk-c--42byLTf053zcidpZlwHkOJmcP0JHlLPkxnw&oh=00_AQQlbvT8KBVRj40FeBrf5PsWc_eXvBqNG8_sCaxId79BaQ&oe=6AEB30E8",
-      "fb_reel_id": "880551621750633",
-      "fb_reel_scheduled_time": 1793486400,
-      "youtube_video_id": "LQ5ZfeE5lik",
-      "youtube_url": "https://www.youtube.com/shorts/LQ5ZfeE5lik",
-      "viral_teaser": {
-        "line1": "MASKED PRIVATE PAIN",
-        "line2": "TO BECOME",
-        "punchline_red": [
-          "COMEDY",
-          "LEGEND"
-        ]
-      },
-      "thematic_asset": {
-        "asset_name": "Del Griffith (Planes, Trains and Automobiles)",
-        "asset_prompt": "Del Griffith in iconic blue winter parka, trapper hat, red mittens, and suitcase.",
-        "asset_filename": "john_del_griffith_cutout.png"
-      },
-      "ig_reel_id": "18132916912759299",
-      "fb_comment_id": "122113316205506930_2393710011400276",
-      "ig_post_id": "18119291080791862"
+      "reel_path": "reels/Anthony_Ramos_Reel.mp4",
+      "fb_post_id": "122113511445506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511445506930",
+      "fb_collage_photo_id": "122113511445506930",
+      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/861788987_122113511451506930_4051826832073595894_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=054031&_nc_ohc=w-9_--J-vA0Q7kNvwERG1uk&_nc_oc=Adp4iC28ABdWXWhr0lI4XHzeCHjnnqSbvjMFTe1U2cF_McJZ1rqpXUyhZVQ05gKO3jI&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=z7Un5Ci_mwVAkHMyq26YWg&_nc_tpa=Q5bMBQKY1MWXXn0Xg0t_gPjueDPFJk4jYgbZmepZY54zwxwGQVvWcUUm4VBj7yqEI5wL0vrUC7n7wCkLtw&oh=00_AQRr3LP7MIzyRnHOZo6izPLzj1zzpTOTvk_T_17_EVM25A&oe=6AEC8609",
+      "fb_reel_id": "1450860750491372",
+      "fb_reel_scheduled_time": 1793572800,
+      "youtube_video_id": "sy25Fwx-O3k",
+      "youtube_url": "https://www.youtube.com/shorts/sy25Fwx-O3k"
     }
   ],
   "quiz_posts": [
     {
-      "id": "2026-10-31_quiz_01_Dermot_Mulroney",
+      "id": "2026-11-01_quiz_01_Logan_Marshall_Green",
       "type": "photo_quiz_type1",
-      "celebrity_name": "Dermot Mulroney",
-      "birth_year": 1963,
-      "age": 63,
-      "gender": "male",
-      "correct_option": "A",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Dermot Mulroney"
-        },
-        {
-          "letter": "B",
-          "name": "George Clooney"
-        },
-        {
-          "letter": "C",
-          "name": "Russell Crowe"
-        },
-        {
-          "letter": "D",
-          "name": "John Malkovich"
-        }
-      ],
-      "image_path": "collages/quiz_01_Dermot_Mulroney.jpg",
-      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 63 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**A secret master cellist on blockbuster scores, he became romantic comedy's most swooned-over leading man.**\n\nBorn October 31, 1963, in Alexandria, Virginia, today Dermot Patrick Mulroney turns **63**, celebrated as Hollywood's effortlessly charming screen gentleman.\n\nA classically trained cellist since childhood who played in youth orchestras throughout Virginia, Dermot studied theater at Northwestern University before heading west to Los Angeles.\n\nHe broke out as young gunslinger Dirty Steve Stephens in the 1988 western *Young Guns*, but reached pop-culture immortality opposite Julia Roberts and Cameron Diaz in 1997's romantic comedy touchstone *My Best Friend's Wedding*.\n\nUnknown to many moviegoers, he maintained an active parallel career as a studio cellist, playing in Hollywood orchestras for composer Michael Giacchino on blockbuster scores like *Rogue One: A Star Wars Story*, *Star Trek Into Darkness*, and *Spider-Man: Homecoming*.\n\nFrom *August: Osage County* to *Scream VI* and *Anyone But You*, his raspy voice and versatile charm command every genre.\n\nAt 63, Dermot Mulroney proves that true artists let their craft speak in harmony.\n\n**Was Dermot Mulroney in My Best Friend's Wedding the ultimate nineties romantic lead? Share your favorite movie of his below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Dermot Mulroney's cello soundtrack career...**\n\n* In addition to his leading-man acting career, Dermot is a professional studio cellist who has played in the orchestra for over twenty major film soundtracks, including *Rogue One: A Star Wars Story*, *Mission: Impossible - Ghost Protocol*, and *Jurassic World*.\n* He has starred opposite Julia Roberts in three separate acclaimed projects: *My Best Friend's Wedding*, *August: Osage County*, and the Amazon series *Homecoming*.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Dermot Mulroney!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#DermotMulroney #BornToday #2026-10-31 #HollywoodQuiz #CelebrityTrivia",
-      "hashtags": "#DermotMulroney #BornToday #2026-10-31 #HollywoodQuiz #CelebrityTrivia",
-      "scheduled_publish_time": 1793455200,
-      "scheduled_time_utc": "2026-10-31T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
-      "fb_post_id": "122113134999506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113134999506930",
-      "ig_post_id": "17936212347404502"
-    },
-    {
-      "id": "2026-10-31_quiz_02_Piper_Perabo",
-      "type": "photo_quiz_type2",
-      "celebrity_name": "Piper Perabo",
+      "celebrity_name": "Logan Marshall-Green",
       "birth_year": 1976,
       "age": 50,
-      "gender": "female",
-      "subtitle": "Born on this day! Can you identify the real birthday star?",
-      "correct_option": "C",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Demi Moore"
-        },
-        {
-          "letter": "B",
-          "name": "Susan Sarandon"
-        },
-        {
-          "letter": "C",
-          "name": "Piper Perabo"
-        },
-        {
-          "letter": "D",
-          "name": "Diane Keaton"
-        }
-      ],
-      "image_path": "collages/quiz_02_Piper_Perabo.jpg",
-      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 50? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Waiting tables in Manhattan, she danced on the bar in Coyote Ugly and conquered five seasons of espionage.**\n\nBorn October 31, 1976, in Dallas, Texas, and raised in New Jersey, today Piper Lisa Perabo celebrates her **50th** milestone birthday, celebrated as an electric screen powerhouse.\n\nNamed after Oscar-nominated actress Piper Laurie, Piper moved to New York City after earning her theater degree, waiting tables at a local restaurant while facing endless rejections for film roles.\n\nHer life changed when Jerry Bruckheimer cast her as aspiring songwriter Violet Sanford in 2000's *Coyote Ugly*, where her fiery bar-top dances and LeAnn Rimes anthems made her an instant pop-culture sensation.\n\nShe earned a Golden Globe nomination for Best Actress starring as CIA operative Annie Walker across five seasons of *Covert Affairs*, performing her own martial arts combat.\n\nShe brought fierce intensity to Christopher Nolan's *The Prestige*, Rian Johnson's *Looper*, and starred as environmental activist Summer Higgins opposite Kevin Costner on *Yellowstone*.\n\nAt 50, Piper Perabo continues to challenge herself with fearlessness and magnetic grit.\n\n**What was Piper Perabo's greatest role: Violet in Coyote Ugly, Annie in Covert Affairs, or Summer in Yellowstone? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Piper Perabo's Coyote Ugly singing...**\n\n* While Piper performed all the bar dances and piano playing herself in *Coyote Ugly*, country pop star LeAnn Rimes provided the singing voice for Violet's original songs on the chart-topping soundtrack.\n* Piper's parents named her after actress Piper Laurie, who starred in the 1961 classic *The Hustler* and 1976's *Carrie*.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Piper Perabo!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#PiperPerabo #BornToday #2026-10-31 #FaceMatch #HollywoodQuiz",
-      "hashtags": "#PiperPerabo #BornToday #2026-10-31 #FaceMatch #HollywoodQuiz",
-      "scheduled_publish_time": 1793475000,
-      "scheduled_time_utc": "2026-10-31T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_post_id": "122113135095506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113135095506930",
-      "ig_post_id": "18234170656322461"
-    },
-    {
-      "id": "2026-10-31_quiz_03_Rob_Schneider",
-      "type": "reel_quiz_type1",
-      "celebrity_name": "Rob Schneider",
-      "birth_year": 1963,
-      "age": 63,
       "gender": "male",
       "correct_option": "D",
       "options": [
         {
           "letter": "A",
-          "name": "Tom Cruise"
+          "name": "Clint Eastwood"
         },
         {
           "letter": "B",
-          "name": "Harrison Ford"
+          "name": "Hugh Jackman"
         },
         {
           "letter": "C",
-          "name": "Gene Hackman"
+          "name": "Willem Dafoe"
         },
         {
           "letter": "D",
-          "name": "Rob Schneider"
+          "name": "Logan Marshall-Green"
         }
       ],
-      "reel_path": "reels/quiz_03_Rob_Schneider.mp4",
-      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 63th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Starting standup at fifteen in Bay Area clubs, he invented the copy guy on SNL and became comedy royalty.**\n\nBorn October 31, 1963, in San Francisco, California, today Robert Michael Schneider turns **63**, celebrated for his shameless, high-energy slapstick comedy.\n\nHoning his standup routine as a teenager in local clubs and opening for Jerry Seinfeld, Rob was hired as a writer on *Saturday Night Live* in 1988 before quickly graduating to the main cast alongside Adam Sandler and Chris Farley.\n\nHis hilariously irritating copy machine clerk Richard Laymer ('The Richmeister! Makin' copies!') became a national catchphrase, earning him three Primetime Emmy Award nominations.\n\nHe built an enduring partnership with Adam Sandler's Happy Madison Productions, headlining box-office hits like *Deuce Bigalow: Male Gigolo*, *The Animal*, and *The Hot Chick*, while stealing scenes in *Big Daddy* and *50 First Dates*.\n\nFather to Grammy-nominated singer Elle King, he continues to tour the world doing standup comedy on his own terms.\n\nAt 63, Rob Schneider remains an unapologetic champion of pure, unabashed laughter.\n\n**Which Rob Schneider comedy classic made you laugh the hardest: Deuce Bigalow, The Hot Chick, or The Animal? Share below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Rob Schneider's copy machine character...**\n\n* Rob originally based the *Saturday Night Live* character Richard Laymer on a real-life employee he encountered at a post office in California who constantly narrated people's actions.\n* Rob is the father of singer-songwriter Elle King, who hit number one on the charts with her smash rock song 'Ex's & Oh's'.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Rob Schneider!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#RobSchneider #BornToday #2026-10-31 #CelebrityQuiz #ReelQuiz #Shorts",
-      "hashtags": "#RobSchneider #BornToday #2026-10-31 #CelebrityQuiz #ReelQuiz #Shorts",
-      "scheduled_publish_time": 1793460600,
-      "scheduled_time_utc": "2026-10-31T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "1586003063213907",
-      "youtube_video_id": "QwrxsSO0sJQ",
-      "youtube_url": "https://www.youtube.com/shorts/QwrxsSO0sJQ",
-      "ig_reel_id": "17966338011213218"
+      "image_path": "collages/quiz_01_Logan_Marshall_Green.jpg",
+      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 50 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**An identical twin from NYU, he survived alien terrors and delivered modern sci-fi's greatest body-horror thriller.**\n\nBorn November 1, 1976, in Charleston, South Carolina, and raised in Rhode Island, today Logan Marshall-Green celebrates his **50th** milestone birthday, honored as an intense cult cinema powerhouse.\n\nRaised alongside his identical twin brother Taylor by an artistic theater professor mother, Logan earned his Master of Fine Arts from NYU's Tisch School of the Arts, honing a gritty, unpredictable intensity on New York stages.\n\nAfter memorable turns as bad-boy brother Trey Atwood on *The O.C.* and in *24*, Ridley Scott handpicked him as archaeologist Charlie Holloway in 2012's sci-fi epic *Prometheus*.\n\nHe achieved cult legend status in Karyn Kusama's tension masterpiece *The Invitation*, and delivered a mind-bending physical performance in Leigh Whannell's cybernetic thriller *Upgrade*, moving his body with robotic precision as artificial intelligence took over his limbs.\n\nStepping behind the camera, he wrote and directed the acclaimed indie drama *Adopt a Highway* starring Ethan Hawke.\n\nAt 50, Logan Marshall-Green remains a master of tension, edge, and fearless physical storytelling.\n\n**Which Logan Marshall-Green thriller is the ultimate cult classic: Upgrade or The Invitation? Share your pick below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Logan Marshall-Green's identical twin...**\n\n* Logan has an identical twin brother named Taylor, who also works in the entertainment industry as a television writer and producer.\n* For the action thriller *Upgrade*, Logan performed his own complex martial arts choreography while keeping his upper body completely loose to realistically convey a computer AI controlling his motor functions.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Logan Marshall-Green!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#LoganMarshall-Green #BornToday #2026-11-01 #HollywoodQuiz #CelebrityTrivia",
+      "hashtags": "#LoganMarshall-Green #BornToday #2026-11-01 #HollywoodQuiz #CelebrityTrivia",
+      "scheduled_publish_time": 1793541600,
+      "scheduled_time_utc": "2026-11-01T14:00:00.000Z",
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
+      "fb_post_id": "122113511595506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511595506930"
     },
     {
-      "id": "2026-10-31_quiz_04_Vanessa_Marano",
+      "id": "2026-11-01_quiz_02_Aishwarya_Rai_Bachchan",
+      "type": "photo_quiz_type2",
+      "celebrity_name": "Aishwarya Rai Bachchan",
+      "birth_year": 1973,
+      "age": 53,
+      "gender": "female",
+      "subtitle": "Born on this day! Can you identify the real birthday star?",
+      "correct_option": "A",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Aishwarya Rai Bachchan"
+        },
+        {
+          "letter": "B",
+          "name": "Charlize Theron"
+        },
+        {
+          "letter": "C",
+          "name": "Courteney Cox"
+        },
+        {
+          "letter": "D",
+          "name": "Joyce DeWitt"
+        }
+      ],
+      "image_path": "collages/quiz_02_Aishwarya_Rai_Bachchan.jpg",
+      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 53? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Studying architecture in Mumbai, she became Miss World and conquered global cinema with unmatched elegance.**\n\nBorn November 1, 1973, in Mangalore, Karnataka, today Aishwarya Rai Bachchan turns **53**, celebrated worldwide as an enduring icon of Indian and global cinema.\n\nOriginally intending to pursue a career in architecture, young Aishwarya's life transformed when she won the Miss World crown in 1994, handling international fame with rare dignity and composure.\n\nRejecting purely decorative roles, she collaborated with visionary auteurs, delivering operatic, heart-wrenching performances in Mani Ratnam's *Iruvar*, Sanjay Leela Bhansali's *Hum Dil De Chuke Sanam*, and the opulent classic *Devdas*.\n\nShe broke Hollywood barriers starring in *Bride and Prejudice* and *The Pink Panther 2*, becoming the first Indian actress on the Cannes Film Festival jury.\n\nHonored with India's Padma Shri and France's Ordre des Arts et des Lettres, her regal screen presence recently shone in the historical epic *Ponniyin Selvan*.\n\nAt 53, Aishwarya Rai Bachchan stands as the eternal queen of grace, beauty, and cinematic power.\n\n**What was Aishwarya Rai Bachchan's most iconic performance: Devdas, Hum Dil De Chuke Sanam, or Ponniyin Selvan? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Aishwarya Rai's architecture pivot...**\n\n* Aishwarya was a top student studying architecture at the Rachana Sansad Academy in Mumbai before friends persuaded her to enter modeling, leading to her historic Miss World 1994 victory in Sun City, South Africa.\n* In 2003, she made history as the very first Indian actress to serve on the prestigious main competition jury at the Cannes Film Festival.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Aishwarya Rai Bachchan!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#AishwaryaRaiBachchan #BornToday #2026-11-01 #FaceMatch #HollywoodQuiz",
+      "hashtags": "#AishwaryaRaiBachchan #BornToday #2026-11-01 #FaceMatch #HollywoodQuiz",
+      "scheduled_publish_time": 1793561400,
+      "scheduled_time_utc": "2026-11-01T19:30:00.000Z",
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
+      "fb_post_id": "122113511811506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511811506930"
+    },
+    {
+      "id": "2026-11-01_quiz_03_David_Foster",
+      "type": "reel_quiz_type1",
+      "celebrity_name": "David Foster",
+      "birth_year": 1949,
+      "age": 77,
+      "gender": "male",
+      "correct_option": "C",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Pierce Brosnan"
+        },
+        {
+          "letter": "B",
+          "name": "Christian Slater"
+        },
+        {
+          "letter": "C",
+          "name": "David Foster"
+        },
+        {
+          "letter": "D",
+          "name": "Dustin Hoffman"
+        }
+      ],
+      "reel_path": "reels/quiz_03_David_Foster.mp4",
+      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 77th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Playing piano behind Chuck Berry at sixteen, he produced the biggest movie ballads in cinematic history.**\n\nBorn November 1, 1949, in Victoria, British Columbia, today David Walter Foster turns **77**, revered as the musical architect behind modern pop's greatest anthems.\n\nA child piano prodigy with perfect pitch, David moved to London at sixteen to back rock legends Chuck Berry and Bo Diddley on keyboard, arriving in Los Angeles with band Skylark before grinding as a studio session player.\n\nHe trusted an unorthodox instinct: creating grand, soaring orchestral pop power ballads driven by emotional piano chords and stratospheric vocal arrangements.\n\nHe composed the beloved score for *St. Elmo's Fire*, produced Whitney Houston's historic record-breaking soundtrack for *The Bodyguard* ('I Will Always Love You'), and discovered or shaped the careers of Celine Dion, Michael Bublé, and Josh Groban.\n\nWinning sixteen Grammy Awards across forty-seven nominations, his foundation has helped thousands of families with children needing medical organ transplants.\n\nAt 77, David Foster remains the maestro whose melodies defined the soundtrack of our lives.\n\n**Which David Foster produced anthem is your favorite: I Will Always Love You, The Prayer, or Hard to Say I'm Sorry? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind David Foster's Bodyguard production...**\n\n* When producing Whitney Houston's iconic cover of 'I Will Always Love You' for *The Bodyguard*, David fought to keep Whitney's unaccompanied acapella opening, which became the most famous intro in pop history.\n* At age sixteen, David was the touring keyboard player for Chuck Berry during his legendary UK concerts, learning how to command a crowd from rock royalty.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: David Foster!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#DavidFoster #BornToday #2026-11-01 #CelebrityQuiz #ReelQuiz #Shorts",
+      "hashtags": "#DavidFoster #BornToday #2026-11-01 #CelebrityQuiz #ReelQuiz #Shorts",
+      "scheduled_publish_time": 1793547000,
+      "scheduled_time_utc": "2026-11-01T15:30:00.000Z",
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
+      "fb_reel_id": "1777915667553364",
+      "youtube_video_id": "-MOI9RahA5c",
+      "youtube_url": "https://www.youtube.com/shorts/-MOI9RahA5c"
+    },
+    {
+      "id": "2026-11-01_quiz_04_Natalia_Tena",
       "type": "reel_quiz_type2",
-      "celebrity_name": "Vanessa Marano",
-      "birth_year": 1992,
-      "age": 34,
+      "celebrity_name": "Natalia Tena",
+      "birth_year": 1984,
+      "age": 42,
       "gender": "female",
       "subtitle": "Look closely at options A, B, C, and D!",
       "correct_option": "B",
       "options": [
         {
           "letter": "A",
-          "name": "Natalie Portman"
+          "name": "Diane Keaton"
         },
         {
           "letter": "B",
-          "name": "Vanessa Marano"
+          "name": "Natalia Tena"
         },
         {
           "letter": "C",
-          "name": "Winona Ryder"
+          "name": "Anne Hathaway"
         },
         {
           "letter": "D",
-          "name": "Helen Mirren"
+          "name": "Jane Fonda"
         }
       ],
-      "reel_path": "reels/quiz_04_Vanessa_Marano.mp4",
-      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Her mother took her to an agent expecting a rejection. She was signed instantly and made television history.**\n\nBorn October 31, 1992, in Los Angeles, California, today Vanessa Nicole Marano turns **34**, recognized as an authentic, groundbreaking television star.\n\nHer mother, who operated a children's theater, didn't want her daughters in show business and deliberately took seven-year-old Vanessa to the strictest talent agent in town hoping for a quick rejection, only for the agency to sign Vanessa on the spot.\n\nShe gained early acclaim as Luke Danes' quirky estranged daughter April Nardini on *Gilmore Girls*, before winning the lead role of artistic rebel Bay Kennish on Freeform's *Switched at Birth* in 2011.\n\nLearning American Sign Language and anchoring five seasons and over one hundred episodes, she helped create television's first prime-time series to feature deaf and hard-of-hearing storylines prominently, winning a Peabody Award.\n\nProducing and starring alongside sister Laura Marano in *Saving Zoë*, she continues to champion independent female storytelling.\n\nAt 34, Vanessa Marano proves that unexpected paths often lead to groundbreaking legacies.\n\n**Was Switched at Birth one of the best family dramas of the 2010s? Drop your favorite Bay Kennish moment below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Vanessa Marano's agent story...**\n\n* Vanessa's mother took her to a strict talent agency hoping she would be rejected and quit acting, but the agent signed Vanessa and sister Laura on the spot.\n* For *Switched at Birth*, Vanessa mastered American Sign Language, helping lead the first scripted TV episode filmed entirely in ASL.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Vanessa Marano!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#VanessaMarano #BornToday #2026-10-31 #HollywoodTrivia #ReelChallenge #Shorts",
-      "hashtags": "#VanessaMarano #BornToday #2026-10-31 #HollywoodTrivia #ReelChallenge #Shorts",
-      "scheduled_publish_time": 1793480400,
-      "scheduled_time_utc": "2026-10-31T21:00:00.000Z",
+      "reel_path": "reels/quiz_04_Natalia_Tena.mp4",
+      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Busking on London subways with an accordion, she brought fierce punk magic to Harry Potter and Game of Thrones.**\n\nBorn November 1, 1984, in London, England, to Spanish parents, today Natalia Gastiain Tena turns **42**, loved across fandoms as an unconventional, spirited fantasy heroine.\n\nA rebellious teen busking in the London Underground with her accordion and singing for her band Molotov Jukebox, Natalia was planning to become a philosopher before landing her film debut opposite Hugh Grant in *About a Boy*.\n\nShe trusted an unorthodox instinct: infusing her fantasy heroines with quirky, messy punk energy rather than standard fairytale poise.\n\nShe achieved worldwide fantasy immortality as the bubblegum-pink-haired Metamorphmagus Auror Nymphadora Tonks across four *Harry Potter* blockbusters, and conquered HBO's *Game of Thrones* as fierce wildling protector Osha.\n\nRefusing to be typecast by Hollywood blockbusters, she toured the world playing accordion in crowded music venues, choosing creative freedom over predictable stardom.\n\nAt 42, Natalia Tena remains an authentic, rock-and-roll force of nature on stage and screen.\n\n**Which Natalia Tena character holds your heart: Tonks in Harry Potter or Osha in Game of Thrones? Drop your vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Natalia Tena's Harry Potter audition...**\n\n* During her audition for Nymphadora Tonks in *Harry Potter and the Order of the Phoenix*, Natalia accidentally tripped over a prop table on her way into the room; director David Yates loved her clumsy charm so much that it helped secure her the role.\n* Outside acting, Natalia is the lead singer and accordionist for the acclaimed six-piece gypsy-punk band Molotov Jukebox.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Natalia Tena!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#NataliaTena #BornToday #2026-11-01 #HollywoodTrivia #ReelChallenge #Shorts",
+      "hashtags": "#NataliaTena #BornToday #2026-11-01 #HollywoodTrivia #ReelChallenge #Shorts",
+      "scheduled_publish_time": 1793566800,
+      "scheduled_time_utc": "2026-11-01T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1943767673270267",
-      "youtube_video_id": "gmFSYR9NaCo",
-      "youtube_url": "https://www.youtube.com/shorts/gmFSYR9NaCo",
-      "ig_reel_id": "18469133326186841"
+      "fb_reel_id": "1151403581167744",
+      "youtube_video_id": "cO-yqpaVyHY",
+      "youtube_url": "https://www.youtube.com/shorts/cO-yqpaVyHY"
     }
   ]
 }
