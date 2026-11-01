@@ -401,8 +401,17 @@ function formatAssTime(seconds) {
  *  - Progressive 2-line layout
  *  - Animated spring pop-up outro text on single ending screen
  */
-function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration, outroStartTime, totalDuration, assPath) {
+function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration, outroStartTime, totalDuration, assPath, hookText = '') {
   const events = [];
+
+  // 3-Second Viral Hook Overlay (Meta Growth Guidance: keep hook text on screen for only the first 3s)
+  if (hookText && hookText.trim().length > 0) {
+    const cleanHook = hookText.replace(/\n+/g, ' ').replace(/["*]/g, '').trim();
+    const shortHook = cleanHook.split(/\s+/).slice(0, 11).join(' ');
+    events.push(
+      `Dialogue: 1,0:00:00.00,0:00:03.00,Default,,0,0,0,,{\\an8\\pos(540,240)\\fad(120,250)\\b1\\fsize44\\c&H0024D8FF&}⭐ DID YOU KNOW? ⭐\\N{\\b1\\fsize38\\c&H00FFFFFF&}${shortHook}`
+    );
+  }
 
   const boldRegex = /\*\*(.*?)\*\*/g;
   const boldWordsSet = new Set();
@@ -585,7 +594,10 @@ async function buildReel(post, index = 1) {
 
   // 4. Subtitles (Locked vertical baseline at Y=1060)
   const localAssPath = path.join(TEMP_DIR, 'current_subs.ass');
-  createSubtitlesAss(boundaries, rawComment, narration, voiceDuration, outroStartTime, totalDuration, localAssPath);
+  const hookCandidate = (post.viral_teaser ? `${post.viral_teaser.line1} ${post.viral_teaser.line2}` : '') ||
+                        (post.teaserCard ? `${post.teaserCard.line1 || ''} ${post.teaserCard.line2 || ''}` : '') ||
+                        narration.split(/[.!?]/)[0] || '';
+  createSubtitlesAss(boundaries, rawComment, narration, voiceDuration, outroStartTime, totalDuration, localAssPath, hookCandidate);
 
   // 5. Collect Era Photos
   const rawUrls = post.photo_urls || [];

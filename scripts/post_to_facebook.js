@@ -18,6 +18,31 @@ const DEFAULT_PAGE_ID = (process.env.FB_PAGE_ID_BORN || process.env.FB_PAGE_ID |
 const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || VERIFIED_TOKEN).trim();
 const DEFAULT_IG_ID = (process.env.IG_USER_ID || '17841416842135384').trim();
 
+
+function extractCleanHashtags(hashtags, maxTags = 3) {
+  if (Array.isArray(hashtags)) {
+    return hashtags.slice(0, maxTags).join(' ').trim();
+  }
+  if (typeof hashtags === 'string') {
+    const matches = hashtags.match(/#[A-Za-z0-9_]+/g);
+    if (matches && matches.length > 0) {
+      return matches.slice(0, maxTags).join(' ').trim();
+    }
+    return hashtags.split(/\s+/).slice(0, maxTags).join(' ').trim();
+  }
+  return '';
+}
+
+function sanitizeReelCaption(captionText, fallbackTags = []) {
+  if (!captionText) return '';
+  const existingTags = captionText.match(/#[A-Za-z0-9_]+/g) || [];
+  const cleanBody = captionText.replace(/#[A-Za-z0-9_]+/g, '').trim();
+  const tagsToUse = existingTags.length > 0
+    ? existingTags.slice(0, 3)
+    : (Array.isArray(fallbackTags) ? fallbackTags.slice(0, 3) : extractCleanHashtags(fallbackTags, 3).split(' ').filter(Boolean));
+  return tagsToUse.length > 0 ? (cleanBody + '\n\n' + tagsToUse.join(' ')) : cleanBody;
+}
+
 function formatFacebookUnicodeBold(text) {
   if (!text || typeof text !== 'string') return '';
   return text.replace(/\*\*(.+?)\*\*/g, (_, s) => {
@@ -715,7 +740,38 @@ function postFacebookReel(pageId, token, description, videoPath, scheduledPublis
         req.end();
       });
 
-      if (finishRes.success) {
+            if (finishRes.success) {
+        // Tag Topics for Meta recommendation algorithm (Movies, Entertainment, TV & Scripted Content)
+        try {
+          const tagParams = new URLSearchParams({
+            access_token: token,
+            content_category: 'ENTERTAINMENT',
+            custom_labels: JSON.stringify(['Movies', 'Entertainment', 'TV & Scripted Content'])
+          }).toString();
+          await new Promise((resT) => {
+            const req = https.request({
+              hostname: 'graph.facebook.com',
+              port: 443,
+              path: `/v26.0/${videoId}`,
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(tagParams)
+              }
+            }, r => {
+              let d = '';
+              r.on('data', c => d += c);
+              r.on('end', () => resT(d));
+            });
+            req.on('error', () => resT());
+            req.write(tagParams);
+            req.end();
+          });
+          console.log(`    [Reel Topics] Tagged reel ${videoId} with [Movies, Entertainment, TV & Scripted Content]`);
+        } catch (e) {
+          console.warn(`    [!] Could not tag reel topics: ${e.message}`);
+        }
+
         resolve({ status: 200, video_id: videoId, success: true, isScheduling });
       } else {
         resolve({ status: 400, error: finishRes.error || finishRes });
@@ -785,7 +841,8 @@ async function main() {
     const imgPath = path.resolve(BASE_DIR, post.image_path);
     const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
 
-    const caption = formatFacebookUnicodeBold(`${post.caption}\n\n${post.hashtags}`);
+    const cleanTags = extractCleanHashtags(post.hashtags, 3);
+    const caption = formatFacebookUnicodeBold(`${post.caption}${cleanTags ? "\n\n" + cleanTags : ""}`);
     const comment = formatFacebookUnicodeBold(post.comment);
 
     const schedTs = post.scheduled_publish_time || post.unix_timestamp || null;
@@ -888,9 +945,10 @@ async function main() {
         console.log(`[ðŸŽ¬] Publishing REEL LIVE right now for: ${celebName}...`);
       }
 
-      let reelCaptionText = post.reel_caption;
+            let reelCaptionText = sanitizeReelCaption(post.reel_caption, post.hashtags);
       if (!reelCaptionText) {
-        reelCaptionText = `${post.celebrity_name} turns ${post.age} today! ðŸŽ¬ What is your favorite movie or role of theirs? ðŸ‘‡\n\n${(post.hashtags || []).join(' ')}`;
+        const cleanTags = extractCleanHashtags(post.hashtags, 3);
+        reelCaptionText = `${post.celebrity_name} turns ${post.age} today! 🎬 What is your favorite movie or role of theirs? 👇\n\n${cleanTags}`;
       }
       const reelCaption = formatFacebookUnicodeBold(reelCaptionText);
       const reelRes = await postFacebookReel(DEFAULT_PAGE_ID, DEFAULT_TOKEN, reelCaption, reelPath, reelSchedTs);

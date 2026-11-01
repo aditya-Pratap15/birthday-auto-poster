@@ -52,9 +52,14 @@ function formatUnicodeBold(text) {
 function formatInstagramCaption(text, hashtags = '') {
   let hashtagStr = '';
   if (Array.isArray(hashtags)) {
-    hashtagStr = hashtags.join(' ').trim();
+    hashtagStr = hashtags.slice(0, 3).join(' ').trim();
   } else if (typeof hashtags === 'string') {
-    hashtagStr = hashtags.trim();
+    const matches = hashtags.match(/#[A-Za-z0-9_]+/g);
+    if (matches && matches.length > 0) {
+      hashtagStr = matches.slice(0, 3).join(' ').trim();
+    } else {
+      hashtagStr = hashtags.split(/\s+/).slice(0, 3).join(' ').trim();
+    }
   }
 
   const formattedTags = hashtagStr ? `\n\n${hashtagStr}` : '';
@@ -948,8 +953,16 @@ async function main() {
     }
 
     console.log(`[🎬 IG] Publishing Vertical Reel for ${celebName}...`);
-    const rawReelCaption = targetPost.reel_caption ||
-      `${targetPost.celebrity_name} turns ${targetPost.age} today! 🎂 What is your favorite movie or role of theirs? 🎬\n\n${(targetPost.hashtags || []).join(' ')}`;
+    let rawReelCaption = targetPost.reel_caption;
+    const cleanTags = (Array.isArray(targetPost.hashtags) ? targetPost.hashtags.slice(0, 3) : []).join(' ');
+    if (!rawReelCaption) {
+      rawReelCaption = `${targetPost.celebrity_name} turns ${targetPost.age} today! 🎂 What is your favorite movie or role of theirs? 🎬\n\n${cleanTags}`;
+    } else {
+      const stripped = rawReelCaption.replace(/#[A-Za-z0-9_]+/g, '').trim();
+      const existingTags = rawReelCaption.match(/#[A-Za-z0-9_]+/g) || [];
+      const finalTags = (existingTags.length > 0 ? existingTags.slice(0, 3) : (cleanTags ? cleanTags.split(' ') : [])).join(' ');
+      rawReelCaption = finalTags ? (stripped + '\n\n' + finalTags) : stripped;
+    }
 
     const reelCaption = formatInstagramCaption(rawReelCaption);
     const reelRes = await postInstagramReel(DEFAULT_IG_ID, DEFAULT_TOKEN, reelCaption, reelPath);
