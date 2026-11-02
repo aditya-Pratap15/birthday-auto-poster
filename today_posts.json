@@ -20,7 +20,8 @@
       },
       "thematic_asset": {
         "asset_name": "Hereditary Miniature Wooden Dollhouse Diorama",
-        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an eerie handcrafted miniature wooden dollhouse diorama depicting a shadowy living room with miniature furniture and a sinister golden crowned mannequin, celebrating the horror masterpiece Hereditary, dramatic lighting and fine wooden textures, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio."
+        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an eerie handcrafted miniature wooden dollhouse diorama depicting a shadowy living room with miniature furniture and a sinister golden crowned mannequin, celebrating the horror masterpiece Hereditary, dramatic lighting and fine wooden textures, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio.",
+        "asset_cutout_path": null
       },
       "teaserCard": {
         "enabled": true,
@@ -69,16 +70,15 @@
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
       "reel_path": "reels/Toni_Collette_Reel.mp4",
-      "fb_post_id": "122113510965506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113510965506930",
-      "fb_collage_photo_id": "122113510965506930",
-      "collage_cdn_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/856463214_122113510971506930_4707798357001813839_n.jpg?_nc_cat=100&ccb=1-7&_nc_sid=054031&_nc_ohc=klZDfrMx_uUQ7kNvwGGiHt_&_nc_oc=AdoRhsolTBkw9mqxLdYmTerHmbpuqGoriV-vQ6d0h6pZQJ42RRnZ_KJEDe3mbZXNMOU&_nc_zt=23&_nc_ht=scontent-lga3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=0tR80KQfOFUvBBsLAEynrg&_nc_tpa=Q5bMBQJ5dFYJ8jIZp_l3IoVIHhrhwMjAB-MvNg6bFlWl9P3NmZ_GPeeIvNvXHOQjjE_oKeeqw18Vlm-FyA&oh=00_AQQbcma8vr34IQ-jFUXs4UTj42c4hOJSfQkeDThtGoQFKA&oe=6AEC799C",
-      "fb_reel_id": "2303687987151969",
+      "fb_post_id": "1345901645276194_122113934283506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113934283506930",
+      "fb_comment_id": "122113934283506930_2032533557707290",
+      "fb_collage_photo_id": "122113934259506930",
+      "collage_cdn_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/882069264_122113934265506930_958121923223495555_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=N_Wcv9RWyN4Q7kNvwHObW_U&_nc_oc=AdrfW7zRbYPqRkExWHUntrc0StiG8K4MjVJFManueT1iXJrFYvSm6a9njsEPRgf-Yzk&_nc_zt=23&_nc_ht=scontent-lga3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=7hbu-cZTMXjbgsYPMxvq1w&_nc_tpa=Q5bMBQIm54H_sEZ6cp50G8WECYo7youUJQZNTqaiWkRgic1lve1ubJNFpC56DxAaf4EHRhEbis6qaDOy_g&oh=00_AQTNi-I-th-5UOxyWWp-vGMZClcXJbqZbZo9ykQ6G5jBFA&oe=6AEDC616",
+      "fb_reel_id": "1909920783706425",
       "fb_reel_scheduled_time": 1793536800,
-      "youtube_video_id": "7esC4sVf4mc",
-      "youtube_url": "https://www.youtube.com/shorts/7esC4sVf4mc",
-      "ig_post_id": "18112721192232206",
-      "ig_reel_id": "18014652087003428"
+      "youtube_video_id": "b1lnvZZgojM",
+      "youtube_url": "https://www.youtube.com/shorts/b1lnvZZgojM"
     },
     {
       "id": "2026-11-01_02_Penn_Badgley",
@@ -98,7 +98,8 @@
       },
       "thematic_asset": {
         "asset_name": "YOU Soundproof Glass Bookstore Cage Vault",
-        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an illuminated transparent soundproof glass vault cage with a single dark wooden desk, vintage typewriter, and an antique leather-bound book inside, celebrating the thriller series YOU, dramatic lighting and glass reflections, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio."
+        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an illuminated transparent soundproof glass vault cage with a single dark wooden desk, vintage typewriter, and an antique leather-bound book inside, celebrating the thriller series YOU, dramatic lighting and glass reflections, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio.",
+        "asset_cutout_path": null
       },
       "teaserCard": {
         "enabled": true,
@@ -147,16 +148,15 @@
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
       "reel_path": "reels/Penn_Badgley_Reel.mp4",
-      "fb_post_id": "122113511241506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511241506930",
-      "fb_collage_photo_id": "122113511241506930",
-      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/863593416_122113511247506930_2953295504792820195_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=054031&_nc_ohc=-Tvwy_b2G4sQ7kNvwEe9yJN&_nc_oc=AdqqIBCsySC7bhJrgeHVgx63YCQZpXTI7P6o6ID5ZdADyuzzpsrzigngZa1twAYEpZk&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=gGeZlueG3Uez1DhFvy2dzA&_nc_tpa=Q5bMBQIGzYaKfH6pkJwMQb79lEg5_9Rv7Xnm8gDKq1D7NVR7HUTkDw28LogVomTjmqpqV36sIuZRIMb3Bg&oh=00_AQSQEUiu00BcTuPCPzfaYojGmlbB-zwgsEenzYiPbZjfng&oe=6AEC8861",
-      "fb_reel_id": "1797200538173079",
+      "fb_post_id": "1345901645276194_122113934427506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113934427506930",
+      "fb_comment_id": "122113934427506930_3412645802256256",
+      "fb_collage_photo_id": "122113934403506930",
+      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/886293194_122113934409506930_1928016108586108026_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=x1bHH9YhRf8Q7kNvwFqBQbG&_nc_oc=AdrnzTlEX0mhpWQCVx124D3Avsvfe5xXQndDbhGn_uzoFg5g49WXNiEt7o3KAiH0IfA&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=Vdil4oDSjXsUpbc7_2L__Q&_nc_tpa=Q5bMBQKuminf58yt6WX3PtyU-mbBF_nURdKTCfdBTXK6FWF9OkMWpIDyzRBeL-oOvJHpkETZPkL9xQEJJw&oh=00_AQTwtjX8z9I14tsZeN-ckKms8HKn3VEkVaX7AgwGZDmR6g&oe=6AEDA840",
+      "fb_reel_id": "1489489166424722",
       "fb_reel_scheduled_time": 1793554800,
-      "youtube_video_id": "I6-m_jtYUFw",
-      "youtube_url": "https://www.youtube.com/shorts/I6-m_jtYUFw",
-      "ig_post_id": "18386936221238820",
-      "ig_reel_id": "18116190119056912"
+      "youtube_video_id": "_e6_DqXCJHk",
+      "youtube_url": "https://www.youtube.com/shorts/_e6_DqXCJHk"
     },
     {
       "id": "2026-11-01_03_Anthony_Ramos",
@@ -176,7 +176,8 @@
       },
       "thematic_asset": {
         "asset_name": "Hamilton Continental Army Revolutionary Soldier",
-        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an energetic young colonial revolutionary soldier in a 1776 Continental Army blue and buff uniform with brass buttons, holding a tricorn hat, smiling proudly in a triumphant heroic pose, celebrating the musical Hamilton, dramatic theatrical lighting, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio."
+        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an energetic young colonial revolutionary soldier in a 1776 Continental Army blue and buff uniform with brass buttons, holding a tricorn hat, smiling proudly in a triumphant heroic pose, celebrating the musical Hamilton, dramatic theatrical lighting, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio.",
+        "asset_cutout_path": null
       },
       "teaserCard": {
         "enabled": true,
@@ -225,16 +226,15 @@
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
       "reel_path": "reels/Anthony_Ramos_Reel.mp4",
-      "fb_post_id": "122113511445506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511445506930",
-      "fb_collage_photo_id": "122113511445506930",
-      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/861788987_122113511451506930_4051826832073595894_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=054031&_nc_ohc=w-9_--J-vA0Q7kNvwERG1uk&_nc_oc=Adp4iC28ABdWXWhr0lI4XHzeCHjnnqSbvjMFTe1U2cF_McJZ1rqpXUyhZVQ05gKO3jI&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=z7Un5Ci_mwVAkHMyq26YWg&_nc_tpa=Q5bMBQKY1MWXXn0Xg0t_gPjueDPFJk4jYgbZmepZY54zwxwGQVvWcUUm4VBj7yqEI5wL0vrUC7n7wCkLtw&oh=00_AQRr3LP7MIzyRnHOZo6izPLzj1zzpTOTvk_T_17_EVM25A&oe=6AEC8609",
-      "fb_reel_id": "1450860750491372",
+      "fb_post_id": "1345901645276194_122113934871506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113934871506930",
+      "fb_comment_id": "122113934871506930_1000028979076092",
+      "fb_collage_photo_id": "122113934829506930",
+      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/882452240_122113934835506930_4985407505831971849_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=Z2hrBR-pxIYQ7kNvwEQ0Esr&_nc_oc=Adp1XA8lH5kzMm5BhxKktf3gsc0my9GN7KEt8ZKxECnZmot86fW2mKYkpjMETuJNVkk&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=MGmj_H9Fl4_LgvieTE7i_w&_nc_tpa=Q5bMBQIh4DmxVozOutQy5rCi9SFK0TVSttng3lsAkiv5moHUkAGybSGvhxTFTb8l71UFGfoU3salifHQaw&oh=00_AQTHRIWh4x6BrzidQsbJ5WEusMFZvugORaCPdbjjny6jAw&oe=6AEDAB5B",
+      "fb_reel_id": "2051098135561641",
       "fb_reel_scheduled_time": 1793572800,
-      "youtube_video_id": "sy25Fwx-O3k",
-      "youtube_url": "https://www.youtube.com/shorts/sy25Fwx-O3k",
-      "ig_post_id": "18449194777193920",
-      "ig_reel_id": "18032068763879871"
+      "youtube_video_id": "eHmF-MPkdmQ",
+      "youtube_url": "https://www.youtube.com/shorts/eHmF-MPkdmQ"
     }
   ],
   "quiz_posts": [
