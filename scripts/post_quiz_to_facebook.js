@@ -15,6 +15,11 @@ const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSpd25dCcaBZBrbR8Kxr3rPhEglK6z1YLSM9UN91Gt
 const DEFAULT_PAGE_ID = (process.env.FB_PAGE_ID_BORN || process.env.FB_PAGE_ID || '1345901645276194').trim();
 const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || VERIFIED_TOKEN).trim();
 
+function cleanCaptionBeats(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text.replace(/^Beat\s*\d+\s*:\s*/gmi, '').trim();
+}
+
 function formatFacebookUnicodeBold(text) {
   if (!text || typeof text !== 'string') return '';
   return text.replace(/\*\*(.+?)\*\*/g, (_, s) => {
