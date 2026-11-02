@@ -1,26 +1,26 @@
 {
-  "date": "2026-11-01",
-  "generated_at": "2026-11-01T06:34:10+05:30",
+  "date": "2026-11-02",
+  "generated_at": "2026-11-02T06:00:00Z",
   "posts": [
     {
-      "id": "2026-11-01_01_Toni_Collette",
-      "celebrity_name": "Toni Collette",
-      "birth_year": 1972,
-      "age": 54,
-      "gender": "female",
-      "country": "Australia",
+      "id": "2026-11-02_01_David_Schwimmer",
+      "celebrity_name": "David Schwimmer",
+      "birth_year": 1966,
+      "age": 60,
+      "gender": "male",
+      "country": "United States",
       "preset": "preset_viral_teaser",
       "viral_teaser": {
-        "line1": "FAKED SICKNESS",
-        "line2": "DOCTORS CUT APPENDIX",
+        "line1": "NEARLY QUIT HOLLYWOOD,",
+        "line2": "CONQUERED TELEVISION AS",
         "punchline_red": [
-          "HORROR",
-          "QUEEN"
+          "ROSS",
+          "GELLER"
         ]
       },
       "thematic_asset": {
-        "asset_name": "Hereditary Miniature Wooden Dollhouse Diorama",
-        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an eerie handcrafted miniature wooden dollhouse diorama depicting a shadowy living room with miniature furniture and a sinister golden crowned mannequin, celebrating the horror masterpiece Hereditary, dramatic lighting and fine wooden textures, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio.",
+        "character_name": "Ross Geller (Friends)",
+        "character_description": "Neurotic paleontologist in signature leather pants and blue button-down shirt, clutching a dinosaur fossil with an exasperated expression, isolated on a pure white background.",
         "asset_cutout_path": null
       },
       "teaserCard": {
@@ -34,73 +34,63 @@
         "borderWidth": 2,
         "cornerRadius": 14,
         "badgeIcon": "crown",
-        "line1": "Sydney truck driver daughter,",
-        "line2": "faked appendicitis as kid",
-        "line2Highlight": "terrified world in Hereditary",
-        "line3Highlight": "to win Emmy...",
+        "line1": "At just young age,",
+        "line2": "journey started with",
+        "line2Highlight": "legendary talent",
+        "line3Highlight": "David Schwimmer...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/lzXRh16qe4HHeBN6tMyw0DHvaMn.jpg",
-        "https://image.tmdb.org/t/p/original/y892JoUEhea7arMVXbInU1jMVSQ.jpg",
-        "https://image.tmdb.org/t/p/original/vhIJYDc0j6wBY3TF3cmkjxmwCLE.jpg",
-        "https://image.tmdb.org/t/p/original/bcWWoX703nt2wkPQitEhYa1UR5r.jpg",
-        "https://image.tmdb.org/t/p/original/wHjhp4zPHRejHYRTCpNF2C4hpXp.jpg"
+        "https://image.tmdb.org/t/p/original/XtKzJ9lM5Xwa7vCmE4xNHy6Owf.jpg",
+        "https://image.tmdb.org/t/p/original/vcQ59lsEzrniYMapfA7InnI4Vgk.jpg",
+        "https://image.tmdb.org/t/p/original/pgI2Y3xsB3vhUVMHhygmokhUwLA.jpg",
+        "https://image.tmdb.org/t/p/original/uSFSGhvcHEg44gt3pOvtkQml6oj.jpg",
+        "https://upload.wikimedia.org/wikipedia/commons/1/13/DavidSchwimmer10TIFF.jpg"
       ],
-      "caption": "**She faked appendicitis so convincingly at eleven that doctors removed it. Today, she rules psychological cinema.**\n\nBorn November 1, 1972, in Blacktown, Sydney, Australia, today Toni Collett turns **54**, revered as one of the most fearlessly transformative actresses in screen history.\n\nThe daughter of a truck driver, young Toni discovered her uncanny dramatic intensity early, convincing surgeons to remove her healthy appendix before dropping out of high school to pursue Sydney theater.\n\nAfter gaining forty pounds to deliver her breakthrough triumph in *Muriel's Wedding*, she trusted an unorthodox instinct: avoiding safe Hollywood glamour to plunge headfirst into agonizing emotional truth.\n\nShe earned an Academy Award nomination as the haunted mother in M. Night Shyamalan's *The Sixth Sense*, charmed the world in *Little Miss Sunshine*, and delivered a tour-de-force horror masterclass in Ari Aster's *Hereditary*.\n\nWinning both an Emmy and a Golden Globe for portraying multiple personalities in *United States of Tara*, she remains an uncompromising titan of cinema and television.\n\nAt 54, Toni Collette proves that absolute emotional honesty makes performance immortal.\n\n**What was Toni Collette's absolute masterpiece: Hereditary, The Sixth Sense, or Little Miss Sunshine? Drop your vote below! 👇**",
-      "comment": "**The secret behind Toni Collette's childhood appendix surgery...**\n\n* When Toni was eleven years old, she faked severe stomach pain so dramatically that hospital doctors operated and removed her appendix, only discovering afterward that it was completely healthy.\n* For *Muriel's Wedding*, Toni had just seven weeks to gain over forty pounds under a nutritionist's supervision to play the ABBA-loving Muriel Heslop.\n\nWhich fact surprised you most?",
-      "reel_script": "As an eleven-year-old in Sydney, Toni Collette faked appendicitis so convincingly that doctors actually removed her healthy appendix. She brought that terrifying emotional commitment to Hollywood, earning an Oscar nomination for The Sixth Sense and delivering an unforgettable performance in the horror masterpiece Hereditary. Happy fifty-fourth birthday to a true acting chameleon. What is your favorite Toni Collette movie of all time? Tell us below.",
-      "reel_caption": "At eleven years old, Toni Collette faked appendicitis so well doctors removed it. She went on to rule The Sixth Sense and Hereditary. What was her greatest role? #ToniCollette #Hereditary #TheSixthSense #LittleMissSunshine #HorrorQueen #BornToday",
+      "caption": "Beat 1: **He almost quit acting forever after a devastating series flop. Then a custom-written sitcom changed television.**\n\nBeat 2: Born November 2, 1966, David Schwimmer turns 60 today, hailing from Flushing, Queens, New York.\n\nBeat 3: Burned out by network micromanagement and crushed by canceled pilots, he retreated to Chicago theater, swearing off television comedy permanently.\n\nBeat 4: Creators Marta Kauffman and David Crane wrote Ross Geller specifically for his voice, pleading with him to reconsider. Trusting their script, he took the leap.\n\nBeat 5: Friends exploded into a global pop-culture phenomenon, turning Schwimmer's neurotic physical comedy and signature hangdog delivery into television immortality.\n\nBeat 6: Sudden mega-fame deeply alienated him, making public life terrifying and leading to painful struggles with privacy and intrusive paparazzi culture.\n\nBeat 7: He leveraged his clout to pioneer collective cast bargaining, directed acclaimed independent theater, and earned Emmy nominations for searing dramatic roles.\n\nBeat 8: **Was Ross Geller the most brilliantly acted comedic character on Friends, or did his neuroses make him the hardest to love?**",
+      "comment": "**The secret behind his Hollywood legacy:**\n• Refused the television role until show creators promised complete artistic freedom.\n• Championed historic equal cast pay so every co-star earned identical record salaries.\n• Stepped away from sitcom stardom to direct independent theater and lead acclaimed war epics.\n\nDid Ross and Rachel truly belong together, or was their relationship fundamentally toxic?",
+      "reel_script": "Before six strangers became the biggest television ensemble in history, one actor had completely given up on Hollywood. Crushed by terrible pilots, he fled back to Chicago stage theater and swore he would never sign another network contract. The creators literally begged him to take the role written exclusively for his voice. Six decades later, his comic timing remains unmatched. What made his physical comedy unforgettable?",
+      "reel_caption": "Did you know David Schwimmer quit TV entirely before Friends begged him to return? His breakout almost never happened. What is your all-time favorite Ross Geller moment? #DavidSchwimmer #Friends #RossGeller",
       "hashtags": [
-        "#ToniCollette",
-        "#Hereditary",
-        "#TheSixthSense",
-        "#LittleMissSunshine",
-        "#KnivesOut",
-        "#UnitedStatesOfTara",
-        "#OscarNominee",
+        "#DavidSchwimmer",
         "#BornToday",
-        "#November1"
+        "#Friends"
       ],
-      "image_path": "collages/Toni_Collette_Page_1_Tribute.jpg",
-      "scheduled_publish_time": 1793534400,
-      "scheduled_time_utc": "2026-11-01T12:00:00.000Z",
+      "image_path": "collages/David_Schwimmer_Page_1_Tribute.jpg",
+      "scheduled_publish_time": 1793620800,
+      "scheduled_time_utc": "2026-11-02T12:00:00.000Z",
       "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Toni_Collette_Reel.mp4",
-      "fb_post_id": "1345901645276194_122113934283506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113934283506930",
-      "fb_comment_id": "122113934283506930_2032533557707290",
-      "fb_collage_photo_id": "122113934259506930",
-      "collage_cdn_url": "https://scontent-lga3-2.xx.fbcdn.net/v/t39.30808-6/882069264_122113934265506930_958121923223495555_n.jpg?_nc_cat=107&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=N_Wcv9RWyN4Q7kNvwHObW_U&_nc_oc=AdrfW7zRbYPqRkExWHUntrc0StiG8K4MjVJFManueT1iXJrFYvSm6a9njsEPRgf-Yzk&_nc_zt=23&_nc_ht=scontent-lga3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=7hbu-cZTMXjbgsYPMxvq1w&_nc_tpa=Q5bMBQIm54H_sEZ6cp50G8WECYo7youUJQZNTqaiWkRgic1lve1ubJNFpC56DxAaf4EHRhEbis6qaDOy_g&oh=00_AQTNi-I-th-5UOxyWWp-vGMZClcXJbqZbZo9ykQ6G5jBFA&oe=6AEDC616",
-      "fb_reel_id": "1909920783706425",
-      "fb_reel_scheduled_time": 1793536800,
-      "youtube_video_id": "b1lnvZZgojM",
-      "youtube_url": "https://www.youtube.com/shorts/b1lnvZZgojM",
-      "ig_post_id": "18129421225882660",
-      "ig_reel_id": "18014652087003428"
+      "reel_path": "reels/David_Schwimmer_Reel.mp4",
+      "fb_post_id": "1345901645276194_122114161029506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122114161029506930",
+      "fb_comment_id": "122114161029506930_1769197445209589",
+      "fb_collage_photo_id": "122114161005506930",
+      "collage_cdn_url": "https://scontent.fbho3-2.fna.fbcdn.net/v/t39.30808-6/883718090_122114161011506930_7291104063956534103_n.jpg?_nc_cat=102&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=HyJ63x1GN54Q7kNvwHzVD_z&_nc_oc=Ado7KGFNK6uNOrrM_e6AIEadskmihQ5zfArpI7NM-BCch6p8jA_8-8yv6WLUxlz7X6g9O8MGbM5OXiuf4tPH3aEY&_nc_zt=23&_nc_ht=scontent.fbho3-2.fna&edm=AMAeTUEEAAAA&_nc_gid=mefBpzrKsYIo2Fc9g9n_JQ&_nc_tpa=Q5bMBQISeENSzswnEZt3yQDDDKSCMWXAjN3E-zn6hznQ3D9-AskxkTOIi_8fHdZw3H4y5A9ICMrYYlnxEA&oh=00_AQTJLffdHKU_4rExaClDM0m1v3r3MFbq82ldk-nepQRQiw&oe=6AEE5BC9",
+      "fb_reel_id": "1426774599578041",
+      "fb_reel_scheduled_time": 1793623200
     },
     {
-      "id": "2026-11-01_02_Penn_Badgley",
-      "celebrity_name": "Penn Badgley",
-      "birth_year": 1986,
-      "age": 40,
+      "id": "2026-11-02_02_Shah_Rukh_Khan",
+      "celebrity_name": "Shah Rukh Khan",
+      "birth_year": 1965,
+      "age": 61,
       "gender": "male",
-      "country": "United States",
+      "country": "India",
       "preset": "preset_viral_teaser",
       "viral_teaser": {
-        "line1": "PREMATURE SURVIVOR",
-        "line2": "VOICED NINTENDO MARIO",
+        "line1": "SLEPT ON STREETS,",
+        "line2": "BUILT EMPIRE AS",
         "punchline_red": [
-          "CULT",
-          "STALKER"
+          "KING",
+          "KHAN"
         ]
       },
       "thematic_asset": {
-        "asset_name": "YOU Soundproof Glass Bookstore Cage Vault",
-        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an illuminated transparent soundproof glass vault cage with a single dark wooden desk, vintage typewriter, and an antique leather-bound book inside, celebrating the thriller series YOU, dramatic lighting and glass reflections, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio.",
+        "character_name": "Raj Malhotra (Dilwale Dulhania Le Jayenge)",
+        "character_description": "Charismatic romantic hero in signature brown leather jacket and fedora, arms spread wide in iconic pose holding an acoustic guitar, isolated on a pure white background.",
         "asset_cutout_path": null
       },
       "teaserCard": {
@@ -113,72 +103,63 @@
         "borderColor": "#b68c43",
         "borderWidth": 2,
         "cornerRadius": 14,
-        "badgeIcon": "fire",
-        "line1": "Premature baby survival miracle,",
-        "line2": "skipped high school classes",
-        "line2Highlight": "haunted world as Joe",
-        "line3Highlight": "in thriller YOU...",
+        "badgeIcon": "crown",
+        "line1": "At just young age,",
+        "line2": "journey started with",
+        "line2Highlight": "legendary talent",
+        "line3Highlight": "Shah Rukh Khan...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/3ekfkoj3YmRlCtez4OOZoVPiO7a.jpg",
-        "https://image.tmdb.org/t/p/original/cWvqsJyD8wLZ9GXs2DqqepBIfdD.jpg",
-        "https://image.tmdb.org/t/p/original/yGofS1VZyNw4Fedi7P0qS8p6S3j.jpg",
-        "https://image.tmdb.org/t/p/original/7NtfavGGJdZPfKhw11tGQSOmyFA.jpg",
-        "https://image.tmdb.org/t/p/original/6j6ILOUCksXkUYZ0SIcUrCMXA8q.jpg"
+        "https://image.tmdb.org/t/p/original/tKeQhSyXyzlzxNtxFq24iIvzXrC.jpg",
+        "https://image.tmdb.org/t/p/original/d8jQehnCiGuLhZbs1DyB2uDu5BA.jpg",
+        "https://image.tmdb.org/t/p/original/tCEppfUu0g2Luu0rS5VKMoL4eSw.jpg",
+        "https://image.tmdb.org/t/p/original/gc3Ul6EtVYKgjBuYAaD8U2qIcSl.jpg",
+        "https://image.tmdb.org/t/p/original/eExmb0R3tkLSt7funLiWOrZVqAk.jpg"
       ],
-      "caption": "**Surviving a fragile premature birth, he skipped high school and became modern television's most chilling antihero.**\n\nBorn November 1, 1986, in Baltimore, Maryland, today Penn Dayton Badgley celebrates his **40th** milestone birthday, recognized as a defining leading man of psychological thriller television.\n\nBorn two months premature and resuscitated multiple times as an infant, Penn showed early intellectual maturity, testing out of high school at thirteen and taking college courses at Santa Monica College while voicing Nintendo video game characters.\n\nHe achieved worldwide teen stardom as lonely Brooklyn outsider Dan Humphrey across six seasons of *Gossip Girl*, shock-revealed in the series finale as Gossip Girl himself.\n\nRefusing to remain a heartthrob caricature, Penn embraced an unorthodox psychological challenge: transforming into toxic romantic stalker Joe Goldberg on Netflix's smash hit thriller *YOU*.\n\nAnchoring five gripping seasons, his velvety inner monologue dissecting obsession and modern intimacy turned Joe Goldberg into a worldwide cultural obsession.\n\nAt 40, Penn Badgley proves that dissecting dark human contradictions creates unforgettable screen art.\n\n**Was Joe Goldberg in YOU television's most magnetic psychological villain? Drop your favorite Joe quote below! 👇**",
-      "comment": "**The secret behind Penn Badgley's Nintendo voice acting...**\n\n* At age eleven, Penn worked as a professional voice actor for Nintendo, voicing child characters in iconic Nintendo 64 titles like *Mario Golf* and *Mario Tennis*.\n* He was born two months premature, and his mother had to learn infant CPR because his breathing stopped multiple times during his first year of life.\n\nWhich of these facts surprised you the most?",
-      "reel_script": "Born two months premature and resuscitated as an infant, Penn Badgley tested out of high school at thirteen to chase his acting dreams. He became a teen sensation on Gossip Girl before completely reinventing himself as the terrifyingly charismatic stalker Joe Goldberg on Netflix's global phenomenon YOU. Happy fortieth milestone birthday to a captivating dramatic talent. What was your favorite season of YOU? Let us know below.",
-      "reel_caption": "From Dan Humphrey on Gossip Girl to chilling the entire world as Joe Goldberg on Netflix's YOU, Penn Badgley turns 40 today! What was your favorite Joe Goldberg season? #PennBadgley #YouNetflix #JoeGoldberg #GossipGirl #DanHumphrey #BornToday",
+      "caption": "Beat 1: **He arrived in Mumbai penniless and slept on marine benches. Today, over three billion people chant his name.**\n\nBeat 2: Born November 2, 1965, Shah Rukh Khan turns 61 today, originating from New Delhi, India.\n\nBeat 3: Orphaned in his early twenties and utterly broke, he arrived in Mumbai with fifty rupees in his pocket and spent nights sleeping on cold sidewalks.\n\nBeat 4: While peers chased conventional heroic roles, he boldly debuted playing terrifying anti-heroes and obsessive villains in Darr and Baazigar.\n\nBeat 5: Dilwale Dulhania Le Jayenge redefined global romantic cinema, sparking a thirty-year reign as the undisputed Badshah of Bollywood.\n\nBeat 6: He endured grueling spinal surgeries, intense political boycotts, and a devastating four-year box-office drought that critics thought ended his career.\n\nBeat 7: Returning with historic back-to-back billion-rupee triumphs in Pathaan and Jawan, he proved unyielding self-belief conquers every adversity.\n\nBeat 8: **Is Shah Rukh Khan the most charismatic global movie superstar in modern cinematic history?**",
+      "comment": "**The secret behind his global supremacy:**\n• Chose radical villainous roles in psychological thrillers when traditional leading men flatly refused them.\n• Maintained relentless twenty-hour production workdays spanning four consecutive decades.\n• Built an international multimedia empire encompassing cutting-edge visual effects and premier sports franchises.\n\nWhich masterpiece defined his cinematic legacy best: Dilwale Dulhania Le Jayenge, Swades, or Chak De! India?",
+      "reel_script": "Long before crowds numbering in the thousands gathered outside his mansion gates, a grieving young orphan arrived in Mumbai completely broke. With barely fifty rupees in his pocket, he slept on public stone benches and promised the ocean he would own the skyline. Risking his entire future on dark villainous roles, he transformed world cinema forever. What made his open-arms romance legendary?",
+      "reel_caption": "Did you know Shah Rukh Khan slept on railway stations and marine benches before conquering world cinema? From zero rupees to King Khan. What is his most iconic film? #ShahRukhKhan #Bollywood #KingKhan",
       "hashtags": [
-        "#PennBadgley",
-        "#YouNetflix",
-        "#JoeGoldberg",
-        "#GossipGirl",
-        "#DanHumphrey",
-        "#EasyA",
-        "#MilestoneBirthday",
+        "#ShahRukhKhan",
         "#BornToday",
-        "#November1"
+        "#KingKhan"
       ],
-      "image_path": "collages/Penn_Badgley_Page_2_Tribute.jpg",
-      "scheduled_publish_time": 1793552400,
-      "scheduled_time_utc": "2026-11-01T17:00:00.000Z",
+      "image_path": "collages/Shah_Rukh_Khan_Page_2_Tribute.jpg",
+      "scheduled_publish_time": 1793638800,
+      "scheduled_time_utc": "2026-11-02T17:00:00.000Z",
       "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Penn_Badgley_Reel.mp4",
-      "fb_post_id": "1345901645276194_122113934427506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113934427506930",
-      "fb_comment_id": "122113934427506930_3412645802256256",
-      "fb_collage_photo_id": "122113934403506930",
-      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/886293194_122113934409506930_1928016108586108026_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=x1bHH9YhRf8Q7kNvwFqBQbG&_nc_oc=AdrnzTlEX0mhpWQCVx124D3Avsvfe5xXQndDbhGn_uzoFg5g49WXNiEt7o3KAiH0IfA&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=Vdil4oDSjXsUpbc7_2L__Q&_nc_tpa=Q5bMBQKuminf58yt6WX3PtyU-mbBF_nURdKTCfdBTXK6FWF9OkMWpIDyzRBeL-oOvJHpkETZPkL9xQEJJw&oh=00_AQTwtjX8z9I14tsZeN-ckKms8HKn3VEkVaX7AgwGZDmR6g&oe=6AEDA840",
-      "fb_reel_id": "1489489166424722",
-      "fb_reel_scheduled_time": 1793554800,
-      "youtube_video_id": "_e6_DqXCJHk",
-      "youtube_url": "https://www.youtube.com/shorts/_e6_DqXCJHk"
+      "reel_path": "reels/Shah_Rukh_Khan_Reel.mp4",
+      "fb_post_id": "122114161239506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122114161239506930",
+      "fb_collage_photo_id": "122114161239506930",
+      "collage_cdn_url": "https://scontent.fbho3-3.fna.fbcdn.net/v/t39.30808-6/877585029_122114161245506930_9151866190653676844_n.jpg?_nc_cat=107&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=im0uzACDy5IQ7kNvwFjDOTx&_nc_oc=AdqTnOZW_4gd_eA2JWbfbveYaT5ruQscfwl9vDyOyKqCahokULOxV4YG3w2j5we_sw5IVh4Ex-3QqFdauYdKXfZR&_nc_zt=23&_nc_ht=scontent.fbho3-3.fna&edm=AMAeTUEEAAAA&_nc_gid=itaxMNVj-hb5J5QCRJoldw&_nc_tpa=Q5bMBQJoud0KElhn3jYAQSuKPdiqcpa4Qb3lAi_HHxd-yM9XfwD7Q66hX3u_PpW_jcexZUxPIvGI6iNzeA&oh=00_AQS_BdNRljpoaM5OTASNbCrBENbBXE5Bsim1QgrUzH6qEw&oe=6AEE6B3D",
+      "fb_reel_id": "3636558173170667",
+      "fb_reel_scheduled_time": 1793641200
     },
     {
-      "id": "2026-11-01_03_Anthony_Ramos",
-      "celebrity_name": "Anthony Ramos",
-      "birth_year": 1991,
-      "age": 35,
-      "gender": "male",
+      "id": "2026-11-02_03_Marisol_Nichols",
+      "celebrity_name": "Marisol Nichols",
+      "birth_year": 1973,
+      "age": 53,
+      "gender": "female",
       "country": "United States",
       "preset": "preset_viral_teaser",
       "viral_teaser": {
-        "line1": "BUSHWICK PROJECTS",
-        "line2": "TEACHER PAID FEE",
+        "line1": "ACTED ON SCREEN,",
+        "line2": "BUSTED TRAFFICKERS AS",
         "punchline_red": [
-          "HAMILTON",
-          "TITAN"
+          "UNDERCOVER",
+          "AGENT"
         ]
       },
       "thematic_asset": {
-        "asset_name": "Hamilton Continental Army Revolutionary Soldier",
-        "asset_prompt": "A crisp, 3D hyper-realistic studio render of an energetic young colonial revolutionary soldier in a 1776 Continental Army blue and buff uniform with brass buttons, holding a tricorn hat, smiling proudly in a triumphant heroic pose, celebrating the musical Hamilton, dramatic theatrical lighting, perfectly centered, isolated on a pure solid seamless white background (#FFFFFF) with no shadows extending to edges, 1:1 square aspect ratio.",
+        "character_name": "Hermione Lodge (Riverdale)",
+        "character_description": "Sophisticated high-society matriarch dressed in elegant tailored black blazer holding an FBI badge and concealed wire surveillance recorder, isolated on a pure white background.",
         "asset_cutout_path": null
       },
       "teaserCard": {
@@ -191,202 +172,179 @@
         "borderColor": "#b68c43",
         "borderWidth": 2,
         "cornerRadius": 14,
-        "badgeIcon": "star",
-        "line1": "Bushwick projects kid,",
-        "line2": "teacher paid application fee",
-        "line2Highlight": "originated Hamilton on Broadway",
-        "line3Highlight": "to conquer Hollywood...",
+        "badgeIcon": "crown",
+        "line1": "At just young age,",
+        "line2": "journey started with",
+        "line2Highlight": "legendary talent",
+        "line3Highlight": "Marisol Nichols...",
         "ctaText": "Read the full story in caption →"
       },
       "photo_urls": [
-        "https://image.tmdb.org/t/p/original/gCeRfH3aetIpZwKxe8Wl4ZYcQg5.jpg",
-        "https://image.tmdb.org/t/p/original/seFm2fKh6reyZaaCg7DmRpodLCw.jpg",
-        "https://image.tmdb.org/t/p/original/2Stnm8PQI7xHkVwINb4MhS7LOuR.jpg",
-        "https://image.tmdb.org/t/p/original/eGh3WwRz6lFDL0We1jMMYZSs1oW.jpg",
-        "https://image.tmdb.org/t/p/original/ityTHqIXFT3laID4j4ptlnc84zq.jpg"
+        "https://image.tmdb.org/t/p/original/xgCZ4aebwqSACsL8SHbdEDNfdyC.jpg",
+        "https://image.tmdb.org/t/p/original/o0vS8wSlh0nGvJGjAUZBoTndGvL.jpg",
+        "https://image.tmdb.org/t/p/original/9vSFX3NqyjhKLT6EBVwuzrt9eDS.jpg",
+        "https://image.tmdb.org/t/p/original/gKn5zxN3JpUopGtPD4OnAQDBX0C.jpg",
+        "https://image.tmdb.org/t/p/original/tJhJCts6nvGFQ1uAEJjmg07Onlh.jpg"
       ],
-      "caption": "**Unable to afford a college fee, his teacher stepped in. Today, he headlines Broadway and Hollywood blockbusters.**\n\nBorn November 1, 1991, in Bushwick, Brooklyn, New York, today Anthony Paul Ramos Martinez turns **35**, celebrated as an electric musical and action leading man.\n\nRaised by a resilient single mother in Brooklyn public housing, young Anthony almost abandoned his college dreams because his family couldn't afford a fifty-dollar audition application fee, until a high school teacher generously paid it out of her own pocket.\n\nGraduating from the American Musical and Dramatic Academy, Anthony auditioned for an experimental hip-hop musical by Lin-Manuel Miranda, trusting an unorthodox instinct: infusing his dual roles with raw street authenticity, swagger, and heartbreaking tenderness.\n\nHe originated John Laurens and Philip Hamilton in the Broadway phenomenon *Hamilton*, earned a Golden Globe nomination starring as Usnavi in *In the Heights*, and headlined action blockbusters *Transformers: Rise of the Beasts* and *Twisters*.\n\nSurviving the punishing vocal grind of eight shows a week and navigating the whirlwind of sudden international fame, he poured his vulnerability into original soul albums.\n\nAt 35, Anthony Ramos proves that when community lifts you up, your voice can shake the world.\n\n**What is Anthony Ramos's best performance: Hamilton, In the Heights, Transformers, or Twisters? Vote below! 👇**",
-      "comment": "**The secret behind Anthony Ramos's life-changing teacher...**\n\n* When Anthony was preparing for college, his family had zero money for application fees; his high school teacher Sara Steinweiss personally gave him the $50 fee, allowing him to audition and earn a full scholarship to AMDA.\n* In *Hamilton*, Anthony originated both revolutionary soldier John Laurens in Act One and Alexander Hamilton's tragic son Philip in Act Two.\n\nWhich fact surprised you most?",
-      "reel_script": "Growing up in Brooklyn public housing, Anthony Ramos almost missed college because he couldn't afford the fifty-dollar application fee, until a teacher stepped in and paid it. He went on to make Broadway history originating two iconic roles in Hamilton, before starring in In the Heights and headlining Transformers. Happy thirty-fifth birthday to a phenomenal talent. What is your favorite Anthony Ramos role? Tell us below.",
-      "reel_caption": "His high school teacher paid his fifty-dollar college application fee. Anthony Ramos went on to originate Hamilton on Broadway and star in Transformers. Never forget where you came from! #AnthonyRamos #Hamilton #InTheHeights #Transformers #Twisters #BornToday",
+      "caption": "Beat 1: **She starred on hit prime-time dramas by day. By night, she risked her life hunting human traffickers.**\n\nBeat 2: Born November 2, 1973, Marisol Nichols turns 53 today, hailing from Rogers Park, Chicago, Illinois.\n\nBeat 3: Overcoming a turbulent rebellious youth marked by substance abuse, she fought through brutal industry stereotyping to carve out an acting career.\n\nBeat 4: Instead of enjoying Hollywood luxury, she volunteered with law enforcement, training intensively to pose as deep undercover bait in sting operations.\n\nBeat 5: She scored breakout fame on 24 and Riverdale, maintaining top-tier Hollywood celebrity while secretly executing dangerous international stings.\n\nBeat 6: She faced constant danger of exposure, carrying severe psychological trauma from witnessing horrifying criminal networks firsthand.\n\nBeat 7: Founding Foundation for a Slavery Free World, she helped rescue dozens of exploited children and revolutionized public advocacy.\n\nBeat 8: **Is Marisol Nichols the bravest real-life hero in modern Hollywood history?**",
+      "comment": "**The secret behind her double life:**\n• Underwent rigorous covert tactical training alongside elite federal law enforcement task forces.\n• Posed undercover as bait in dozens of high-stakes sting operations across multiple continents.\n• Established dedicated non-profit rescue organizations to directly combat predatory child exploitation.\n\nShould more high-profile celebrities use their private resources to take on real-world crime?",
+      "reel_script": "While millions watched her portray powerful women on prime-time television, cameras never captured her most dangerous role. Between filming intense television seasons, this actress embedded herself with federal agents, posing as undercover bait to infiltrate predatory trafficking rings across the globe. She directly helped rescue dozens of children while keeping her mission completely secret. How did she risk everything without getting caught?",
+      "reel_caption": "Did you know Riverdale star Marisol Nichols secretly worked as a real-life undercover operative busting child trafficking rings? Her dual life stunned Hollywood. What is true courage? #MarisolNichols #Riverdale #TrueHero",
       "hashtags": [
-        "#AnthonyRamos",
-        "#Hamilton",
-        "#InTheHeights",
-        "#TransformersRiseOfTheBeasts",
-        "#Twisters",
-        "#BroadwayStar",
-        "#BushwickPride",
+        "#MarisolNichols",
         "#BornToday",
-        "#November1"
+        "#Riverdale"
       ],
-      "image_path": "collages/Anthony_Ramos_Page_3_Tribute.jpg",
-      "scheduled_publish_time": 1793570400,
-      "scheduled_time_utc": "2026-11-01T22:00:00.000Z",
+      "image_path": "collages/Marisol_Nichols_Page_3_Tribute.jpg",
+      "scheduled_publish_time": 1793656800,
+      "scheduled_time_utc": "2026-11-02T22:00:00.000Z",
       "peak_window": "US Prime Time (6:00 PM EDT / 3:30 AM IST +1)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Anthony_Ramos_Reel.mp4",
-      "fb_post_id": "1345901645276194_122113934871506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113934871506930",
-      "fb_comment_id": "122113934871506930_1000028979076092",
-      "fb_collage_photo_id": "122113934829506930",
-      "collage_cdn_url": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-6/882452240_122113934835506930_4985407505831971849_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=e5c1b6&_nc_ohc=Z2hrBR-pxIYQ7kNvwEQ0Esr&_nc_oc=Adp1XA8lH5kzMm5BhxKktf3gsc0my9GN7KEt8ZKxECnZmot86fW2mKYkpjMETuJNVkk&_nc_zt=23&_nc_ht=scontent-lga3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=MGmj_H9Fl4_LgvieTE7i_w&_nc_tpa=Q5bMBQIh4DmxVozOutQy5rCi9SFK0TVSttng3lsAkiv5moHUkAGybSGvhxTFTb8l71UFGfoU3salifHQaw&oh=00_AQTHRIWh4x6BrzidQsbJ5WEusMFZvugORaCPdbjjny6jAw&oe=6AEDAB5B",
-      "fb_reel_id": "2051098135561641",
-      "fb_reel_scheduled_time": 1793572800,
-      "youtube_video_id": "eHmF-MPkdmQ",
-      "youtube_url": "https://www.youtube.com/shorts/eHmF-MPkdmQ"
+      "reel_path": "reels/Marisol_Nichols_Reel.mp4",
+      "fb_post_id": "122114161527506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122114161527506930",
+      "fb_collage_photo_id": "122114161527506930",
+      "collage_cdn_url": "https://scontent.fbho3-5.fna.fbcdn.net/v/t39.30808-6/881831448_122114161539506930_782418424462662624_n.jpg?_nc_cat=108&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=LCepixaGKm4Q7kNvwGhdiMP&_nc_oc=AdqWMDPlGEbD9E9MbZw4ticApVQELS2Onks2e0NARtC2baWrJuS9MTVLNf-L4SFc7G1bHT1kmZCzjAbzpRp2Y5Uk&_nc_zt=23&_nc_ht=scontent.fbho3-5.fna&edm=AMAeTUEEAAAA&_nc_gid=eLNKcaIQ4W3Cd3-cxmOdjQ&_nc_tpa=Q5bMBQJ85Pv1REOqCBCGL4--DvCKEIa1oUTT84euXe7-sbR2zDK6kzF5vXSymUbSZrFx6CDiFyQuKuxXCg&oh=00_AQQ7yHtfBRR4Rpf6TpXoOaEIr91awqG16TcvN1eAQwu3Ow&oe=6AEE7C82",
+      "fb_reel_id": "1075363472202938",
+      "fb_reel_scheduled_time": 1793659200
     }
   ],
   "quiz_posts": [
     {
-      "id": "2026-11-01_quiz_01_Logan_Marshall_Green",
+      "id": "2026-11-02_quiz_01_Stefanie_Powers",
       "type": "photo_quiz_type1",
-      "celebrity_name": "Logan Marshall-Green",
-      "birth_year": 1976,
-      "age": 50,
-      "gender": "male",
+      "celebrity_name": "Stefanie Powers",
+      "birth_year": 1942,
+      "age": 84,
+      "gender": "female",
       "correct_option": "D",
       "options": [
         {
           "letter": "A",
-          "name": "Clint Eastwood"
+          "name": "Laura Dern"
         },
         {
           "letter": "B",
-          "name": "Hugh Jackman"
+          "name": "Sandra Bullock"
         },
         {
           "letter": "C",
-          "name": "Willem Dafoe"
+          "name": "Uma Thurman"
         },
         {
           "letter": "D",
-          "name": "Logan Marshall-Green"
+          "name": "Stefanie Powers"
         }
       ],
-      "image_path": "collages/quiz_01_Logan_Marshall_Green.jpg",
-      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 50 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**An identical twin from NYU, he survived alien terrors and delivered modern sci-fi's greatest body-horror thriller.**\n\nBorn November 1, 1976, in Charleston, South Carolina, and raised in Rhode Island, today Logan Marshall-Green celebrates his **50th** milestone birthday, honored as an intense cult cinema powerhouse.\n\nRaised alongside his identical twin brother Taylor by an artistic theater professor mother, Logan earned his Master of Fine Arts from NYU's Tisch School of the Arts, honing a gritty, unpredictable intensity on New York stages.\n\nAfter memorable turns as bad-boy brother Trey Atwood on *The O.C.* and in *24*, Ridley Scott handpicked him as archaeologist Charlie Holloway in 2012's sci-fi epic *Prometheus*.\n\nHe achieved cult legend status in Karyn Kusama's tension masterpiece *The Invitation*, and delivered a mind-bending physical performance in Leigh Whannell's cybernetic thriller *Upgrade*, moving his body with robotic precision as artificial intelligence took over his limbs.\n\nStepping behind the camera, he wrote and directed the acclaimed indie drama *Adopt a Highway* starring Ethan Hawke.\n\nAt 50, Logan Marshall-Green remains a master of tension, edge, and fearless physical storytelling.\n\n**Which Logan Marshall-Green thriller is the ultimate cult classic: Upgrade or The Invitation? Share your pick below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Logan Marshall-Green's identical twin...**\n\n* Logan has an identical twin brother named Taylor, who also works in the entertainment industry as a television writer and producer.\n* For the action thriller *Upgrade*, Logan performed his own complex martial arts choreography while keeping his upper body completely loose to realistically convey a computer AI controlling his motor functions.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Logan Marshall-Green!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#LoganMarshall-Green #BornToday #2026-11-01 #HollywoodQuiz #CelebrityTrivia",
-      "hashtags": "#LoganMarshall-Green #BornToday #2026-11-01 #HollywoodQuiz #CelebrityTrivia",
-      "scheduled_publish_time": 1793541600,
-      "scheduled_time_utc": "2026-11-01T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
-      "fb_post_id": "122113511595506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511595506930",
-      "ig_post_id": "18132629035840983"
+      "image_path": "collages/quiz_01_Stefanie_Powers.jpg",
+      "caption": "🎂 CELEBRITY BIRTHDAY QUIZ! Can you guess which Hollywood icon turns 84 today? 🤔👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\nBeat 1: **She dominated television as Hollywood royalty, then channeled grief into saving endangered animals.**\n\nBeat 2: Born November 2, 1942, Stefanie Powers turns 84 today, born in Hollywood, California.\n\nBeat 3: Starting under studio contracts as a teenager, she faced intense studio sexism and was repeatedly pigeonholed into superficial ingenue parts.\n\nBeat 4: She broke barriers doing her own dangerous stunts in The Girl from U.N.C.L.E. and mastered seven foreign languages to control her career.\n\nBeat 5: Starring alongside Robert Wagner in Hart to Hart, she earned five Emmy nominations and defined elegant 1980s television glamour.\n\nBeat 6: The tragic sudden death of partner William Holden shattered her world, plunging her into deep grief and existential despair.\n\nBeat 7: She honored his memory by establishing the William Holden Wildlife Foundation in Kenya, spending decades saving threatened habitats.\n\nBeat 8: **Was Hart to Hart the gold standard of 1980s television romance and investigative adventure?**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind her enduring legacy:**\n• Pioneered television action by executing her own complex physical stunts.\n• Fluent in seven languages, allowing international theatrical crossover.\n• Preserved thousands of acres of Kenyan wilderness through decades of dedicated philanthropic conservation.\n\nDid Hart to Hart feature the most electric on-screen marriage chemistry in television history?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [D]: Stefanie Powers!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#StefaniePowers #BornToday #2026-11-02 #HollywoodQuiz #CelebrityTrivia",
+      "hashtags": "#StefaniePowers #BornToday #2026-11-02 #HollywoodQuiz #CelebrityTrivia",
+      "scheduled_publish_time": 1793628000,
+      "scheduled_time_utc": "2026-11-02T14:00:00.000Z",
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)"
     },
     {
-      "id": "2026-11-01_quiz_02_Aishwarya_Rai_Bachchan",
+      "id": "2026-11-02_quiz_02_Peter_Mullan",
       "type": "photo_quiz_type2",
-      "celebrity_name": "Aishwarya Rai Bachchan",
-      "birth_year": 1973,
-      "age": 53,
-      "gender": "female",
-      "subtitle": "Born on this day! Can you identify the real birthday star?",
-      "correct_option": "A",
-      "options": [
-        {
-          "letter": "A",
-          "name": "Aishwarya Rai Bachchan"
-        },
-        {
-          "letter": "B",
-          "name": "Charlize Theron"
-        },
-        {
-          "letter": "C",
-          "name": "Courteney Cox"
-        },
-        {
-          "letter": "D",
-          "name": "Joyce DeWitt"
-        }
-      ],
-      "image_path": "collages/quiz_02_Aishwarya_Rai_Bachchan.jpg",
-      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 53? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Studying architecture in Mumbai, she became Miss World and conquered global cinema with unmatched elegance.**\n\nBorn November 1, 1973, in Mangalore, Karnataka, today Aishwarya Rai Bachchan turns **53**, celebrated worldwide as an enduring icon of Indian and global cinema.\n\nOriginally intending to pursue a career in architecture, young Aishwarya's life transformed when she won the Miss World crown in 1994, handling international fame with rare dignity and composure.\n\nRejecting purely decorative roles, she collaborated with visionary auteurs, delivering operatic, heart-wrenching performances in Mani Ratnam's *Iruvar*, Sanjay Leela Bhansali's *Hum Dil De Chuke Sanam*, and the opulent classic *Devdas*.\n\nShe broke Hollywood barriers starring in *Bride and Prejudice* and *The Pink Panther 2*, becoming the first Indian actress on the Cannes Film Festival jury.\n\nHonored with India's Padma Shri and France's Ordre des Arts et des Lettres, her regal screen presence recently shone in the historical epic *Ponniyin Selvan*.\n\nAt 53, Aishwarya Rai Bachchan stands as the eternal queen of grace, beauty, and cinematic power.\n\n**What was Aishwarya Rai Bachchan's most iconic performance: Devdas, Hum Dil De Chuke Sanam, or Ponniyin Selvan? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Aishwarya Rai's architecture pivot...**\n\n* Aishwarya was a top student studying architecture at the Rachana Sansad Academy in Mumbai before friends persuaded her to enter modeling, leading to her historic Miss World 1994 victory in Sun City, South Africa.\n* In 2003, she made history as the very first Indian actress to serve on the prestigious main competition jury at the Cannes Film Festival.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Aishwarya Rai Bachchan!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#AishwaryaRaiBachchan #BornToday #2026-11-01 #FaceMatch #HollywoodQuiz",
-      "hashtags": "#AishwaryaRaiBachchan #BornToday #2026-11-01 #FaceMatch #HollywoodQuiz",
-      "scheduled_publish_time": 1793561400,
-      "scheduled_time_utc": "2026-11-01T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_post_id": "122113511811506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122113511811506930",
-      "ig_post_id": "18081391400544183"
-    },
-    {
-      "id": "2026-11-01_quiz_03_David_Foster",
-      "type": "reel_quiz_type1",
-      "celebrity_name": "David Foster",
-      "birth_year": 1949,
-      "age": 77,
+      "celebrity_name": "Peter Mullan",
+      "birth_year": 1959,
+      "age": 67,
       "gender": "male",
+      "subtitle": "Born on this day! Can you identify the real birthday star?",
       "correct_option": "C",
       "options": [
         {
           "letter": "A",
-          "name": "Pierce Brosnan"
+          "name": "Al Pacino"
         },
         {
           "letter": "B",
-          "name": "Christian Slater"
+          "name": "Christian Bale"
         },
         {
           "letter": "C",
-          "name": "David Foster"
+          "name": "Peter Mullan"
         },
         {
           "letter": "D",
-          "name": "Dustin Hoffman"
+          "name": "Hugh Jackman"
         }
       ],
-      "reel_path": "reels/quiz_03_David_Foster.mp4",
-      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 77th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Playing piano behind Chuck Berry at sixteen, he produced the biggest movie ballads in cinematic history.**\n\nBorn November 1, 1949, in Victoria, British Columbia, today David Walter Foster turns **77**, revered as the musical architect behind modern pop's greatest anthems.\n\nA child piano prodigy with perfect pitch, David moved to London at sixteen to back rock legends Chuck Berry and Bo Diddley on keyboard, arriving in Los Angeles with band Skylark before grinding as a studio session player.\n\nHe trusted an unorthodox instinct: creating grand, soaring orchestral pop power ballads driven by emotional piano chords and stratospheric vocal arrangements.\n\nHe composed the beloved score for *St. Elmo's Fire*, produced Whitney Houston's historic record-breaking soundtrack for *The Bodyguard* ('I Will Always Love You'), and discovered or shaped the careers of Celine Dion, Michael Bublé, and Josh Groban.\n\nWinning sixteen Grammy Awards across forty-seven nominations, his foundation has helped thousands of families with children needing medical organ transplants.\n\nAt 77, David Foster remains the maestro whose melodies defined the soundtrack of our lives.\n\n**Which David Foster produced anthem is your favorite: I Will Always Love You, The Prayer, or Hard to Say I'm Sorry? Vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind David Foster's Bodyguard production...**\n\n* When producing Whitney Houston's iconic cover of 'I Will Always Love You' for *The Bodyguard*, David fought to keep Whitney's unaccompanied acapella opening, which became the most famous intro in pop history.\n* At age sixteen, David was the touring keyboard player for Chuck Berry during his legendary UK concerts, learning how to command a crowd from rock royalty.\n\nWhich fact surprised you most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: David Foster!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#DavidFoster #BornToday #2026-11-01 #CelebrityQuiz #ReelQuiz #Shorts",
-      "hashtags": "#DavidFoster #BornToday #2026-11-01 #CelebrityQuiz #ReelQuiz #Shorts",
-      "scheduled_publish_time": 1793547000,
-      "scheduled_time_utc": "2026-11-01T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "1777915667553364",
-      "youtube_video_id": "-MOI9RahA5c",
-      "youtube_url": "https://www.youtube.com/shorts/-MOI9RahA5c",
-      "ig_reel_id": "17941933020387617"
+      "image_path": "collages/quiz_02_Peter_Mullan.jpg",
+      "caption": "🔍 4 FACES, 1 BIRTHDAY STAR! Can you identify today's birthday star turning 67? 🎬👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\nBeat 1: **Raised amid violent street gangs, he rose to become cinema's fiercest cinematic powerhouse.**\n\nBeat 2: Born November 2, 1959, Peter Mullan turns 67 today, raised in Peterhead and Glasgow, Scotland.\n\nBeat 3: He grew up under an abusive father and joined violent street gangs as a homeless teenager, nearly succumbing to street violence.\n\nBeat 4: He channeled raw working-class anger into leftist grassroots theater, writing and directing uncompromising stories about marginalized lives.\n\nBeat 5: He won Best Actor at the Cannes Film Festival for My Name Is Joe, establishing himself as an international acting force.\n\nBeat 6: He battled severe industry resistance and censorship while directing The Magdalene Sisters, braving Vatican condemnations.\n\nBeat 7: From Braveheart and Harry Potter to Ozark and The Rings of Power, his rugged authenticity commands reverence across generations.\n\nBeat 8: **Is Peter Mullan the most authentic and intimidating dramatic actor of his generation?**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind his cinematic power:**\n• Escaped Glasgow street violence through radical grassroots community theater.\n• Won the prestigious Cannes Best Actor award for My Name Is Joe.\n• Directed The Magdalene Sisters, winning the Venice Film Festival Golden Lion despite international controversy.\n\nWhich role showcased his brilliance best: Ozark, Trainspotting, or The Rings of Power?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [C]: Peter Mullan!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#PeterMullan #BornToday #2026-11-02 #FaceMatch #HollywoodQuiz",
+      "hashtags": "#PeterMullan #BornToday #2026-11-02 #FaceMatch #HollywoodQuiz",
+      "scheduled_publish_time": 1793647800,
+      "scheduled_time_utc": "2026-11-02T19:30:00.000Z",
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)"
     },
     {
-      "id": "2026-11-01_quiz_04_Natalia_Tena",
-      "type": "reel_quiz_type2",
-      "celebrity_name": "Natalia Tena",
-      "birth_year": 1984,
-      "age": 42,
-      "gender": "female",
-      "subtitle": "Look closely at options A, B, C, and D!",
+      "id": "2026-11-02_quiz_03_Sean_Kanan",
+      "type": "reel_quiz_type1",
+      "celebrity_name": "Sean Kanan",
+      "birth_year": 1966,
+      "age": 60,
+      "gender": "male",
       "correct_option": "B",
       "options": [
         {
           "letter": "A",
-          "name": "Diane Keaton"
+          "name": "Alec Baldwin"
         },
         {
           "letter": "B",
-          "name": "Natalia Tena"
+          "name": "Sean Kanan"
         },
         {
           "letter": "C",
-          "name": "Anne Hathaway"
+          "name": "Sam Elliott"
         },
         {
           "letter": "D",
-          "name": "Jane Fonda"
+          "name": "Robert Downey Jr."
         }
       ],
-      "reel_path": "reels/quiz_04_Natalia_Tena.mp4",
-      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n**Busking on London subways with an accordion, she brought fierce punk magic to Harry Potter and Game of Thrones.**\n\nBorn November 1, 1984, in London, England, to Spanish parents, today Natalia Gastiain Tena turns **42**, loved across fandoms as an unconventional, spirited fantasy heroine.\n\nA rebellious teen busking in the London Underground with her accordion and singing for her band Molotov Jukebox, Natalia was planning to become a philosopher before landing her film debut opposite Hugh Grant in *About a Boy*.\n\nShe trusted an unorthodox instinct: infusing her fantasy heroines with quirky, messy punk energy rather than standard fairytale poise.\n\nShe achieved worldwide fantasy immortality as the bubblegum-pink-haired Metamorphmagus Auror Nymphadora Tonks across four *Harry Potter* blockbusters, and conquered HBO's *Game of Thrones* as fierce wildling protector Osha.\n\nRefusing to be typecast by Hollywood blockbusters, she toured the world playing accordion in crowded music venues, choosing creative freedom over predictable stardom.\n\nAt 42, Natalia Tena remains an authentic, rock-and-roll force of nature on stage and screen.\n\n**Which Natalia Tena character holds your heart: Tonks in Harry Potter or Osha in Game of Thrones? Drop your vote below! 👇**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind Natalia Tena's Harry Potter audition...**\n\n* During her audition for Nymphadora Tonks in *Harry Potter and the Order of the Phoenix*, Natalia accidentally tripped over a prop table on her way into the room; director David Yates loved her clumsy charm so much that it helped secure her the role.\n* Outside acting, Natalia is the lead singer and accordionist for the acclaimed six-piece gypsy-punk band Molotov Jukebox.\n\nWhich of these facts surprised you the most?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Natalia Tena!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#NataliaTena #BornToday #2026-11-01 #HollywoodTrivia #ReelChallenge #Shorts",
-      "hashtags": "#NataliaTena #BornToday #2026-11-01 #HollywoodTrivia #ReelChallenge #Shorts",
-      "scheduled_publish_time": 1793566800,
-      "scheduled_time_utc": "2026-11-01T21:00:00.000Z",
-      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1151403581167744",
-      "youtube_video_id": "cO-yqpaVyHY",
-      "youtube_url": "https://www.youtube.com/shorts/cO-yqpaVyHY",
-      "ig_reel_id": "18096372743545389"
+      "reel_path": "reels/quiz_03_Sean_Kanan.mp4",
+      "caption": "⚡ 10-SECOND REEL QUIZ! Can you guess who celebrates their 60th birthday today? ⏱️👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\nBeat 1: **He nearly died from internal bleeding on a movie set, then clawed his way back to pop culture glory.**\n\nBeat 2: Born November 2, 1966, Sean Kanan turns 60 today, hailing from Cleveland, Ohio.\n\nBeat 3: During filming of The Karate Kid Part III, an aggressive stunt ruptured his abdominal artery, causing massive internal bleeding that almost proved fatal.\n\nBeat 4: Refusing to abandon his breakout role, he checked out of intensive care early and completed full-contact fight scenes against doctor orders.\n\nBeat 5: He immortalized Mike Barnes as Karate's Bad Boy, becoming one of cinema's most celebrated martial arts antagonists.\n\nBeat 6: He weathered decades of brutal daytime soap opera schedules and deep personal bouts with alcohol addiction before achieving sobriety.\n\nBeat 7: His triumphant reprisal of Mike Barnes in Cobra Kai introduced his menacing martial arts charisma to a brand-new global generation.\n\nBeat 8: **Was Mike Barnes the most dangerous opponent Daniel LaRusso ever faced in the Miyagi-verse?**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind his martial arts comeback:**\n• Survived life-threatening internal abdominal hemorrhaging while performing grueling full-contact movie fight stunts.\n• Mastered multiple authentic martial arts disciplines, holding advanced black belts in Shitō-ryū karate.\n• Authored best-selling motivational philosophy books helping thousands conquer personal addiction and professional setbacks.\n\nWho was Daniel LaRusso's most formidable rival: Mike Barnes, Johnny Lawrence, or Chozen Toguchi?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [B]: Sean Kanan!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#SeanKanan #BornToday #2026-11-02 #CelebrityQuiz #ReelQuiz #Shorts",
+      "hashtags": "#SeanKanan #BornToday #2026-11-02 #CelebrityQuiz #ReelQuiz #Shorts",
+      "scheduled_publish_time": 1793633400,
+      "scheduled_time_utc": "2026-11-02T15:30:00.000Z",
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)"
+    },
+    {
+      "id": "2026-11-02_quiz_04_Kendall_Schmidt",
+      "type": "reel_quiz_type2",
+      "celebrity_name": "Kendall Schmidt",
+      "birth_year": 1990,
+      "age": 36,
+      "gender": "male",
+      "subtitle": "Look closely at options A, B, C, and D!",
+      "correct_option": "A",
+      "options": [
+        {
+          "letter": "A",
+          "name": "Kendall Schmidt"
+        },
+        {
+          "letter": "B",
+          "name": "Dustin Hoffman"
+        },
+        {
+          "letter": "C",
+          "name": "Keanu Reeves"
+        },
+        {
+          "letter": "D",
+          "name": "Christian Slater"
+        }
+      ],
+      "reel_path": "reels/quiz_04_Kendall_Schmidt.mp4",
+      "caption": "🎯 4 PHOTOS, 1 CELEBRITY! Which of these 4 stars is celebrating their birthday today? 🌟👇\n\n💬 Look closely at options A, B, C & D on the screen and drop your guess in the comments BEFORE reading the story below! 👇\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\nBeat 1: **He almost skipped the final casting call. Instead, he became the heartbeat of a global boyband.**\n\nBeat 2: Born November 2, 1990, Kendall Schmidt turns 36 today, born in Wichita, Kansas.\n\nBeat 3: He toiled through dozens of small commercials and guest roles as a child actor, facing endless casting rejections.\n\nBeat 4: When producers struggled to cast the lead role of Big Time Rush, bandmate Logan Henderson urged them to audition Schmidt at the eleventh hour.\n\nBeat 5: He landed the role, propelling Big Time Rush to international superstardom, selling millions of records and selling out arenas worldwide.\n\nBeat 6: He grappled with grueling teen-idol schedules and fought hard to retain songwriting autonomy amidst corporate pop pressure.\n\nBeat 7: Founding indie music duo Heffron Drive, he proved his creative longevity before leading Big Time Rush through a massive, sold-out reunion era.\n\nBeat 8: **Did Big Time Rush make the best teen television soundtrack of the 2010s?**\n\n🌟 FASCINATING FACTS & TRIVIA:\n**The secret behind the band's revival:**\n• Auditioned at the final hour after the initial television pilot cast was already filming.\n• Wrote and produced his own independent music with Heffron Drive.\n• Reunited with bandmates as independent artists to launch massive international tours.\n\nWhich song was the pinnacle of Big Time Rush: Worldwide, Boyfriend, or Windows Down?\n\n.\n.\n.\n.\n.\n💡 OFFICIAL ANSWER REVEAL:\nOption [A]: Kendall Schmidt!\n\nDid you guess it right on your first try? What is your all-time favorite movie or role of theirs? Tell us below! 🎬👇\n\n#KendallSchmidt #BornToday #2026-11-02 #HollywoodTrivia #ReelChallenge #Shorts",
+      "hashtags": "#KendallSchmidt #BornToday #2026-11-02 #HollywoodTrivia #ReelChallenge #Shorts",
+      "scheduled_publish_time": 1793653200,
+      "scheduled_time_utc": "2026-11-02T21:00:00.000Z",
+      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
     }
   ]
 }

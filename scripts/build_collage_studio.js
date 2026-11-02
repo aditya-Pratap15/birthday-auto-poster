@@ -211,6 +211,12 @@ function getThematicAssetBase64(cleanSlug, post = {}) {
     assetFile = 'richard_book_cutout.png';
   } else if (s.includes('tracee') || s.includes('ross')) {
     assetFile = 'tracee_mic_cutout.png';
+  } else if (s.includes('david') || s.includes('schwimmer')) {
+    assetFile = 'david_ross_geller_cutout.png';
+  } else if (s.includes('shah') || s.includes('khan')) {
+    assetFile = 'shah_rukh_raj_cutout.png';
+  } else if (s.includes('marisol') || s.includes('nichols')) {
+    assetFile = 'marisol_hermione_cutout.png';
   } else {
     // Check if any matching asset exists in directory
     const files = fs.readdirSync(THEMATIC_ASSETS_DIR);
