@@ -43,6 +43,19 @@ function sanitizeReelCaption(captionText, fallbackTags = []) {
   return tagsToUse.length > 0 ? (cleanBody + '\n\n' + tagsToUse.join(' ')) : cleanBody;
 }
 
+function cleanCaptionBeats(text) {
+  if (!text || typeof text !== 'string') return '';
+  let lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  lines = lines.map(l => l.replace(/^Beat\s*\d+\s*:\s*/i, '').trim());
+  if (lines.length > 0) {
+    let first = lines[0].replace(/^\*\*|\*\*$/g, '').trim();
+    lines[0] = `**${first}**`;
+    let last = lines[lines.length - 1].replace(/^\*\*|\*\*$/g, '').trim();
+    lines[lines.length - 1] = `**${last}**`;
+  }
+  return lines.join('\n\n');
+}
+
 function formatFacebookUnicodeBold(text) {
   if (!text || typeof text !== 'string') return '';
   return text.replace(/\*\*(.+?)\*\*/g, (_, s) => {
@@ -842,7 +855,8 @@ async function main() {
     const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
 
     const cleanTags = extractCleanHashtags(post.hashtags, 3);
-    const caption = formatFacebookUnicodeBold(`${post.caption}${cleanTags ? "\n\n" + cleanTags : ""}`);
+    const cleanedRawCaption = cleanCaptionBeats(post.caption);
+    const caption = formatFacebookUnicodeBold(`${cleanedRawCaption}${cleanTags ? "\n\n" + cleanTags : ""}`);
     const comment = formatFacebookUnicodeBold(post.comment);
 
     const schedTs = post.scheduled_publish_time || post.unix_timestamp || null;
