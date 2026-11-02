@@ -318,7 +318,7 @@ function getTeaserLines(post) {
 // -------------------------------------------------------------
 // 4. Native 1080 x 1350 HTML Generator
 // -------------------------------------------------------------
-function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser }) {
+function buildNativePosterHtml({ celebName, age, cutoutB64, assetB64, logoB64, teaser }) {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -396,24 +396,25 @@ function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser
       display: block;
     }
 
-    /* THEMATIC 1:1 ASSET CUTOUT */
+    /* THEMATIC ASSET CUTOUT: Grounded to footer top, enlarged */
     .thematic-asset-container {
       position: absolute;
       top: ${teaser.assetTop}px;
-      right: ${teaser.assetRight}px;
-      width: ${teaser.assetSize}px;
-      height: ${teaser.assetSize}px;
+      bottom: 0px;
+      right: 16px;
+      width: 580px;
       z-index: 8;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.25));
+      align-items: flex-end;
+      justify-content: flex-end;
+      filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.28));
       pointer-events: none;
     }
     .thematic-asset-img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      object-position: right bottom;
       display: block;
     }
 
@@ -442,36 +443,43 @@ function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser
       object-position: left bottom;
     }
 
-    /* CELEBRITY NAME BADGE: Right corner directly above footer with slim 6px red bar */
-    .name-badge-block {
+    /* BIRTHDAY BANNER STRIP: Centered white-to-beige gradient directly above footer */
+    .birthday-banner-strip {
       position: absolute;
-      right: 32px;
-      bottom: 12px;
+      left: 0;
+      right: 0;
+      bottom: 0;
       z-index: 15;
+      background: linear-gradient(90deg, #ffffff 0%, #fcf9f5 15%, #f4ede2 50%, #fcf9f5 85%, #ffffff 100%);
+      border-top: 1.5px solid rgba(197, 160, 89, 0.35);
+      box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.05);
+      padding: 10px 24px 12px 24px;
+      text-align: center;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: flex-end;
-      gap: 14px;
-      max-width: 880px;
+      justify-content: center;
       user-select: none;
     }
-    .celeb-name-text {
+    .banner-hb-text {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 50px;
-      line-height: 1;
-      letter-spacing: 2.4px;
-      color: #111111;
+      font-size: 28px;
+      line-height: 1.1;
+      letter-spacing: 3px;
+      color: #d32020;
+      font-weight: 700;
       text-transform: uppercase;
-      font-weight: 400;
-      white-space: nowrap;
-      text-shadow: 0 0 16px #ffffff, 0 0 28px #ffffff;
     }
-    .red-accent-bar {
-      width: 6px;
-      height: 44px;
-      background: #d32020;
-      border-radius: 3px;
-      flex-shrink: 0;
+    .banner-turns-text {
+      font-family: 'Bebas Neue', 'Anton', sans-serif;
+      font-size: 48px;
+      line-height: 1.05;
+      letter-spacing: 2px;
+      color: #111111;
+      font-weight: 700;
+      text-transform: uppercase;
+      max-width: 1000px;
+      white-space: nowrap;
     }
 
     /* FOOTER BAR: Clean 104px height, centered Bebas Neue CTA */
@@ -569,10 +577,10 @@ function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser
         </div>
       </div>` : ''}
 
-      <!-- Celebrity Name Badge -->
-      <div class="name-badge-block">
-        <span class="celeb-name-text">${celebName}</span>
-        <span class="red-accent-bar"></span>
+      <!-- Birthday Banner Strip: Centered white-to-beige gradient directly above footer -->
+      <div class="birthday-banner-strip">
+        <div class="banner-hb-text">HAPPY BIRTHDAY !</div>
+        <div class="banner-turns-text">${celebName} TURNS ${age} TODAY</div>
       </div>
 
     </div>
@@ -592,6 +600,59 @@ function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser
 }
 
 // -------------------------------------------------------------
+// -------------------------------------------------------------
+// Auto-trim transparent margins so cutouts scale to full height
+// -------------------------------------------------------------
+async function autoTrimTransparent(page, b64) {
+  if (!b64) return null;
+  return await page.evaluate(async (rawB64) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        const c = document.createElement('canvas');
+        c.width = img.width;
+        c.height = img.height;
+        const ctx = c.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+
+        const d = ctx.getImageData(0, 0, c.width, c.height).data;
+        let minX = c.width, minY = c.height, maxX = 0, maxY = 0;
+        let found = false;
+
+        for (let y = 0; y < c.height; y++) {
+          for (let x = 0; x < c.width; x++) {
+            if (d[(y * c.width + x) * 4 + 3] > 12) {
+              if (x < minX) minX = x;
+              if (x > maxX) maxX = x;
+              if (y < minY) minY = y;
+              if (y > maxY) maxY = y;
+              found = true;
+            }
+          }
+        }
+
+        if (!found) {
+          resolve(rawB64);
+          return;
+        }
+
+        const cropWidth = maxX - minX + 1;
+        const cropHeight = maxY - minY + 1;
+
+        const outCanvas = document.createElement('canvas');
+        outCanvas.width = cropWidth;
+        outCanvas.height = cropHeight;
+        const outCtx = outCanvas.getContext('2d');
+        outCtx.drawImage(c, minX, minY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+        const dataUrl = outCanvas.toDataURL('image/png');
+        resolve(dataUrl.replace(/^data:image\/png;base64,/, ''));
+      };
+      img.src = 'data:image/png;base64,' + rawB64;
+    });
+  }, b64);
+}
+
 // 5. Main Execution Loop
 // -------------------------------------------------------------
 async function main() {
@@ -635,7 +696,8 @@ async function main() {
     const cutoutB64 = await ensureCutout(post, cleanSlug);
 
     // 2. Ensure 1:1 Thematic Asset
-    const assetB64 = getThematicAssetBase64(cleanSlug, post);
+    const rawAssetB64 = getThematicAssetBase64(cleanSlug, post);
+    const assetB64 = await autoTrimTransparent(page, rawAssetB64);
 
     // 3. Resolve Teaser Lines
     const teaser = getTeaserLines(post);
@@ -643,6 +705,7 @@ async function main() {
     // 4. Build Native 1080 x 1350 HTML
     const html = buildNativePosterHtml({
       celebName: celebName.toUpperCase(),
+      age: post.age || '',
       cutoutB64,
       assetB64,
       logoB64: logoBase64,
