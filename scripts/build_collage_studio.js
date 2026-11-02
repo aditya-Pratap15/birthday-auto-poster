@@ -236,72 +236,82 @@ function getThematicAssetBase64(cleanSlug, post = {}) {
 // 3. Teaser Headline Content Formatter
 // -------------------------------------------------------------
 function getTeaserLines(post) {
+  let line1 = '';
+  let line2 = '';
+  let redLines = [];
+
   if (post.viral_teaser) {
     const vt = post.viral_teaser;
     const punch = vt.punchline_red || vt.redLines || [];
-    return {
-      line1: (vt.line1 || '').toUpperCase(),
-      line2: (vt.line2 || '').toUpperCase(),
-      redLines: (Array.isArray(punch) ? punch : [punch]).map(w => String(w).toUpperCase()),
-      arrowTop: vt.arrowTop || 484,
-      arrowLeft: vt.arrowLeft || 580,
-      assetTop: vt.assetTop || 690,
-      assetRight: vt.assetRight || 56,
-      assetSize: vt.assetSize || 370
-    };
+    line1 = (vt.line1 || '').toUpperCase();
+    line2 = (vt.line2 || '').toUpperCase();
+    redLines = (Array.isArray(punch) ? punch : [punch]).map(w => String(w).toUpperCase());
+  } else {
+    const name = (post.celebrity_name || '').toLowerCase();
+    if (name.includes('winona')) {
+      line1 = 'BEVERLY HILLS';
+      line2 = 'PEAK OF FAME';
+      redLines = ['SHOCKING', 'ARREST'];
+    } else if (name.includes('richard')) {
+      line1 = 'BRANDED';
+      line2 = 'DUMB DOG';
+      redLines = ['SECRET DYSLEXIA'];
+    } else if (name.includes('tracee')) {
+      line1 = 'DROPPED REAL NAME';
+      line2 = 'SECRET AUDITIONS';
+      redLines = ['HIDING', 'DIANA ROSS'];
+    } else {
+      const tc = post.teaserCard || {};
+      line1 = (tc.line1 || 'HOLLYWOOD LEGEND').replace(/[,.]/g, '').toUpperCase().slice(0, 22);
+      line2 = (tc.line2 || 'RISING ICON').replace(/[,.]/g, '').toUpperCase().slice(0, 22);
+      const punch = (tc.line3Highlight || tc.line2Highlight || 'TRUE STORY').replace(/[,.]/g, '').toUpperCase();
+      redLines = [punch.slice(0, 18)];
+    }
   }
 
-  const name = (post.celebrity_name || '').toLowerCase();
-  if (name.includes('winona')) {
-    return {
-      line1: 'BEVERLY HILLS',
-      line2: 'PEAK OF FAME',
-      redLines: ['SHOCKING', 'ARREST'],
-      arrowTop: 484,
-      arrowLeft: 580,
-      assetTop: 690,
-      assetRight: 56,
-      assetSize: 370
-    };
-  } else if (name.includes('richard')) {
-    return {
-      line1: 'BRANDED',
-      line2: 'DUMB DOG',
-      redLines: ['SECRET DYSLEXIA'],
-      arrowTop: 390,
-      arrowLeft: 570,
-      assetTop: 620,
-      assetRight: 64,
-      assetSize: 390
-    };
-  } else if (name.includes('tracee')) {
-    return {
-      line1: 'DROPPED REAL NAME',
-      line2: 'SECRET AUDITIONS',
-      redLines: ['HIDING', 'DIANA ROSS'],
-      arrowTop: 484,
-      arrowLeft: 580,
-      assetTop: 690,
-      assetRight: 56,
-      assetSize: 370
-    };
+  // DYNAMIC TEXT AUTO-REDUCTION RULE:
+  // Auto-scale font size and vertical layout so long headlines stay 100% inside canvas
+  const allLines = [line1, line2, ...redLines].filter(Boolean);
+  const maxLineLength = Math.max(...allLines.map(l => l.length), 0);
+
+  let fontSize = 116;
+  if (maxLineLength > 24) {
+    fontSize = 70;
+  } else if (maxLineLength > 21) {
+    fontSize = 78;
+  } else if (maxLineLength > 18) {
+    fontSize = 86;
+  } else if (maxLineLength > 15) {
+    fontSize = 96;
+  } else if (maxLineLength > 13) {
+    fontSize = 106;
   }
 
-  // Fallback generation from teaserCard / story
-  const tc = post.teaserCard || {};
-  const l1 = (tc.line1 || 'HOLLYWOOD LEGEND').replace(/[,.]/g, '').toUpperCase();
-  const l2 = (tc.line2 || 'RISING ICON').replace(/[,.]/g, '').toUpperCase();
-  const punch = (tc.line3Highlight || tc.line2Highlight || 'TRUE STORY').replace(/[,.]/g, '').toUpperCase();
+  // Calculate dynamic vertical positions based on font size and line count
+  const totalLines = 2 + redLines.length;
+  const lineSpacing = fontSize * 0.94;
+  const textBlockHeight = totalLines * lineSpacing;
+  const bottomOfText = 48 + textBlockHeight;
+
+  // Arrow sits cleanly below text
+  const arrowTop = Math.round(bottomOfText + 14);
+  const arrowLeft = Math.round(Math.min(620, 1080 - 48 - (fontSize * 3.8)));
+
+  // Thematic asset sits directly below arrow
+  const assetTop = Math.round(arrowTop + 130);
+  const assetRight = 56;
+  const assetSize = Math.round(Math.min(370, 1246 - assetTop - 80));
 
   return {
-    line1: l1.slice(0, 22),
-    line2: l2.slice(0, 22),
-    redLines: [punch.slice(0, 18)],
-    arrowTop: 484,
-    arrowLeft: 580,
-    assetTop: 690,
-    assetRight: 56,
-    assetSize: 370
+    line1,
+    line2,
+    redLines,
+    fontSize,
+    arrowTop,
+    arrowLeft,
+    assetTop,
+    assetRight,
+    assetSize: Math.max(260, assetSize)
   };
 }
 
@@ -354,18 +364,19 @@ function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser
       font-family: 'Anton', 'Bebas Neue', sans-serif;
       text-transform: uppercase;
       text-align: right;
+      max-width: 880px;
       user-select: none;
     }
     .teaser-line-black {
-      font-size: 116px;
-      line-height: 0.92;
+      font-size: ${teaser.fontSize || 116}px;
+      line-height: 0.94;
       color: #181818;
       letter-spacing: 1px;
       white-space: nowrap;
     }
     .teaser-line-red {
-      font-size: 116px;
-      line-height: 0.92;
+      font-size: ${teaser.fontSize || 116}px;
+      line-height: 0.94;
       color: #d32020;
       letter-spacing: 1px;
       white-space: nowrap;
@@ -441,6 +452,7 @@ function buildNativePosterHtml({ celebName, cutoutB64, assetB64, logoB64, teaser
       align-items: center;
       justify-content: flex-end;
       gap: 14px;
+      max-width: 880px;
       user-select: none;
     }
     .celeb-name-text {

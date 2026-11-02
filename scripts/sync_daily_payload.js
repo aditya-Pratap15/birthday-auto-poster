@@ -283,7 +283,7 @@ function downloadBinaryFile(url, destPath, maxRedirects = 5) {
   });
 }
 
-async function downloadAndProcessDriveAsset(assetInfo, cleanSlug) {
+async function downloadAndProcessDriveAsset(assetInfo, cleanSlug, dateStr = '') {
   if (!assetInfo) return null;
   const targetDir = path.join(BASE_DIR, 'assets', 'thematic_assets');
   if (!fs.existsSync(targetDir)) fs.mkdirSync(targetDir, { recursive: true });
@@ -291,17 +291,17 @@ async function downloadAndProcessDriveAsset(assetInfo, cleanSlug) {
   const rawPath = path.join(targetDir, `${cleanSlug}_drive_raw.png`);
   const cutoutPath = path.join(targetDir, `${cleanSlug}_character_cutout.png`);
 
-  // Direct base64 support
+  // 1. Direct base64 support (from enhanced Apps Script Web App)
   if (assetInfo.asset_b64) {
     try {
       const buf = Buffer.from(assetInfo.asset_b64, 'base64');
-      fs.writeFileSync(rawPath, buf);
-      console.log(`    [✓ Drive Asset] Staged base64 asset for ${cleanSlug}`);
-      return processCutoutWithRembg(rawPath, cutoutPath);
+      fs.writeFileSync(cutoutPath, buf);
+      console.log(`    [✓ Drive Asset] Staged base64 character cutout for ${cleanSlug}`);
+      return path.relative(BASE_DIR, cutoutPath).replace(/\\/g, '/');
     } catch (e) {}
   }
 
-  // Drive File ID or Download Link support
+  // 2. Drive File ID or Download Link support
   const fileId = assetInfo.drive_file_id || 
     (assetInfo.drive_url ? extractDriveFileId(assetInfo.drive_url) : null) ||
     (assetInfo.asset_url ? extractDriveFileId(assetInfo.asset_url) : null);
@@ -313,6 +313,26 @@ async function downloadAndProcessDriveAsset(assetInfo, cleanSlug) {
     downloadUrl = assetInfo.drive_url;
   } else if (assetInfo.asset_url && assetInfo.asset_url.startsWith('http')) {
     downloadUrl = assetInfo.asset_url;
+  }
+
+  // 3. Fallback: Query Apps Script directly by celebrity name & date
+  if (!downloadUrl && APPS_SCRIPT_URL) {
+    try {
+      console.log(`    [🔍 Drive Search] Searching Google Drive for ${cleanSlug} asset via Apps Script...`);
+      const sep = APPS_SCRIPT_URL.includes('?') ? '&' : '?';
+      const searchUrl = `${APPS_SCRIPT_URL}${sep}action=get_asset&name=${encodeURIComponent(cleanSlug)}&date=${encodeURIComponent(dateStr)}`;
+      const searchRes = await fetchJsonWithRetry(searchUrl, 2);
+      if (searchRes && searchRes.found && searchRes.base64) {
+        const buf = Buffer.from(searchRes.base64, 'base64');
+        fs.writeFileSync(cutoutPath, buf);
+        console.log(`    [✓ Drive Asset] Downloaded and staged ${cleanSlug} character asset from Google Drive!`);
+        return path.relative(BASE_DIR, cutoutPath).replace(/\\/g, '/');
+      } else if (searchRes && searchRes.downloadUrl) {
+        downloadUrl = searchRes.downloadUrl;
+      }
+    } catch (err) {
+      console.warn(`    [!] Apps Script search notice: ${err.message}`);
+    }
   }
 
   if (downloadUrl) {
@@ -616,7 +636,7 @@ async function normalizePayload(raw) {
     let assetCutoutRelative = null;
     const rawAssetObj = c.thematic_asset || c.iconic_character || null;
     if (idx < 3 && rawAssetObj) {
-      assetCutoutRelative = await downloadAndProcessDriveAsset(rawAssetObj, cleanSlug);
+      assetCutoutRelative = await downloadAndProcessDriveAsset(rawAssetObj, cleanSlug, dateStr);
     }
 
     const rawTeaser = c.teaser_card || c.teaserCard || {};
