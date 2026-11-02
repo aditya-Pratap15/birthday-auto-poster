@@ -253,7 +253,8 @@
       "scheduled_time_utc": "2026-11-02T14:00:00.000Z",
       "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
       "fb_post_id": "1345901645276194_122114202909506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122114202909506930"
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122114202909506930",
+      "ig_post_id": "18102471992551507"
     },
     {
       "id": "2026-11-02_quiz_02_Peter_Mullan",
@@ -323,7 +324,8 @@
       "scheduled_publish_time": 1793633400,
       "scheduled_time_utc": "2026-11-02T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "4658465857728165"
+      "fb_reel_id": "4658465857728165",
+      "ig_reel_id": "17920609902457102"
     },
     {
       "id": "2026-11-02_quiz_04_Kendall_Schmidt",
