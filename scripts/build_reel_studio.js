@@ -404,12 +404,27 @@ function formatAssTime(seconds) {
 function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration, outroStartTime, totalDuration, assPath, hookText = '') {
   const events = [];
 
-  // 3-Second Viral Hook Overlay (Meta Growth Guidance: keep hook text on screen for only the first 3s)
+  // 5-Second Viral Hook Overlay (Meta Growth Guidance: keep full hook text on screen for 5.0s)
   if (hookText && hookText.trim().length > 0) {
     const cleanHook = hookText.replace(/\n+/g, ' ').replace(/["*]/g, '').trim();
-    const shortHook = cleanHook.split(/\s+/).slice(0, 11).join(' ');
+    let displayHook = cleanHook;
+    // Balance across 2 lines if longer than 34 chars to stay safely within 1080px without truncation
+    if (cleanHook.length > 34 && !cleanHook.includes('\\N')) {
+      const words = cleanHook.split(/\s+/);
+      let l1 = [], l2 = [], curLen = 0;
+      const targetMid = cleanHook.length / 2;
+      for (const w of words) {
+        if (curLen + w.length <= targetMid + 4 || l1.length === 0) {
+          l1.push(w);
+          curLen += w.length + 1;
+        } else {
+          l2.push(w);
+        }
+      }
+      if (l2.length > 0) displayHook = `${l1.join(' ')}\\N${l2.join(' ')}`;
+    }
     events.push(
-      `Dialogue: 1,0:00:00.00,0:00:03.00,Default,,0,0,0,,{\\an8\\pos(540,240)\\fad(120,250)\\b1\\fsize44\\c&H0024D8FF&}⭐ DID YOU KNOW? ⭐\\N{\\b1\\fsize38\\c&H00FFFFFF&}${shortHook}`
+      `Dialogue: 1,0:00:00.00,0:00:05.00,Default,,0,0,0,,{\\an8\\pos(540,240)\\fad(150,300)\\b1\\fsize44\\c&H0024D8FF&}⭐ DID YOU KNOW? ⭐\\N{\\b1\\fsize36\\c&H00FFFFFF&}${displayHook}`
     );
   }
 
@@ -594,9 +609,22 @@ async function buildReel(post, index = 1) {
 
   // 4. Subtitles (Locked vertical baseline at Y=1060)
   const localAssPath = path.join(TEMP_DIR, 'current_subs.ass');
-  const hookCandidate = (post.viral_teaser ? `${post.viral_teaser.line1} ${post.viral_teaser.line2}` : '') ||
-                        (post.teaserCard ? `${post.teaserCard.line1 || ''} ${post.teaserCard.line2 || ''}` : '') ||
-                        narration.split(/[.!?]/)[0] || '';
+  let hookCandidate = '';
+  if (post.viral_teaser) {
+    const vt = post.viral_teaser;
+    const punch = vt.punchline_red || vt.redLines || [];
+    const punchStr = (Array.isArray(punch) ? punch.join(' ') : String(punch || '')).trim();
+    hookCandidate = `${vt.line1 || ''} ${vt.line2 || ''} ${punchStr}`.replace(/\s+/g, ' ').trim();
+  } else if (post.teaserCard) {
+    const tc = post.teaserCard;
+    const punch = tc.punchline_red || tc.redLines || [];
+    const punchStr = (Array.isArray(punch) ? punch.join(' ') : String(punch || '')).trim();
+    hookCandidate = `${tc.line1 || ''} ${tc.line2 || ''} ${punchStr}`.replace(/\s+/g, ' ').trim();
+  } else if (post.reel_hook) {
+    hookCandidate = post.reel_hook;
+  } else {
+    hookCandidate = narration.split(/[.!?]/)[0] || '';
+  }
   createSubtitlesAss(boundaries, rawComment, narration, voiceDuration, outroStartTime, totalDuration, localAssPath, hookCandidate);
 
   // 5. Collect Era Photos
