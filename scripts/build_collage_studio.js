@@ -91,20 +91,49 @@ function getSSEResult(sseUrl) {
   });
 }
 
-function downloadBinary(urlStr, dest) {
+function downloadBinary(url, destPath, retries = 2, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(dest);
-    https.get(urlStr, res => {
-      if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
-        return downloadBinary(res.headers.location, dest).then(resolve).catch(reject);
-      }
-      res.pipe(file);
-      file.on('finish', () => file.close(resolve));
-    }).on('error', reject);
+    try {
+      url = url.replace('https://media.themoviedb.org/', 'https://image.tmdb.org/');
+      url = url.replace('https://thumb.wikimedia.org/', 'https://upload.wikimedia.org/');
+      const parsed = new URL(url);
+      const client = parsed.protocol === 'http:' ? http : https;
+      const headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 BornTodayHollywoodBot/1.0',
+        'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8'
+      };
+
+      const req = client.get(url, { headers, timeout: 15000 }, res => {
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location && maxRedirects > 0) {
+          const redirectUrl = new URL(res.headers.location, url).toString();
+          return resolve(downloadBinary(redirectUrl, destPath, retries, maxRedirects - 1));
+        }
+        if (res.statusCode === 429 && retries > 0) {
+          setTimeout(() => {
+            resolve(downloadBinary(url, destPath, retries - 1, maxRedirects));
+          }, 1500);
+          return;
+        }
+        if (res.statusCode !== 200) {
+          return reject(new Error(`Failed to download ${url}: HTTP ${res.statusCode}`));
+        }
+        const stream = fs.createWriteStream(destPath);
+        res.pipe(stream);
+        stream.on('finish', () => stream.close(resolve));
+        stream.on('error', (err) => {
+          try { fs.unlinkSync(destPath); } catch (e) {}
+          reject(err);
+        });
+      });
+      req.on('timeout', () => { req.destroy(); reject(new Error(`Timeout downloading ${url}`)); });
+      req.on('error', reject);
+    } catch (e) {
+      reject(e);
+    }
   });
 }
 
-// Ensure transparent cutout exists (download & call BRIA if needed)
+// Ensure transparent cutout exists (download & call ML if needed)
 async function ensureCutout(post, cleanSlug) {
   const localCutout = path.join(CUTOUTS_DIR, `${cleanSlug}_cutout.png`);
   if (fs.existsSync(localCutout) && fs.statSync(localCutout).size > 1000) {
@@ -113,7 +142,7 @@ async function ensureCutout(post, cleanSlug) {
   }
 
   // Also check numbered fallback in CUTOUTS_DIR
-  const files = fs.readdirSync(CUTOUTS_DIR);
+  const files = fs.existsSync(CUTOUTS_DIR) ? fs.readdirSync(CUTOUTS_DIR) : [];
   const match = files.find(f => f.toLowerCase().includes(cleanSlug.toLowerCase().split('_')[0]) && f.endsWith('_cutout.png'));
   if (match) {
     const p = path.join(CUTOUTS_DIR, match);
@@ -121,44 +150,75 @@ async function ensureCutout(post, cleanSlug) {
     return fs.readFileSync(p).toString('base64');
   }
 
-  const photoUrl = (post.photo_urls && post.photo_urls[0]) || null;
-  if (!photoUrl) {
-    console.warn(`    [!] No photo URL available for background removal.`);
-    return null;
+  // Collect candidate photos:
+  // 1. Check if temp_reel_assets already downloaded photos (from reel studio)
+  // 2. All URLs from post.photo_urls (primary TMDb, secondary Wikimedia / Wikipedia)
+  const candidateUrls = Array.isArray(post.photo_urls) ? [...post.photo_urls] : [];
+  const candidateLocalFiles = [];
+  
+  for (let i = 1; i <= 5; i++) {
+    const reelPhoto = path.join(BASE_DIR, 'temp_reel_assets', `${cleanSlug}_photo_${i}.jpg`);
+    if (fs.existsSync(reelPhoto) && fs.statSync(reelPhoto).size > 2000) {
+      candidateLocalFiles.push(reelPhoto);
+    }
   }
 
-  console.log(`    ✂️ Invoking BRIA RMBG-1.4 background removal for ${post.celebrity_name}...`);
-  try {
-    const payload = {
-      data: [{ path: photoUrl, url: photoUrl, orig_name: `${cleanSlug}.jpg`, meta: { _type: 'gradio.FileData' } }]
-    };
-    const res = await postJSON('https://briaai-bria-rmbg-1-4.hf.space/gradio_api/call/run', payload);
-    if (res.body && res.body.event_id) {
-      const resultUrl = await getSSEResult(`https://briaai-bria-rmbg-1-4.hf.space/gradio_api/call/run/${res.body.event_id}`);
-      if (resultUrl) {
-        await downloadBinary(resultUrl, localCutout);
+  const { execSync } = require('child_process');
+
+  // Try candidate local files first
+  for (const localImg of candidateLocalFiles) {
+    try {
+      console.log(`    ✂️ Removing background from local reel image: ${path.basename(localImg)}`);
+      try {
+        execSync(`python scripts/remove_background.py "${localImg}" "${localCutout}"`, { stdio: 'pipe' });
+      } catch (pyErr) {
+        execSync(`uv run python scripts/remove_background.py "${localImg}" "${localCutout}"`, { stdio: 'pipe' });
+      }
+      if (fs.existsSync(localCutout) && fs.statSync(localCutout).size > 1000) {
+        console.log(`    ✅ Local ML cutout generated: ${localCutout}`);
+        return fs.readFileSync(localCutout).toString('base64');
+      }
+    } catch (e) {}
+  }
+
+  // Try downloading candidate URLs (TMDb first, then Wikimedia fallback)
+  for (let i = 0; i < candidateUrls.length; i++) {
+    const photoUrl = candidateUrls[i];
+    const tempInput = path.join(BASE_DIR, 'assets', `${cleanSlug}_temp_${i}.jpg`);
+    try {
+      console.log(`    📥 Sourcing photo candidate ${i + 1}/${candidateUrls.length} for ${post.celebrity_name}...`);
+      await downloadBinary(photoUrl, tempInput);
+      if (!fs.existsSync(tempInput) || fs.statSync(tempInput).size < 1000) {
+        continue;
+      }
+
+      // Try local python background removal
+      try {
+        execSync(`python scripts/remove_background.py "${tempInput}" "${localCutout}"`, { stdio: 'pipe' });
+      } catch (pyErr) {
+        try {
+          execSync(`uv run python scripts/remove_background.py "${tempInput}" "${localCutout}"`, { stdio: 'pipe' });
+        } catch (uvErr) {}
+      }
+
+      if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
+
+      if (fs.existsSync(localCutout) && fs.statSync(localCutout).size > 1000) {
         console.log(`    ✅ Background removed & saved to ${localCutout}`);
         return fs.readFileSync(localCutout).toString('base64');
       }
+    } catch (err) {
+      console.warn(`    [!] Photo candidate ${i + 1} processing error: ${err.message}`);
+      if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
     }
-  } catch (err) {
-    console.warn(`    [!] BRIA background removal error (${err.message}). Trying local Python ML fallback.`);
   }
 
-  // Fallback to local Python rembg
-  const tempInput = path.join(BASE_DIR, 'assets', `${cleanSlug}_temp.jpg`);
-  try {
-    await downloadBinary(photoUrl, tempInput);
-    const { execSync } = require('child_process');
-    execSync(`python scripts/remove_background.py "${tempInput}" "${localCutout}"`, { stdio: 'inherit' });
-    if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
-    if (fs.existsSync(localCutout)) {
-      console.log(`    ✅ Local ML cutout generated: ${localCutout}`);
-      return fs.readFileSync(localCutout).toString('base64');
+  // Absolute Fallback: If background removal failed on all sources, use the best local photo directly
+  for (const localImg of candidateLocalFiles) {
+    if (fs.existsSync(localImg) && fs.statSync(localImg).size > 1000) {
+      console.warn(`    ⚠️ Using solid portrait fallback for ${cleanSlug} to prevent blank collage.`);
+      return fs.readFileSync(localImg).toString('base64');
     }
-  } catch (fallbackErr) {
-    console.warn(`    [!] Local ML fallback failed (${fallbackErr.message}).`);
-    if (fs.existsSync(tempInput)) fs.unlinkSync(tempInput);
   }
 
   return null;

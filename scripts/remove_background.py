@@ -25,7 +25,7 @@ def remove_bg(input_path, output_path):
     output_image = remove(input_image)
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
     output_image.save(output_path, "PNG")
-    print(f"[✓] Background removed successfully: {output_path}")
+    print(f"[OK] Background removed successfully: {output_path}")
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
