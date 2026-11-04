@@ -419,10 +419,20 @@ function buildShuffledQuizOptions(targetName, gender, targetLetter) {
   });
 }
 
+function cleanCaptionBeats(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text
+    .replace(/\*\*Beat\s*\d+\s*[:\-–—]?\*\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\*Beat\s*\d+\s*[:\-–—]?\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\bBeat\s*\d+\s*[:\-–—]\s*/gi, '')
+    .trim();
+}
+
 function formatQuizCaption(hook, correctLetter, targetName, bioCaption, bioComment, hashtags) {
   let storyBody = '';
   if (bioCaption && bioCaption.trim()) {
-    storyBody = '\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n' + bioCaption.trim();
+    const cleanedStory = cleanCaptionBeats(bioCaption.trim());
+    storyBody = '\n\n📖 THE FULL STORY & LEGENDARY JOURNEY:\n' + cleanedStory;
   }
   let triviaBody = '';
   if (bioComment && bioComment.trim()) {

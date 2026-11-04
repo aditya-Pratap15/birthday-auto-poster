@@ -17,7 +17,11 @@ const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || VERIFIED_TOKEN).trim();
 
 function cleanCaptionBeats(text) {
   if (!text || typeof text !== 'string') return '';
-  return text.replace(/^Beat\s*\d+\s*:\s*/gmi, '').trim();
+  return text
+    .replace(/\*\*Beat\s*\d+\s*[:\-–—]?\*\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\*Beat\s*\d+\s*[:\-–—]?\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\bBeat\s*\d+\s*[:\-–—]\s*/gi, '')
+    .trim();
 }
 
 function formatFacebookUnicodeBold(text) {
@@ -254,7 +258,10 @@ async function main() {
     const qSchedTs = q.scheduled_publish_time || null;
     const isSched = qSchedTs && (qSchedTs > nowTs + 600);
 
-    const caption = formatFacebookUnicodeBold(`${q.caption}\n\n${q.hashtags || ''}`);
+    const cleanedRawCaption = cleanCaptionBeats(q.caption);
+    const hasHashtags = q.hashtags && cleanedRawCaption.includes(q.hashtags.trim());
+    const fullCaptionText = hasHashtags || !q.hashtags ? cleanedRawCaption : `${cleanedRawCaption}\n\n${q.hashtags}`;
+    const caption = formatFacebookUnicodeBold(fullCaptionText);
 
     // 1. Photo Quizzes
     if (q.type && q.type.startsWith('photo_')) {
