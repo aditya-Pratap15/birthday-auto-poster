@@ -31,6 +31,15 @@ const VERIFIED_TOKEN = 'EAAWxAIZCUlZCgBSpd25dCcaBZBrbR8Kxr3rPhEglK6z1YLSM9UN91Gt
 const DEFAULT_IG_ID = (process.env.IG_USER_ID || '17841416842135384').trim();
 const DEFAULT_TOKEN = (process.env.FB_TOKEN_BORN || process.env.FB_PAGE_TOKEN || VERIFIED_TOKEN).trim();
 
+function cleanCaptionBeats(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text
+    .replace(/\*\*Beat\s*\d+\s*[:\-–—]?\*\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\*Beat\s*\d+\s*[:\-–—]?\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\bBeat\s*\d+\s*[:\-–—]\s*/gi, '')
+    .trim();
+}
+
 function formatUnicodeBold(text) {
   if (!text || typeof text !== 'string') return '';
   return text.replace(/\*\*(.+?)\*\*/g, (_, s) => {
@@ -65,7 +74,8 @@ function formatInstagramCaption(text, hashtags = '') {
   const formattedTags = hashtagStr ? `\n\n${hashtagStr}` : '';
   const MAX_LIMIT = 2100; // Instagram hard ceiling is 2,200 UTF-16 code units
 
-  let formatted = formatUnicodeBold(text || '');
+  const cleanedText = cleanCaptionBeats(text || '');
+  let formatted = formatUnicodeBold(cleanedText);
 
   if (formatted.length + formattedTags.length > MAX_LIMIT) {
     const maxBodyLen = MAX_LIMIT - formattedTags.length;

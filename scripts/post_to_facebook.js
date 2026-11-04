@@ -45,8 +45,12 @@ function sanitizeReelCaption(captionText, fallbackTags = []) {
 
 function cleanCaptionBeats(text) {
   if (!text || typeof text !== 'string') return '';
-  let lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
-  lines = lines.map(l => l.replace(/^Beat\s*\d+\s*:\s*/i, '').trim());
+  let cleaned = text
+    .replace(/\*\*Beat\s*\d+\s*[:\-–—]?\*\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\*Beat\s*\d+\s*[:\-–—]?\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\bBeat\s*\d+\s*[:\-–—]\s*/gi, '')
+    .trim();
+  let lines = cleaned.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
   if (lines.length > 0) {
     let first = lines[0].replace(/^\*\*|\*\*$/g, '').trim();
     lines[0] = `**${first}**`;

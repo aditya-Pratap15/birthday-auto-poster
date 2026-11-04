@@ -12,6 +12,15 @@ const https = require('https');
 const BASE_DIR = path.resolve(__dirname, '..');
 const TODAY_POSTS_PATH = path.join(BASE_DIR, 'today_posts.json');
 
+function cleanCaptionBeats(text) {
+  if (!text || typeof text !== 'string') return '';
+  return text
+    .replace(/\*\*Beat\s*\d+\s*[:\-–—]?\*\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\*Beat\s*\d+\s*[:\-–—]?\*\s*[:\-–—]?\s*/gi, '')
+    .replace(/\bBeat\s*\d+\s*[:\-–—]\s*/gi, '')
+    .trim();
+}
+
 function formatUnicodeBold(text) {
   if (!text || typeof text !== 'string') return '';
   return text.replace(/\*\*(.+?)\*\*/g, (_, s) => {
@@ -375,7 +384,8 @@ async function main() {
             const title = (q.type === 'reel_quiz_type1'
         ? `Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts`
         : `Which Hollywood Star Turns ${q.age || ''} Today? 🔍 Celebrity Quiz #shorts`).slice(0, 95);
-      const rawDescription = `${q.caption || ''}\n\n` +
+      const cleanedCaption = cleanCaptionBeats(q.caption || '');
+      const rawDescription = `${cleanedCaption}\n\n` +
         `#shorts #quiz #celebrityquiz #trivia #borntoday #hollywood`;
       const description = formatUnicodeBold(rawDescription);
       const tags = ['shorts', 'quiz', 'trivia', 'celebrity quiz', 'hollywood', 'entertainment', 'guess the star'];
