@@ -172,7 +172,7 @@ async function ensureCutout(post, cleanSlug) {
       try {
         execSync(`python scripts/remove_background.py "${localImg}" "${localCutout}"`, { stdio: 'pipe' });
       } catch (pyErr) {
-        execSync(`uv run python scripts/remove_background.py "${localImg}" "${localCutout}"`, { stdio: 'pipe' });
+        execSync(`uv run --with rembg --with onnxruntime --with pillow python scripts/remove_background.py "${localImg}" "${localCutout}"`, { stdio: 'pipe' });
       }
       if (fs.existsSync(localCutout) && fs.statSync(localCutout).size > 1000) {
         console.log(`    ✅ Local ML cutout generated: ${localCutout}`);
@@ -197,7 +197,7 @@ async function ensureCutout(post, cleanSlug) {
         execSync(`python scripts/remove_background.py "${tempInput}" "${localCutout}"`, { stdio: 'pipe' });
       } catch (pyErr) {
         try {
-          execSync(`uv run python scripts/remove_background.py "${tempInput}" "${localCutout}"`, { stdio: 'pipe' });
+          execSync(`uv run --with rembg --with onnxruntime --with pillow python scripts/remove_background.py "${tempInput}" "${localCutout}"`, { stdio: 'pipe' });
         } catch (uvErr) {}
       }
 
