@@ -74,7 +74,9 @@
       "fb_reel_scheduled_time": 1793796000,
       "ig_post_id": "17991558057114889",
       "fb_comment_id": "122114827725506930_2229110824343287",
-      "ig_reel_id": "18123389660057938"
+      "ig_reel_id": "18123389660057938",
+      "youtube_video_id": "MsssUUOXAK4",
+      "youtube_url": "https://www.youtube.com/shorts/MsssUUOXAK4"
     },
     {
       "id": "2026-11-04_02_Ralph_Macchio",
@@ -148,7 +150,9 @@
       "fb_reel_scheduled_time": 1793814000,
       "fb_comment_id": "122114828007506930_1423250723227680",
       "ig_post_id": "18114443930183098",
-      "ig_reel_id": "18139660702651016"
+      "ig_reel_id": "18139660702651016",
+      "youtube_video_id": "Ax0Et-MhJDI",
+      "youtube_url": "https://www.youtube.com/shorts/Ax0Et-MhJDI"
     },
     {
       "id": "2026-11-04_03_Kathy_Griffin",
@@ -222,7 +226,9 @@
       "fb_reel_scheduled_time": 1793832000,
       "ig_reel_id": "17975851617153607",
       "fb_comment_id": "122114828397506930_2490849874656667",
-      "ig_post_id": "18257311129308188"
+      "ig_post_id": "18257311129308188",
+      "youtube_video_id": "Jx0fOe6uV_o",
+      "youtube_url": "https://www.youtube.com/shorts/Jx0fOe6uV_o"
     }
   ],
   "quiz_posts": [
@@ -332,7 +338,9 @@
       "scheduled_time_utc": "2026-11-04T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
       "fb_reel_id": "1154204344223583",
-      "ig_reel_id": "18111379835081535"
+      "ig_reel_id": "18111379835081535",
+      "youtube_video_id": "05iC_pk2Vqc",
+      "youtube_url": "https://www.youtube.com/shorts/05iC_pk2Vqc"
     },
     {
       "id": "2026-11-04_quiz_04_Doris_Roberts",
@@ -368,7 +376,9 @@
       "scheduled_time_utc": "2026-11-04T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
       "fb_reel_id": "1737599997311326",
-      "ig_reel_id": "17874549072640635"
+      "ig_reel_id": "17874549072640635",
+      "youtube_video_id": "8QyMG9RYXYU",
+      "youtube_url": "https://www.youtube.com/shorts/8QyMG9RYXYU"
     }
   ]
 }
