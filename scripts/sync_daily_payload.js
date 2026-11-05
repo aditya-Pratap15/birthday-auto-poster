@@ -376,8 +376,12 @@ async function getRawPayload() {
 
   if (process.env.DISPATCH_PAYLOAD) {
     try {
-      console.log('[i] Loading payload from DISPATCH_PAYLOAD environment variable');
-      return JSON.parse(process.env.DISPATCH_PAYLOAD);
+      const parsed = JSON.parse(process.env.DISPATCH_PAYLOAD);
+      if (parsed && ((Array.isArray(parsed.celebrities) && parsed.celebrities.length > 0) || (Array.isArray(parsed.posts) && parsed.posts.length > 0))) {
+        console.log('[i] Loading payload from DISPATCH_PAYLOAD environment variable');
+        return parsed;
+      }
+      console.log('[i] DISPATCH_PAYLOAD was empty or had no celebrities, querying Google Apps Script...');
     } catch (e) {
       console.warn('[!] Failed to parse DISPATCH_PAYLOAD JSON, falling back to Web App');
     }
@@ -385,7 +389,10 @@ async function getRawPayload() {
 
   console.log(`[i] Fetching latest daily payload from Google Apps Script Web App...`);
   try {
-    const data = await fetchUrlWithRedirects(APPS_SCRIPT_URL);
+    const istDate = Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+    const sep = APPS_SCRIPT_URL.includes('?') ? '&' : '?';
+    const fetchUrl = `${APPS_SCRIPT_URL}${sep}date=${istDate}`;
+    const data = await fetchUrlWithRedirects(fetchUrl);
     if (data && (data.celebrities || data.posts)) {
       console.log('[✓] Successfully fetched payload from Google Apps Script!');
       return data;
