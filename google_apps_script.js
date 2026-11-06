@@ -18,11 +18,62 @@
  */
 
 var TARGET_FOLDER_ID = "1MNnB2l0VAtat57L3ZEcx7ZtZnQUgvjUm";
+var GITHUB_OWNER = "aditya-Pratap15";
+var GITHUB_REPO = "birthday-auto-poster";
+var GITHUB_PAT = "PASTE_YOUR_GITHUB_PAT_HERE";
+
+function triggerGitHubDailyPoster() {
+  var pat = GITHUB_PAT;
+  if (!pat || pat === "PASTE_YOUR_GITHUB_PAT_HERE") {
+    pat = PropertiesService.getScriptProperties().getProperty("GITHUB_PAT");
+  }
+  if (!pat) {
+    Logger.log("Error: No GitHub Personal Access Token configured.");
+    return { success: false, error: "No GitHub Personal Access Token configured." };
+  }
+
+  var url = "https://api.github.com/repos/" + GITHUB_OWNER + "/" + GITHUB_REPO + "/dispatches";
+  var options = {
+    method: "post",
+    headers: {
+      "Authorization": "Bearer " + pat,
+      "Accept": "application/vnd.github.v3+json",
+      "User-Agent": "Google-Apps-Script"
+    },
+    contentType: "application/json",
+    payload: JSON.stringify({
+      event_type: "new_celebrity_data"
+    }),
+    muteHttpExceptions: true
+  };
+
+  try {
+    var res = UrlFetchApp.fetch(url, options);
+    var code = res.getResponseCode();
+    Logger.log("GitHub Webhook Response: " + code + " " + res.getContentText());
+    return {
+      success: code >= 200 && code < 300,
+      statusCode: code,
+      body: res.getContentText()
+    };
+  } catch (err) {
+    Logger.log("GitHub Dispatch Error: " + err.toString());
+    return { success: false, error: err.toString() };
+  }
+}
 
 function doGet(e) {
   try {
+    // ---------------------------------------------------------
+    // 0. Manual / Webhook Trigger for GitHub Actions
+    // ---------------------------------------------------------
+    if (e && e.parameter && e.parameter.action === 'trigger_github') {
+      var triggerRes = triggerGitHubDailyPoster();
+      return ContentService.createTextOutput(JSON.stringify(triggerRes)).setMimeType(ContentService.MimeType.JSON);
+    }
+
     var folder = DriveApp.getFolderById(TARGET_FOLDER_ID);
-    
+
     // ---------------------------------------------------------
     // 1. Direct File ID Download (Base64)
     // ---------------------------------------------------------
@@ -99,7 +150,7 @@ function doGet(e) {
           allJson.push(cf);
         }
       }
-      allJson.sort(function(a, b) {
+      allJson.sort(function (a, b) {
         return new Date(b.getLastUpdated()) - new Date(a.getLastUpdated());
       });
       if (allJson.length > 0) jsonFile = allJson[0];

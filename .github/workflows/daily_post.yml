@@ -12,13 +12,6 @@ on:
         required: false
         default: false
         type: boolean
-  workflow_call:
-    inputs:
-      force_run:
-        description: 'Force execution even if already completed today'
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: write
