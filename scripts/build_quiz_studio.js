@@ -964,10 +964,10 @@ async function run() {
       const ffmpegCmd1 = `ffmpeg -y ${r1VidInputs.join(' ')} ` +
         `-i "${r1VoiceQ}" -i "${tickAudio10}" -i "${chimeAudio}" -i "${r1VoiceRev}" -stream_loop -1 -i "${bgmTrack1}" ` +
         `-filter_complex "${r1FilterComplex}" ` +
-        `-map "[vout]" -map "[aout]" -t ${totalR1Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k "${targetReel1Out}"`;
+        `-map "[vout]" -map "[aout]" -t ${totalR1Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k -movflags +faststart "${targetReel1Out}"`;
 
       console.log('   🎬 Rendering Vertical Video Reel 1 with FFmpeg...');
-      execSync(ffmpegCmd1, { stdio: 'pipe' });
+      execSync(ffmpegCmd1, { stdio: 'pipe', maxBuffer: 100 * 1024 * 1024 });
       console.log(`   ✅ Saved: ${targetReel1Out}`);
       try { fs.copyFileSync(targetReel1Out, path.join(OUTPUT_DIR, `03_Reel_Quiz_Type1_${q3CleanSlug}.mp4`)); } catch(e){}
     } catch (e3) {
@@ -1308,10 +1308,10 @@ async function run() {
     const ffmpegCmd2 = `ffmpeg -y ${r2VidInputs.join(' ')} ` +
       `-i "${r2VoiceQ}" -i "${tickAudio10}" -i "${chimeAudio}" -i "${r2VoiceRev}" -stream_loop -1 -i "${bgmTrack2}" ` +
       `-filter_complex "${r2FilterComplex}" ` +
-      `-map "[vout]" -map "[aout]" -t ${totalR2Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k "${targetReel2Out}"`;
+      `-map "[vout]" -map "[aout]" -t ${totalR2Dur} -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 192k -movflags +faststart "${targetReel2Out}"`;
 
     console.log('   🎬 Rendering Vertical Video Reel 2 with FFmpeg...');
-    execSync(ffmpegCmd2, { stdio: 'pipe' });
+    execSync(ffmpegCmd2, { stdio: 'pipe', maxBuffer: 100 * 1024 * 1024 });
     console.log(`   ✅ Saved: ${targetReel2Out}`);
     try { fs.copyFileSync(targetReel2Out, path.join(OUTPUT_DIR, `04_Reel_Quiz_Type2_${q4CleanSlug}.mp4`)); } catch(e){}
     } catch(e4) { console.error(`   ❌ Error building Reel Quiz 2 (${q4TargetName}):`, e4.message); }

@@ -638,7 +638,14 @@ async function buildReel(post, index = 1) {
         try { fs.unlinkSync(imgDest); } catch(e){} 
       }
       console.log(`    📥 Downloading fresh photo ${i + 1}...`);
-      await downloadFile(rawUrls[i], imgDest);
+      const rawDest = path.join(TEMP_DIR, `${safeName}_raw_${i + 1}`);
+      await downloadFile(rawUrls[i], rawDest);
+      try {
+        execSync(`ffmpeg -y -v error -i "${rawDest}" -vframes 1 -q:v 2 "${imgDest}"`);
+        try { fs.unlinkSync(rawDest); } catch (e) {}
+      } catch (convErr) {
+        fs.renameSync(rawDest, imgDest);
+      }
       localEraImages.push(imgDest);
     } catch (e) {
       console.warn(`    [!] Could not download photo ${i + 1}: ${e.message}`);
@@ -725,16 +732,16 @@ async function buildReel(post, index = 1) {
                    `[v_boosted][b_gentle]amix=inputs=2:duration=first:dropout_transition=2[amixed];` +
                    `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
 
-  const cmd = `ffmpeg -y ${inputs.join(' ')} ` +
+  const cmd = `ffmpeg -y -loglevel warning ${inputs.join(' ')} ` +
               `-filter_complex "${filterComplex}" ` +
               `-map "[vout]" -map "[aout]" ` +
               `-t ${totalDuration.toFixed(2)} ` +
               `-c:v libx264 -preset fast -crf 22 -pix_fmt yuv420p ` +
-              `-c:a aac -b:a 192k "${finalVideoPath}"`;
+              `-c:a aac -b:a 192k -movflags +faststart "${finalVideoPath}"`;
 
   console.log(`    ⚡ Encoding vertical reel with FFmpeg...`);
   try {
-    execSync(cmd, { stdio: 'pipe' });
+    execSync(cmd, { stdio: 'pipe', maxBuffer: 100 * 1024 * 1024 });
   } catch (e) {
     console.error('    [!] FFmpeg STDERR:', e.stderr ? e.stderr.toString() : e.message);
     throw e;
@@ -806,3 +813,4 @@ main().catch(err => {
   console.error('[!] Fatal Error in Reel Maker:', err);
   process.exit(1);
 });
+
