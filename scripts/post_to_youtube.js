@@ -255,6 +255,13 @@ async function main() {
   const data = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, 'utf8'));
   const posts = data.posts || [];
 
+  const istDateStr = Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+  const isForce = process.env.FORCE_RUN === 'true' || process.argv.includes('--force');
+  if (data.date && data.date !== istDateStr && !isForce) {
+    console.warn(`[SAFETY GUARD] today_posts.json date (${data.date}) does not match current IST date (${istDateStr}). Halting YouTube upload to prevent duplicate/stale uploads!`);
+    process.exit(0);
+  }
+
   if (posts.length === 0) {
     console.log('[i] No posts found for today in today_posts.json.');
     process.exit(0);

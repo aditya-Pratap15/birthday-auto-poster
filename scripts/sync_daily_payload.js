@@ -388,12 +388,16 @@ async function getRawPayload() {
   }
 
   console.log(`[i] Fetching latest daily payload from Google Apps Script Web App...`);
+  const istDate = Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
   try {
-    const istDate = Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
     const sep = APPS_SCRIPT_URL.includes('?') ? '&' : '?';
     const fetchUrl = `${APPS_SCRIPT_URL}${sep}date=${istDate}`;
     const data = await fetchUrlWithRedirects(fetchUrl);
     if (data && (data.celebrities || data.posts)) {
+      if (data.date && data.date !== istDate) {
+        console.warn(`[!] Stale payload detected: payload date (${data.date}) does not match current target date (${istDate}). Rejecting stale payload.`);
+        return null;
+      }
       console.log('[✓] Successfully fetched payload from Google Apps Script!');
       return data;
     }
@@ -746,8 +750,9 @@ async function main() {
   const raw = await getRawPayload();
 
   if (!raw) {
-    console.log('[i] No incoming payload fetched. Preserving existing today_posts.json.');
-    process.exit(0);
+    const istDate = Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
+    console.error(`[CRITICAL] No incoming payload fetched for ${istDate}. Halting pipeline execution to prevent duplicate posting.`);
+    process.exit(1);
   }
 
   const normalized = await normalizePayload(raw);

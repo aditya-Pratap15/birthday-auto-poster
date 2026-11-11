@@ -137,7 +137,16 @@ function doGet(e) {
 
     if (requestedDate) {
       var exactFiles = folder.getFilesByName("celebrity_birthdays_" + requestedDate + ".json");
-      if (exactFiles.hasNext()) jsonFile = exactFiles.next();
+      if (exactFiles.hasNext()) {
+        jsonFile = exactFiles.next();
+      } else {
+        // Strict guard: Never fall back to older dates when a specific date is requested!
+        return ContentService.createTextOutput(JSON.stringify({
+          success: false,
+          not_found: true,
+          error: "No celebrity_birthdays JSON payload found for date " + requestedDate + " in Google Drive folder."
+        })).setMimeType(ContentService.MimeType.JSON);
+      }
     }
 
     // Fallback: search newest JSON file in folder
