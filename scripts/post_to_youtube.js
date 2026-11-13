@@ -237,7 +237,7 @@ async function main() {
   console.log('🎬 YouTube Shorts Auto Poster - Born Today Hollywood');
   console.log('======================================================\n');
 
-  const isForce = process.argv.includes('--force') || process.argv.includes('--replace') || process.env.FORCE_REPLACE === 'true';
+  const isForce = process.argv.includes('--force') || process.argv.includes('--replace') || process.env.FORCE_REPLACE === 'true' || process.env.FORCE_RUN === 'true';
   if (isForce) {
     console.log('[⚡] FORCE RE-UPLOAD ACTIVE: Existing YouTube Shorts will be deleted and replaced with new reels.\n');
   }
@@ -256,7 +256,6 @@ async function main() {
   const posts = data.posts || [];
 
   const istDateStr = Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
-  const isForce = process.env.FORCE_RUN === 'true' || process.argv.includes('--force');
   if (data.date && data.date !== istDateStr && !isForce) {
     console.warn(`[SAFETY GUARD] today_posts.json date (${data.date}) does not match current IST date (${istDateStr}). Halting YouTube upload to prevent duplicate/stale uploads!`);
     process.exit(0);
