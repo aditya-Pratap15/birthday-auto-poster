@@ -74,7 +74,9 @@
       "fb_reel_scheduled_time": 1794573600,
       "ig_post_id": "18470540506189762",
       "ig_reel_id": "18143119084615771",
-      "fb_comment_id": "122118492891506930_1158211143392971"
+      "fb_comment_id": "122118492891506930_1158211143392971",
+      "youtube_video_id": "bQhwi5_flfs",
+      "youtube_url": "https://www.youtube.com/shorts/bQhwi5_flfs"
     },
     {
       "id": "2026-11-13_02_Whoopi_Goldberg",
@@ -148,7 +150,9 @@
       "fb_reel_scheduled_time": 1794591600,
       "ig_post_id": "18091054463274270",
       "fb_comment_id": "122118493029506930_1684879439640846",
-      "ig_reel_id": "18115794917140133"
+      "ig_reel_id": "18115794917140133",
+      "youtube_video_id": "sHoLy7uxzGc",
+      "youtube_url": "https://www.youtube.com/shorts/sHoLy7uxzGc"
     },
     {
       "id": "2026-11-13_03_Jimmy_Kimmel",
@@ -219,7 +223,9 @@
       "fb_collage_photo_id": "122118493293506930",
       "collage_cdn_url": "https://scontent-iad3-2.xx.fbcdn.net/v/t39.30808-6/903841428_122118493299506930_1747225230512730278_n.jpg?_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=SL96Qv2VP2QQ7kNvwHc589L&_nc_oc=AdpS_mNZVcUDzJ1aSECKep0opCzFqGKjzNqP1ezV_jk1NOui-Nyi64MErWrGG_UR4HE&_nc_zt=23&_nc_ht=scontent-iad3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=C-Hvkj2kQlQogM9BRbRjYg&_nc_tpa=Q5bMBQIE-lmuI9C8kicM8PCb4Qo8VWZP5XGH8CuiOG48q8YXTgXRPQMVwtMSdq0ckdYyvgcFatxMpFGdPw&oh=00_AQQ83CTLvFRhKMNNZgBjCczTFy2LogR9wq7AMEx_QDawhg&oe=6AFC4C6D",
       "fb_reel_id": "2743276442793953",
-      "fb_reel_scheduled_time": 1794609600
+      "fb_reel_scheduled_time": 1794609600,
+      "youtube_video_id": "atd_6bfQln4",
+      "youtube_url": "https://www.youtube.com/shorts/atd_6bfQln4"
     }
   ],
   "quiz_posts": [
@@ -329,7 +335,9 @@
       "scheduled_time_utc": "2026-11-13T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
       "fb_reel_id": "1872363320439911",
-      "ig_reel_id": "18134188291771838"
+      "ig_reel_id": "18134188291771838",
+      "youtube_video_id": "0ddZxepiyr0",
+      "youtube_url": "https://www.youtube.com/shorts/0ddZxepiyr0"
     },
     {
       "id": "2026-11-13_quiz_04_Chris_Noth",
@@ -364,7 +372,9 @@
       "scheduled_publish_time": 1794603600,
       "scheduled_time_utc": "2026-11-13T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "4520167578312574"
+      "fb_reel_id": "4520167578312574",
+      "youtube_video_id": "daFLavuvme0",
+      "youtube_url": "https://www.youtube.com/shorts/daFLavuvme0"
     }
   ]
 }
