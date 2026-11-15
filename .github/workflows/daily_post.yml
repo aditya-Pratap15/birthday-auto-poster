@@ -36,23 +36,27 @@ jobs:
           FORCE_RUN: ${{ inputs.force_run || github.event.inputs.force_run || 'false' }}
         run: node scripts/check_daily_status.js
 
-      - name: Setup Python and Install Edge-TTS Engine
+      - name: Setup Python Runtime
         if: steps.check_status.outputs.already_done != 'true'
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install Latest Edge-TTS & Local ML Background Remover
+      - name: Install System Dependencies (FFmpeg & Espeak-NG)
         if: steps.check_status.outputs.already_done != 'true'
-        run: pip install --upgrade edge-tts rembg onnxruntime pillow
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg espeak-ng
+
+      - name: Install Kokoro AI TTS, Whisper Alignment & Multimedia ML
+        if: steps.check_status.outputs.already_done != 'true'
+        run: |
+          pip install --upgrade kokoro faster-whisper soundfile numpy rembg onnxruntime pillow edge-tts
+          python -m spacy download en_core_web_sm || pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
 
       - name: Install Node Dependencies
         if: steps.check_status.outputs.already_done != 'true'
         run: npm install
-
-      - name: Install FFmpeg & Multimedia Dependencies
-        if: steps.check_status.outputs.already_done != 'true'
-        run: sudo apt-get update && sudo apt-get install -y ffmpeg
 
       - name: Sync Incoming Daily Celebrity Payload
         if: steps.check_status.outputs.already_done != 'true'

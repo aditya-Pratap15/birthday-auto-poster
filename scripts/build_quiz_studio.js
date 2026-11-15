@@ -118,6 +118,37 @@ function downloadImageAsDataUri(url, retries = 2) {
 }
 
 async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 3) {
+  // --- ENGINE 1: Studio Kokoro AI TTS ---
+  const kokoroScript = path.join(__dirname, 'kokoro_tts_generator.py');
+  if (fs.existsSync(kokoroScript)) {
+    const tempTextPath = destPath + '.txt';
+    const subJsonPath = destPath + '.json';
+    fs.writeFileSync(tempTextPath, text, 'utf8');
+
+    const kokoroCommands = [
+      `python3 "${kokoroScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`,
+      `python "${kokoroScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`,
+      `uv run --with kokoro --with faster-whisper --with soundfile --with numpy python "${kokoroScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`
+    ];
+
+    for (const cmd of kokoroCommands) {
+      try {
+        console.log(`    🎙️ Synthesizing quiz narration (${voiceName}) via Kokoro AI [${cmd.split(' ')[0]}]...`);
+        execSync(cmd, { stdio: 'pipe', timeout: 120000 });
+        if (fs.existsSync(destPath) && fs.statSync(destPath).size > 1000) {
+          try { if (fs.existsSync(subJsonPath)) fs.unlinkSync(subJsonPath); } catch (e) {}
+          try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) {}
+          console.log(`    ✅ Studio Kokoro Quiz Voiceover created`);
+          return destPath;
+        }
+      } catch (e) {
+        // Fall through to next command
+      }
+    }
+    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) {}
+  }
+
+  // --- ENGINE 2: Python Edge-TTS Engine (Fallback) ---
   const pyScript = path.join(__dirname, 'edge_tts_generator.py');
   if (fs.existsSync(pyScript)) {
     const tempTextPath = destPath + '.txt';
@@ -132,7 +163,7 @@ async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 3) 
 
     for (const cmd of pyCommands) {
       try {
-        console.log(`    🎙️ Synthesizing quiz narration (${voiceName}) via Python Engine [${cmd.split(' ')[0]}]...`);
+        console.log(`    🎙️ Synthesizing quiz narration (${voiceName}) via Python Edge-TTS [${cmd.split(' ')[0]}]...`);
         execSync(cmd, { stdio: 'pipe', timeout: 60000 });
         if (fs.existsSync(destPath) && fs.statSync(destPath).size > 1000) {
           try { if (fs.existsSync(subJsonPath)) fs.unlinkSync(subJsonPath); } catch (e) {}

@@ -297,16 +297,54 @@ function detectGender(post) {
 }
 
 /**
- * Synthesize voiceover using Microsoft Edge Neural TTS
+ * Synthesize voiceover using Studio Kokoro AI (with Whisper alignment & Edge-TTS fallback)
  */
 
 async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
   const text = (rawText || '').replace(/&/g, ' and ').replace(/[<>]/g, '').trim();
   const isFemale = gender && gender.toLowerCase() === 'female';
-  const voice = isFemale ? 'en-US-JennyNeural' : 'en-US-ChristopherNeural';
-  const voiceLabel = `${voice} (${isFemale ? 'Female' : 'Male'})`;
+  const kokoroVoice = isFemale ? 'af_bella' : 'am_adam';
+  const edgeVoice = isFemale ? 'en-US-JennyNeural' : 'en-US-ChristopherNeural';
+  const voiceLabel = `${kokoroVoice} (${isFemale ? 'Female' : 'Male'})`;
 
-  // --- ENGINE 1: Python Edge-TTS (with automatic DRM 403 refresh & millisecond word boundaries) ---
+  // --- ENGINE 1: Studio Kokoro AI TTS (with Faster-Whisper millisecond alignment) ---
+  const kokoroScript = path.join(__dirname, 'kokoro_tts_generator.py');
+  if (fs.existsSync(kokoroScript)) {
+    const tempTextPath = outputPath + '.txt';
+    const subJsonPath = outputPath + '.json';
+    fs.writeFileSync(tempTextPath, text, 'utf8');
+
+    const kokoroCommands = [
+      `python3 "${kokoroScript}" "${tempTextPath}" "${kokoroVoice}" "${outputPath}" "${subJsonPath}"`,
+      `python "${kokoroScript}" "${tempTextPath}" "${kokoroVoice}" "${outputPath}" "${subJsonPath}"`,
+      `uv run --with kokoro --with faster-whisper --with soundfile --with numpy python "${kokoroScript}" "${tempTextPath}" "${kokoroVoice}" "${outputPath}" "${subJsonPath}"`
+    ];
+
+    for (const cmd of kokoroCommands) {
+      try {
+        console.log(`    🎙️ Synthesizing narration with Kokoro AI [${voiceLabel}] via [${cmd.split(' ')[0]}]...`);
+        execSync(cmd, { stdio: 'pipe', timeout: 120000 });
+        if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 1000) {
+          let boundaries = [];
+          if (fs.existsSync(subJsonPath)) {
+            try {
+              boundaries = JSON.parse(fs.readFileSync(subJsonPath, 'utf8'));
+              fs.unlinkSync(subJsonPath);
+            } catch (e) {}
+          }
+          try { fs.unlinkSync(tempTextPath); } catch (e) {}
+          const duration = getAudioDuration(outputPath);
+          console.log(`    ✅ Studio Kokoro AI Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries)`);
+          return { duration, boundaries };
+        }
+      } catch (e) {
+        // Fall through to next command
+      }
+    }
+    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) {}
+  }
+
+  // --- ENGINE 2: Python Edge-TTS (Fallback with automatic DRM 403 refresh & word boundaries) ---
   const pyScript = path.join(__dirname, 'edge_tts_generator.py');
   if (fs.existsSync(pyScript)) {
     const tempTextPath = outputPath + '.txt';
@@ -314,14 +352,14 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
     fs.writeFileSync(tempTextPath, text, 'utf8');
 
     const pyCommands = [
-      `python3 "${pyScript}" "${tempTextPath}" "${voice}" "${outputPath}" "${subJsonPath}"`,
-      `python "${pyScript}" "${tempTextPath}" "${voice}" "${outputPath}" "${subJsonPath}"`,
-      `uv run --with edge-tts python "${pyScript}" "${tempTextPath}" "${voice}" "${outputPath}" "${subJsonPath}"`
+      `python3 "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`,
+      `python "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`,
+      `uv run --with edge-tts python "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`
     ];
 
     for (const cmd of pyCommands) {
       try {
-        console.log(`    🎙️ Synthesizing narration with ${voiceLabel} via Python Engine [${cmd.split(' ')[0]}]...`);
+        console.log(`    🎙️ Synthesizing narration with ${edgeVoice} via Python Edge-TTS [${cmd.split(' ')[0]}]...`);
         execSync(cmd, { stdio: 'pipe', timeout: 60000 });
         if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 1000) {
           let boundaries = [];
