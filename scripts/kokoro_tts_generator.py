@@ -28,7 +28,7 @@ def fallback_edge_tts(text, voice_code, audio_path, json_path):
         sys.exit(1)
 
     edge_voice = "en-US-ChristopherNeural"
-    if any(k in voice_code.lower() for k in ["female", "jenny", "aria", "bella", "heart", "woman", "girl"]):
+    if any(k in voice_code.lower() for k in ["female", "jenny", "aria", "bella", "heart", "woman", "girl", "sarah", "nicole"]):
         edge_voice = "en-US-JennyNeural"
 
     async def _run():
@@ -59,13 +59,38 @@ def synthesize_kokoro(text, voice_code, audio_path, json_path):
         from kokoro import KPipeline
 
         # Map voice
-        kokoro_voice = "am_adam"
-        if any(k in voice_code.lower() for k in ["female", "jenny", "aria", "bella", "heart", "woman", "girl"]):
+        v_lower = voice_code.lower()
+        if "liam" in v_lower or v_lower == "am_liam":
+            kokoro_voice = "am_liam"
+            voice_speed = 1.08
+        elif "sarah" in v_lower or v_lower == "af_sarah":
+            kokoro_voice = "af_sarah"
+            voice_speed = 1.08
+        elif "eric" in v_lower or v_lower == "am_eric":
+            kokoro_voice = "am_eric"
+            voice_speed = 1.08
+        elif "michael" in v_lower or v_lower == "am_michael":
+            kokoro_voice = "am_michael"
+            voice_speed = 1.08
+        elif "adam" in v_lower or v_lower == "am_adam":
+            kokoro_voice = "am_adam"
+            voice_speed = 1.05
+        elif "bella" in v_lower or v_lower == "af_bella":
             kokoro_voice = "af_bella"
+            voice_speed = 1.05
+        elif "nicole" in v_lower or v_lower == "af_nicole":
+            kokoro_voice = "af_nicole"
+            voice_speed = 1.08
+        elif any(k in v_lower for k in ["female", "jenny", "aria", "heart", "woman", "girl"]):
+            kokoro_voice = "af_bella"
+            voice_speed = 1.05
+        else:
+            kokoro_voice = "am_adam"
+            voice_speed = 1.05
 
-        print(f"[*] Kokoro AI Engine: Synthesizing voice '{kokoro_voice}'...", file=sys.stderr)
+        print(f"[*] Kokoro AI Engine: Synthesizing voice '{kokoro_voice}' (speed={voice_speed})...", file=sys.stderr)
         pipeline = KPipeline(lang_code='a', repo_id='hexgrad/Kokoro-82M') # American English
-        generator = pipeline(text, voice=kokoro_voice, speed=1.05, split_pattern=r'\n+')
+        generator = pipeline(text, voice=kokoro_voice, speed=voice_speed, split_pattern=r'\n+')
 
         audio_chunks = []
         for _, _, audio in generator:

@@ -185,8 +185,11 @@ async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 3) 
   for (let a = 1; a <= retries; a++) {
     try {
       console.log(`    🎙️ Synthesizing quiz narration (${voiceName}) via Node Engine [Attempt ${a}/${retries}]...`);
+      const nodeEdgeVoice = (voiceName.includes('sarah') || voiceName.includes('bella') || voiceName.includes('female') || voiceName.includes('Jenny') || voiceName.includes('Aria'))
+        ? 'en-US-JennyNeural'
+        : 'en-US-GuyNeural';
       const tts = new EdgeTTS({
-        voice: voiceName,
+        voice: nodeEdgeVoice,
         lang: 'en-US',
         outputFormat: 'audio-24khz-96kbitrate-mono-mp3',
         timeout: 60000
@@ -704,7 +707,7 @@ async function run() {
       const r1VoiceRev = path.join(tempReelDir, 'r1_rev_voice.mp3');
 
       const isFemale3 = (q3Post.gender || 'male').toLowerCase() === 'female';
-      const voice3 = isFemale3 ? 'en-US-JennyNeural' : 'en-US-GuyNeural';
+      const voice3 = isFemale3 ? 'af_sarah' : 'am_liam';
       const pronoun3 = isFemale3 ? 'her' : 'his';
       const agePhrase3 = q3Post.age ? `${pronoun3} ${q3Post.age}th` : 'a';
 
@@ -1099,7 +1102,7 @@ async function run() {
     const q4AgeStr = q4Post.age ? `, celebrating their ${q4Post.age}th birthday today` : '';
     const q2FullText = `Which of these four legendary screen stars is ${q4TargetName}${q4AgeStr}? Look closely at Options A, B, C, and D! Your ten-second countdown starts now!`;
     const r2FullText = `That's right! Option ${r2CorrectOpt} is ${q4TargetName}! Read the full story in the caption below!`;
-    const voiceName = isFemale ? 'en-US-AriaNeural' : 'en-US-GuyNeural';
+    const voiceName = isFemale ? 'af_sarah' : 'am_liam';
 
     await new Promise(r => setTimeout(r, 1000));
     await synthesizeVoiceWithRetry(q2FullText, voiceName, r2VoiceQ);
