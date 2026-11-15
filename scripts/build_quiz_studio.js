@@ -125,7 +125,11 @@ async function synthesizeVoiceWithRetry(text, voiceName, destPath, retries = 3) 
     const subJsonPath = destPath + '.json';
     fs.writeFileSync(tempTextPath, text, 'utf8');
 
+    const localPy = 'C:\\Users\\prata\\.gemini\\antigravity\\brain\\1a698182-b192-4cc6-87cf-43b70f184e00\\scratch\\watermark_test\\.venv\\Scripts\\python.exe';
+    const pyBin = process.env.PYTHON_BIN || (fs.existsSync(localPy) ? localPy : null);
+
     const kokoroCommands = [
+      ...(pyBin ? [`"${pyBin}" "${kokoroScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`] : []),
       `python3 "${kokoroScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`,
       `python "${kokoroScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`,
       `uv run --with kokoro --with faster-whisper --with soundfile --with numpy python "${kokoroScript}" "${tempTextPath}" "${voiceName}" "${destPath}" "${subJsonPath}"`

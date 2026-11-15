@@ -314,7 +314,11 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
     const subJsonPath = outputPath + '.json';
     fs.writeFileSync(tempTextPath, text, 'utf8');
 
+    const localPy = 'C:\\Users\\prata\\.gemini\\antigravity\\brain\\1a698182-b192-4cc6-87cf-43b70f184e00\\scratch\\watermark_test\\.venv\\Scripts\\python.exe';
+    const pyBin = process.env.PYTHON_BIN || (fs.existsSync(localPy) ? localPy : null);
+
     const kokoroCommands = [
+      ...(pyBin ? [`"${pyBin}" "${kokoroScript}" "${tempTextPath}" "${kokoroVoice}" "${outputPath}" "${subJsonPath}"`] : []),
       `python3 "${kokoroScript}" "${tempTextPath}" "${kokoroVoice}" "${outputPath}" "${subJsonPath}"`,
       `python "${kokoroScript}" "${tempTextPath}" "${kokoroVoice}" "${outputPath}" "${subJsonPath}"`,
       `uv run --with kokoro --with faster-whisper --with soundfile --with numpy python "${kokoroScript}" "${tempTextPath}" "${kokoroVoice}" "${outputPath}" "${subJsonPath}"`
