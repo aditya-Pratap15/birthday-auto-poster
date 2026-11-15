@@ -70,11 +70,11 @@
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122119223505506930",
       "fb_collage_photo_id": "122119223505506930",
       "collage_cdn_url": "https://scontent-sjc6-1.xx.fbcdn.net/v/t39.30808-6/906654961_122119223511506930_2768707684356407654_n.jpg?_nc_cat=105&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=yHbQdsODaqsQ7kNvwGPeLfu&_nc_oc=AdrI8I4bPv-iTmVs74ffSuTIUADnvp35P7opoxMDuj7Ihow-cK4YIrWo85zuCDXrWQ8&_nc_zt=23&_nc_ht=scontent-sjc6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=3lEptdaFGTjV-74RN-WrgQ&_nc_tpa=Q5bMBQJCatWWieB1O3sc3gnOxHdw-bGQxYeC9W5mBoyK-g_Smi3NSRclgly-TQfE08q0XGLOeL6f1QXPsw&oh=00_AQS-fIYfK0N9PWgkb6XXmffhlO7KCQCCk9qfBUiiEVhchw&oe=6AFECA7E",
-      "youtube_video_id": "2ltYi_nrAlY",
-      "youtube_url": "https://www.youtube.com/shorts/2ltYi_nrAlY",
       "ig_post_id": "18107779988360127",
       "fb_reel_id": "4687983404822881",
-      "fb_reel_scheduled_time": 1794746400
+      "fb_reel_scheduled_time": 1794746400,
+      "youtube_video_id": "b0ONLwlUTFs",
+      "youtube_url": "https://www.youtube.com/shorts/b0ONLwlUTFs"
     },
     {
       "id": "2026-11-15_02_Winston_Duke",
@@ -144,10 +144,10 @@
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122119223613506930",
       "fb_collage_photo_id": "122119223613506930",
       "collage_cdn_url": "https://scontent-sjc6-1.xx.fbcdn.net/v/t39.30808-6/908532999_122119223619506930_1087518060179523803_n.jpg?_nc_cat=103&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=dmWwNklRgukQ7kNvwHPxsfy&_nc_oc=Adq0C2HX1ru4f9Wh8nFLImVLxnd0PIxYmRbHehmMoZCbyf3zsNb4Jun_KD7kc_JfrJI&_nc_zt=23&_nc_ht=scontent-sjc6-1.xx&edm=AMAeTUEEAAAA&_nc_gid=CdJysDIuzxaKGbkNP2X1Dg&_nc_tpa=Q5bMBQLpwK-U4SJCYBZ7BXTazPg5YFNdLhtdCRl-bw5nXnnBNXZpfdY4uUSnaxQssJbn1uoO0WMeOpA6Cg&oh=00_AQTLybcYi3HtSqtPeEKZvgw3pcQ1iY-jaLmPATFlfoHZxw&oe=6AFEF277",
-      "youtube_video_id": "LxH93zwCEFg",
-      "youtube_url": "https://www.youtube.com/shorts/LxH93zwCEFg",
       "fb_reel_id": "1678438557210428",
-      "fb_reel_scheduled_time": 1794764400
+      "fb_reel_scheduled_time": 1794764400,
+      "youtube_video_id": "J2-RqOKwdsU",
+      "youtube_url": "https://www.youtube.com/shorts/J2-RqOKwdsU"
     },
     {
       "id": "2026-11-15_03_Jonny_Lee_Miller",
@@ -217,10 +217,10 @@
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122119223835506930",
       "fb_collage_photo_id": "122119223835506930",
       "collage_cdn_url": "https://scontent-sjc3-1.xx.fbcdn.net/v/t39.30808-6/905826751_122119223841506930_6136554347549811062_n.jpg?_nc_cat=109&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=a7T0Ri_MhsgQ7kNvwFd2S6z&_nc_oc=AdoDdFt0_0YVRhcYNi2K3FFQbyyhSb61yM_p30Tc1NLkXTtrC6rCToo4SsKC3HoKrss&_nc_zt=23&_nc_ht=scontent-sjc3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=J2qvEt43onp94eWweDenyg&_nc_tpa=Q5bMBQJnCJAphrxeikxzKvsCgp_OIZN4x-71srbc962dy4jHOSkzcie18x_e9jLgLoHnSTk9u-VchZB4kA&oh=00_AQSLV1CSI5-zKnrbofDFuG5EPKTXdY0ow0683V63PMty8A&oe=6AFEE5ED",
-      "youtube_video_id": "QzqnqKjuegQ",
-      "youtube_url": "https://www.youtube.com/shorts/QzqnqKjuegQ",
       "fb_reel_id": "1573510118133804",
-      "fb_reel_scheduled_time": 1794782400
+      "fb_reel_scheduled_time": 1794782400,
+      "youtube_video_id": "xOyBKArg6yc",
+      "youtube_url": "https://www.youtube.com/shorts/xOyBKArg6yc"
     }
   ],
   "quiz_posts": [
@@ -327,9 +327,9 @@
       "scheduled_publish_time": 1794756600,
       "scheduled_time_utc": "2026-11-15T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "youtube_video_id": "WfinVKfJBIc",
-      "youtube_url": "https://www.youtube.com/shorts/WfinVKfJBIc",
-      "fb_reel_id": "1754739228962435"
+      "fb_reel_id": "1754739228962435",
+      "youtube_video_id": "0jbVBFn3QAU",
+      "youtube_url": "https://www.youtube.com/shorts/0jbVBFn3QAU"
     },
     {
       "id": "2026-11-15_quiz_04_Ed_Asner",
@@ -364,9 +364,9 @@
       "scheduled_publish_time": 1794776400,
       "scheduled_time_utc": "2026-11-15T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "youtube_video_id": "qrYOniAGoyI",
-      "youtube_url": "https://www.youtube.com/shorts/qrYOniAGoyI",
-      "fb_reel_id": "2267151723856496"
+      "fb_reel_id": "2267151723856496",
+      "youtube_video_id": "xxJGSDm-1kk",
+      "youtube_url": "https://www.youtube.com/shorts/xxJGSDm-1kk"
     }
   ]
 }
