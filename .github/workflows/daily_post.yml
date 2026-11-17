@@ -12,6 +12,9 @@ on:
         required: false
         default: false
         type: boolean
+  push:
+    paths:
+      - 'trigger_daily_run.txt'
 
 permissions:
   contents: write

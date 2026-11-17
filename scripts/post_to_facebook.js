@@ -875,8 +875,12 @@ async function main() {
     const isScheduling = schedTs && (schedTs > nowTs + 600);
 
     if (schedTs && schedTs < nowTs - 3600 && !isForce) {
-      console.warn(`[!] Scheduled time for ${celebName} is in the past (${schedTs} vs now ${nowTs}). Skipping live publication to prevent duplicate spam.`);
-      continue;
+      if (data.date === istDateStr && !post.fb_post_id) {
+        console.log(`[⚡] Scheduled time for ${celebName} was earlier today. Publishing LIVE now since it was missed.`);
+      } else {
+        console.warn(`[!] Scheduled time for ${celebName} is in the past (${schedTs} vs now ${nowTs}). Skipping live publication to prevent duplicate spam.`);
+        continue;
+      }
     }
 
     // -------------------------------------------------------------
