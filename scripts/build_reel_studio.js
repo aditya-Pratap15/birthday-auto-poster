@@ -1132,20 +1132,28 @@ async function buildReel(post, index = 1) {
 
   inputs.push(`-loop 1 -t ${outroInDur.toFixed(2)} -i "${styledLogoPath}"`);
 
+  // Black lead-in input for the opening entrance transition
+  const blackIntroIdx = inputs.length;
+  inputs.push(`-f lavfi -t ${D_trans.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
+
   let watermarkIdx = -1;
   if (watermarkLogoPath && fs.existsSync(watermarkLogoPath)) {
     watermarkIdx = inputs.length;
     inputs.push(`-loop 1 -t ${totalDuration.toFixed(2)} -i "${watermarkLogoPath}"`);
   }
 
-  // Visual Transitions from start to end using xfade
+  // Visual Transitions from start to end using xfade:
+  // - Opening Entrance: Cinematic 'circleopen' spotlight iris revealing the first image
+  // - Milestone Slides: Fluid 'smoothleft' push crossfades
+  // - Outro Screen: Luxury 'fade' dissolve into the gold particle explosion
   const off1 = eraSlideDuration.toFixed(2);
   const off2 = (eraSlideDuration * 2).toFixed(2);
   const off3 = (eraSlideDuration * 3).toFixed(2);
   const off4 = (eraSlideDuration * 4).toFixed(2);
 
   filterComplex += 
-    `[slide0][slide1]xfade=transition=smoothleft:duration=${D_trans}:offset=${off1}[x1];` +
+    `[${blackIntroIdx}:v][slide0]xfade=transition=circleopen:duration=${D_trans}:offset=0[x0];` +
+    `[x0][slide1]xfade=transition=smoothleft:duration=${D_trans}:offset=${off1}[x1];` +
     `[x1][slide2]xfade=transition=smoothleft:duration=${D_trans}:offset=${off2}[x2];` +
     `[x2][slide3]xfade=transition=smoothleft:duration=${D_trans}:offset=${off3}[x3];` +
     `[x3][slide_outro]xfade=transition=fade:duration=${D_trans}:offset=${off4},setsar=1[vbase];`;
