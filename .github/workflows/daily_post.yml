@@ -49,7 +49,7 @@ jobs:
         if: steps.check_status.outputs.already_done != 'true'
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg espeak-ng
+          sudo apt-get install -y ffmpeg espeak-ng fonts-liberation fonts-dejavu-core
 
       - name: Install Kokoro AI TTS, Whisper Alignment & Multimedia ML
         if: steps.check_status.outputs.already_done != 'true'

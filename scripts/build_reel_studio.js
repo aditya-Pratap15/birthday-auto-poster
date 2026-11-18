@@ -760,7 +760,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName, cel
   console.log('    🎨 Rendering 4 high-end slide cards via Puppeteer...');
   const browser = await puppeteer.launch({
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
+    args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
   });
 
   const page = await browser.newPage();
