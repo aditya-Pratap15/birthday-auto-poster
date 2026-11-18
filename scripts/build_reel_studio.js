@@ -386,19 +386,13 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
     }
     try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) { }
   }
-      } catch (e) {
-        // Fall through to next command
-      }
-    }
-    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) { }
-  }
 
-  // --- ENGINE 2: Native Node.js EdgeTTS (with generous 60s timeout and retries) ---
+  // --- ENGINE 3: Native Node.js EdgeTTS (with generous 60s timeout and retries) ---
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      console.log(`    🎙️ Synthesizing narration with ${voiceLabel} via Node Engine [Attempt ${attempt}/${maxRetries}]...`);
+      console.log(`    🎙️ Synthesizing narration with ${edgeVoice} via Node Engine [Attempt ${attempt}/${maxRetries}]...`);
       const tts = new EdgeTTS({
-        voice: voice,
+        voice: edgeVoice,
         lang: 'en-US',
         outputFormat: 'audio-24khz-96kbitrate-mono-mp3',
         saveSubtitles: true,
