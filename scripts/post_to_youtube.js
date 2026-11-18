@@ -428,5 +428,8 @@ async function main() {
 
 main().catch(err => {
   console.error('[!] Fatal YouTube Script Error:', err);
+  try {
+    fs.writeFileSync(path.join(BASE_DIR, 'youtube_error.log'), String(err.stack || err.message || err), 'utf8');
+  } catch(e) {}
   process.exit(1);
 });
