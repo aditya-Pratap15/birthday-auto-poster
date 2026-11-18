@@ -632,17 +632,17 @@ function resolveCutoutAndRole(post, safeName) {
 }
 
 // -------------------------------------------------------------
-// Iconic 3D Red Vector Arrow Generator (Arbitrary Angle & Target)
+// Iconic 3D Red Vector Arrow Generator (Canonical Center Alignment)
 // -------------------------------------------------------------
-function buildIconic3DArrowSVG(angleDeg = 0, scale = 1.0) {
-  // Canonical arrow pointing RIGHT (0 deg) with razor-sharp tip at (0, 0)
+function buildCanonicalArrowSVG(scale = 1.05) {
+  // Canonical arrow pointing RIGHT (0 deg) with razor-sharp tip exactly at (0, 0)
   const L = 220 * scale;          // total shaft length
   const headLen = 95 * scale;     // head length along pointing axis
   const headHalfW = 60 * scale;   // head half width (total 120px)
   const shaftHalfW = 24 * scale;  // shaft half width (total 48px)
   const barbRetract = 22 * scale; // hooked back barb past notch
 
-  // Exact 7-vertex canonical path (Tip at 0, 0)
+  // Exact 7-vertex canonical path (Tip at 0, 0, shaft extending to negative X)
   const pathD = `M 0 0 ` +
     `L ${(-headLen).toFixed(1)} ${(-headHalfW).toFixed(1)} ` +
     `L ${(-headLen + barbRetract).toFixed(1)} ${(-shaftHalfW).toFixed(1)} ` +
@@ -652,7 +652,8 @@ function buildIconic3DArrowSVG(angleDeg = 0, scale = 1.0) {
     `L ${(-headLen).toFixed(1)} ${(headHalfW).toFixed(1)} ` +
     `Z`;
 
-  const boxSize = 360;
+  // 520x520 canvas ensures tip at (260, 260) rotates 360 deg without clipping
+  const boxSize = 520;
   const cx = boxSize / 2;
   const cy = boxSize / 2;
 
@@ -680,7 +681,7 @@ function buildIconic3DArrowSVG(angleDeg = 0, scale = 1.0) {
         </linearGradient>
       </defs>
       <g filter="url(#arrow-depth-shadow)">
-        <g transform="translate(${cx}, ${cy}) rotate(${angleDeg})">
+        <g transform="translate(${cx}, ${cy})">
           <!-- 3D Extruded Block Base -->
           ${bevelLayers.join('\n          ')}
           <!-- Crisp Red Face with Dark Border -->
@@ -692,7 +693,7 @@ function buildIconic3DArrowSVG(angleDeg = 0, scale = 1.0) {
     </svg>
   `;
 
-  return { svg, boxSize, cx, cy, angleDeg };
+  return { svg, boxSize, cx, cy };
 }
 
 // -------------------------------------------------------------
@@ -815,31 +816,26 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
     await page.screenshot({ path: renderedCutoutPath, omitBackground: true });
 
     // Render iconic, mathematically precise 3D Red Vector Arrow overlay
-    // Target: Character cutout upper body in 1080x1920 space
-    // Cutout sits at x: 25, y: 1010, size: 580x840 -> target torso/chest ~ (320, 1380)
-    const tx = 320;
-    const ty = 1380;
-    // Arrow settles with tip at (550, 1260), strictly outside the cutout
-    const ax = 550;
-    const ay = 1260;
-    const dx = tx - ax;
-    const dy = ty - ay;
-    const angleDeg = (Math.atan2(dy, dx) * 180) / Math.PI; // Dynamic angle towards target (~152.4 deg)
-
-    const arrow = buildIconic3DArrowSVG(angleDeg, 1.05);
+    // Canonical 520x520 format: Tip is centered at (260, 260) pointing at 0 deg,
+    // allowing real-time smooth rotation along curved trajectory in FFmpeg filter graph.
+    const arrow = buildCanonicalArrowSVG(1.05);
     await page.setViewport({ width: arrow.boxSize, height: arrow.boxSize });
     await page.setContent(`<!DOCTYPE html><html><body style="margin:0; background:transparent; overflow:hidden;">${arrow.svg}</body></html>`);
     renderedArrowPath = path.join(TEMP_DIR, `${safeName}_arrow_clean.png`);
     await page.screenshot({ path: renderedArrowPath, omitBackground: true });
-    console.log(`    🎯 Iconic 3D Red Arrow generated: ${arrow.boxSize}x${arrow.boxSize} pointing at ${angleDeg.toFixed(1)}°`);
+    console.log(`    🎯 Canonical 3D Red Arrow generated: ${arrow.boxSize}x${arrow.boxSize} (tip centered at ${arrow.cx}, ${arrow.cy})`);
 
-    // In FFmpeg overlay space, since tip is at (cx, cy) inside the image:
-    // overlayX = Tip_X - cx, overlayY = Tip_Y - cy
+    // Orbital Arc Trajectory around character cutout (Scenario 1: Asset on LEFT at x: 25, y: 1010)
+    // P0: (550, 1080) at 135 deg (pointing down-left at head)
+    // P1: (680, 1260) at 165 deg (outer right sweep, pointing left at torso)
+    // P2: (520, 1440) at 205 deg (settles at bottom-right, pointing up-left at cash/waist)
     arrowAnimConfig = {
-      x0: 760 - arrow.cx, y0: 1020 - arrow.cy,
-      x1: 800 - arrow.cx, y1: 1200 - arrow.cy,
-      x2: ax - arrow.cx,  y2: ay - arrow.cy,
-      angleDeg,
+      boxSize: arrow.boxSize,
+      cx: arrow.cx,
+      cy: arrow.cy,
+      p0: { x: 550, y: 1080, angle: 135 },
+      p1: { x: 680, y: 1260, angle: 165 },
+      p2: { x: 520, y: 1440, angle: 205 },
       nudgeAmp: 20
     };
   }
@@ -1072,19 +1068,59 @@ async function buildReel(post, index = 1) {
       filterComplex += `[${k}:v]zoompan=z='max(1.06-0.00035*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     } else if (k === 2 && cutoutInputIdx !== -1 && arrowInputIdx !== -1) {
       // Slide 2 is the Cameo Slide:
-      // Base zoompan + Cameo slide-in from left + Iconic 3D Red Arrow (blinking, smooth curved swoop, and rhythmic pulse nudge)
-      const cfg = arrowAnimConfig || { x0: 580, y0: 840, x1: 620, y1: 1020, x2: 370, y2: 1080, angleDeg: 152.4, nudgeAmp: 20 };
-      const rad = (cfg.angleDeg * Math.PI) / 180;
-      const nudgeX = (cfg.nudgeAmp * Math.cos(rad)).toFixed(2);
-      const nudgeY = (cfg.nudgeAmp * Math.sin(rad)).toFixed(2);
+      // Base zoompan + Cameo slide-in from left + Iconic 3D Red Arrow (blinking -> curved orbital sweep with dynamic rotation -> settled rhythmic nudge)
+      const cfg = arrowAnimConfig || {
+        boxSize: 520,
+        cx: 260,
+        cy: 260,
+        p0: { x: 550, y: 1080, angle: 135 },
+        p1: { x: 680, y: 1260, angle: 165 },
+        p2: { x: 520, y: 1440, angle: 205 },
+        nudgeAmp: 20
+      };
 
-      const xExpr = `if(lt(t,1.85), (1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*${cfg.x0} + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*${cfg.x1} + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*${cfg.x2}, ${cfg.x2} + (${nudgeX}) * pow(max(0, sin(3.14159 * mod(t-1.85, 0.65)/0.65)), 2))`;
-      const yExpr = `if(lt(t,1.85), (1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*${cfg.y0} + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*${cfg.y1} + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*${cfg.y2}, ${cfg.y2} + (${nudgeY}) * pow(max(0, sin(3.14159 * mod(t-1.85, 0.65)/0.65)), 2))`;
+      const cx = cfg.cx;
+      const cy = cfg.cy;
+      const p0 = cfg.p0;
+      const p1 = cfg.p1;
+      const p2 = cfg.p2;
+      const nudgeAmp = cfg.nudgeAmp;
+      const radP2 = (p2.angle * Math.PI) / 180;
+      const nudgeX = (nudgeAmp * Math.cos(radP2)).toFixed(2);
+      const nudgeY = (nudgeAmp * Math.sin(radP2)).toFixed(2);
+
+      // Smooth normalized cubic easing parameter s in [0, 1] for t in [0.85s, 2.20s] (duration 1.35s)
+      const uExpr = `min(1,max(0,(t-0.85)/1.35))`;
+      const sExpr = `(3*pow(${uExpr},2)-2*pow(${uExpr},3))`;
+      const b0 = `pow(1-${sExpr},2)`;
+      const b1 = `2*(1-${sExpr})*${sExpr}`;
+      const b2 = `pow(${sExpr},2)`;
+
+      // Dynamic rotation angle (degrees along arc, converted to radians for FFmpeg rotate filter)
+      const angleArcDeg = `(${b0}*${p0.angle} + ${b1}*${p1.angle} + ${b2}*${p2.angle})`;
+      const rotExpr = `if(lt(t,0.85), ${p0.angle}*PI/180, if(lt(t,2.20), (${angleArcDeg})*PI/180, ${p2.angle}*PI/180))`;
+
+      // Bézier trajectory for arrow tip
+      const tipXArc = `(${b0}*${p0.x} + ${b1}*${p1.x} + ${b2}*${p2.x})`;
+      const tipYArc = `(${b0}*${p0.y} + ${b1}*${p1.y} + ${b2}*${p2.y})`;
+
+      // Settled rhythmic pulse nudge along pointing axis
+      const pulseExpr = `pow(max(0,sin(3.14159*mod(t-2.20,0.65)/0.65)),2)`;
+      const tipXSettled = `(${p2.x} + (${nudgeX})*${pulseExpr})`;
+      const tipYSettled = `(${p2.y} + (${nudgeY})*${pulseExpr})`;
+
+      // Overlay coordinates in video space (Tip - (cx, cy))
+      const xExpr = `if(lt(t,0.85), ${p0.x - cx}, if(lt(t,2.20), ${tipXArc} - ${cx}, ${tipXSettled} - ${cx}))`;
+      const yExpr = `if(lt(t,0.85), ${p0.y - cy}, if(lt(t,2.20), ${tipYArc} - ${cy}, ${tipYSettled} - ${cy}))`;
+
+      // Visibility: Cameo enters at 0s. Arrow blinks 3x between 0.45s and 0.85s, then stays visible.
+      const enableExpr = `gte(t,0.45)*(if(lt(t,0.85),lt(mod(t-0.45,0.16),0.09),1))`;
 
       filterComplex += 
         `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom2];` +
+        `[${arrowInputIdx}:v]rotate=a='${rotExpr}':ow=${cfg.boxSize}:oh=${cfg.boxSize}:c=none[rot_arrow];` +
         `[base_zoom2][${cutoutInputIdx}:v]overlay=x='if(lt(t,0.45),-580+(580+25)*(1-pow(1-t/0.45,3)),25)':y='1010':enable='gte(t,0)'[with_cameo];` +
-        `[with_cameo][${arrowInputIdx}:v]overlay=x='${xExpr}':y='${yExpr}':enable='gte(t,0.45)*(if(lt(t,0.85),mod(floor((t-0.45)*10),2),1))',setsar=1[slide${k}];`;
+        `[with_cameo][rot_arrow]overlay=x='${xExpr}':y='${yExpr}':enable='${enableExpr}',setsar=1[slide${k}];`;
     } else {
       filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     }
