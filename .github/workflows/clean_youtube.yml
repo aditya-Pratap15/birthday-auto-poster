@@ -1,10 +1,11 @@
-name: Clean YouTube Duplicate Shorts
+name: Clean YouTube Target Shorts
 
 on:
   workflow_dispatch:
   push:
     paths:
       - '.github/workflows/clean_youtube.yml'
+      - 'scripts/delete_today_youtube.js'
 
 jobs:
   cleanup:
@@ -18,9 +19,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: Run YouTube Duplicate Cleaner
+      - name: Run YouTube Target Deletion
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-        run: node scripts/clean_youtube_duplicates.js
+        run: node scripts/delete_today_youtube.js

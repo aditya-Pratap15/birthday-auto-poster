@@ -2,6 +2,8 @@
 /**
  * YouTube Specific Celebrity Deletion Tool
  * Finds and permanently deletes videos for specified celebrities on the authenticated channel.
+ * Queries BOTH search.list (forMine=true, capturing private & scheduled videos)
+ * and playlistItems.list (capturing all uploads).
  */
 
 const fs = require('fs');
@@ -87,29 +89,67 @@ function deleteVideo(accessToken, videoId) {
 }
 
 async function getAllUploads(accessToken) {
-  const channelData = await httpsGetJson('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true', accessToken);
-  if (!channelData || !channelData.items || channelData.items.length === 0) {
-    console.log('[!] Could not fetch uploads playlist via channels.list, falling back to search...');
-    const searchData = await httpsGetJson('https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&type=video&order=date&maxResults=50', accessToken);
-    if (!searchData || !searchData.items) return [];
-    return searchData.items.map(item => ({
-      videoId: item.id.videoId,
-      title: item.snippet?.title || '',
-      publishedAt: item.snippet?.publishedAt || ''
-    }));
+  const videoMap = new Map();
+
+  // 1. Search for all videos belonging to authenticated channel (includes public, unlisted, private, scheduled)
+  try {
+    console.log('[i] Querying search.list (forMine=true)...');
+    let nextPageToken = '';
+    do {
+      const pageUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&forMine=true&type=video&order=date&maxResults=50${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
+      const searchData = await httpsGetJson(pageUrl, accessToken);
+      if (searchData && searchData.items) {
+        for (const item of searchData.items) {
+          const vId = item.id?.videoId;
+          if (vId && !videoMap.has(vId)) {
+            videoMap.set(vId, {
+              videoId: vId,
+              title: item.snippet?.title || '',
+              publishedAt: item.snippet?.publishedAt || ''
+            });
+          }
+        }
+        nextPageToken = searchData.nextPageToken || '';
+      } else {
+        nextPageToken = '';
+      }
+    } while (nextPageToken && videoMap.size < 100);
+  } catch (err) {
+    console.warn('[!] Search API warning:', err.message);
   }
 
-  const uploadPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
-  console.log(`[i] Uploads Playlist ID: ${uploadPlaylistId}`);
+  // 2. Also query uploads playlist to ensure no public/unlisted uploads were missed
+  try {
+    const channelData = await httpsGetJson('https://www.googleapis.com/youtube/v3/channels?part=contentDetails&mine=true', accessToken);
+    if (channelData && channelData.items && channelData.items.length > 0) {
+      const uploadPlaylistId = channelData.items[0].contentDetails.relatedPlaylists.uploads;
+      console.log(`[i] Querying uploads playlist (${uploadPlaylistId})...`);
+      let nextPageToken = '';
+      do {
+        const pUrl = `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status&playlistId=${uploadPlaylistId}&maxResults=50${nextPageToken ? `&pageToken=${nextPageToken}` : ''}`;
+        const playlistData = await httpsGetJson(pUrl, accessToken);
+        if (playlistData && playlistData.items) {
+          for (const item of playlistData.items) {
+            const vId = item.snippet?.resourceId?.videoId;
+            if (vId && !videoMap.has(vId)) {
+              videoMap.set(vId, {
+                videoId: vId,
+                title: item.snippet?.title || '',
+                publishedAt: item.snippet?.publishedAt || ''
+              });
+            }
+          }
+          nextPageToken = playlistData.nextPageToken || '';
+        } else {
+          nextPageToken = '';
+        }
+      } while (nextPageToken && videoMap.size < 100);
+    }
+  } catch (err) {
+    console.warn('[!] Uploads playlist warning:', err.message);
+  }
 
-  const playlistData = await httpsGetJson(`https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,status&playlistId=${uploadPlaylistId}&maxResults=50`, accessToken);
-  if (!playlistData || !playlistData.items) return [];
-
-  return playlistData.items.map(item => ({
-    videoId: item.snippet?.resourceId?.videoId,
-    title: item.snippet?.title || '',
-    publishedAt: item.snippet?.publishedAt || ''
-  }));
+  return Array.from(videoMap.values());
 }
 
 async function main() {
@@ -126,7 +166,7 @@ async function main() {
   console.log('[✓] YouTube Access Token refreshed successfully.');
 
   const videos = await getAllUploads(accessToken);
-  console.log(`[i] Retrieved ${videos.length} videos from channel.\n`);
+  console.log(`[i] Retrieved total ${videos.length} videos from channel.\n`);
 
   let deletedCount = 0;
   for (const v of videos) {
@@ -138,7 +178,12 @@ async function main() {
       console.log(`[🎯 TARGET FOUND] Video ID: ${v.videoId} | Title: "${v.title}"`);
       console.log(`   Deleting from YouTube...`);
       const success = await deleteVideo(accessToken, v.videoId);
-      if (success) deletedCount++;
+      if (success) {
+        deletedCount++;
+        console.log(`   [✅] Deleted: ${v.videoId}`);
+      } else {
+        console.error(`   [❌] Failed to delete: ${v.videoId}`);
+      }
     } else {
       console.log(` - Preserving: ${v.videoId} | "${v.title}"`);
     }
