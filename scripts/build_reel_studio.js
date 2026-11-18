@@ -652,8 +652,8 @@ function buildCanonicalArrowSVG(scale = 1.05) {
     `L ${(-headLen).toFixed(1)} ${(headHalfW).toFixed(1)} ` +
     `Z`;
 
-  // 520x520 canvas ensures tip at (260, 260) rotates 360 deg without clipping
-  const boxSize = 520;
+  // Dynamically sized square canvas ensures tip at (cx, cy) rotates 360 deg without clipping
+  const boxSize = Math.max(520, Math.ceil((scale * 500) / 20) * 20);
   const cx = boxSize / 2;
   const cy = boxSize / 2;
 
@@ -773,19 +773,25 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
       });
     }, rawB64);
 
-    // Render standalone enlarged transparent cutout overlay (580x840)
-    await page.setViewport({ width: 580, height: 840 });
+    // Render standalone transparent cutout overlay with dynamic dimensions & metrics
+    const cutoutW = 580;
+    const cutoutH = 840;
+    const cutoutLeft = 25;
+    const cutoutBottom = 70;
+    const cutoutTop = 1920 - cutoutH - cutoutBottom; // 1010 in 1080x1920 space
+
+    await page.setViewport({ width: cutoutW, height: cutoutH });
     const cutoutOverlayHtml = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
         <style>
-          body, html { width: 580px; height: 840px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
+          body, html { width: ${cutoutW}px; height: ${cutoutH}px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
           .cutout-stroke {
             position: absolute;
             left: 15px; bottom: 15px;
-            width: 550px; height: 810px;
+            width: ${cutoutW - 30}px; height: ${cutoutH - 30}px;
             filter: url(#white-border-filter) drop-shadow(0 20px 35px rgba(0, 0, 0, 0.85));
           }
           .cutout-stroke img {
@@ -815,28 +821,95 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
     renderedCutoutPath = path.join(TEMP_DIR, `${safeName}_cameo_cutout_clean.png`);
     await page.screenshot({ path: renderedCutoutPath, omitBackground: true });
 
-    // Render iconic, mathematically precise 3D Red Vector Arrow overlay
-    // Canonical 520x520 format: Tip is centered at (260, 260) pointing at 0 deg,
-    // allowing real-time smooth rotation along curved trajectory in FFmpeg filter graph.
-    const arrow = buildCanonicalArrowSVG(1.05);
+    // Measure exact pixel contour and non-transparent boundary inside the rendered cutout
+    const assetMetrics = await page.evaluate((vw, vh) => {
+      const img = document.querySelector('.cutout-stroke img');
+      const rect = img.getBoundingClientRect();
+      const canvas = document.createElement('canvas');
+      canvas.width = vw;
+      canvas.height = vh;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, rect.left, rect.top, rect.width, rect.height);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+      let minX = canvas.width, maxX = 0, minY = canvas.height, maxY = 0;
+      const rowMaxX = {};
+      for (let y = 0; y < canvas.height; y++) {
+        for (let x = 0; x < canvas.width; x++) {
+          if (data[(y * canvas.width + x) * 4 + 3] > 15) {
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+            if (rowMaxX[y] === undefined || x > rowMaxX[y]) rowMaxX[y] = x;
+          }
+        }
+      }
+      return { minX, maxX, minY, maxY, rowMaxX };
+    }, cutoutW, cutoutH);
+
+    // Compute exact on-screen coordinates in 1080x1920 video canvas
+    const screenLeft = cutoutLeft + assetMetrics.minX;
+    const screenRight = cutoutLeft + assetMetrics.maxX;
+    const screenTop = cutoutTop + assetMetrics.minY;
+    const screenBottom = cutoutTop + assetMetrics.maxY;
+    const screenW = screenRight - screenLeft;
+    const screenH = screenBottom - screenTop;
+
+    // Baseline reference: Frank Reynolds at 580x840 gives screenW=539, screenH=701
+    const BASE_W = 539;
+    const BASE_H = 701;
+    const scaleRatio = Math.max(0.7, screenW / BASE_W);
+
+    // Dynamic Adaptive Arrow Trajectory Points:
+    // P0: Start of arc / Blink position (above and to the right of head)
+    const p0_y = screenTop - Math.round(53 * (screenH / BASE_H));
+    const headRelY = assetMetrics.minY + Math.round(0.12 * screenH);
+    const headContourX = cutoutLeft + (assetMetrics.rowMaxX[headRelY] || assetMetrics.maxX);
+    const p0_x = headContourX + Math.round(216 * scaleRatio);
+    const headTargetX = screenLeft + 0.55 * screenW;
+    const headTargetY = screenTop + 0.12 * screenH;
+    let p0_angle = (Math.atan2(headTargetY - p0_y, headTargetX - p0_x) * 180) / Math.PI;
+    if (p0_angle < 0) p0_angle += 360;
+
+    // P1: Apex of outer curved arc (maintains safe clearance beyond the rightmost pixel)
+    const p1_y = screenTop + Math.round(0.181 * screenH);
+    const p1_x = screenRight + Math.round(101 * scaleRatio);
+    const torsoTargetX = screenLeft + 0.50 * screenW;
+    const torsoTargetY = screenTop + 0.35 * screenH;
+    let p1_angle = (Math.atan2(torsoTargetY - p1_y, torsoTargetX - p1_x) * 180) / Math.PI;
+    if (p1_angle < 0) p1_angle += 360;
+
+    // P2: Settled resting position (maintains exact clearance from body contour)
+    const p2_y = screenTop + Math.round(0.438 * screenH);
+    const bodyRelY = assetMetrics.minY + Math.round(0.438 * screenH);
+    const bodyContourX = cutoutLeft + (assetMetrics.rowMaxX[bodyRelY] || assetMetrics.maxX);
+    const p2_x = bodyContourX + Math.round(152 * scaleRatio);
+    let p2_angle = (Math.atan2(torsoTargetY - p2_y, torsoTargetX - p2_x) * 180) / Math.PI;
+    if (p2_angle < 0) p2_angle += 360;
+
+    // Arrow scale adapts proportionally with asset size
+    const arrowScale = 1.05 * Math.max(0.85, Math.min(1.4, scaleRatio));
+    const arrow = buildCanonicalArrowSVG(arrowScale);
     await page.setViewport({ width: arrow.boxSize, height: arrow.boxSize });
     await page.setContent(`<!DOCTYPE html><html><body style="margin:0; background:transparent; overflow:hidden;">${arrow.svg}</body></html>`);
     renderedArrowPath = path.join(TEMP_DIR, `${safeName}_arrow_clean.png`);
     await page.screenshot({ path: renderedArrowPath, omitBackground: true });
-    console.log(`    🎯 Canonical 3D Red Arrow generated: ${arrow.boxSize}x${arrow.boxSize} (tip centered at ${arrow.cx}, ${arrow.cy})`);
+    console.log(`    🎯 Adaptive 3D Arrow generated: ${arrow.boxSize}x${arrow.boxSize} (scale: ${arrowScale.toFixed(2)})`);
+    console.log(`    📏 Asset metrics: ${screenW}x${screenH} at [${screenLeft}, ${screenTop}]. Arrow clearance: P0=${p0_x - headContourX}px, P1=${p1_x - screenRight}px, P2=${p2_x - bodyContourX}px`);
 
-    // Orbital Arc Trajectory around character cutout (Scenario 1: Asset on LEFT at x: 25, y: 1010)
-    // P0: (550, 1080) at 135 deg (pointing down-left at head)
-    // P1: (680, 1260) at 165 deg (outer right sweep, pointing left at torso)
-    // P2: (520, 1440) at 205 deg (settles at bottom-right, pointing up-left at cash/waist)
     arrowAnimConfig = {
       boxSize: arrow.boxSize,
       cx: arrow.cx,
       cy: arrow.cy,
-      p0: { x: 550, y: 1080, angle: 135 },
-      p1: { x: 680, y: 1260, angle: 165 },
-      p2: { x: 520, y: 1440, angle: 205 },
-      nudgeAmp: 20
+      p0: { x: p0_x, y: p0_y, angle: p0_angle },
+      p1: { x: p1_x, y: p1_y, angle: p1_angle },
+      p2: { x: p2_x, y: p2_y, angle: p2_angle },
+      nudgeAmp: Math.round(20 * scaleRatio),
+      cutoutW,
+      cutoutH,
+      cutoutLeft,
+      cutoutTop
     };
   }
 
@@ -1116,10 +1189,15 @@ async function buildReel(post, index = 1) {
       // Visibility: Cameo enters at 0s. Arrow blinks 3x between 0.45s and 0.85s, then stays visible.
       const enableExpr = `gte(t,0.45)*(if(lt(t,0.85),lt(mod(t-0.45,0.16),0.09),1))`;
 
+      // Dynamic slide-in and placement matching actual asset container dimensions
+      const slideStartX = -(cfg.cutoutW || 580);
+      const slideEndX = cfg.cutoutLeft !== undefined ? cfg.cutoutLeft : 25;
+      const cutoutPosY = cfg.cutoutTop !== undefined ? cfg.cutoutTop : 1010;
+
       filterComplex += 
         `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom2];` +
         `[${arrowInputIdx}:v]rotate=a='${rotExpr}':ow=${cfg.boxSize}:oh=${cfg.boxSize}:c=none[rot_arrow];` +
-        `[base_zoom2][${cutoutInputIdx}:v]overlay=x='if(lt(t,0.45),-580+(580+25)*(1-pow(1-t/0.45,3)),25)':y='1010':enable='gte(t,0)'[with_cameo];` +
+        `[base_zoom2][${cutoutInputIdx}:v]overlay=x='if(lt(t,0.45), ${slideStartX} + (${Math.abs(slideStartX) + slideEndX})*(1-pow(1-t/0.45,3)), ${slideEndX})':y='${cutoutPosY}':enable='gte(t,0)'[with_cameo];` +
         `[with_cameo][rot_arrow]overlay=x='${xExpr}':y='${yExpr}':enable='${enableExpr}',setsar=1[slide${k}];`;
     } else {
       filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
