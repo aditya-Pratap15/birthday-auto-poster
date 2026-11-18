@@ -307,7 +307,46 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
   const edgeVoice = isFemale ? 'en-US-JennyNeural' : 'en-US-ChristopherNeural';
   const voiceLabel = `${kokoroVoice} (${isFemale ? 'Female' : 'Male'})`;
 
-  // --- ENGINE 1: Studio Kokoro AI TTS (with Faster-Whisper millisecond alignment) ---
+  const useKokoroExplicit = process.argv.includes('--kokoro') || process.env.USE_KOKORO === 'true';
+
+  // --- ENGINE 1 (Fast & Reliable): Python Edge-TTS with millisecond word boundaries ---
+  const pyScript = path.join(__dirname, 'edge_tts_generator.py');
+  if (fs.existsSync(pyScript) && !useKokoroExplicit) {
+    const tempTextPath = outputPath + '.txt';
+    const subJsonPath = outputPath + '.json';
+    fs.writeFileSync(tempTextPath, text, 'utf8');
+
+    const pyCommands = [
+      `python3 "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`,
+      `python "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`,
+      `uv run --with edge-tts python "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`
+    ];
+
+    for (const cmd of pyCommands) {
+      try {
+        console.log(`    🎙️ Synthesizing neural narration with ${edgeVoice} via Python Edge-TTS...`);
+        execSync(cmd, { stdio: 'pipe', timeout: 30000 });
+        if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 1000) {
+          let boundaries = [];
+          if (fs.existsSync(subJsonPath)) {
+            try {
+              boundaries = JSON.parse(fs.readFileSync(subJsonPath, 'utf8'));
+              fs.unlinkSync(subJsonPath);
+            } catch (e) { }
+          }
+          try { fs.unlinkSync(tempTextPath); } catch (e) { }
+          const duration = getAudioDuration(outputPath);
+          console.log(`    ✅ Neural Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries) [Ultra-Fast Engine]`);
+          return { duration, boundaries };
+        }
+      } catch (e) {
+        // Fall through
+      }
+    }
+    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) { }
+  }
+
+  // --- ENGINE 2 (Studio Option): Kokoro AI TTS (with Whisper alignment) ---
   const kokoroScript = path.join(__dirname, 'kokoro_tts_generator.py');
   if (fs.existsSync(kokoroScript)) {
     const tempTextPath = outputPath + '.txt';
@@ -327,7 +366,7 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
     for (const cmd of kokoroCommands) {
       try {
         console.log(`    🎙️ Synthesizing narration with Kokoro AI [${voiceLabel}] via [${cmd.split(' ')[0]}]...`);
-        execSync(cmd, { stdio: 'pipe', timeout: 120000 });
+        execSync(cmd, { stdio: 'pipe', timeout: 30000 });
         if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 1000) {
           let boundaries = [];
           if (fs.existsSync(subJsonPath)) {
@@ -347,37 +386,6 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
     }
     try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) { }
   }
-
-  // --- ENGINE 2: Python Edge-TTS (Fallback with automatic DRM 403 refresh & word boundaries) ---
-  const pyScript = path.join(__dirname, 'edge_tts_generator.py');
-  if (fs.existsSync(pyScript)) {
-    const tempTextPath = outputPath + '.txt';
-    const subJsonPath = outputPath + '.json';
-    fs.writeFileSync(tempTextPath, text, 'utf8');
-
-    const pyCommands = [
-      `python3 "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`,
-      `python "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`,
-      `uv run --with edge-tts python "${pyScript}" "${tempTextPath}" "${edgeVoice}" "${outputPath}" "${subJsonPath}"`
-    ];
-
-    for (const cmd of pyCommands) {
-      try {
-        console.log(`    🎙️ Synthesizing narration with ${edgeVoice} via Python Edge-TTS [${cmd.split(' ')[0]}]...`);
-        execSync(cmd, { stdio: 'pipe', timeout: 60000 });
-        if (fs.existsSync(outputPath) && fs.statSync(outputPath).size > 1000) {
-          let boundaries = [];
-          if (fs.existsSync(subJsonPath)) {
-            try {
-              boundaries = JSON.parse(fs.readFileSync(subJsonPath, 'utf8'));
-              fs.unlinkSync(subJsonPath);
-            } catch (e) { }
-          }
-          try { fs.unlinkSync(tempTextPath); } catch (e) { }
-          const duration = getAudioDuration(outputPath);
-          console.log(`    ✅ Neural Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries) [Python Engine]`);
-          return { duration, boundaries };
-        }
       } catch (e) {
         // Fall through to next command
       }

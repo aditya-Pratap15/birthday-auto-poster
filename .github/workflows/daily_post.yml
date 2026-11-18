@@ -36,7 +36,7 @@ jobs:
       - name: Check If Today's Posts Already Scheduled
         id: check_status
         env:
-          FORCE_RUN: ${{ inputs.force_run || github.event.inputs.force_run || 'false' }}
+          FORCE_RUN: ${{ inputs.force_run || github.event.inputs.force_run || (github.event_name == 'push') || 'false' }}
         run: node scripts/check_daily_status.js
 
       - name: Setup Python Runtime
