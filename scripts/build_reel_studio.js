@@ -656,6 +656,110 @@ function resolveCutoutAndRole(post, safeName) {
 }
 
 // -------------------------------------------------------------
+// Parametric 3D Vector Arrow Generator (Arbitrary Angle & Target)
+// -------------------------------------------------------------
+function buildArrowSVG(angleDeg = 0, scale = 1, options = {}) {
+  // Canonical arrow pointing RIGHT (0 deg) with tip at (0, 0)
+  const L = (options.length || 230) * scale;
+  const headLen = options.headLen ? options.headLen * scale : (L * 0.36);
+  const headHalfW = options.headHalfW ? options.headHalfW * scale : (L * 0.28);
+  const notchX = -headLen * 0.80; // notch sits slightly forward of barb
+  const barbX = -headLen;
+  const shaftHeadHalfW = options.shaftHeadHalfW ? options.shaftHeadHalfW * scale : (L * 0.11);
+  const shaftTailHalfW = options.shaftTailHalfW ? options.shaftTailHalfW * scale : (L * 0.165); // tapers from tail to head
+  const tailX = -L;
+
+  // 7 Canonical vertices (Tip at 0, 0)
+  const pts = [
+    { x: 0, y: 0 },                         // 0: Tip
+    { x: barbX, y: -headHalfW },             // 1: Top Barb
+    { x: notchX, y: -shaftHeadHalfW },       // 2: Top Notch
+    { x: tailX, y: -shaftTailHalfW },        // 3: Top Tail
+    { x: tailX, y: shaftTailHalfW },         // 4: Bottom Tail
+    { x: notchX, y: shaftHeadHalfW },        // 5: Bottom Notch
+    { x: barbX, y: headHalfW },              // 6: Bottom Barb
+  ];
+
+  // Rotate points around (0, 0) by angleDeg
+  const rad = (angleDeg * Math.PI) / 180;
+  const cos = Math.cos(rad);
+  const sin = Math.sin(rad);
+  const rotPts = pts.map(p => ({
+    x: p.x * cos - p.y * sin,
+    y: p.x * sin + p.y * cos
+  }));
+
+  // 3D Extrusion vector (offset in direction of light/shadow)
+  const extDx = options.extDx !== undefined ? options.extDx : 6;
+  const extDy = options.extDy !== undefined ? options.extDy : -6;
+  const extPts = rotPts.map(p => ({
+    x: p.x + extDx,
+    y: p.y + extDy
+  }));
+
+  // Front & Back polygons
+  const frontPoly = rotPts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+  const backPoly = extPts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
+
+  // Connecting side quads for 3D extrusion walls
+  const sideQuads = [];
+  const n = rotPts.length;
+  for (let i = 0; i < n; i++) {
+    const next = (i + 1) % n;
+    const p1 = rotPts[i];
+    const p2 = rotPts[next];
+    const ep2 = extPts[next];
+    const ep1 = extPts[i];
+    
+    // Normal of edge (p1 -> p2): (edgeDy, -edgeDx)
+    const edgeDx = p2.x - p1.x;
+    const edgeDy = p2.y - p1.y;
+    // Dot product with extrusion direction
+    const dot = edgeDy * extDx - edgeDx * extDy;
+    if (dot > 0.001) {
+      sideQuads.push(`${p1.x.toFixed(1)},${p1.y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)} ${ep2.x.toFixed(1)},${ep2.y.toFixed(1)} ${ep1.x.toFixed(1)},${ep1.y.toFixed(1)}`);
+    }
+  }
+
+  // Compute bounding box
+  const allX = [...rotPts.map(p => p.x), ...extPts.map(p => p.x)];
+  const allY = [...rotPts.map(p => p.y), ...extPts.map(p => p.y)];
+  const pad = 30;
+  const minX = Math.min(...allX) - pad;
+  const maxX = Math.max(...allX) + pad;
+  const minY = Math.min(...allY) - pad;
+  const maxY = Math.max(...allY) + pad;
+  const width = Math.ceil(maxX - minX);
+  const height = Math.ceil(maxY - minY);
+
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="${minX.toFixed(1)} ${minY.toFixed(1)} ${width} ${height}" width="${width}" height="${height}">
+      <defs>
+        <filter id="arrow-drop" x="-30%" y="-30%" width="160%" height="160%">
+          <feDropShadow dx="2" dy="6" stdDeviation="6" flood-color="rgba(0,0,0,0.5)" />
+        </filter>
+      </defs>
+      <g filter="url(#arrow-drop)">
+        <!-- Back Extruded Base -->
+        <polygon points="${backPoly}" fill="#111111" />
+        <!-- 3D Bevel Side Walls -->
+        ${sideQuads.map(q => `<polygon points="${q}" fill="#181818" stroke="#0e0e0e" stroke-width="1.2" stroke-linejoin="round" />`).join('\n        ')}
+        <!-- Vibrant Red Front Face with clean miter joints -->
+        <polygon points="${frontPoly}" fill="#e81e1e" stroke="#b00b0b" stroke-width="2" stroke-linejoin="miter" stroke-miterlimit="10" />
+      </g>
+    </svg>
+  `;
+
+  return {
+    svg,
+    tipOffset: { x: -minX, y: -minY },
+    width,
+    height,
+    angleDeg
+  };
+}
+
+// -------------------------------------------------------------
 // Render 4 Luxury Milestone Slide Cards via Puppeteer
 // -------------------------------------------------------------
 async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
@@ -671,6 +775,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
   let cleanCutoutB64 = null;
   let renderedCutoutPath = null;
   let renderedArrowPath = null;
+  let arrowAnimConfig = null;
 
   if (cutoutPath && fs.existsSync(cutoutPath)) {
     const rawB64 = fs.readFileSync(cutoutPath).toString('base64');
@@ -765,39 +870,32 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
     renderedCutoutPath = path.join(TEMP_DIR, `${safeName}_cameo_cutout_clean.png`);
     await page.screenshot({ path: renderedCutoutPath, omitBackground: true });
 
-    // Render standalone clean 3D Vector Arrow overlay (300x260)
-    await page.setViewport({ width: 300, height: 260 });
-    const arrowSvgHtml = `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="utf-8">
-        <style>
-          body, html { width: 300px; height: 260px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
-          svg { width: 100%; height: 100%; display: block; }
-        </style>
-      </head>
-      <body>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 310">
-          <defs>
-            <filter id="arrow-shadow" x="-30%" y="-30%" width="160%" height="160%">
-              <feDropShadow dx="-2" dy="8" stdDeviation="10" flood-color="rgba(0,0,0,0.65)" />
-            </filter>
-          </defs>
-          <g filter="url(#arrow-shadow)">
-            <!-- 3D Dark Bevel Extrusion -->
-            <polygon points="42,175 54,163 82,193 257,14 327,98 315,110 245,26 70,205" fill="#151515" />
-            <polygon points="104,272 114,262 120,272" fill="#151515" />
-            <!-- Red Arrow Body Face -->
-            <polygon points="30,260 42,175 70,205 245,26 315,110 110,226 104,272" fill="#ea2027" stroke="#b7151b" stroke-width="2" stroke-linejoin="round" />
-          </g>
-        </svg>
-      </body>
-      </html>
-    `;
-    await page.setContent(arrowSvgHtml);
+    // Render dynamic, mathematically precise 3D Vector Arrow overlay
+    // Target: Character cutout upper body in 1080x1920 space
+    // Cutout sits at x: 25, y: 1010, size: 580x820 -> target chest ~ (300, 1450)
+    const tx = 300;
+    const ty = 1450;
+    // Arrow settles at (560, 1220), strictly outside the cutout
+    const ax = 560;
+    const ay = 1220;
+    const dx = tx - ax;
+    const dy = ty - ay;
+    const angleDeg = (Math.atan2(dy, dx) * 180) / Math.PI; // Dynamic angle towards target (~138.5 deg)
+
+    const arrow = buildArrowSVG(angleDeg, 1.15, { length: 220, extDx: 6, extDy: -6 });
+    await page.setViewport({ width: arrow.width, height: arrow.height });
+    await page.setContent(`<!DOCTYPE html><html><body style="margin:0; background:transparent; overflow:hidden;">${arrow.svg}</body></html>`);
     renderedArrowPath = path.join(TEMP_DIR, `${safeName}_arrow_clean.png`);
     await page.screenshot({ path: renderedArrowPath, omitBackground: true });
+    console.log(`    🎯 Dynamic 3D Red Arrow generated: ${arrow.width}x${arrow.height} pointing at ${angleDeg.toFixed(1)}°`);
+
+    arrowAnimConfig = {
+      x0: 650, y0: 1000,
+      x1: 720, y1: 1140,
+      x2: ax,  y2: ay,
+      angleDeg,
+      nudgeAmp: 20
+    };
   }
 
   // Reset viewport to 1080x1920 for base slide cards
@@ -897,7 +995,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
   }
 
   await browser.close();
-  return { slidePaths, renderedCutoutPath, renderedArrowPath };
+  return { slidePaths, renderedCutoutPath, renderedArrowPath, arrowAnimConfig };
 }
 
 /**
@@ -999,7 +1097,7 @@ async function buildReel(post, index = 1) {
   }
 
   // 7. Render 4 Milestone Slide Cards with Puppeteer
-  const { slidePaths: slideCardPaths, renderedCutoutPath, renderedArrowPath } = await renderSlideCards(localEraImages, cutoutPath, role, safeName);
+  const { slidePaths: slideCardPaths, renderedCutoutPath, renderedArrowPath, arrowAnimConfig } = await renderSlideCards(localEraImages, cutoutPath, role, safeName);
 
   // 8. Compose Slide Inputs with Ken Burns Motion & Animated Cameo
   const inputs = [];
@@ -1023,13 +1121,19 @@ async function buildReel(post, index = 1) {
       filterComplex += `[${k}:v]zoompan=z='max(1.06-0.00035*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     } else if (k === 2 && cutoutInputIdx !== -1 && arrowInputIdx !== -1) {
       // Slide 2 is the Cameo Slide:
-      // Base zoompan + Cameo slide-in from left + 3D Red Arrow blinking & curved motion outside the cameo
+      // Base zoompan + Cameo slide-in from left + Dynamic 3D Red Arrow (blinking, smooth curved swoop, and rhythmic pulse nudge)
+      const cfg = arrowAnimConfig || { x0: 650, y0: 1000, x1: 720, y1: 1140, x2: 560, y2: 1220, angleDeg: 138.5, nudgeAmp: 20 };
+      const rad = (cfg.angleDeg * Math.PI) / 180;
+      const nudgeX = (cfg.nudgeAmp * Math.cos(rad)).toFixed(2);
+      const nudgeY = (cfg.nudgeAmp * Math.sin(rad)).toFixed(2);
+
+      const xExpr = `if(lt(t,1.85), (1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*${cfg.x0} + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*${cfg.x1} + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*${cfg.x2}, ${cfg.x2} + (${nudgeX}) * pow(max(0, sin(3.14159 * mod(t-1.85, 0.65)/0.65)), 2))`;
+      const yExpr = `if(lt(t,1.85), (1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*${cfg.y0} + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*${cfg.y1} + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*${cfg.y2}, ${cfg.y2} + (${nudgeY}) * pow(max(0, sin(3.14159 * mod(t-1.85, 0.65)/0.65)), 2))`;
+
       filterComplex += 
         `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom2];` +
         `[base_zoom2][${cutoutInputIdx}:v]overlay=x='if(lt(t,0.45),-580+(580+25)*(1-pow(1-t/0.45,3)),25)':y='1010':enable='gte(t,0)'[with_cameo];` +
-        `[with_cameo][${arrowInputIdx}:v]overlay=x='(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*620 + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*690 + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*540':` +
-        `y='(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*1000 + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*1120 + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*1200':` +
-        `enable='gte(t,0.45)*(if(lt(t,0.85),mod(floor((t-0.45)*10),2),1))',setsar=1[slide${k}];`;
+        `[with_cameo][${arrowInputIdx}:v]overlay=x='${xExpr}':y='${yExpr}':enable='gte(t,0.45)*(if(lt(t,0.85),mod(floor((t-0.45)*10),2),1))',setsar=1[slide${k}];`;
     } else {
       filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     }
