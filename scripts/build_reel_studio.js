@@ -24,7 +24,7 @@ const path = require('path');
 const https = require('https');
 const http = require('http');
 const { URL } = require('url');
-const { execSync } = require('child_process');
+const { execSync, spawnSync } = require('child_process');
 const puppeteer = require('puppeteer');
 const { EdgeTTS } = require('node-edge-tts');
 
@@ -107,7 +107,7 @@ function downloadFile(url, destPath, retries = 2, maxRedirects = 5) {
         res.pipe(stream);
         stream.on('finish', () => stream.close(resolve));
         stream.on('error', (err) => {
-          try { fs.unlinkSync(destPath); } catch (e) {}
+          try { fs.unlinkSync(destPath); } catch (e) { }
           reject(err);
         });
       });
@@ -122,12 +122,12 @@ function downloadFile(url, destPath, retries = 2, maxRedirects = 5) {
 function cleanMarkdown(text) {
   if (!text) return '';
   return text.replace(/\*\*(.*?)\*\*/g, '$1')
-             .replace(/&/g, ' and ')
-             .replace(/[<>]/g, '')
-             .replace(/__(.*?)__/g, '$1')
-             .replace(/[#*_~`]/g, '')
-             .replace(/\s+/g, ' ')
-             .trim();
+    .replace(/&/g, ' and ')
+    .replace(/[<>]/g, '')
+    .replace(/__(.*?)__/g, '$1')
+    .replace(/[#*_~`]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function getAudioDuration(filePath) {
@@ -142,7 +142,7 @@ function getAudioDuration(filePath) {
 async function ensureStyledLogo() {
   const styledLogoPath = path.join(TEMP_DIR, 'styled_logo.png');
   if (fs.existsSync(styledLogoPath)) {
-    try { fs.unlinkSync(styledLogoPath); } catch (e) {}
+    try { fs.unlinkSync(styledLogoPath); } catch (e) { }
   }
 
   if (!fs.existsSync(PAGE_LOGO_PATH)) {
@@ -334,9 +334,9 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
             try {
               boundaries = JSON.parse(fs.readFileSync(subJsonPath, 'utf8'));
               fs.unlinkSync(subJsonPath);
-            } catch (e) {}
+            } catch (e) { }
           }
-          try { fs.unlinkSync(tempTextPath); } catch (e) {}
+          try { fs.unlinkSync(tempTextPath); } catch (e) { }
           const duration = getAudioDuration(outputPath);
           console.log(`    ✅ Studio Kokoro AI Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries)`);
           return { duration, boundaries };
@@ -345,7 +345,7 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
         // Fall through to next command
       }
     }
-    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) {}
+    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) { }
   }
 
   // --- ENGINE 2: Python Edge-TTS (Fallback with automatic DRM 403 refresh & word boundaries) ---
@@ -371,9 +371,9 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
             try {
               boundaries = JSON.parse(fs.readFileSync(subJsonPath, 'utf8'));
               fs.unlinkSync(subJsonPath);
-            } catch (e) {}
+            } catch (e) { }
           }
-          try { fs.unlinkSync(tempTextPath); } catch (e) {}
+          try { fs.unlinkSync(tempTextPath); } catch (e) { }
           const duration = getAudioDuration(outputPath);
           console.log(`    ✅ Neural Voiceover created (${duration.toFixed(1)}s, ${boundaries.length} word boundaries) [Python Engine]`);
           return { duration, boundaries };
@@ -382,7 +382,7 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
         // Fall through to next command
       }
     }
-    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) {}
+    try { if (fs.existsSync(tempTextPath)) fs.unlinkSync(tempTextPath); } catch (e) { }
   }
 
   // --- ENGINE 2: Native Node.js EdgeTTS (with generous 60s timeout and retries) ---
@@ -410,7 +410,7 @@ async function generateVoiceover(rawText, gender, outputPath, maxRetries = 3) {
             end: c.end / 1000
           })).filter(b => b.text.length > 0);
           fs.unlinkSync(subJsonPath);
-        } catch (e) {}
+        } catch (e) { }
       }
 
       const duration = getAudioDuration(outputPath);
@@ -651,6 +651,36 @@ function resolveCutoutAndRole(post, safeName) {
 }
 
 // -------------------------------------------------------------
+// Resolve Original Celebrity Cutout for Starting Slide (Slide 0)
+// -------------------------------------------------------------
+function resolveCelebCutout(safeName, photo1Path) {
+  const direct = path.join(ROOT_DIR, 'assets', 'cutouts', `${safeName}_cutout.png`);
+  if (fs.existsSync(direct) && fs.statSync(direct).size > 1000) return direct;
+  const cutDir = path.join(ROOT_DIR, 'assets', 'cutouts');
+  if (fs.existsSync(cutDir)) {
+    const files = fs.readdirSync(cutDir);
+    const firstName = safeName.split('_')[0].toLowerCase();
+    const match = files.find(f => f.toLowerCase().includes(firstName) && f.endsWith('_cutout.png') && !f.includes('character'));
+    if (match) return path.join(cutDir, match);
+  }
+  if (photo1Path && fs.existsSync(photo1Path)) {
+    const targetOut = path.join(ROOT_DIR, 'assets', 'cutouts', `${safeName}_cutout.png`);
+    const pyScript = path.join(ROOT_DIR, 'scripts', 'remove_background.py');
+    try {
+      console.log(`    ✂️ Auto-generating cutout for ${safeName} via rembg...`);
+      execSync(`python "${pyScript}" "${photo1Path}" "${targetOut}"`, { stdio: 'pipe' });
+      if (fs.existsSync(targetOut) && fs.statSync(targetOut).size > 1000) return targetOut;
+    } catch (e) {
+      try {
+        execSync(`uv run --with rembg --with onnxruntime --with pillow python "${pyScript}" "${photo1Path}" "${targetOut}"`, { stdio: 'pipe' });
+        if (fs.existsSync(targetOut) && fs.statSync(targetOut).size > 1000) return targetOut;
+      } catch (err) {}
+    }
+  }
+  return null;
+}
+
+// -------------------------------------------------------------
 // Iconic 3D Red Vector Arrow Generator (Canonical Center Alignment)
 // -------------------------------------------------------------
 function buildCanonicalArrowSVG(scale = 1.05) {
@@ -718,7 +748,7 @@ function buildCanonicalArrowSVG(scale = 1.05) {
 // -------------------------------------------------------------
 // Render 4 Luxury Milestone Slide Cards via Puppeteer
 // -------------------------------------------------------------
-async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
+async function renderSlideCards(photos, cutoutPath, characterRole, safeName, celebCutoutPath) {
   console.log('    🎨 Rendering 4 high-end slide cards via Puppeteer...');
   const browser = await puppeteer.launch({
     headless: 'new',
@@ -732,6 +762,134 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
   let renderedCutoutPath = null;
   let renderedArrowPath = null;
   let arrowAnimConfig = null;
+
+  let renderedCelebCutoutPath = null;
+  let renderedCelebArrowPath = null;
+  let celebArrowAnimConfig = null;
+
+  // Process Starting Slide Celebrity Cutout (if available)
+  if (celebCutoutPath && fs.existsSync(celebCutoutPath)) {
+    console.log(`    🌟 Rendering celebrity cutout (15% enlarged) with white border & shadow for Slide 1...`);
+    const celebCutoutW = 828;
+    const celebCutoutH = 1242;
+    const celebRawB64 = fs.readFileSync(celebCutoutPath).toString('base64');
+    await page.setViewport({ width: celebCutoutW, height: celebCutoutH });
+    const celebOverlayHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body, html { width: ${celebCutoutW}px; height: ${celebCutoutH}px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
+          .celeb-stroke {
+            position: absolute;
+            left: 20px; bottom: 0px;
+            width: ${celebCutoutW - 40}px; height: ${celebCutoutH}px;
+            filter: url(#white-border-filter) drop-shadow(0 20px 45px rgba(0, 0, 0, 0.60)) drop-shadow(0 4px 15px rgba(0, 0, 0, 0.40));
+          }
+          .celeb-stroke img {
+            width: 100%; height: 100%; object-fit: contain; object-position: center bottom; display: block;
+          }
+        </style>
+      </head>
+      <body>
+        <svg width="0" height="0" style="position:absolute;">
+          <filter id="white-border-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="5" result="dilated"/>
+            <feFlood flood-color="#ffffff" flood-opacity="1" result="white"/>
+            <feComposite in="white" in2="dilated" operator="in" result="stroke"/>
+            <feMerge>
+              <feMergeNode in="stroke"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </svg>
+        <div class="celeb-stroke">
+          <img src="data:image/png;base64,${celebRawB64}" />
+        </div>
+      </body>
+      </html>
+    `;
+    await page.setContent(celebOverlayHtml);
+    renderedCelebCutoutPath = path.join(TEMP_DIR, `${safeName}_celeb_cutout_clean.png`);
+    await page.screenshot({ path: renderedCelebCutoutPath, omitBackground: true });
+
+    // Measure pixel contour for adaptive center-method arrow placement
+    const celebMetrics = await page.evaluate((vw, vh) => {
+      const img = document.querySelector('.celeb-stroke img');
+      const rect = img.getBoundingClientRect();
+      const canvas = document.createElement('canvas');
+      canvas.width = vw; canvas.height = vh;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, rect.left, rect.top, rect.width, rect.height);
+      const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+      let minX = canvas.width, maxX = 0, minY = canvas.height, maxY = 0;
+      const rowMaxX = {}, rowMinX = {};
+      for (let y = 0; y < canvas.height; y++) {
+        for (let x = 0; x < canvas.width; x++) {
+          if (data[(y * canvas.width + x) * 4 + 3] > 15) {
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+            if (rowMaxX[y] === undefined || x > rowMaxX[y]) rowMaxX[y] = x;
+            if (rowMinX[y] === undefined || x < rowMinX[y]) rowMinX[y] = x;
+          }
+        }
+      }
+      return { minX, maxX, minY, maxY, rowMinX, rowMaxX };
+    }, celebCutoutW, celebCutoutH);
+
+    const celebCutoutLeft = Math.round((1080 - celebCutoutW) / 2); // 126px
+    const celebCutoutTop = 358; // grounded inside card frame at Y=1600
+
+    const screenTop = celebCutoutTop + celebMetrics.minY;
+    const screenH = (celebCutoutTop + celebMetrics.maxY) - screenTop;
+    const headRelY = celebMetrics.minY + Math.round(0.18 * screenH);
+    const headContourLeft = celebCutoutLeft + (celebMetrics.rowMinX[headRelY] || celebMetrics.minX);
+    const headContourRight = celebCutoutLeft + (celebMetrics.rowMaxX[headRelY] || celebMetrics.maxX);
+    const headTargetX = 540;
+    const headTargetY = screenTop + Math.round(0.20 * screenH);
+
+    // Center method trajectory (Attachment 1 blueprint):
+    // P0: upper left of head pointing down-right towards face
+    const p0_x = Math.max(240, headContourLeft - 40);
+    const p0_y = screenTop + 30;
+    let p0_angle = (Math.atan2(headTargetY - p0_y, headTargetX - p0_x) * 180) / Math.PI;
+    if (p0_angle < 0) p0_angle += 360;
+
+    // P1: overhead apex above crown
+    const p1_x = 540;
+    const p1_y = Math.max(140, screenTop - 120);
+    const p1_angle = 90.0;
+
+    // P2: upper right of head pointing down-left towards face
+    const p2_x = Math.min(840, headContourRight + 40);
+    const p2_y = screenTop + 30;
+    let p2_angle = (Math.atan2(headTargetY - p2_y, headTargetX - p2_x) * 180) / Math.PI;
+    if (p2_angle < 0) p2_angle += 360;
+
+    const celebArrow = buildCanonicalArrowSVG(1.05);
+    await page.setViewport({ width: celebArrow.boxSize, height: celebArrow.boxSize });
+    await page.setContent(`<!DOCTYPE html><html><body style="margin:0; background:transparent; overflow:hidden;">${celebArrow.svg}</body></html>`);
+    renderedCelebArrowPath = path.join(TEMP_DIR, `${safeName}_celeb_arrow_clean.png`);
+    await page.screenshot({ path: renderedCelebArrowPath, omitBackground: true });
+
+    celebArrowAnimConfig = {
+      boxSize: celebArrow.boxSize,
+      cx: celebArrow.cx,
+      cy: celebArrow.cy,
+      p0: { x: p0_x, y: p0_y, angle: p0_angle },
+      p1: { x: p1_x, y: p1_y, angle: p1_angle },
+      p2: { x: p2_x, y: p2_y, angle: p2_angle },
+      nudgeAmp: 20,
+      cutoutW: celebCutoutW,
+      cutoutH: celebCutoutH,
+      cutoutLeft: celebCutoutLeft,
+      cutoutTop: celebCutoutTop
+    };
+    console.log(`    🎯 Center-Method 3D Arrow generated for Slide 1 (P0=[${p0_x},${p0_y}], P1=[${p1_x},${p1_y}], P2=[${p2_x},${p2_y}])`);
+  }
 
   if (cutoutPath && fs.existsSync(cutoutPath)) {
     const rawB64 = fs.readFileSync(cutoutPath).toString('base64');
@@ -940,6 +1098,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
 
   for (let i = 0; i < 4; i++) {
     const photoB64 = photoB64s[i % photoB64s.length];
+    const isCreamCard = (i === 0 && celebCutoutPath);
     const html = `
       <!DOCTYPE html>
       <html>
@@ -955,7 +1114,17 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
           }
 
-          /* Vibrant Ambient Blurred Background (Eliminates dark black void) */
+          /* Ambient Background */
+          ${isCreamCard ? `
+          .bg-layer {
+            position: absolute;
+            top: -40px; left: -40px;
+            width: 1160px; height: 2000px;
+            background: radial-gradient(circle at 50% 40%, #EDE6D8 0%, #D4C7B2 45%, #7C715F 80%, #302A22 100%);
+            filter: blur(42px) brightness(0.68) saturate(1.2);
+            transform: scale(1.10);
+          }
+          ` : `
           .bg-layer {
             position: absolute;
             top: -40px; left: -40px;
@@ -966,6 +1135,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             filter: blur(42px) brightness(0.70) saturate(1.35);
             transform: scale(1.10);
           }
+          `}
 
           /* Smooth Subtle Vignette Overlay for Depth & Text Readability */
           .vignette-overlay {
@@ -976,7 +1146,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
                         linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.75) 100%);
           }
 
-          /* Central Golden Card Frame with Ambient Glow */
+          /* Central Golden Card Frame with Luxury Cream or Photo Backdrop */
           .card-container {
             position: absolute;
             top: 160px;
@@ -984,12 +1154,20 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             width: 970px;
             height: 1440px;
             border-radius: 32px;
-            border: 3.5px solid rgba(212, 175, 55, 0.90);
-            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.75), 0 0 50px rgba(212, 175, 55, 0.25), inset 0 0 40px rgba(0, 0, 0, 0.45);
+            border: 3.5px solid rgba(212, 175, 55, 0.92);
+            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.75), 0 0 50px rgba(212, 175, 55, 0.28), inset 0 0 40px rgba(0, 0, 0, 0.25);
             overflow: hidden;
-            background: #111;
+            background: ${isCreamCard ? 'radial-gradient(circle at 50% 35%, #FFFDF9 0%, #FAF5EA 50%, #ECE4D0 85%, #DFD5BE 100%)' : '#111'};
           }
 
+          ${isCreamCard ? `
+          .studio-spotlight {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 28%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0) 65%);
+            pointer-events: none;
+          }
+          ` : `
           .card-photo {
             width: 100%;
             height: 100%;
@@ -997,12 +1175,13 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             object-position: center 20%;
             display: block;
           }
+          `}
 
           .card-sheen {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             border-radius: 28px;
-            box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.28);
+            box-shadow: inset 0 0 32px rgba(212, 175, 55, 0.30);
             pointer-events: none;
           }
         </style>
@@ -1014,7 +1193,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
 
         <!-- Central Card Frame -->
         <div class="card-container">
-          <img class="card-photo" src="data:image/jpeg;base64,${photoB64}" />
+          ${isCreamCard ? '<div class="studio-spotlight"></div>' : `<img class="card-photo" src="data:image/jpeg;base64,${photoB64}" />`}
           <div class="card-sheen"></div>
         </div>
       </body>
@@ -1029,7 +1208,15 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
   }
 
   await browser.close();
-  return { slidePaths, renderedCutoutPath, renderedArrowPath, arrowAnimConfig };
+  return {
+    slidePaths,
+    renderedCutoutPath,
+    renderedArrowPath,
+    arrowAnimConfig,
+    renderedCelebCutoutPath,
+    renderedCelebArrowPath,
+    celebArrowAnimConfig
+  };
 }
 
 /**
@@ -1107,7 +1294,7 @@ async function buildReel(post, index = 1) {
         await downloadFile(rawUrls[i], rawDest);
         try {
           execSync(`ffmpeg -y -v error -i "${rawDest}" -vframes 1 -q:v 2 "${imgDest}"`);
-          try { fs.unlinkSync(rawDest); } catch (e) {}
+          try { fs.unlinkSync(rawDest); } catch (e) { }
         } catch (convErr) {
           fs.renameSync(rawDest, imgDest);
         }
@@ -1122,8 +1309,12 @@ async function buildReel(post, index = 1) {
   }
   console.log(`    📸 Collected ${localEraImages.length} era photos for slideshow.`);
 
-  // 6. Resolve Cutout and Role for Cameo Slide
+  // 6. Resolve Cutout and Role for Cameo Slide + Celebrity Cutout for Starting Slide
   const { cutoutPath, role } = resolveCutoutAndRole(post, safeName);
+  const celebCutoutPath = resolveCelebCutout(safeName, localEraImages[0]);
+  if (celebCutoutPath) {
+    console.log(`    🌟 Using celebrity cutout for starting slide: ${path.basename(celebCutoutPath)}`);
+  }
   if (cutoutPath) {
     console.log(`    👑 Using character cutout: ${path.basename(cutoutPath)} (Role: ${role})`);
   } else {
@@ -1131,7 +1322,15 @@ async function buildReel(post, index = 1) {
   }
 
   // 7. Render 4 Milestone Slide Cards with Puppeteer
-  const { slidePaths: slideCardPaths, renderedCutoutPath, renderedArrowPath, arrowAnimConfig } = await renderSlideCards(localEraImages, cutoutPath, role, safeName);
+  const {
+    slidePaths: slideCardPaths,
+    renderedCutoutPath,
+    renderedArrowPath,
+    arrowAnimConfig,
+    renderedCelebCutoutPath,
+    renderedCelebArrowPath,
+    celebArrowAnimConfig
+  } = await renderSlideCards(localEraImages, cutoutPath, role, safeName, celebCutoutPath);
 
   // 8. Compose Slide Inputs with Ken Burns Motion, Animated Cameo & Smooth Transitions
   const D_trans = 0.40; // 0.40s visual crossfade transition overlap between consecutive slides
@@ -1143,20 +1342,88 @@ async function buildReel(post, index = 1) {
   let filterComplex = '';
 
   for (let k = 0; k < numEraSlides; k++) {
-    inputs.push(`-loop 1 -t ${slideInDur.toFixed(2)} -i "${slideCardPaths[k]}"`);
+    inputs.push(['-loop', '1', '-t', slideInDur.toFixed(2), '-i', slideCardPaths[k]]);
+  }
+
+  let celebCutoutInputIdx = -1;
+  let celebArrowInputIdx = -1;
+  if (renderedCelebCutoutPath && renderedCelebArrowPath) {
+    celebCutoutInputIdx = inputs.length;
+    inputs.push(['-loop', '1', '-t', slideInDur.toFixed(2), '-i', renderedCelebCutoutPath]);
+    celebArrowInputIdx = inputs.length;
+    inputs.push(['-loop', '1', '-t', slideInDur.toFixed(2), '-i', renderedCelebArrowPath]);
   }
 
   let cutoutInputIdx = -1;
   let arrowInputIdx = -1;
   if (renderedCutoutPath && renderedArrowPath) {
     cutoutInputIdx = inputs.length;
-    inputs.push(`-loop 1 -t ${slideInDur.toFixed(2)} -i "${renderedCutoutPath}"`);
+    inputs.push(['-loop', '1', '-t', slideInDur.toFixed(2), '-i', renderedCutoutPath]);
     arrowInputIdx = inputs.length;
-    inputs.push(`-loop 1 -t ${slideInDur.toFixed(2)} -i "${renderedArrowPath}"`);
+    inputs.push(['-loop', '1', '-t', slideInDur.toFixed(2), '-i', renderedArrowPath]);
   }
 
   for (let k = 0; k < numEraSlides; k++) {
-    if (k === 1) {
+    if (k === 0 && celebCutoutInputIdx !== -1 && celebArrowInputIdx !== -1) {
+      // Slide 0: Starting slide with Cream Background, Centered Celebrity Cutout with entrance & exit transitions, Center-Method Arrow, and Synced Pop SFX!
+      const cfg = celebArrowAnimConfig;
+      const cx = cfg.cx;
+      const cy = cfg.cy;
+      const p0 = cfg.p0;
+      const p1 = cfg.p1;
+      const p2 = cfg.p2;
+      const nudgeAmp = cfg.nudgeAmp;
+      const radP2 = (p2.angle * Math.PI) / 180;
+      const nudgeX = (nudgeAmp * Math.cos(radP2)).toFixed(2);
+      const nudgeY = (nudgeAmp * Math.sin(radP2)).toFixed(2);
+
+      const tInStart = 0.45;
+      const tInEnd = 0.90;
+      const tOutStart = (eraSlideDuration - 0.65).toFixed(2);
+      const tOutEnd = (eraSlideDuration - 0.05).toFixed(2);
+      const slideRise = 180;
+      const cutoutSettledY = cfg.cutoutTop;
+
+      const uIn = `min(1,max(0,(t-${tInStart})/0.45))`;
+      const easeIn = `(1-pow(1-${uIn},3))`;
+      const uOut = `min(1,max(0,(t-${tOutStart})/0.60))`;
+      const easeOut = `pow(${uOut},3)`;
+
+      const cutoutYExpr = `if(lt(t,${tInStart}), ${cutoutSettledY + slideRise}, if(lt(t,${tInEnd}), ${cutoutSettledY} + ${slideRise}*(1-${easeIn}), if(lt(t,${tOutStart}), ${cutoutSettledY}, ${cutoutSettledY} + ${slideRise}*${easeOut})))`;
+
+      // Arrow Center-Method Trajectory:
+      const tArcStart = 1.35;
+      const tArcDur = 1.20;
+      const tArcEnd = 2.55;
+
+      const uArc = `min(1,max(0,(t-${tArcStart})/${tArcDur}))`;
+      const sArc = `(3*pow(${uArc},2)-2*pow(${uArc},3))`;
+      const b0 = `pow(1-${sArc},2)`;
+      const b1 = `2*(1-${sArc})*${sArc}`;
+      const b2 = `pow(${sArc},2)`;
+
+      const angleArcDeg = `(${b0}*${p0.angle} + ${b1}*${p1.angle} + ${b2}*${p2.angle})`;
+      const rotExpr = `if(lt(t,${tArcStart}), ${p0.angle}*PI/180, if(lt(t,${tArcEnd}), (${angleArcDeg})*PI/180, ${p2.angle}*PI/180))`;
+
+      const tipXArc = `(${b0}*${p0.x} + ${b1}*${p1.x} + ${b2}*${p2.x})`;
+      const tipYArc = `(${b0}*${p0.y} + ${b1}*${p1.y} + ${b2}*${p2.y})`;
+
+      const pulseExpr = `pow(max(0,sin(3.14159*mod(t-${tArcEnd},0.65)/0.65)),2)`;
+      const tipXSettled = `(${p2.x} + (${nudgeX})*${pulseExpr})`;
+      const tipYSettled = `(${p2.y} + (${nudgeY})*${pulseExpr})`;
+
+      const arrowXExpr = `if(lt(t,${tArcStart}), ${p0.x - cx}, if(lt(t,${tArcEnd}), ${tipXArc} - ${cx}, ${tipXSettled} - ${cx}))`;
+      const arrowYExpr = `if(lt(t,${tArcStart}), ${p0.y - cy}, if(lt(t,${tArcEnd}), ${tipYArc} - ${cy}, ${tipYSettled} - ${cy}))`;
+
+      const arrowEnableExpr = `gte(t,0.95)*(if(lt(t,1.35),lt(mod(t-0.95,0.16),0.09),lt(t,${tOutEnd})))`;
+
+      filterComplex +=
+        `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom0];` +
+        `[${celebCutoutInputIdx}:v]format=yuva420p,fade=t=in:st=${tInStart}:d=0.35:alpha=1,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[celeb_fade];` +
+        `[${celebArrowInputIdx}:v]rotate=a='${rotExpr}':ow=${cfg.boxSize}:oh=${cfg.boxSize}:c=none,format=yuva420p,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[celeb_arrow_rot];` +
+        `[base_zoom0][celeb_fade]overlay=x=${cfg.cutoutLeft}:y='${cutoutYExpr}':enable='between(t,${tInStart},${tOutEnd})'[with_celeb];` +
+        `[with_celeb][celeb_arrow_rot]overlay=x='${arrowXExpr}':y='${arrowYExpr}':enable='${arrowEnableExpr}',setsar=1[slide${k}];`;
+    } else if (k === 1) {
       filterComplex += `[${k}:v]zoompan=z='max(1.06-0.00035*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     } else if (k === 2 && cutoutInputIdx !== -1 && arrowInputIdx !== -1) {
       // Slide 2 is the Cameo Slide:
@@ -1205,19 +1472,33 @@ async function buildReel(post, index = 1) {
       const xExpr = `if(lt(t,0.85), ${p0.x - cx}, if(lt(t,2.20), ${tipXArc} - ${cx}, ${tipXSettled} - ${cx}))`;
       const yExpr = `if(lt(t,0.85), ${p0.y - cy}, if(lt(t,2.20), ${tipYArc} - ${cy}, ${tipYSettled} - ${cy}))`;
 
-      // Visibility: Cameo enters at 0s. Arrow blinks 3x between 0.45s and 0.85s, then stays visible.
-      const enableExpr = `gte(t,0.45)*(if(lt(t,0.85),lt(mod(t-0.45,0.16),0.09),1))`;
-
-      // Dynamic slide-in and placement matching actual asset container dimensions
+      // Dynamic slide-in & slide-out transitions matching actual asset container dimensions
       const slideStartX = -(cfg.cutoutW || 580);
       const slideEndX = cfg.cutoutLeft !== undefined ? cfg.cutoutLeft : 25;
       const cutoutPosY = cfg.cutoutTop !== undefined ? cfg.cutoutTop : 1010;
 
-      filterComplex += 
+      const tOutStart = (eraSlideDuration - 0.65).toFixed(2);
+      const tOutEnd = (eraSlideDuration - 0.05).toFixed(2);
+
+      // Entrance: 0s to 0.45s (cubic ease-out slide in from left)
+      // Exit: tOutStart to tOutEnd (cubic ease-in slide back to left + fade out)
+      const uIn = `min(1,max(0,t/0.45))`;
+      const easeIn = `(1-pow(1-${uIn},3))`;
+      const uExit = `min(1,max(0,(t-${tOutStart})/0.60))`;
+      const easeExit = `pow(${uExit},3)`;
+
+      const slideDist = Math.abs(slideStartX) + slideEndX;
+      const cutoutXExpr = `if(lt(t,0.45), ${slideStartX} + (${slideDist})*${easeIn}, if(lt(t,${tOutStart}), ${slideEndX}, ${slideEndX} - (${slideDist})*${easeExit}))`;
+
+      // Visibility: Arrow blinks 3x between 0.45s and 0.85s, then stays visible until tOutEnd.
+      const arrowEnableExpr = `gte(t,0.45)*(if(lt(t,0.85),lt(mod(t-0.45,0.16),0.09),lt(t,${tOutEnd})))`;
+
+      filterComplex +=
         `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom2];` +
-        `[${arrowInputIdx}:v]rotate=a='${rotExpr}':ow=${cfg.boxSize}:oh=${cfg.boxSize}:c=none[rot_arrow];` +
-        `[base_zoom2][${cutoutInputIdx}:v]overlay=x='if(lt(t,0.45), ${slideStartX} + (${Math.abs(slideStartX) + slideEndX})*(1-pow(1-t/0.45,3)), ${slideEndX})':y='${cutoutPosY}':enable='gte(t,0)'[with_cameo];` +
-        `[with_cameo][rot_arrow]overlay=x='${xExpr}':y='${yExpr}':enable='${enableExpr}',setsar=1[slide${k}];`;
+        `[${cutoutInputIdx}:v]format=yuva420p,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[cameo_fade];` +
+        `[${arrowInputIdx}:v]rotate=a='${rotExpr}':ow=${cfg.boxSize}:oh=${cfg.boxSize}:c=none,format=yuva420p,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[rot_arrow_fade];` +
+        `[base_zoom2][cameo_fade]overlay=x='${cutoutXExpr}':y='${cutoutPosY}':enable='between(t,0,${tOutEnd})'[with_cameo];` +
+        `[with_cameo][rot_arrow_fade]overlay=x='${xExpr}':y='${yExpr}':enable='${arrowEnableExpr}',setsar=1[slide${k}];`;
     } else {
       filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     }
@@ -1229,26 +1510,26 @@ async function buildReel(post, index = 1) {
 
   const outroBgPath = path.join(ROOT_DIR, 'backgrounds', 'outro_background.png');
   if (fs.existsSync(outroBgPath)) {
-    inputs.push(`-loop 1 -t ${outroInDur.toFixed(2)} -i "${outroBgPath}"`);
+    inputs.push(['-loop', '1', '-t', outroInDur.toFixed(2), '-i', outroBgPath]);
     filterComplex += `[${outroBgIdx}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[outro_bg];` +
-                     `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
-                     `[outro_bg][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
+      `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
+      `[outro_bg][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
   } else {
-    inputs.push(`-f lavfi -t ${outroInDur.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
+    inputs.push(['-f', 'lavfi', '-t', outroInDur.toFixed(2), '-i', 'color=c=black:s=1080x1920:r=25']);
     filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
-                     `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
+      `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
   }
 
-  inputs.push(`-loop 1 -t ${outroInDur.toFixed(2)} -i "${styledLogoPath}"`);
+  inputs.push(['-loop', '1', '-t', outroInDur.toFixed(2), '-i', styledLogoPath]);
 
   // Black lead-in input for the opening entrance transition
   const blackIntroIdx = inputs.length;
-  inputs.push(`-f lavfi -t ${D_trans.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
+  inputs.push(['-f', 'lavfi', '-t', D_trans.toFixed(2), '-i', 'color=c=black:s=1080x1920:r=25']);
 
   let watermarkIdx = -1;
   if (watermarkLogoPath && fs.existsSync(watermarkLogoPath)) {
     watermarkIdx = inputs.length;
-    inputs.push(`-loop 1 -t ${totalDuration.toFixed(2)} -i "${watermarkLogoPath}"`);
+    inputs.push(['-loop', '1', '-t', totalDuration.toFixed(2), '-i', watermarkLogoPath]);
   }
 
   // Visual Transitions from start to end using xfade:
@@ -1260,7 +1541,7 @@ async function buildReel(post, index = 1) {
   const off3 = (eraSlideDuration * 3).toFixed(2);
   const off4 = (eraSlideDuration * 4).toFixed(2);
 
-  filterComplex += 
+  filterComplex +=
     `[${blackIntroIdx}:v][slide0]xfade=transition=circleopen:duration=${D_trans}:offset=0[x0];` +
     `[x0][slide1]xfade=transition=smoothleft:duration=${D_trans}:offset=${off1}[x1];` +
     `[x1][slide2]xfade=transition=smoothleft:duration=${D_trans}:offset=${off2}[x2];` +
@@ -1270,8 +1551,8 @@ async function buildReel(post, index = 1) {
   const escapedAss = localAssPath.replace(/\\/g, '/').replace(/:/g, '\\:');
   if (watermarkIdx !== -1) {
     filterComplex += `[vbase]ass='${escapedAss}'[v_subs];` +
-                     `[${watermarkIdx}:v]scale=120:120,setsar=1[wm];` +
-                     `[v_subs][wm]overlay=W-w-50:75[vout];`;
+      `[${watermarkIdx}:v]scale=120:120,setsar=1[wm];` +
+      `[v_subs][wm]overlay=W-w-50:75[vout];`;
   } else {
     filterComplex += `[vbase]ass='${escapedAss}'[vout];`;
   }
@@ -1283,9 +1564,9 @@ async function buildReel(post, index = 1) {
 
   // Audio Inputs: Voiceover + Selected BGM + Procedural SFX Tracks
   const voiceInputIndex = inputs.length;
-  inputs.push(`-i "${voicePath}"`);
+  inputs.push(['-i', voicePath]);
   const bgmInputIndex = inputs.length;
-  inputs.push(`-stream_loop -1 -i "${selectedBgmPath}"`);
+  inputs.push(['-stream_loop', '-1', '-i', selectedBgmPath]);
 
   const AUDIO_DIR = path.join(ROOT_DIR, 'assets', 'audio');
   const sfxHookScratchPath = path.join(AUDIO_DIR, 'sfx_hook_scratch.wav');
@@ -1294,23 +1575,24 @@ async function buildReel(post, index = 1) {
   const sfxChimePath = path.join(AUDIO_DIR, 'winner_chime.mp3');
 
   const sfxHookIdx = inputs.length;
-  inputs.push(`-i "${sfxHookScratchPath}"`);
+  inputs.push(['-i', sfxHookScratchPath]);
   const sfxWhooshIdx = inputs.length;
-  inputs.push(`-i "${sfxWhooshPath}"`);
+  inputs.push(['-i', sfxWhooshPath]);
   const sfxCameoPopIdx = inputs.length;
-  inputs.push(`-i "${sfxCameoPopPath}"`);
+  inputs.push(['-i', sfxCameoPopPath]);
   const sfxChimeIdx = inputs.length;
-  inputs.push(`-i "${sfxChimePath}"`);
+  inputs.push(['-i', sfxChimePath]);
 
   // SFX Timing Offsets: Synced to Every Image Transition & Event
   const t_hook_ms = 0;
+  const t_celeb_ms = 450;
   const t_trans1_ms = Math.round(eraSlideDuration * 1000);
   const t_trans2_ms = Math.round(eraSlideDuration * 2 * 1000);
   const t_cameo_ms = Math.round((eraSlideDuration * 2 + 0.45) * 1000);
   const t_trans3_ms = Math.round(eraSlideDuration * 3 * 1000);
   const t_outro_ms = Math.round(eraSlideDuration * 4 * 1000);
 
-  console.log(`    🔊 SFX Design: Scratch at 0.0s | Whoosh 1 at ${(t_trans1_ms/1000).toFixed(2)}s | Whoosh 2 at ${(t_trans2_ms/1000).toFixed(2)}s | Cameo Pop at ${(t_cameo_ms/1000).toFixed(2)}s | Whoosh 3 at ${(t_trans3_ms/1000).toFixed(2)}s | Outro Chime at ${(t_outro_ms/1000).toFixed(2)}s`);
+  console.log(`    🔊 SFX Design: Scratch at 0.0s | Celeb Pop at ${(t_celeb_ms / 1000).toFixed(2)}s | Whoosh 1 at ${(t_trans1_ms / 1000).toFixed(2)}s | Whoosh 2 at ${(t_trans2_ms / 1000).toFixed(2)}s | Cameo Pop at ${(t_cameo_ms / 1000).toFixed(2)}s | Whoosh 3 at ${(t_trans3_ms / 1000).toFixed(2)}s | Outro Chime at ${(t_outro_ms / 1000).toFixed(2)}s`);
 
   // Audio Filters:
   // - Voiceover boosted 1.8x (volume=1.8)
@@ -1318,35 +1600,48 @@ async function buildReel(post, index = 1) {
   // - SFX split and synced to all transitions via adelay
   // - Smooth 0.7s fade out at video end
   const fadeOutStart = Math.max(0, totalDuration - 0.7).toFixed(2);
-  filterComplex += 
+  filterComplex +=
     `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${OUTRO_DURATION + 1}[v_boosted];` +
     `[${bgmInputIndex}:a]volume=0.18[b_gentle];` +
     `[${sfxWhooshIdx}:a]asplit=3[w1][w2][w3];` +
+    `[${sfxCameoPopIdx}:a]asplit=2[pop_celeb_raw][pop_cameo_raw];` +
     `[${sfxHookIdx}:a]adelay=${t_hook_ms}|${t_hook_ms},volume=1.0[sfx_hook];` +
+    `[pop_celeb_raw]adelay=${t_celeb_ms}|${t_celeb_ms},volume=1.20[sfx_celeb];` +
     `[w1]adelay=${t_trans1_ms}|${t_trans1_ms},volume=0.85[sfx_w1];` +
     `[w2]adelay=${t_trans2_ms}|${t_trans2_ms},volume=0.85[sfx_w2];` +
-    `[${sfxCameoPopIdx}:a]adelay=${t_cameo_ms}|${t_cameo_ms},volume=1.25[sfx_cameo];` +
+    `[pop_cameo_raw]adelay=${t_cameo_ms}|${t_cameo_ms},volume=1.25[sfx_cameo];` +
     `[w3]adelay=${t_trans3_ms}|${t_trans3_ms},volume=0.85[sfx_w3];` +
     `[${sfxChimeIdx}:a]adelay=${t_outro_ms}|${t_outro_ms},volume=1.0[sfx_chime];` +
-    `[v_boosted][b_gentle][sfx_hook][sfx_w1][sfx_w2][sfx_cameo][sfx_w3][sfx_chime]amix=inputs=8:duration=first:dropout_transition=2[amixed];` +
+    `[v_boosted][b_gentle][sfx_hook][sfx_celeb][sfx_w1][sfx_w2][sfx_cameo][sfx_w3][sfx_chime]amix=inputs=9:duration=first:dropout_transition=2[amixed];` +
     `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
 
-  const cmd = `ffmpeg -y -loglevel warning ${inputs.join(' ')} ` +
-              `-filter_complex "${filterComplex}" ` +
-              `-map "[vout]" -map "[aout]" ` +
-              `-t ${totalDuration.toFixed(2)} ` +
-              `-c:v libx264 -preset fast -crf 21 -pix_fmt yuv420p ` +
-              `-c:a aac -b:a 192k -movflags +faststart "${finalVideoPath}"`;
+  const flatInputs = inputs.flat();
+  const ffmpegArgs = [
+    '-y', '-loglevel', 'warning',
+    ...flatInputs,
+    '-filter_complex', filterComplex,
+    '-map', '[vout]',
+    '-map', '[aout]',
+    '-t', totalDuration.toFixed(2),
+    '-c:v', 'libx264',
+    '-preset', 'fast',
+    '-crf', '21',
+    '-pix_fmt', 'yuv420p',
+    '-c:a', 'aac',
+    '-b:a', '192k',
+    '-movflags', '+faststart',
+    finalVideoPath
+  ];
 
   console.log(`    ⚡ Encoding vertical reel with FFmpeg...`);
-  try {
-    execSync(cmd, { stdio: 'pipe', maxBuffer: 100 * 1024 * 1024 });
-  } catch (e) {
-    console.error('    [!] FFmpeg STDERR:', e.stderr ? e.stderr.toString() : e.message);
-    throw e;
+  const res = spawnSync('ffmpeg', ffmpegArgs, { stdio: 'pipe', maxBuffer: 100 * 1024 * 1024 });
+  if (res.status !== 0) {
+    const errText = res.stderr ? res.stderr.toString() : (res.error ? res.error.message : 'Unknown ffmpeg error');
+    console.error('    [!] FFmpeg STDERR:', errText);
+    throw new Error(`FFmpeg failed with exit code ${res.status}: ${errText}`);
   }
 
-  try { if (fs.existsSync(localAssPath)) fs.unlinkSync(localAssPath); } catch (e) {}
+  try { if (fs.existsSync(localAssPath)) fs.unlinkSync(localAssPath); } catch (e) { }
   const finalSizeMb = (fs.statSync(finalVideoPath).size / (1024 * 1024)).toFixed(2);
   console.log(`    ✅ SUCCESS! Vertical Reel Generated: ${finalVideoPath} (${finalSizeMb} MB, ${totalDuration.toFixed(1)}s)`);
   return finalVideoPath;

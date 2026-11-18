@@ -848,8 +848,9 @@ async function main() {
   // -------------------------------------------------------------
   // Pre-Flight Live Instagram Audit: Prevent Duplicate Re-Posting
   // -------------------------------------------------------------
+  const isForce = process.argv.includes('--force');
   const livePost = await findLiveInstagramPost(DEFAULT_IG_ID, DEFAULT_TOKEN, celebName, actionType);
-  if (livePost) {
+  if (livePost && !isForce) {
     console.log(`[🛡️ Anti-Duplicate Guard] Found live post on Instagram for ${celebName} (ID: ${livePost.id}) published at ${livePost.timestamp}.`);
     console.log(`   ⏭️ Skipping re-publish to prevent duplicate posts on feed!`);
     if (actionType === 'carousel') targetPost.ig_post_id = livePost.id;
