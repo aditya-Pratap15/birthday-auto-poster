@@ -606,8 +606,352 @@ ${events.join('\n')}
   fs.writeFileSync(assPath, assContent, 'utf8');
 }
 
+// -------------------------------------------------------------
+// Resolve Cutout and Character Role for Cameo Slide
+// -------------------------------------------------------------
+function resolveCutoutAndRole(post, safeName) {
+  let cutoutPath = null;
+  if (post.thematic_asset && post.thematic_asset.asset_cutout_path) {
+    const direct = path.resolve(ROOT_DIR, post.thematic_asset.asset_cutout_path);
+    if (fs.existsSync(direct)) cutoutPath = direct;
+  }
+  if (!cutoutPath) {
+    const direct = path.join(ROOT_DIR, 'assets', 'thematic_assets', `${safeName}_character_cutout.png`);
+    if (fs.existsSync(direct)) cutoutPath = direct;
+  }
+  if (!cutoutPath) {
+    const themDir = path.join(ROOT_DIR, 'assets', 'thematic_assets');
+    if (fs.existsSync(themDir)) {
+      const files = fs.readdirSync(themDir);
+      const nameFirst = safeName.split('_')[0].toLowerCase();
+      const match = files.find(f => f.toLowerCase().includes(safeName.toLowerCase()) || f.toLowerCase().includes(nameFirst));
+      if (match) cutoutPath = path.join(themDir, match);
+    }
+  }
+  if (!cutoutPath) {
+    const cutDir = path.join(ROOT_DIR, 'assets', 'cutouts');
+    if (fs.existsSync(cutDir)) {
+      const files = fs.readdirSync(cutDir);
+      const nameFirst = safeName.split('_')[0].toLowerCase();
+      const match = files.find(f => f.toLowerCase().includes(safeName.toLowerCase()) || f.toLowerCase().includes(nameFirst));
+      if (match) cutoutPath = path.join(cutDir, match);
+    }
+  }
+
+  let role = 'ICONIC ROLE';
+  if (post.viral_teaser && post.viral_teaser.punchline_red) {
+    const pr = post.viral_teaser.punchline_red;
+    role = (Array.isArray(pr) ? pr.join(' ') : String(pr)).trim();
+  } else if (post.teaserCard && post.teaserCard.punchline_red) {
+    const pr = post.teaserCard.punchline_red;
+    role = (Array.isArray(pr) ? pr.join(' ') : String(pr)).trim();
+  } else if (post.thematic_asset && post.thematic_asset.drive_file_name) {
+    const nameMatch = post.thematic_asset.drive_file_name.replace(/\.[^/.]+$/, '').split('_');
+    const idx2 = nameMatch.indexOf('transparent');
+    if (idx2 !== -1 && nameMatch.length > 5) {
+      role = nameMatch.slice(4, -1).join(' ').toUpperCase();
+    }
+  }
+  return { cutoutPath, role };
+}
+
+// -------------------------------------------------------------
+// Render 4 Luxury Milestone Slide Cards via Puppeteer
+// -------------------------------------------------------------
+async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
+  console.log('    🎨 Rendering 4 high-end slide cards via Puppeteer...');
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    args: ['--no-sandbox', '--disable-setuid-sandbox']
+  });
+
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
+
+  let cleanCutoutB64 = null;
+  if (cutoutPath && fs.existsSync(cutoutPath)) {
+    const rawB64 = fs.readFileSync(cutoutPath).toString('base64');
+    cleanCutoutB64 = await page.evaluate(async (b64) => {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => {
+          const c = document.createElement('canvas');
+          c.width = img.width; c.height = img.height;
+          const ctx = c.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+          const id = ctx.getImageData(0, 0, c.width, c.height);
+          const d = id.data;
+          for (let y = 0; y < c.height; y++) {
+            for (let x = 0; x < c.width; x++) {
+              const idx = (y * c.width + x) * 4;
+              // Clean floor shadow artifacts in bottom right
+              if (x > c.width * 0.60 && y > c.height * 0.86) {
+                d[idx + 3] = 0;
+              }
+              if (d[idx + 3] < 60) {
+                d[idx + 3] = 0;
+              }
+            }
+          }
+          ctx.putImageData(id, 0, 0);
+          let minX = c.width, minY = c.height, maxX = 0, maxY = 0, found = false;
+          for (let y = 0; y < c.height; y++) {
+            for (let x = 0; x < c.width; x++) {
+              if (d[(y * c.width + x) * 4 + 3] > 15) {
+                if (x < minX) minX = x;
+                if (x > maxX) maxX = x;
+                if (y < minY) minY = y;
+                if (y > maxY) maxY = y;
+                found = true;
+              }
+            }
+          }
+          if (!found) return resolve(b64);
+          const cropW = maxX - minX + 1;
+          const cropH = maxY - minY + 1;
+          const outCanvas = document.createElement('canvas');
+          outCanvas.width = cropW;
+          outCanvas.height = cropH;
+          const outCtx = outCanvas.getContext('2d');
+          outCtx.drawImage(c, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
+          resolve(outCanvas.toDataURL('image/png').replace(/^data:image\/png;base64,/, ''));
+        };
+        img.src = 'data:image/png;base64,' + b64;
+      });
+    }, rawB64);
+  }
+
+  const photoB64s = photos.map(p => fs.readFileSync(p).toString('base64'));
+
+  const slidesData = [
+    {
+      badge: '🌟 THE EARLY YEARS',
+      badgeColor: '#e0c068',
+      photoB64: photoB64s[0 % photoB64s.length],
+      isCameo: false
+    },
+    {
+      badge: '🚀 THE BREAKTHROUGH',
+      badgeColor: '#e0c068',
+      photoB64: photoB64s[1 % photoB64s.length],
+      isCameo: false
+    },
+    {
+      badge: `👑 ICONIC ROLE: ${characterRole.toUpperCase()}`,
+      badgeColor: '#ffd700',
+      photoB64: photoB64s[2 % photoB64s.length],
+      isCameo: true
+    },
+    {
+      badge: '🏆 LIVING LEGEND',
+      badgeColor: '#e0c068',
+      photoB64: photoB64s[3 % photoB64s.length],
+      isCameo: false
+    }
+  ];
+
+  const slidePaths = [];
+
+  for (let i = 0; i < slidesData.length; i++) {
+    const s = slidesData[i];
+    const html = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          * { box-sizing: border-box; margin: 0; padding: 0; }
+          body, html {
+            width: 1080px;
+            height: 1920px;
+            overflow: hidden;
+            background: #08080c;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+          }
+
+          /* Fullscreen Blurred Background */
+          .bg-layer {
+            position: absolute;
+            top: -20px; left: -20px;
+            width: 1120px; height: 1960px;
+            background-image: url('data:image/jpeg;base64,${s.photoB64}');
+            background-size: cover;
+            background-position: center 25%;
+            filter: blur(30px) brightness(0.38);
+            transform: scale(1.05);
+          }
+
+          /* Luxury Dark Vignette Overlay */
+          .vignette-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 1080px; height: 1920px;
+            background: radial-gradient(circle at 50% 50%, rgba(10,12,18,0.15) 0%, rgba(4,5,8,0.85) 100%),
+                        linear-gradient(180deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.92) 100%);
+          }
+
+          /* Central Golden Card Frame */
+          .card-container {
+            position: absolute;
+            top: 160px;
+            left: 55px;
+            width: 970px;
+            height: 1440px;
+            border-radius: 32px;
+            border: 3.5px solid rgba(212, 175, 55, 0.88);
+            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 0, 0, 0.45);
+            overflow: hidden;
+            background: #111;
+          }
+
+          .card-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+          }
+
+          .card-sheen {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 28px;
+            box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.28);
+            pointer-events: none;
+          }
+
+          /* Milestone Badge Pill: Positioned in top dark header */
+          .badge-pill {
+            position: absolute;
+            top: 65px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            background: linear-gradient(135deg, rgba(20,20,24,0.94) 0%, rgba(35,32,25,0.96) 100%);
+            border: 2px solid ${s.badgeColor};
+            border-radius: 40px;
+            padding: 10px 36px;
+            color: #ffffff;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px rgba(212,175,55,0.35);
+            white-space: nowrap;
+          }
+
+          /* CAMEO ASSETS (Slide 3): Grounded bottom-left */
+          .cutout-wrapper {
+            position: absolute;
+            bottom: 0px;
+            left: 15px;
+            width: 500px;
+            height: 700px;
+            z-index: 25;
+            filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.85));
+            pointer-events: none;
+          }
+
+          .cutout-stroke {
+            width: 100%;
+            height: 100%;
+            filter: url(#white-border-filter);
+          }
+
+          .cutout-stroke img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: left bottom;
+          }
+
+          /* 3D Viral Red Pointer Arrow pointing down-left to Cutout */
+          .arrow-wrapper {
+            position: absolute;
+            bottom: 605px;
+            left: 335px;
+            width: 250px;
+            height: 210px;
+            z-index: 30;
+            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
+            pointer-events: none;
+          }
+
+          .viral-arrow-svg {
+            width: 100%;
+            height: 100%;
+            display: block;
+          }
+        </style>
+      </head>
+      <body>
+        <!-- SVG Filter for Die-Cut White Border -->
+        <svg width="0" height="0" style="position:absolute;">
+          <filter id="white-border-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="8" result="dilated"/>
+            <feFlood flood-color="#ffffff" flood-opacity="1" result="white"/>
+            <feComposite in="white" in2="dilated" operator="in" result="stroke"/>
+            <feMerge>
+              <feMergeNode in="stroke"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </svg>
+
+        <!-- Background -->
+        <div class="bg-layer"></div>
+        <div class="vignette-overlay"></div>
+
+        <!-- Central Card Frame -->
+        <div class="card-container">
+          <img class="card-photo" src="data:image/jpeg;base64,${s.photoB64}" />
+          <div class="card-sheen"></div>
+        </div>
+
+        <!-- Milestone Badge -->
+        <div class="badge-pill">${s.badge}</div>
+
+        <!-- Slide 3 Cameo: Character Cutout + 3D Red Pointer Arrow -->
+        ${s.isCameo && cleanCutoutB64 ? `
+          <div class="arrow-wrapper">
+            <svg viewBox="0 0 240 200" class="viral-arrow-svg">
+              <defs>
+                <filter id="arrow-depth" x="-20%" y="-20%" width="150%" height="150%">
+                  <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.6)" />
+                </filter>
+              </defs>
+              <g filter="url(#arrow-depth)">
+                <!-- 3D Dark Bevel Extrusion -->
+                <polygon points="32,105 38,103 54,124 168,10 213,63 203,71 158,18 50,132 32,113" fill="#181818" />
+                <polygon points="168,10 213,63 203,71 158,18" fill="#111111" />
+                <!-- Bright Red Arrow Face -->
+                <polygon points="25,167 32,113 50,132 158,18 203,71 75,145 71,174" fill="#e52521" stroke="#cc1e1a" stroke-width="1.5" />
+              </g>
+            </svg>
+          </div>
+          <div class="cutout-wrapper">
+            <div class="cutout-stroke">
+              <img src="data:image/png;base64,${cleanCutoutB64}" alt="Character Cameo" />
+            </div>
+          </div>
+        ` : ''}
+      </body>
+      </html>
+    `;
+
+    await page.setContent(html);
+    const dest = path.join(TEMP_DIR, `${safeName}_slide_${i + 1}.png`);
+    await page.screenshot({ path: dest });
+    slidePaths.push(dest);
+    console.log(`    📸 Slide ${i + 1} generated -> ${dest}`);
+  }
+
+  await browser.close();
+  return slidePaths;
+}
+
 /**
- * Main Reel Builder
+ * Main Reel Builder: Generates the Full High-End Vertical Video Reel
  */
 async function buildReel(post, index = 1) {
   const celebName = post.celebrity_name || `Celebrity_${index}`;
@@ -631,12 +975,11 @@ async function buildReel(post, index = 1) {
   const { duration: voiceDuration, boundaries } = await generateVoiceover(narration, gender, voicePath);
 
   // 3. Exact Timing Synchronization:
-  // Slideshow stops EXACTLY when the narration ends (+ 0.15s natural breath).
-  // Single high-resolution portraits throughout the entire reel (no collage slide).
+  // Exactly 4 Slides for the 4 Celebrity Photos:
   const slideshowContentDuration = voiceDuration + 0.15;
-  const targetPerSlide = 3.2;
-  const numEraSlides = Math.max(1, Math.round(slideshowContentDuration / targetPerSlide));
+  const numEraSlides = 4;
   const eraSlideDuration = slideshowContentDuration / numEraSlides;
+  const framesPerSlide = Math.round(eraSlideDuration * 25);
 
   // Single Outro Screen (2.8s total):
   const OUTRO_DURATION = 2.80;
@@ -644,7 +987,7 @@ async function buildReel(post, index = 1) {
   const totalDuration = slideshowContentDuration + OUTRO_DURATION;
 
   console.log(`    ⏱️ Timing Sync:`);
-  console.log(`       - Era Slideshow: ${numEraSlides} single photos x ${eraSlideDuration.toFixed(2)}s = ${slideshowContentDuration.toFixed(2)}s`);
+  console.log(`       - 4 Milestone Slides x ${eraSlideDuration.toFixed(2)}s (${framesPerSlide} frames) = ${slideshowContentDuration.toFixed(2)}s`);
   console.log(`       - Slideshow Ends at: ${slideshowContentDuration.toFixed(2)}s (Narration: ${voiceDuration.toFixed(2)}s)`);
   console.log(`       - Outro Duration: ${OUTRO_DURATION.toFixed(2)}s`);
   console.log(`       - Total Reel Duration: ${totalDuration.toFixed(2)}s`);
@@ -669,24 +1012,23 @@ async function buildReel(post, index = 1) {
   }
   createSubtitlesAss(boundaries, rawComment, narration, voiceDuration, outroStartTime, totalDuration, localAssPath, hookCandidate);
 
-  // 5. Collect Era Photos
+  // 5. Collect 4 Era Photos
   const rawUrls = post.photo_urls || [];
   const localEraImages = [];
 
-  for (let i = 0; i < Math.min(5, rawUrls.length); i++) {
+  for (let i = 0; i < Math.min(4, rawUrls.length); i++) {
     const imgDest = path.join(TEMP_DIR, `${safeName}_photo_${i + 1}.jpg`);
     try {
-      if (fs.existsSync(imgDest)) { 
-        try { fs.unlinkSync(imgDest); } catch(e){} 
-      }
-      console.log(`    📥 Downloading fresh photo ${i + 1}...`);
-      const rawDest = path.join(TEMP_DIR, `${safeName}_raw_${i + 1}`);
-      await downloadFile(rawUrls[i], rawDest);
-      try {
-        execSync(`ffmpeg -y -v error -i "${rawDest}" -vframes 1 -q:v 2 "${imgDest}"`);
-        try { fs.unlinkSync(rawDest); } catch (e) {}
-      } catch (convErr) {
-        fs.renameSync(rawDest, imgDest);
+      if (!fs.existsSync(imgDest) || fs.statSync(imgDest).size < 1000) {
+        console.log(`    📥 Downloading fresh photo ${i + 1}...`);
+        const rawDest = path.join(TEMP_DIR, `${safeName}_raw_${i + 1}`);
+        await downloadFile(rawUrls[i], rawDest);
+        try {
+          execSync(`ffmpeg -y -v error -i "${rawDest}" -vframes 1 -q:v 2 "${imgDest}"`);
+          try { fs.unlinkSync(rawDest); } catch (e) {}
+        } catch (convErr) {
+          fs.renameSync(rawDest, imgDest);
+        }
       }
       localEraImages.push(imgDest);
     } catch (e) {
@@ -698,18 +1040,29 @@ async function buildReel(post, index = 1) {
   }
   console.log(`    📸 Collected ${localEraImages.length} era photos for slideshow.`);
 
-  // 6. Compose Slide Inputs:
-  // Slides 0..numEraSlides-1: High-res single portrait photos (eraSlideDuration each)
-  // Slide Outro: Single luxury animated end screen (2.8s)
+  // 6. Resolve Cutout and Role for Cameo Slide
+  const { cutoutPath, role } = resolveCutoutAndRole(post, safeName);
+  if (cutoutPath) {
+    console.log(`    👑 Using character cutout: ${path.basename(cutoutPath)} (Role: ${role})`);
+  } else {
+    console.log(`    ℹ️ No character cutout found for ${celebName}; rendering classic slide cards.`);
+  }
+
+  // 7. Render 4 Milestone Slide Cards with Puppeteer
+  const slideCardPaths = await renderSlideCards(localEraImages, cutoutPath, role, safeName);
+
+  // 8. Compose Slide Inputs with Ken Burns Motion
   const inputs = [];
   let filterComplex = '';
 
   for (let k = 0; k < numEraSlides; k++) {
-    const eraImg = localEraImages[k % localEraImages.length];
-    inputs.push(`-loop 1 -t ${eraSlideDuration.toFixed(2)} -i "${eraImg}"`);
-    filterComplex += `[${k}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,boxblur=25:5[bg${k}];` +
-                     `[${k}:v]scale=1000:1450:force_original_aspect_ratio=decrease[fg${k}];` +
-                     `[bg${k}][fg${k}]overlay=(W-w)/2:(H-h)/2-40,setsar=1[slide${k}];`;
+    inputs.push(`-i "${slideCardPaths[k]}"`);
+    // Zoom in on slides 0, 2, 3; Zoom out on slide 1 for cinematic rhythm
+    if (k === 1) {
+      filterComplex += `[${k}:v]zoompan=z='max(1.06-0.00035*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
+    } else {
+      filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
+    }
   }
 
   // Single Outro Screen Inputs (Luxury Gold Particle Background)
@@ -736,7 +1089,7 @@ async function buildReel(post, index = 1) {
     inputs.push(`-loop 1 -t ${totalDuration.toFixed(2)} -i "${watermarkLogoPath}"`);
   }
 
-  // Concatenate Slides (Single Photos + Single Outro Screen)
+  // Concatenate Slides (4 Slides + 1 Outro Screen)
   const totalSlidesCount = outroBgIdx + 1;
   const concatInputs = [];
   for (let s = 0; s < totalSlidesCount; s++) {
@@ -758,27 +1111,58 @@ async function buildReel(post, index = 1) {
   const bgmFileName = path.basename(selectedBgmPath);
   console.log(`    🎵 Background Music: ${bgmFileName} (Reel #${index})`);
 
-  // Audio Inputs: Voiceover + Selected BGM
+  // Audio Inputs: Voiceover + Selected BGM + Procedural SFX Tracks
   const voiceInputIndex = inputs.length;
   inputs.push(`-i "${voicePath}"`);
   const bgmInputIndex = inputs.length;
   inputs.push(`-stream_loop -1 -i "${selectedBgmPath}"`);
 
+  const AUDIO_DIR = path.join(ROOT_DIR, 'assets', 'audio');
+  const sfxImpactPath = path.join(AUDIO_DIR, 'sfx_impact.wav');
+  const sfxWhooshPath = path.join(AUDIO_DIR, 'sfx_whoosh.wav');
+  const sfxShutterPath = path.join(AUDIO_DIR, 'sfx_shutter.wav');
+  const sfxChimePath = path.join(AUDIO_DIR, 'winner_chime.mp3');
+
+  const sfxImpactIdx = inputs.length;
+  inputs.push(`-i "${sfxImpactPath}"`);
+  const sfxWhooshIdx = inputs.length;
+  inputs.push(`-i "${sfxWhooshPath}"`);
+  const sfxShutterIdx = inputs.length;
+  inputs.push(`-i "${sfxShutterPath}"`);
+  const sfxChimeIdx = inputs.length;
+  inputs.push(`-i "${sfxChimePath}"`);
+
+  // SFX Timing Offsets (in milliseconds for adelay)
+  const t_hook_ms = 0;
+  const t_slide2_ms = Math.round(eraSlideDuration * 1000);
+  const t_slide3_ms = Math.round(eraSlideDuration * 2 * 1000);
+  const t_slide4_ms = Math.round(eraSlideDuration * 3 * 1000);
+  const t_outro_ms = Math.round(slideshowContentDuration * 1000);
+
+  console.log(`    🔊 SFX Design: Hook Impact at 0.0s | Whoosh at ${(t_slide2_ms/1000).toFixed(2)}s | Cameo Shutter+Whoosh at ${(t_slide3_ms/1000).toFixed(2)}s | Whoosh at ${(t_slide4_ms/1000).toFixed(2)}s | Outro Chime at ${(t_outro_ms/1000).toFixed(2)}s`);
+
   // Audio Filters:
-  // - Voiceover boosted by 80% (volume=1.8) for loud, crystal-clear narration
-  // - BGM ducked to 18% (volume=0.18) so vocals, drums, and melodies blend cleanly under voiceover
+  // - Voiceover boosted 1.8x (volume=1.8)
+  // - BGM ducked to 18% (volume=0.18)
+  // - 5 SFX tracks mixed sample-accurately via adelay
   // - Smooth 0.7s fade out at video end
   const fadeOutStart = Math.max(0, totalDuration - 0.7).toFixed(2);
-  filterComplex += `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${OUTRO_DURATION + 1}[v_boosted];` +
-                   `[${bgmInputIndex}:a]volume=0.18[b_gentle];` +
-                   `[v_boosted][b_gentle]amix=inputs=2:duration=first:dropout_transition=2[amixed];` +
-                   `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
+  filterComplex += 
+    `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${OUTRO_DURATION + 1}[v_boosted];` +
+    `[${bgmInputIndex}:a]volume=0.18[b_gentle];` +
+    `[${sfxImpactIdx}:a]adelay=${t_hook_ms}|${t_hook_ms},volume=1.0[sfx_hook];` +
+    `[${sfxWhooshIdx}:a]adelay=${t_slide2_ms}|${t_slide2_ms},volume=0.85[sfx_w2];` +
+    `[${sfxShutterIdx}:a]adelay=${t_slide3_ms}|${t_slide3_ms},volume=1.2[sfx_shutter];` +
+    `[${sfxWhooshIdx}:a]adelay=${t_slide4_ms}|${t_slide4_ms},volume=0.85[sfx_w4];` +
+    `[${sfxChimeIdx}:a]adelay=${t_outro_ms}|${t_outro_ms},volume=1.0[sfx_chime];` +
+    `[v_boosted][b_gentle][sfx_hook][sfx_w2][sfx_shutter][sfx_w4][sfx_chime]amix=inputs=7:duration=first:dropout_transition=2[amixed];` +
+    `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
 
   const cmd = `ffmpeg -y -loglevel warning ${inputs.join(' ')} ` +
               `-filter_complex "${filterComplex}" ` +
               `-map "[vout]" -map "[aout]" ` +
               `-t ${totalDuration.toFixed(2)} ` +
-              `-c:v libx264 -preset fast -crf 22 -pix_fmt yuv420p ` +
+              `-c:v libx264 -preset fast -crf 21 -pix_fmt yuv420p ` +
               `-c:a aac -b:a 192k -movflags +faststart "${finalVideoPath}"`;
 
   console.log(`    ⚡ Encoding vertical reel with FFmpeg...`);
