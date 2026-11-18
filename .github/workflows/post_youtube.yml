@@ -35,10 +35,12 @@ jobs:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: |
-          if [ "${{ github.event.inputs.force }}" = "true" ] || [ "${{ github.event_name }}" = "push" ]; then
-            node scripts/post_to_youtube.js --force
-          else
-            node scripts/post_to_youtube.js
+          node scripts/post_to_youtube.js --force > youtube_run.log 2>&1 || true
+          cat youtube_run.log
+          if grep -q "SUCCESS!" youtube_run.log; then
+            echo "Uploaded successfully"
+          elif grep -q "Fatal" youtube_run.log || grep -q "Error" youtube_run.log; then
+            exit 1
           fi
 
       - name: Commit Updated YouTube IDs or Error Log
@@ -46,7 +48,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add today_posts.json youtube_error.log 2>/dev/null || true
-          git commit -m "chore(youtube): record uploaded short video IDs or debug log [skip ci]" || echo "No changes"
+          git add today_posts.json youtube_run.log 2>/dev/null || true
+          git commit -m "chore(youtube): sync youtube run log [skip ci]" || echo "No changes"
           git pull --rebase origin main || true
           git push origin main || echo "Push bypassed"
