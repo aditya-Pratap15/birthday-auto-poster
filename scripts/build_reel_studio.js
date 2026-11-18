@@ -725,26 +725,18 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
 
   const slidesData = [
     {
-      badge: '🌟 THE EARLY YEARS',
-      badgeColor: '#e0c068',
       photoB64: photoB64s[0 % photoB64s.length],
       isCameo: false
     },
     {
-      badge: '🚀 THE BREAKTHROUGH',
-      badgeColor: '#e0c068',
       photoB64: photoB64s[1 % photoB64s.length],
       isCameo: false
     },
     {
-      badge: `👑 ICONIC ROLE: ${characterRole.toUpperCase()}`,
-      badgeColor: '#ffd700',
       photoB64: photoB64s[2 % photoB64s.length],
       isCameo: true
     },
     {
-      badge: '🏆 LIVING LEGEND',
-      badgeColor: '#e0c068',
       photoB64: photoB64s[3 % photoB64s.length],
       isCameo: false
     }
@@ -820,26 +812,6 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             pointer-events: none;
           }
 
-          /* Milestone Badge Pill: Positioned in top dark header */
-          .badge-pill {
-            position: absolute;
-            top: 65px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
-            background: linear-gradient(135deg, rgba(20,20,24,0.94) 0%, rgba(35,32,25,0.96) 100%);
-            border: 2px solid ${s.badgeColor};
-            border-radius: 40px;
-            padding: 10px 36px;
-            color: #ffffff;
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px rgba(212,175,55,0.35);
-            white-space: nowrap;
-          }
-
           /* CAMEO ASSETS (Slide 3): Grounded bottom-left */
           .cutout-wrapper {
             position: absolute;
@@ -907,9 +879,6 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
           <img class="card-photo" src="data:image/jpeg;base64,${s.photoB64}" />
           <div class="card-sheen"></div>
         </div>
-
-        <!-- Milestone Badge -->
-        <div class="badge-pill">${s.badge}</div>
 
         <!-- Slide 3 Cameo: Character Cutout + 3D Red Pointer Arrow -->
         ${s.isCameo && cleanCutoutB64 ? `
@@ -1118,17 +1087,17 @@ async function buildReel(post, index = 1) {
   inputs.push(`-stream_loop -1 -i "${selectedBgmPath}"`);
 
   const AUDIO_DIR = path.join(ROOT_DIR, 'assets', 'audio');
-  const sfxImpactPath = path.join(AUDIO_DIR, 'sfx_impact.wav');
+  const sfxHookScratchPath = path.join(AUDIO_DIR, 'sfx_hook_scratch.wav');
   const sfxWhooshPath = path.join(AUDIO_DIR, 'sfx_whoosh.wav');
-  const sfxShutterPath = path.join(AUDIO_DIR, 'sfx_shutter.wav');
+  const sfxCameoPopPath = path.join(AUDIO_DIR, 'sfx_cameo_pop_ding.wav');
   const sfxChimePath = path.join(AUDIO_DIR, 'winner_chime.mp3');
 
-  const sfxImpactIdx = inputs.length;
-  inputs.push(`-i "${sfxImpactPath}"`);
+  const sfxHookIdx = inputs.length;
+  inputs.push(`-i "${sfxHookScratchPath}"`);
   const sfxWhooshIdx = inputs.length;
   inputs.push(`-i "${sfxWhooshPath}"`);
-  const sfxShutterIdx = inputs.length;
-  inputs.push(`-i "${sfxShutterPath}"`);
+  const sfxCameoPopIdx = inputs.length;
+  inputs.push(`-i "${sfxCameoPopPath}"`);
   const sfxChimeIdx = inputs.length;
   inputs.push(`-i "${sfxChimePath}"`);
 
@@ -1139,7 +1108,7 @@ async function buildReel(post, index = 1) {
   const t_slide4_ms = Math.round(eraSlideDuration * 3 * 1000);
   const t_outro_ms = Math.round(slideshowContentDuration * 1000);
 
-  console.log(`    🔊 SFX Design: Hook Impact at 0.0s | Whoosh at ${(t_slide2_ms/1000).toFixed(2)}s | Cameo Shutter+Whoosh at ${(t_slide3_ms/1000).toFixed(2)}s | Whoosh at ${(t_slide4_ms/1000).toFixed(2)}s | Outro Chime at ${(t_outro_ms/1000).toFixed(2)}s`);
+  console.log(`    🔊 SFX Design: Vinyl Scratch & Beat Drop at 0.0s | Whoosh at ${(t_slide2_ms/1000).toFixed(2)}s | Comic Pop & Ding at ${(t_slide3_ms/1000).toFixed(2)}s | Whoosh at ${(t_slide4_ms/1000).toFixed(2)}s | Outro Chime at ${(t_outro_ms/1000).toFixed(2)}s`);
 
   // Audio Filters:
   // - Voiceover boosted 1.8x (volume=1.8)
@@ -1150,12 +1119,12 @@ async function buildReel(post, index = 1) {
   filterComplex += 
     `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${OUTRO_DURATION + 1}[v_boosted];` +
     `[${bgmInputIndex}:a]volume=0.18[b_gentle];` +
-    `[${sfxImpactIdx}:a]adelay=${t_hook_ms}|${t_hook_ms},volume=1.0[sfx_hook];` +
+    `[${sfxHookIdx}:a]adelay=${t_hook_ms}|${t_hook_ms},volume=1.0[sfx_hook];` +
     `[${sfxWhooshIdx}:a]adelay=${t_slide2_ms}|${t_slide2_ms},volume=0.85[sfx_w2];` +
-    `[${sfxShutterIdx}:a]adelay=${t_slide3_ms}|${t_slide3_ms},volume=1.2[sfx_shutter];` +
+    `[${sfxCameoPopIdx}:a]adelay=${t_slide3_ms}|${t_slide3_ms},volume=1.25[sfx_cameo];` +
     `[${sfxWhooshIdx}:a]adelay=${t_slide4_ms}|${t_slide4_ms},volume=0.85[sfx_w4];` +
     `[${sfxChimeIdx}:a]adelay=${t_outro_ms}|${t_outro_ms},volume=1.0[sfx_chime];` +
-    `[v_boosted][b_gentle][sfx_hook][sfx_w2][sfx_shutter][sfx_w4][sfx_chime]amix=inputs=7:duration=first:dropout_transition=2[amixed];` +
+    `[v_boosted][b_gentle][sfx_hook][sfx_w2][sfx_cameo][sfx_w4][sfx_chime]amix=inputs=7:duration=first:dropout_transition=2[amixed];` +
     `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
 
   const cmd = `ffmpeg -y -loglevel warning ${inputs.join(' ')} ` +
