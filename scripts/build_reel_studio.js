@@ -656,107 +656,67 @@ function resolveCutoutAndRole(post, safeName) {
 }
 
 // -------------------------------------------------------------
-// Parametric 3D Vector Arrow Generator (Arbitrary Angle & Target)
+// Iconic 3D Red Vector Arrow Generator (Arbitrary Angle & Target)
 // -------------------------------------------------------------
-function buildArrowSVG(angleDeg = 0, scale = 1, options = {}) {
-  // Canonical arrow pointing RIGHT (0 deg) with tip at (0, 0)
-  const L = (options.length || 230) * scale;
-  const headLen = options.headLen ? options.headLen * scale : (L * 0.36);
-  const headHalfW = options.headHalfW ? options.headHalfW * scale : (L * 0.28);
-  const notchX = -headLen * 0.80; // notch sits slightly forward of barb
-  const barbX = -headLen;
-  const shaftHeadHalfW = options.shaftHeadHalfW ? options.shaftHeadHalfW * scale : (L * 0.11);
-  const shaftTailHalfW = options.shaftTailHalfW ? options.shaftTailHalfW * scale : (L * 0.165); // tapers from tail to head
-  const tailX = -L;
+function buildIconic3DArrowSVG(angleDeg = 0, scale = 1.0) {
+  // Canonical arrow pointing RIGHT (0 deg) with razor-sharp tip at (0, 0)
+  const L = 220 * scale;          // total shaft length
+  const headLen = 95 * scale;     // head length along pointing axis
+  const headHalfW = 60 * scale;   // head half width (total 120px)
+  const shaftHalfW = 24 * scale;  // shaft half width (total 48px)
+  const barbRetract = 22 * scale; // hooked back barb past notch
 
-  // 7 Canonical vertices (Tip at 0, 0)
-  const pts = [
-    { x: 0, y: 0 },                         // 0: Tip
-    { x: barbX, y: -headHalfW },             // 1: Top Barb
-    { x: notchX, y: -shaftHeadHalfW },       // 2: Top Notch
-    { x: tailX, y: -shaftTailHalfW },        // 3: Top Tail
-    { x: tailX, y: shaftTailHalfW },         // 4: Bottom Tail
-    { x: notchX, y: shaftHeadHalfW },        // 5: Bottom Notch
-    { x: barbX, y: headHalfW },              // 6: Bottom Barb
-  ];
+  // Exact 7-vertex canonical path (Tip at 0, 0)
+  const pathD = `M 0 0 ` +
+    `L ${(-headLen).toFixed(1)} ${(-headHalfW).toFixed(1)} ` +
+    `L ${(-headLen + barbRetract).toFixed(1)} ${(-shaftHalfW).toFixed(1)} ` +
+    `L ${(-L).toFixed(1)} ${(-shaftHalfW).toFixed(1)} ` +
+    `L ${(-L).toFixed(1)} ${(shaftHalfW).toFixed(1)} ` +
+    `L ${(-headLen + barbRetract).toFixed(1)} ${(shaftHalfW).toFixed(1)} ` +
+    `L ${(-headLen).toFixed(1)} ${(headHalfW).toFixed(1)} ` +
+    `Z`;
 
-  // Rotate points around (0, 0) by angleDeg
-  const rad = (angleDeg * Math.PI) / 180;
-  const cos = Math.cos(rad);
-  const sin = Math.sin(rad);
-  const rotPts = pts.map(p => ({
-    x: p.x * cos - p.y * sin,
-    y: p.x * sin + p.y * cos
-  }));
+  const boxSize = 360;
+  const cx = boxSize / 2;
+  const cy = boxSize / 2;
 
-  // 3D Extrusion vector (offset in direction of light/shadow)
-  const extDx = options.extDx !== undefined ? options.extDx : 6;
-  const extDy = options.extDy !== undefined ? options.extDy : -6;
-  const extPts = rotPts.map(p => ({
-    x: p.x + extDx,
-    y: p.y + extDy
-  }));
-
-  // Front & Back polygons
-  const frontPoly = rotPts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-  const backPoly = extPts.map(p => `${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
-
-  // Connecting side quads for 3D extrusion walls
-  const sideQuads = [];
-  const n = rotPts.length;
-  for (let i = 0; i < n; i++) {
-    const next = (i + 1) % n;
-    const p1 = rotPts[i];
-    const p2 = rotPts[next];
-    const ep2 = extPts[next];
-    const ep1 = extPts[i];
-    
-    // Normal of edge (p1 -> p2): (edgeDy, -edgeDx)
-    const edgeDx = p2.x - p1.x;
-    const edgeDy = p2.y - p1.y;
-    // Dot product with extrusion direction
-    const dot = edgeDy * extDx - edgeDx * extDy;
-    if (dot > 0.001) {
-      sideQuads.push(`${p1.x.toFixed(1)},${p1.y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)} ${ep2.x.toFixed(1)},${ep2.y.toFixed(1)} ${ep1.x.toFixed(1)},${ep1.y.toFixed(1)}`);
-    }
+  // 3D Extrusion slices (stacked offsets for physical solid 3D depth)
+  const depthSteps = 8;
+  const stepOffset = 1.6;
+  const bevelLayers = [];
+  for (let i = depthSteps; i >= 1; i--) {
+    const ox = (i * stepOffset).toFixed(1);
+    const oy = (i * stepOffset).toFixed(1);
+    const shade = i === depthSteps ? '#0a0a0a' : (i > 4 ? '#181818' : '#300a0a');
+    bevelLayers.push(`<path d="${pathD}" transform="translate(${ox}, ${oy})" fill="${shade}" stroke="#0a0a0a" stroke-width="2" stroke-linejoin="round" />`);
   }
 
-  // Compute bounding box
-  const allX = [...rotPts.map(p => p.x), ...extPts.map(p => p.x)];
-  const allY = [...rotPts.map(p => p.y), ...extPts.map(p => p.y)];
-  const pad = 30;
-  const minX = Math.min(...allX) - pad;
-  const maxX = Math.max(...allX) + pad;
-  const minY = Math.min(...allY) - pad;
-  const maxY = Math.max(...allY) + pad;
-  const width = Math.ceil(maxX - minX);
-  const height = Math.ceil(maxY - minY);
-
   const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="${minX.toFixed(1)} ${minY.toFixed(1)} ${width} ${height}" width="${width}" height="${height}">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${boxSize} ${boxSize}" width="${boxSize}" height="${boxSize}">
       <defs>
-        <filter id="arrow-drop" x="-30%" y="-30%" width="160%" height="160%">
-          <feDropShadow dx="2" dy="6" stdDeviation="6" flood-color="rgba(0,0,0,0.5)" />
+        <filter id="arrow-depth-shadow" x="-40%" y="-40%" width="180%" height="180%">
+          <feDropShadow dx="6" dy="14" stdDeviation="10" flood-color="rgba(0,0,0,0.65)" />
         </filter>
+        <linearGradient id="arrow-face-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ff3344" />
+          <stop offset="60%" stop-color="#e60000" />
+          <stop offset="100%" stop-color="#b80000" />
+        </linearGradient>
       </defs>
-      <g filter="url(#arrow-drop)">
-        <!-- Back Extruded Base -->
-        <polygon points="${backPoly}" fill="#111111" />
-        <!-- 3D Bevel Side Walls -->
-        ${sideQuads.map(q => `<polygon points="${q}" fill="#181818" stroke="#0e0e0e" stroke-width="1.2" stroke-linejoin="round" />`).join('\n        ')}
-        <!-- Vibrant Red Front Face with clean miter joints -->
-        <polygon points="${frontPoly}" fill="#e81e1e" stroke="#b00b0b" stroke-width="2" stroke-linejoin="miter" stroke-miterlimit="10" />
+      <g filter="url(#arrow-depth-shadow)">
+        <g transform="translate(${cx}, ${cy}) rotate(${angleDeg})">
+          <!-- 3D Extruded Block Base -->
+          ${bevelLayers.join('\n          ')}
+          <!-- Crisp Red Face with Dark Border -->
+          <path d="${pathD}" fill="url(#arrow-face-grad)" stroke="#1a0000" stroke-width="3" stroke-linejoin="miter" stroke-miterlimit="5" />
+          <!-- Inner Top-Edge Rim Highlight for 3D Specular Sheen -->
+          <path d="M ${(-L).toFixed(1)} ${(-shaftHalfW + 2).toFixed(1)} L ${(-headLen + barbRetract).toFixed(1)} ${(-shaftHalfW + 2).toFixed(1)} L ${(-headLen + 4).toFixed(1)} ${(-headHalfW + 3).toFixed(1)} L 0 0" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2" stroke-linecap="round" />
+        </g>
       </g>
     </svg>
   `;
 
-  return {
-    svg,
-    tipOffset: { x: -minX, y: -minY },
-    width,
-    height,
-    angleDeg
-  };
+  return { svg, boxSize, cx, cy, angleDeg };
 }
 
 // -------------------------------------------------------------
@@ -878,29 +838,31 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
     renderedCutoutPath = path.join(TEMP_DIR, `${safeName}_cameo_cutout_clean.png`);
     await page.screenshot({ path: renderedCutoutPath, omitBackground: true });
 
-    // Render dynamic, mathematically precise 3D Vector Arrow overlay
+    // Render iconic, mathematically precise 3D Red Vector Arrow overlay
     // Target: Character cutout upper body in 1080x1920 space
-    // Cutout sits at x: 25, y: 1010, size: 580x820 -> target chest ~ (300, 1450)
-    const tx = 300;
-    const ty = 1450;
-    // Arrow settles at (560, 1220), strictly outside the cutout
-    const ax = 560;
-    const ay = 1220;
+    // Cutout sits at x: 25, y: 1010, size: 580x840 -> target torso/chest ~ (320, 1380)
+    const tx = 320;
+    const ty = 1380;
+    // Arrow settles with tip at (550, 1260), strictly outside the cutout
+    const ax = 550;
+    const ay = 1260;
     const dx = tx - ax;
     const dy = ty - ay;
-    const angleDeg = (Math.atan2(dy, dx) * 180) / Math.PI; // Dynamic angle towards target (~138.5 deg)
+    const angleDeg = (Math.atan2(dy, dx) * 180) / Math.PI; // Dynamic angle towards target (~152.4 deg)
 
-    const arrow = buildArrowSVG(angleDeg, 1.15, { length: 220, extDx: 6, extDy: -6 });
-    await page.setViewport({ width: arrow.width, height: arrow.height });
+    const arrow = buildIconic3DArrowSVG(angleDeg, 1.05);
+    await page.setViewport({ width: arrow.boxSize, height: arrow.boxSize });
     await page.setContent(`<!DOCTYPE html><html><body style="margin:0; background:transparent; overflow:hidden;">${arrow.svg}</body></html>`);
     renderedArrowPath = path.join(TEMP_DIR, `${safeName}_arrow_clean.png`);
     await page.screenshot({ path: renderedArrowPath, omitBackground: true });
-    console.log(`    🎯 Dynamic 3D Red Arrow generated: ${arrow.width}x${arrow.height} pointing at ${angleDeg.toFixed(1)}°`);
+    console.log(`    🎯 Iconic 3D Red Arrow generated: ${arrow.boxSize}x${arrow.boxSize} pointing at ${angleDeg.toFixed(1)}°`);
 
+    // In FFmpeg overlay space, since tip is at (cx, cy) inside the image:
+    // overlayX = Tip_X - cx, overlayY = Tip_Y - cy
     arrowAnimConfig = {
-      x0: 650, y0: 1000,
-      x1: 720, y1: 1140,
-      x2: ax,  y2: ay,
+      x0: 760 - arrow.cx, y0: 1020 - arrow.cy,
+      x1: 800 - arrow.cx, y1: 1200 - arrow.cy,
+      x2: ax - arrow.cx,  y2: ay - arrow.cy,
       angleDeg,
       nudgeAmp: 20
     };
@@ -1035,7 +997,7 @@ async function buildReel(post, index = 1) {
   const slideshowContentDuration = voiceDuration + 0.15;
   const numEraSlides = 4;
   const eraSlideDuration = slideshowContentDuration / numEraSlides;
-  const framesPerSlide = Math.round(eraSlideDuration * 25);
+  let framesPerSlide = Math.round(eraSlideDuration * 25);
 
   // Single Outro Screen (2.8s total):
   const OUTRO_DURATION = 2.80;
@@ -1107,21 +1069,26 @@ async function buildReel(post, index = 1) {
   // 7. Render 4 Milestone Slide Cards with Puppeteer
   const { slidePaths: slideCardPaths, renderedCutoutPath, renderedArrowPath, arrowAnimConfig } = await renderSlideCards(localEraImages, cutoutPath, role, safeName);
 
-  // 8. Compose Slide Inputs with Ken Burns Motion & Animated Cameo
+  // 8. Compose Slide Inputs with Ken Burns Motion, Animated Cameo & Smooth Transitions
+  const D_trans = 0.40; // 0.40s visual crossfade transition overlap between consecutive slides
+  const slideInDur = eraSlideDuration + D_trans;
+  framesPerSlide = Math.round(slideInDur * 25);
+  const outroInDur = OUTRO_DURATION + D_trans;
+
   const inputs = [];
   let filterComplex = '';
 
   for (let k = 0; k < numEraSlides; k++) {
-    inputs.push(`-i "${slideCardPaths[k]}"`);
+    inputs.push(`-loop 1 -t ${slideInDur.toFixed(2)} -i "${slideCardPaths[k]}"`);
   }
 
   let cutoutInputIdx = -1;
   let arrowInputIdx = -1;
   if (renderedCutoutPath && renderedArrowPath) {
     cutoutInputIdx = inputs.length;
-    inputs.push(`-loop 1 -t ${eraSlideDuration.toFixed(2)} -i "${renderedCutoutPath}"`);
+    inputs.push(`-loop 1 -t ${slideInDur.toFixed(2)} -i "${renderedCutoutPath}"`);
     arrowInputIdx = inputs.length;
-    inputs.push(`-loop 1 -t ${eraSlideDuration.toFixed(2)} -i "${renderedArrowPath}"`);
+    inputs.push(`-loop 1 -t ${slideInDur.toFixed(2)} -i "${renderedArrowPath}"`);
   }
 
   for (let k = 0; k < numEraSlides; k++) {
@@ -1129,8 +1096,8 @@ async function buildReel(post, index = 1) {
       filterComplex += `[${k}:v]zoompan=z='max(1.06-0.00035*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     } else if (k === 2 && cutoutInputIdx !== -1 && arrowInputIdx !== -1) {
       // Slide 2 is the Cameo Slide:
-      // Base zoompan + Cameo slide-in from left + Dynamic 3D Red Arrow (blinking, smooth curved swoop, and rhythmic pulse nudge)
-      const cfg = arrowAnimConfig || { x0: 650, y0: 1000, x1: 720, y1: 1140, x2: 560, y2: 1220, angleDeg: 138.5, nudgeAmp: 20 };
+      // Base zoompan + Cameo slide-in from left + Iconic 3D Red Arrow (blinking, smooth curved swoop, and rhythmic pulse nudge)
+      const cfg = arrowAnimConfig || { x0: 580, y0: 840, x1: 620, y1: 1020, x2: 370, y2: 1080, angleDeg: 152.4, nudgeAmp: 20 };
       const rad = (cfg.angleDeg * Math.PI) / 180;
       const nudgeX = (cfg.nudgeAmp * Math.cos(rad)).toFixed(2);
       const nudgeY = (cfg.nudgeAmp * Math.sin(rad)).toFixed(2);
@@ -1153,17 +1120,17 @@ async function buildReel(post, index = 1) {
 
   const outroBgPath = path.join(ROOT_DIR, 'backgrounds', 'outro_background.png');
   if (fs.existsSync(outroBgPath)) {
-    inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${outroBgPath}"`);
+    inputs.push(`-loop 1 -t ${outroInDur.toFixed(2)} -i "${outroBgPath}"`);
     filterComplex += `[${outroBgIdx}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[outro_bg];` +
                      `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
                      `[outro_bg][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
   } else {
-    inputs.push(`-f lavfi -t ${OUTRO_DURATION.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
+    inputs.push(`-f lavfi -t ${outroInDur.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
     filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
                      `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
   }
 
-  inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
+  inputs.push(`-loop 1 -t ${outroInDur.toFixed(2)} -i "${styledLogoPath}"`);
 
   let watermarkIdx = -1;
   if (watermarkLogoPath && fs.existsSync(watermarkLogoPath)) {
@@ -1171,17 +1138,25 @@ async function buildReel(post, index = 1) {
     inputs.push(`-loop 1 -t ${totalDuration.toFixed(2)} -i "${watermarkLogoPath}"`);
   }
 
-  // Concatenate Slides (4 Slides + 1 Outro Screen)
-  const concatInputs = ['[slide0]', '[slide1]', '[slide2]', '[slide3]', '[slide_outro]'];
+  // Visual Transitions from start to end using xfade
+  const off1 = eraSlideDuration.toFixed(2);
+  const off2 = (eraSlideDuration * 2).toFixed(2);
+  const off3 = (eraSlideDuration * 3).toFixed(2);
+  const off4 = (eraSlideDuration * 4).toFixed(2);
+
+  filterComplex += 
+    `[slide0][slide1]xfade=transition=smoothleft:duration=${D_trans}:offset=${off1}[x1];` +
+    `[x1][slide2]xfade=transition=smoothleft:duration=${D_trans}:offset=${off2}[x2];` +
+    `[x2][slide3]xfade=transition=smoothleft:duration=${D_trans}:offset=${off3}[x3];` +
+    `[x3][slide_outro]xfade=transition=fade:duration=${D_trans}:offset=${off4},setsar=1[vbase];`;
+
   const escapedAss = localAssPath.replace(/\\/g, '/').replace(/:/g, '\\:');
   if (watermarkIdx !== -1) {
-    filterComplex += `${concatInputs.join('')}concat=n=5:v=1:a=0[vbase];` +
-                     `[vbase]ass='${escapedAss}'[v_subs];` +
+    filterComplex += `[vbase]ass='${escapedAss}'[v_subs];` +
                      `[${watermarkIdx}:v]scale=120:120,setsar=1[wm];` +
                      `[v_subs][wm]overlay=W-w-50:75[vout];`;
   } else {
-    filterComplex += `${concatInputs.join('')}concat=n=5:v=1:a=0[vbase];` +
-                     `[vbase]ass='${escapedAss}'[vout];`;
+    filterComplex += `[vbase]ass='${escapedAss}'[vout];`;
   }
 
   // Dynamically select background music track for this reel
@@ -1210,30 +1185,33 @@ async function buildReel(post, index = 1) {
   const sfxChimeIdx = inputs.length;
   inputs.push(`-i "${sfxChimePath}"`);
 
-  // SFX Timing Offsets (in milliseconds for adelay)
+  // SFX Timing Offsets: Synced to Every Image Transition & Event
   const t_hook_ms = 0;
-  const t_slide2_ms = Math.round(eraSlideDuration * 1000);
-  const t_slide3_ms = Math.round((eraSlideDuration * 2 + 0.45) * 1000);
-  const t_slide4_ms = Math.round(eraSlideDuration * 3 * 1000);
-  const t_outro_ms = Math.round(slideshowContentDuration * 1000);
+  const t_trans1_ms = Math.round(eraSlideDuration * 1000);
+  const t_trans2_ms = Math.round(eraSlideDuration * 2 * 1000);
+  const t_cameo_ms = Math.round((eraSlideDuration * 2 + 0.45) * 1000);
+  const t_trans3_ms = Math.round(eraSlideDuration * 3 * 1000);
+  const t_outro_ms = Math.round(eraSlideDuration * 4 * 1000);
 
-  console.log(`    🔊 SFX Design: Vinyl Scratch & Beat Drop at 0.0s | Whoosh at ${(t_slide2_ms/1000).toFixed(2)}s | Comic Pop & Ding at ${(t_slide3_ms/1000).toFixed(2)}s | Whoosh at ${(t_slide4_ms/1000).toFixed(2)}s | Outro Chime at ${(t_outro_ms/1000).toFixed(2)}s`);
+  console.log(`    🔊 SFX Design: Scratch at 0.0s | Whoosh 1 at ${(t_trans1_ms/1000).toFixed(2)}s | Whoosh 2 at ${(t_trans2_ms/1000).toFixed(2)}s | Cameo Pop at ${(t_cameo_ms/1000).toFixed(2)}s | Whoosh 3 at ${(t_trans3_ms/1000).toFixed(2)}s | Outro Chime at ${(t_outro_ms/1000).toFixed(2)}s`);
 
   // Audio Filters:
   // - Voiceover boosted 1.8x (volume=1.8)
   // - BGM ducked to 18% (volume=0.18)
-  // - 5 SFX tracks mixed sample-accurately via adelay
+  // - SFX split and synced to all transitions via adelay
   // - Smooth 0.7s fade out at video end
   const fadeOutStart = Math.max(0, totalDuration - 0.7).toFixed(2);
   filterComplex += 
     `[${voiceInputIndex}:a]volume=1.8,apad=pad_dur=${OUTRO_DURATION + 1}[v_boosted];` +
     `[${bgmInputIndex}:a]volume=0.18[b_gentle];` +
+    `[${sfxWhooshIdx}:a]asplit=3[w1][w2][w3];` +
     `[${sfxHookIdx}:a]adelay=${t_hook_ms}|${t_hook_ms},volume=1.0[sfx_hook];` +
-    `[${sfxWhooshIdx}:a]adelay=${t_slide2_ms}|${t_slide2_ms},volume=0.85[sfx_w2];` +
-    `[${sfxCameoPopIdx}:a]adelay=${t_slide3_ms}|${t_slide3_ms},volume=1.25[sfx_cameo];` +
-    `[${sfxWhooshIdx}:a]adelay=${t_slide4_ms}|${t_slide4_ms},volume=0.85[sfx_w4];` +
+    `[w1]adelay=${t_trans1_ms}|${t_trans1_ms},volume=0.85[sfx_w1];` +
+    `[w2]adelay=${t_trans2_ms}|${t_trans2_ms},volume=0.85[sfx_w2];` +
+    `[${sfxCameoPopIdx}:a]adelay=${t_cameo_ms}|${t_cameo_ms},volume=1.25[sfx_cameo];` +
+    `[w3]adelay=${t_trans3_ms}|${t_trans3_ms},volume=0.85[sfx_w3];` +
     `[${sfxChimeIdx}:a]adelay=${t_outro_ms}|${t_outro_ms},volume=1.0[sfx_chime];` +
-    `[v_boosted][b_gentle][sfx_hook][sfx_w2][sfx_cameo][sfx_w4][sfx_chime]amix=inputs=7:duration=first:dropout_transition=2[amixed];` +
+    `[v_boosted][b_gentle][sfx_hook][sfx_w1][sfx_w2][sfx_cameo][sfx_w3][sfx_chime]amix=inputs=8:duration=first:dropout_transition=2[amixed];` +
     `[amixed]afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
 
   const cmd = `ffmpeg -y -loglevel warning ${inputs.join(' ')} ` +
