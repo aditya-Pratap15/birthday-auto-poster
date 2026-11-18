@@ -823,8 +823,7 @@ async function main() {
   const posts = data.posts || [];
 
   const istDateStr = Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata' }).format(new Date());
-  const args = process.argv.slice(2);
-  const isForce = process.env.FORCE_RUN === 'true' || args.includes('--force');
+  const isForce = process.env.FORCE_RUN === 'true' || process.argv.includes('--force');
   if (data.date && data.date !== istDateStr && !isForce) {
     console.warn(`[SAFETY GUARD] today_posts.json date (${data.date}) does not match current IST date (${istDateStr}). Halting Facebook posting to prevent posting duplicate/stale posts!`);
     process.exit(0);
@@ -840,8 +839,7 @@ async function main() {
   console.log(`Total Posts Ready: ${posts.length}\n`);
 
   // Determine which posts to run
-  const nonFlagArgs = args.filter(a => !a.startsWith('--'));
-  const arg = nonFlagArgs[0];
+  const arg = process.argv[2];
   let postsToRun = [];
 
   if (arg && arg.includes('-')) {
