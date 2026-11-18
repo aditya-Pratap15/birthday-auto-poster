@@ -475,14 +475,18 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       };
     });
 
-    // Group words into clean single-appearance chunks (2-3 words each, or ending on punctuation)
+    // Group words into clean single-line chunks (1-2 words, or max 3 short words <= 17 chars)
+    // Ensures captions never wrap onto 2 lines even at enlarged 70pt font size!
     const chunks = [];
     let i = 0;
     while (i < words.length) {
       const chunk = [];
+      let charLen = 0;
       while (i < words.length && chunk.length < 3) {
         if (chunk.length > 0 && words[i].isListNum) break;
+        if (chunk.length >= 1 && (charLen + words[i].raw.length > 17)) break;
         chunk.push(words[i]);
+        charLen += words[i].raw.length + 1;
         const isEnd = words[i].isSentenceEnd || (chunk.length >= 2 && words[i].isClauseEnd);
         i++;
         if (isEnd) break;
@@ -587,7 +591,7 @@ PlayResY: 1920
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial Black,64,&H0000E6FF,&H000000FF,&H00000000,&HB0000000,-1,0,0,0,100,100,1,0,1,6,3,2,70,70,0,1
+Style: Default,Arial Black,70,&H0000E6FF,&H000000FF,&H00000000,&HB0000000,-1,0,0,0,100,100,1,0,1,6.5,3.5,2,50,50,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
