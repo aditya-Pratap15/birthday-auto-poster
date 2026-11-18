@@ -436,22 +436,20 @@ function formatAssTime(seconds) {
 }
 
 /**
- * Build dynamic ASS subtitles:
- *  - Middle Center alignment (Alignment 5, Y=960)
- *  - Smooth 180ms fade-in bloom (\fad(180,60))
- *  - Correct dot on numbered lists (1. and 2.) cleanly grouped with sentence
- *  - Progressive 2-line layout
- *  - Animated spring pop-up outro text on single ending screen
+ * Build dynamic ASS subtitles matching Captune Studio Pro "Yellow Retro Caption":
+ *  - Font: Arial Black (ExtraBold 800/900 weight)
+ *  - Casing: ALL UPPERCASE
+ *  - Active/Spoken words: Vibrant Retro Yellow (&H0000E6FF& / #FFE600)
+ *  - Upcoming words: Crisp White (&H00FFFFFF&)
+ *  - Outline: Heavy 6px solid black outline (&H00000000&)
+ *  - Drop Shadow: Deep 3px shadow (&HB0000000&)
+ *  - Locked baseline: \an2\pos(540,1060) zero-jitter positioning
  */
 function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration, outroStartTime, totalDuration, assPath, hookText = '') {
   const events = [];
 
-  const boldRegex = /\*\*(.*?)\*\*/g;
-  const boldWordsSet = new Set();
-  let match;
-  while ((match = boldRegex.exec(rawComment)) !== null) {
-    match[1].toLowerCase().replace(/[^a-z0-9]/g, ' ').split(/\s+/).filter(Boolean).forEach(w => boldWordsSet.add(w));
-  }
+  const COLOR_YELLOW = '&H0000E6FF&'; // #FFE600 Retro Yellow (AABBGGRR)
+  const COLOR_WHITE = '&H00FFFFFF&';  // #FFFFFF Crisp White
 
   if (boundaries && boundaries.length > 5) {
     const words = boundaries.map(b => {
@@ -467,18 +465,10 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       const isSentenceEnd = isListNum ? false : /[.!?…]+['"”’)*_~]*$/.test(rawWord);
       const isClauseEnd = /[,;:\-—]$/.test(rawWord);
 
-      const cleanToken = rawWord.toLowerCase().replace(/[^a-z0-9]/g, '');
-      const isBold = boldWordsSet.has(cleanToken);
-      // Keep font size constant (62pt) across all words to prevent line height jumping!
-      const styled = isBold
-        ? `{\\b1\\c&H0024D8FF&}${rawWord}{\\c&H00FFFFFF&}`
-        : `{\\b1\\c&H00FFFFFF&}${rawWord}`;
-
       return {
         start: b.start !== undefined ? b.start : (b.offset || 0) / 10000000,
         end: b.end !== undefined ? b.end : ((b.offset || 0) + (b.duration || 0)) / 10000000,
-        raw: rawWord,
-        styled,
+        raw: rawWord.toUpperCase(),
         isSentenceEnd,
         isClauseEnd,
         isListNum
@@ -502,7 +492,7 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       }
     }
 
-    // Emit each chunk with a locked vertical baseline at Y=1060 (an2pos(540,1060))
+    // Emit each chunk with progressive Yellow Retro word highlighting
     // Every single line sits on the EXACT same horizontal baseline, completely preventing vertical bouncing!
     for (let c = 0; c < chunks.length; c++) {
       const curChunk = chunks[c];
@@ -526,9 +516,34 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
 
       if (chunkEnd <= chunkStart) chunkEnd = chunkStart + 0.3;
 
-      const chunkText = curChunk.map(w => w.styled).join(' ');
-      // Locked at \an2\pos(540,1060) with smooth 90ms fade-in, 40ms fade-out
-      events.push(`Dialogue: 0,${formatAssTime(chunkStart)},${formatAssTime(chunkEnd)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)}${chunkText}`);
+      // Word-by-word progressive retro yellow highlighting within the chunk
+      for (let j = 0; j < curChunk.length; j++) {
+        const stepStart = curChunk[j].start;
+        const stepEnd = (j + 1 < curChunk.length) ? curChunk[j + 1].start : chunkEnd;
+
+        if (stepEnd <= stepStart) continue;
+
+        // Build text: words 0..j are Yellow, remaining words are White
+        const textParts = curChunk.map((w, idx) => {
+          const colorTag = idx <= j ? `{\\c${COLOR_YELLOW}}` : `{\\c${COLOR_WHITE}}`;
+          return `${colorTag}${w.raw}`;
+        });
+        const lineText = textParts.join(' ');
+
+        // Apply subtle entrance fade on first word, exit fade on last word
+        let fadTag = '';
+        if (j === 0 && j === curChunk.length - 1) {
+          fadTag = '\\fad(70,40)';
+        } else if (j === 0) {
+          fadTag = '\\fad(70,0)';
+        } else if (j === curChunk.length - 1) {
+          fadTag = '\\fad(0,40)';
+        }
+
+        events.push(
+          `Dialogue: 0,${formatAssTime(stepStart)},${formatAssTime(stepEnd)},Default,,0,0,0,,{\\an2\\pos(540,1060)${fadTag}}${lineText}`
+        );
+      }
     }
   } else {
     // Robust fallback: NEVER show 3-4 lines all at once. Break on full stop or max 3 words!
@@ -537,7 +552,7 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
     const fallbackChunks = [];
     let cur = [];
     for (const w of allWords) {
-      cur.push(w);
+      cur.push(w.toUpperCase());
       const isEnd = /[.!?…]+['"”’)*_~]*$/.test(w) || cur.length >= 3;
       if (isEnd) {
         fallbackChunks.push(cur);
@@ -553,7 +568,7 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
       const end = Math.min(voiceDuration, start + dur);
       runningTime = end;
       const text = grp.join(' ');
-      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(90,40)\\b1\\c&H00FFFFFF&}${text}`);
+      events.push(`Dialogue: 0,${formatAssTime(start)},${formatAssTime(end)},Default,,0,0,0,,{\\an2\\pos(540,1060)\\fad(80,40)\\c${COLOR_YELLOW}}${text}`);
     });
   }
 
@@ -562,7 +577,7 @@ function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration
   const outroTextEnd = totalDuration + 2.0;
   events.push(
     `Dialogue: 0,${formatAssTime(outroTextStart)},${formatAssTime(outroTextEnd)},Default,,0,0,0,,` +
-    `{\\an5\\pos(540,1160)\\fscx0\\fscy0\\t(0,350,\\fscx100\\fscy100)\\fad(150,0)\\b1\\fsize58\\c&H0024D8FF&}Born Today Hollywood\\N\\N{\\b1\\fsize46\\c&H00FFFFFF&}Like & Follow for daily updates 🎬`
+    `{\\an5\\pos(540,1160)\\fscx0\\fscy0\\t(0,350,\\fscx100\\fscy100)\\fad(150,0)\\b1\\fsize58\\c${COLOR_YELLOW}}BORN TODAY HOLLYWOOD\\N\\N{\\b1\\fsize46\\c${COLOR_WHITE}}Like & Follow for daily updates 🎬`
   );
 
   const assContent = `[Script Info]
@@ -572,7 +587,7 @@ PlayResY: 1920
 
 [V4+ Styles]
 Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
-Style: Default,Arial,62,&H00FFFFFF,&H000000FF,&H00000000,&H90000000,-1,0,0,0,100,100,0,0,1,5,2,2,70,70,0,1
+Style: Default,Arial Black,64,&H0000E6FF,&H000000FF,&H00000000,&HB0000000,-1,0,0,0,100,100,1,0,1,6,3,2,70,70,0,1
 
 [Events]
 Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
