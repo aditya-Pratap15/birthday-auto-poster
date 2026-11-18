@@ -674,9 +674,14 @@ function resolveCelebCutout(safeName, photo1Path) {
       if (fs.existsSync(targetOut) && fs.statSync(targetOut).size > 1000) return targetOut;
     } catch (e) {
       try {
-        execSync(`uv run --with rembg --with onnxruntime --with pillow python "${pyScript}" "${photo1Path}" "${targetOut}"`, { stdio: 'pipe' });
+        execSync(`python3 "${pyScript}" "${photo1Path}" "${targetOut}"`, { stdio: 'pipe' });
         if (fs.existsSync(targetOut) && fs.statSync(targetOut).size > 1000) return targetOut;
-      } catch (err) {}
+      } catch (err2) {
+        try {
+          execSync(`uv run --with rembg --with onnxruntime --with pillow python "${pyScript}" "${photo1Path}" "${targetOut}"`, { stdio: 'pipe' });
+          if (fs.existsSync(targetOut) && fs.statSync(targetOut).size > 1000) return targetOut;
+        } catch (err3) {}
+      }
     }
   }
   return null;
