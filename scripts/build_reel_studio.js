@@ -446,30 +446,6 @@ function formatAssTime(seconds) {
 function createSubtitlesAss(boundaries, rawComment, fullNarration, voiceDuration, outroStartTime, totalDuration, assPath, hookText = '') {
   const events = [];
 
-  // 5-Second Viral Hook Overlay (Meta Growth Guidance: keep full hook text on screen for 5.0s)
-  if (hookText && hookText.trim().length > 0) {
-    const cleanHook = hookText.replace(/\n+/g, ' ').replace(/["*]/g, '').trim();
-    let displayHook = cleanHook;
-    // Balance across 2 lines if longer than 34 chars to stay safely within 1080px without truncation
-    if (cleanHook.length > 34 && !cleanHook.includes('\\N')) {
-      const words = cleanHook.split(/\s+/);
-      let l1 = [], l2 = [], curLen = 0;
-      const targetMid = cleanHook.length / 2;
-      for (const w of words) {
-        if (curLen + w.length <= targetMid + 4 || l1.length === 0) {
-          l1.push(w);
-          curLen += w.length + 1;
-        } else {
-          l2.push(w);
-        }
-      }
-      if (l2.length > 0) displayHook = `${l1.join(' ')}\\N${l2.join(' ')}`;
-    }
-    events.push(
-      `Dialogue: 1,0:00:00.00,0:00:05.00,Default,,0,0,0,,{\\an8\\pos(540,240)\\fad(150,300)\\b1\\fsize44\\c&H0024D8FF&}⭐ DID YOU KNOW? ⭐\\N{\\b1\\fsize36\\c&H00FFFFFF&}${displayHook}`
-    );
-  }
-
   const boldRegex = /\*\*(.*?)\*\*/g;
   const boldWordsSet = new Set();
   let match;
