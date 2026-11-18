@@ -27,10 +27,12 @@ jobs:
         run: |
           node scripts/delete_today_youtube.js | tee deletion_result.log
 
-      - name: Upload Deletion Log
+      - name: Commit Deletion Log
         if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: deletion-log
-          path: deletion_result.log
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add deletion_result.log || true
+          git commit -m "docs: log youtube deletion results [skip ci]" || true
+          git push || true
 
