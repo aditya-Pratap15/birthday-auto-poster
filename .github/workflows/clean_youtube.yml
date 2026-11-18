@@ -18,9 +18,9 @@ jobs:
         with:
           node-version: 20
 
-      - name: Run YouTube Duplicate Cleaner
+      - name: Delete Today Headliners from YouTube Shorts
         env:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-        run: node scripts/clean_youtube_duplicates.js
+        run: node scripts/delete_today_youtube.js
