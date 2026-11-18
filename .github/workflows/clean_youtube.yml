@@ -24,4 +24,13 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-        run: node scripts/delete_today_youtube.js
+        run: |
+          node scripts/delete_today_youtube.js | tee deletion_result.log
+
+      - name: Upload Deletion Log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: deletion-log
+          path: deletion_result.log
+

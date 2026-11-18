@@ -190,6 +190,22 @@ async function main() {
   }
 
   console.log(`\n[✓] Done! Deleted ${deletedCount} targeted YouTube Short(s).`);
+
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    const summary = [
+      '# YouTube Targeted Deletion Report',
+      `- Total videos retrieved: ${videos.length}`,
+      `- Total targeted deletions: ${deletedCount}`,
+      ...videos.map(v => {
+        const titleLower = v.title.toLowerCase();
+        const isTarget = targets.some(t => titleLower.includes(t));
+        return `- [${isTarget ? 'DELETED' : 'PRESERVED'}] ${v.videoId} - ${v.title}`;
+      })
+    ].join('\n');
+    try {
+      fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '\n', 'utf8');
+    } catch(e) {}
+  }
 }
 
 main().catch(err => {
