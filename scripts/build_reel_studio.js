@@ -669,6 +669,9 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
   await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
 
   let cleanCutoutB64 = null;
+  let renderedCutoutPath = null;
+  let renderedArrowPath = null;
+
   if (cutoutPath && fs.existsSync(cutoutPath)) {
     const rawB64 = fs.readFileSync(cutoutPath).toString('base64');
     cleanCutoutB64 = await page.evaluate(async (b64) => {
@@ -684,8 +687,10 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
           for (let y = 0; y < c.height; y++) {
             for (let x = 0; x < c.width; x++) {
               const idx = (y * c.width + x) * 4;
-              // Clean floor shadow artifacts in bottom right
-              if (x > c.width * 0.60 && y > c.height * 0.86) {
+              if (y > 972) {
+                d[idx + 3] = 0;
+              }
+              if (x > 615 && y > 870) {
                 d[idx + 3] = 0;
               }
               if (d[idx + 3] < 60) {
@@ -719,33 +724,90 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
         img.src = 'data:image/png;base64,' + b64;
       });
     }, rawB64);
+
+    // Render standalone enlarged transparent cutout overlay (580x820)
+    await page.setViewport({ width: 580, height: 820 });
+    const cutoutOverlayHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body, html { width: 580px; height: 820px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
+          .cutout-stroke {
+            width: 100%; height: 100%;
+            filter: url(#white-border-filter) drop-shadow(0 20px 35px rgba(0, 0, 0, 0.85));
+          }
+          .cutout-stroke img {
+            width: 100%; height: 100%; object-fit: contain; object-position: left bottom; display: block;
+          }
+        </style>
+      </head>
+      <body>
+        <svg width="0" height="0" style="position:absolute;">
+          <filter id="white-border-filter" x="-20%" y="-20%" width="140%" height="140%">
+            <feMorphology in="SourceAlpha" operator="dilate" radius="8" result="dilated"/>
+            <feFlood flood-color="#ffffff" flood-opacity="1" result="white"/>
+            <feComposite in="white" in2="dilated" operator="in" result="stroke"/>
+            <feMerge>
+              <feMergeNode in="stroke"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </svg>
+        <div class="cutout-stroke">
+          <img src="data:image/png;base64,${cleanCutoutB64}" />
+        </div>
+      </body>
+      </html>
+    `;
+    await page.setContent(cutoutOverlayHtml);
+    renderedCutoutPath = path.join(TEMP_DIR, `${safeName}_cameo_cutout_clean.png`);
+    await page.screenshot({ path: renderedCutoutPath, omitBackground: true });
+
+    // Render standalone clean 3D Vector Arrow overlay (300x260)
+    await page.setViewport({ width: 300, height: 260 });
+    const arrowSvgHtml = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <meta charset="utf-8">
+        <style>
+          body, html { width: 300px; height: 260px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
+          svg { width: 100%; height: 100%; display: block; }
+        </style>
+      </head>
+      <body>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 310">
+          <defs>
+            <filter id="arrow-shadow" x="-30%" y="-30%" width="160%" height="160%">
+              <feDropShadow dx="-2" dy="8" stdDeviation="10" flood-color="rgba(0,0,0,0.65)" />
+            </filter>
+          </defs>
+          <g filter="url(#arrow-shadow)">
+            <!-- 3D Dark Bevel Extrusion -->
+            <polygon points="42,175 54,163 82,193 257,14 327,98 315,110 245,26 70,205" fill="#151515" />
+            <polygon points="104,272 114,262 120,272" fill="#151515" />
+            <!-- Red Arrow Body Face -->
+            <polygon points="30,260 42,175 70,205 245,26 315,110 110,226 104,272" fill="#ea2027" stroke="#b7151b" stroke-width="2" stroke-linejoin="round" />
+          </g>
+        </svg>
+      </body>
+      </html>
+    `;
+    await page.setContent(arrowSvgHtml);
+    renderedArrowPath = path.join(TEMP_DIR, `${safeName}_arrow_clean.png`);
+    await page.screenshot({ path: renderedArrowPath, omitBackground: true });
   }
 
+  // Reset viewport to 1080x1920 for base slide cards
+  await page.setViewport({ width: 1080, height: 1920, deviceScaleFactor: 1 });
   const photoB64s = photos.map(p => fs.readFileSync(p).toString('base64'));
-
-  const slidesData = [
-    {
-      photoB64: photoB64s[0 % photoB64s.length],
-      isCameo: false
-    },
-    {
-      photoB64: photoB64s[1 % photoB64s.length],
-      isCameo: false
-    },
-    {
-      photoB64: photoB64s[2 % photoB64s.length],
-      isCameo: true
-    },
-    {
-      photoB64: photoB64s[3 % photoB64s.length],
-      isCameo: false
-    }
-  ];
 
   const slidePaths = [];
 
-  for (let i = 0; i < slidesData.length; i++) {
-    const s = slidesData[i];
+  for (let i = 0; i < 4; i++) {
+    const photoB64 = photoB64s[i % photoB64s.length];
     const html = `
       <!DOCTYPE html>
       <html>
@@ -766,7 +828,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             position: absolute;
             top: -20px; left: -20px;
             width: 1120px; height: 1960px;
-            background-image: url('data:image/jpeg;base64,${s.photoB64}');
+            background-image: url('data:image/jpeg;base64,${photoB64}');
             background-size: cover;
             background-position: center 25%;
             filter: blur(30px) brightness(0.38);
@@ -811,99 +873,18 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             box-shadow: inset 0 0 30px rgba(212, 175, 55, 0.28);
             pointer-events: none;
           }
-
-          /* CAMEO ASSETS (Slide 3): Grounded bottom-left */
-          .cutout-wrapper {
-            position: absolute;
-            bottom: 0px;
-            left: 15px;
-            width: 500px;
-            height: 700px;
-            z-index: 25;
-            filter: drop-shadow(0 25px 45px rgba(0, 0, 0, 0.85));
-            pointer-events: none;
-          }
-
-          .cutout-stroke {
-            width: 100%;
-            height: 100%;
-            filter: url(#white-border-filter);
-          }
-
-          .cutout-stroke img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            object-position: left bottom;
-          }
-
-          /* 3D Viral Red Pointer Arrow pointing down-left to Cutout */
-          .arrow-wrapper {
-            position: absolute;
-            bottom: 605px;
-            left: 335px;
-            width: 250px;
-            height: 210px;
-            z-index: 30;
-            filter: drop-shadow(0 15px 30px rgba(0, 0, 0, 0.7));
-            pointer-events: none;
-          }
-
-          .viral-arrow-svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-          }
         </style>
       </head>
       <body>
-        <!-- SVG Filter for Die-Cut White Border -->
-        <svg width="0" height="0" style="position:absolute;">
-          <filter id="white-border-filter" x="-20%" y="-20%" width="140%" height="140%">
-            <feMorphology in="SourceAlpha" operator="dilate" radius="8" result="dilated"/>
-            <feFlood flood-color="#ffffff" flood-opacity="1" result="white"/>
-            <feComposite in="white" in2="dilated" operator="in" result="stroke"/>
-            <feMerge>
-              <feMergeNode in="stroke"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </svg>
-
         <!-- Background -->
         <div class="bg-layer"></div>
         <div class="vignette-overlay"></div>
 
         <!-- Central Card Frame -->
         <div class="card-container">
-          <img class="card-photo" src="data:image/jpeg;base64,${s.photoB64}" />
+          <img class="card-photo" src="data:image/jpeg;base64,${photoB64}" />
           <div class="card-sheen"></div>
         </div>
-
-        <!-- Slide 3 Cameo: Character Cutout + 3D Red Pointer Arrow -->
-        ${s.isCameo && cleanCutoutB64 ? `
-          <div class="arrow-wrapper">
-            <svg viewBox="0 0 240 200" class="viral-arrow-svg">
-              <defs>
-                <filter id="arrow-depth" x="-20%" y="-20%" width="150%" height="150%">
-                  <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="rgba(0,0,0,0.6)" />
-                </filter>
-              </defs>
-              <g filter="url(#arrow-depth)">
-                <!-- 3D Dark Bevel Extrusion -->
-                <polygon points="32,105 38,103 54,124 168,10 213,63 203,71 158,18 50,132 32,113" fill="#181818" />
-                <polygon points="168,10 213,63 203,71 158,18" fill="#111111" />
-                <!-- Bright Red Arrow Face -->
-                <polygon points="25,167 32,113 50,132 158,18 203,71 75,145 71,174" fill="#e52521" stroke="#cc1e1a" stroke-width="1.5" />
-              </g>
-            </svg>
-          </div>
-          <div class="cutout-wrapper">
-            <div class="cutout-stroke">
-              <img src="data:image/png;base64,${cleanCutoutB64}" alt="Character Cameo" />
-            </div>
-          </div>
-        ` : ''}
       </body>
       </html>
     `;
@@ -916,7 +897,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
   }
 
   await browser.close();
-  return slidePaths;
+  return { slidePaths, renderedCutoutPath, renderedArrowPath };
 }
 
 /**
@@ -1018,36 +999,56 @@ async function buildReel(post, index = 1) {
   }
 
   // 7. Render 4 Milestone Slide Cards with Puppeteer
-  const slideCardPaths = await renderSlideCards(localEraImages, cutoutPath, role, safeName);
+  const { slidePaths: slideCardPaths, renderedCutoutPath, renderedArrowPath } = await renderSlideCards(localEraImages, cutoutPath, role, safeName);
 
-  // 8. Compose Slide Inputs with Ken Burns Motion
+  // 8. Compose Slide Inputs with Ken Burns Motion & Animated Cameo
   const inputs = [];
   let filterComplex = '';
 
   for (let k = 0; k < numEraSlides; k++) {
     inputs.push(`-i "${slideCardPaths[k]}"`);
-    // Zoom in on slides 0, 2, 3; Zoom out on slide 1 for cinematic rhythm
+  }
+
+  let cutoutInputIdx = -1;
+  let arrowInputIdx = -1;
+  if (renderedCutoutPath && renderedArrowPath) {
+    cutoutInputIdx = inputs.length;
+    inputs.push(`-loop 1 -t ${eraSlideDuration.toFixed(2)} -i "${renderedCutoutPath}"`);
+    arrowInputIdx = inputs.length;
+    inputs.push(`-loop 1 -t ${eraSlideDuration.toFixed(2)} -i "${renderedArrowPath}"`);
+  }
+
+  for (let k = 0; k < numEraSlides; k++) {
     if (k === 1) {
       filterComplex += `[${k}:v]zoompan=z='max(1.06-0.00035*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
+    } else if (k === 2 && cutoutInputIdx !== -1 && arrowInputIdx !== -1) {
+      // Slide 2 is the Cameo Slide:
+      // Base zoompan + Cameo slide-in from left + 3D Red Arrow blinking & curved motion outside the cameo
+      filterComplex += 
+        `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom2];` +
+        `[base_zoom2][${cutoutInputIdx}:v]overlay=x='if(lt(t,0.45),-580+(580+25)*(1-pow(1-t/0.45,3)),25)':y='1010':enable='gte(t,0)'[with_cameo];` +
+        `[with_cameo][${arrowInputIdx}:v]overlay=x='(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*620 + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*690 + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*540':` +
+        `y='(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*1000 + 2*(1-(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3)))*(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3))*1120 + pow(3*pow(min(1,max(0,(t-0.85)/1.0)),2)-2*pow(min(1,max(0,(t-0.85)/1.0)),3),2)*1200':` +
+        `enable='gte(t,0.45)*(if(lt(t,0.85),mod(floor((t-0.45)*10),2),1))',setsar=1[slide${k}];`;
     } else {
       filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     }
   }
 
   // Single Outro Screen Inputs (Luxury Gold Particle Background)
-  const outroBgIdx = numEraSlides;
-  const outroLogoIdx = numEraSlides + 1;
+  const outroBgIdx = inputs.length;
+  const outroLogoIdx = inputs.length + 1;
 
   const outroBgPath = path.join(ROOT_DIR, 'backgrounds', 'outro_background.png');
   if (fs.existsSync(outroBgPath)) {
     inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${outroBgPath}"`);
     filterComplex += `[${outroBgIdx}:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,setsar=1[outro_bg];` +
                      `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
-                     `[outro_bg][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide${outroBgIdx}];`;
+                     `[outro_bg][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
   } else {
     inputs.push(`-f lavfi -t ${OUTRO_DURATION.toFixed(2)} -i color=c=black:s=1080x1920:r=25`);
     filterComplex += `[${outroLogoIdx}:v]scale=eval=frame:w='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))':h='max(2, 350*(1-pow(1-min(1, max(0, (t-0.25)/0.40)), 3)))'[logo_pop];` +
-                     `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide${outroBgIdx}];`;
+                     `[${outroBgIdx}:v][logo_pop]overlay=(W-w)/2:(H-h)/2-140:enable='gte(t, 0.25)',setsar=1[slide_outro];`;
   }
 
   inputs.push(`-loop 1 -t ${OUTRO_DURATION.toFixed(2)} -i "${styledLogoPath}"`);
@@ -1059,19 +1060,15 @@ async function buildReel(post, index = 1) {
   }
 
   // Concatenate Slides (4 Slides + 1 Outro Screen)
-  const totalSlidesCount = outroBgIdx + 1;
-  const concatInputs = [];
-  for (let s = 0; s < totalSlidesCount; s++) {
-    concatInputs.push(`[slide${s}]`);
-  }
+  const concatInputs = ['[slide0]', '[slide1]', '[slide2]', '[slide3]', '[slide_outro]'];
   const escapedAss = localAssPath.replace(/\\/g, '/').replace(/:/g, '\\:');
   if (watermarkIdx !== -1) {
-    filterComplex += `${concatInputs.join('')}concat=n=${totalSlidesCount}:v=1:a=0[vbase];` +
+    filterComplex += `${concatInputs.join('')}concat=n=5:v=1:a=0[vbase];` +
                      `[vbase]ass='${escapedAss}'[v_subs];` +
                      `[${watermarkIdx}:v]scale=120:120,setsar=1[wm];` +
                      `[v_subs][wm]overlay=W-w-50:75[vout];`;
   } else {
-    filterComplex += `${concatInputs.join('')}concat=n=${totalSlidesCount}:v=1:a=0[vbase];` +
+    filterComplex += `${concatInputs.join('')}concat=n=5:v=1:a=0[vbase];` +
                      `[vbase]ass='${escapedAss}'[vout];`;
   }
 
@@ -1104,7 +1101,7 @@ async function buildReel(post, index = 1) {
   // SFX Timing Offsets (in milliseconds for adelay)
   const t_hook_ms = 0;
   const t_slide2_ms = Math.round(eraSlideDuration * 1000);
-  const t_slide3_ms = Math.round(eraSlideDuration * 2 * 1000);
+  const t_slide3_ms = Math.round((eraSlideDuration * 2 + 0.45) * 1000);
   const t_slide4_ms = Math.round(eraSlideDuration * 3 * 1000);
   const t_outro_ms = Math.round(slideshowContentDuration * 1000);
 
