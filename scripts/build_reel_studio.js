@@ -792,10 +792,17 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
           for (let y = 0; y < c.height; y++) {
             for (let x = 0; x < c.width; x++) {
               const idx = (y * c.width + x) * 4;
-              if (y > 972) {
+              // 1. Clean trapped white studio background between legs
+              if (y >= 680 && y <= 940 && x >= 360 && x <= 560) {
+                if (d[idx + 3] > 0 && d[idx] > 215 && d[idx + 1] > 210 && d[idx + 2] > 205) {
+                  d[idx + 3] = 0;
+                }
+              }
+              // 2. Clean floor shadow (below shoe soles y > 950, and floor shadow patch right of foot x > 685)
+              if (y > 950) {
                 d[idx + 3] = 0;
               }
-              if (x > 615 && y > 870) {
+              if (y > 910 && x > 685) {
                 d[idx + 3] = 0;
               }
               if (d[idx + 3] < 60) {
@@ -822,25 +829,26 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
           const outCanvas = document.createElement('canvas');
           outCanvas.width = cropW;
           outCanvas.height = cropH;
-          const outCtx = outCanvas.getContext('2d');
-          outCtx.drawImage(c, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
+          outCanvas.getContext('2d').drawImage(c, minX, minY, cropW, cropH, 0, 0, cropW, cropH);
           resolve(outCanvas.toDataURL('image/png').replace(/^data:image\/png;base64,/, ''));
         };
         img.src = 'data:image/png;base64,' + b64;
       });
     }, rawB64);
 
-    // Render standalone enlarged transparent cutout overlay (580x820)
-    await page.setViewport({ width: 580, height: 820 });
+    // Render standalone enlarged transparent cutout overlay (580x840)
+    await page.setViewport({ width: 580, height: 840 });
     const cutoutOverlayHtml = `
       <!DOCTYPE html>
       <html>
       <head>
         <meta charset="utf-8">
         <style>
-          body, html { width: 580px; height: 820px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
+          body, html { width: 580px; height: 840px; margin: 0; padding: 0; background: transparent; overflow: hidden; }
           .cutout-stroke {
-            width: 100%; height: 100%;
+            position: absolute;
+            left: 15px; bottom: 15px;
+            width: 550px; height: 810px;
             filter: url(#white-border-filter) drop-shadow(0 20px 35px rgba(0, 0, 0, 0.85));
           }
           .cutout-stroke img {
@@ -851,7 +859,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
       <body>
         <svg width="0" height="0" style="position:absolute;">
           <filter id="white-border-filter" x="-20%" y="-20%" width="140%" height="140%">
-            <feMorphology in="SourceAlpha" operator="dilate" radius="8" result="dilated"/>
+            <feMorphology in="SourceAlpha" operator="dilate" radius="4" result="dilated"/>
             <feFlood flood-color="#ffffff" flood-opacity="1" result="white"/>
             <feComposite in="white" in2="dilated" operator="in" result="stroke"/>
             <feMerge>
@@ -921,28 +929,28 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
           }
 
-          /* Fullscreen Blurred Background */
+          /* Vibrant Ambient Blurred Background (Eliminates dark black void) */
           .bg-layer {
             position: absolute;
-            top: -20px; left: -20px;
-            width: 1120px; height: 1960px;
+            top: -40px; left: -40px;
+            width: 1160px; height: 2000px;
             background-image: url('data:image/jpeg;base64,${photoB64}');
             background-size: cover;
             background-position: center 25%;
-            filter: blur(30px) brightness(0.38);
-            transform: scale(1.05);
+            filter: blur(42px) brightness(0.70) saturate(1.35);
+            transform: scale(1.10);
           }
 
-          /* Luxury Dark Vignette Overlay */
+          /* Smooth Subtle Vignette Overlay for Depth & Text Readability */
           .vignette-overlay {
             position: absolute;
             top: 0; left: 0;
             width: 1080px; height: 1920px;
-            background: radial-gradient(circle at 50% 50%, rgba(10,12,18,0.15) 0%, rgba(4,5,8,0.85) 100%),
-                        linear-gradient(180deg, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.92) 100%);
+            background: radial-gradient(circle at 50% 50%, rgba(0,0,0,0.06) 30%, rgba(0,0,0,0.50) 100%),
+                        linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.75) 100%);
           }
 
-          /* Central Golden Card Frame */
+          /* Central Golden Card Frame with Ambient Glow */
           .card-container {
             position: absolute;
             top: 160px;
@@ -950,8 +958,8 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName) {
             width: 970px;
             height: 1440px;
             border-radius: 32px;
-            border: 3.5px solid rgba(212, 175, 55, 0.88);
-            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.9), inset 0 0 40px rgba(0, 0, 0, 0.45);
+            border: 3.5px solid rgba(212, 175, 55, 0.90);
+            box-shadow: 0 40px 90px rgba(0, 0, 0, 0.75), 0 0 50px rgba(212, 175, 55, 0.25), inset 0 0 40px rgba(0, 0, 0, 0.45);
             overflow: hidden;
             background: #111;
           }
