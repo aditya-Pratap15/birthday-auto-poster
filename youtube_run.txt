@@ -9,23 +9,22 @@
 
 [i] Processing top 3 headliners for YouTube Shorts...
 
-[📤] Uploading YouTube Short for: Owen Wilson...
-    [✅] SUCCESS! Short Published live to YouTube! ID: VJnMbsYn_Io
-    [🔗] Short Link: https://www.youtube.com/shorts/VJnMbsYn_Io
-    Waiting 5 seconds before next upload...
-[📤] Uploading YouTube Short for: Delroy Lindo...
-    [✅] SUCCESS! Short Published live to YouTube! ID: PSYPdf_ZIPE
-    [🔗] Short Link: https://www.youtube.com/shorts/PSYPdf_ZIPE
-    Waiting 5 seconds before next upload...
-[📤] Uploading YouTube Short for: Elizabeth Perkins...
-    [✅] SUCCESS! Short Published live to YouTube! ID: hK9BMCmMyAU
-    [🔗] Short Link: https://www.youtube.com/shorts/hK9BMCmMyAU
+[📤] Uploading YouTube Short for: Jodie Foster...
+[!] Fatal YouTube Script Error: Error: Upload init failed (400): {
+  "error": {
+    "code": 400,
+    "message": "The user has exceeded the number of videos they may upload.",
+    "errors": [
+      {
+        "message": "The user has exceeded the number of videos they may upload.",
+        "domain": "youtube.video",
+        "reason": "uploadLimitExceeded"
+      }
+    ]
+  }
+}
 
-======================================================
-🎬 Processing 2 Video Quiz Reels for YouTube Shorts...
-======================================================
-
-[!] Video quiz reel file not found at reels/quiz_03_Kevin_Nealon.mp4, skipping.
-[!] Video quiz reel file not found at reels/quiz_04_Nathan_Kress.mp4, skipping.
-
-[🎬] YouTube Shorts processing complete!
+    at IncomingMessage.<anonymous> (/home/runner/work/birthday-auto-poster/birthday-auto-poster/scripts/post_to_youtube.js:140:18)
+    at IncomingMessage.emit (node:events:536:35)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
