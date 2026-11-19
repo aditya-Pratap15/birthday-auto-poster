@@ -1,0 +1,31 @@
+======================================================
+🎬 YouTube Shorts Auto Poster - Born Today Hollywood
+======================================================
+
+[⚡] FORCE RE-UPLOAD ACTIVE: Existing YouTube Shorts will be deleted and replaced with new reels.
+
+[🔑] Refreshing Google OAuth Access Token...
+[✅] Google OAuth Access Token refreshed successfully!
+
+[i] Processing top 3 headliners for YouTube Shorts...
+
+[📤] Uploading YouTube Short for: Owen Wilson...
+    [✅] SUCCESS! Short Published live to YouTube! ID: VJnMbsYn_Io
+    [🔗] Short Link: https://www.youtube.com/shorts/VJnMbsYn_Io
+    Waiting 5 seconds before next upload...
+[📤] Uploading YouTube Short for: Delroy Lindo...
+    [✅] SUCCESS! Short Published live to YouTube! ID: PSYPdf_ZIPE
+    [🔗] Short Link: https://www.youtube.com/shorts/PSYPdf_ZIPE
+    Waiting 5 seconds before next upload...
+[📤] Uploading YouTube Short for: Elizabeth Perkins...
+    [✅] SUCCESS! Short Published live to YouTube! ID: hK9BMCmMyAU
+    [🔗] Short Link: https://www.youtube.com/shorts/hK9BMCmMyAU
+
+======================================================
+🎬 Processing 2 Video Quiz Reels for YouTube Shorts...
+======================================================
+
+[!] Video quiz reel file not found at reels/quiz_03_Kevin_Nealon.mp4, skipping.
+[!] Video quiz reel file not found at reels/quiz_04_Nathan_Kress.mp4, skipping.
+
+[🎬] YouTube Shorts processing complete!
