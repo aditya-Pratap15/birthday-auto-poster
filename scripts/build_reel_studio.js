@@ -770,9 +770,9 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName, cel
 
   // Process Starting Slide Celebrity Cutout (if available)
   if (celebCutoutPath && fs.existsSync(celebCutoutPath)) {
-    console.log(`    🌟 Rendering celebrity cutout (15% enlarged) with white border & shadow for Slide 1...`);
-    const celebCutoutW = 828;
-    const celebCutoutH = 1242;
+    console.log(`    🌟 Rendering celebrity cutout (proportional to 20% smaller frame) with white border & shadow for Slide 1...`);
+    const celebCutoutW = 662;
+    const celebCutoutH = 994;
     const celebRawB64 = fs.readFileSync(celebCutoutPath).toString('base64');
     await page.setViewport({ width: celebCutoutW, height: celebCutoutH });
     const celebOverlayHtml = `
@@ -841,8 +841,8 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName, cel
       return { minX, maxX, minY, maxY, rowMinX, rowMaxX };
     }, celebCutoutW, celebCutoutH);
 
-    const celebCutoutLeft = Math.round((1080 - celebCutoutW) / 2); // 126px
-    const celebCutoutTop = 358; // grounded inside card frame at Y=1600
+    const celebCutoutLeft = Math.round((1080 - celebCutoutW) / 2); // 209px
+    const celebCutoutTop = 358; // grounded inside 20% smaller card frame at Y=1352 (358 + 994 = 1352)
 
     const screenTop = celebCutoutTop + celebMetrics.minY;
     const screenH = (celebCutoutTop + celebMetrics.maxY) - screenTop;
@@ -870,7 +870,7 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName, cel
     let p2_angle = (Math.atan2(headTargetY - p2_y, headTargetX - p2_x) * 180) / Math.PI;
     if (p2_angle < 0) p2_angle += 360;
 
-    const celebArrow = buildCanonicalArrowSVG(1.05);
+    const celebArrow = buildCanonicalArrowSVG(0.95);
     await page.setViewport({ width: celebArrow.boxSize, height: celebArrow.boxSize });
     await page.setContent(`<!DOCTYPE html><html><body style="margin:0; background:transparent; overflow:hidden;">${celebArrow.svg}</body></html>`);
     renderedCelebArrowPath = path.join(TEMP_DIR, `${safeName}_celeb_arrow_clean.png`);
@@ -952,11 +952,12 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName, cel
     }, rawB64);
 
     // Render standalone transparent cutout overlay with dynamic dimensions & metrics
+    // Shifted right to 120px and up to cutoutBottom 300px to maintain exact overlap with 20% smaller frame
     const cutoutW = 580;
     const cutoutH = 840;
-    const cutoutLeft = 25;
-    const cutoutBottom = 70;
-    const cutoutTop = 1920 - cutoutH - cutoutBottom; // 1010 in 1080x1920 space
+    const cutoutLeft = 120;
+    const cutoutBottom = 300;
+    const cutoutTop = 1920 - cutoutH - cutoutBottom; // 780 in 1080x1920 space
 
     await page.setViewport({ width: cutoutW, height: cutoutH });
     const cutoutOverlayHtml = `
@@ -1147,14 +1148,14 @@ async function renderSlideCards(photos, cutoutPath, characterRole, safeName, cel
                         linear-gradient(180deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 75%, rgba(0,0,0,0.75) 100%);
           }
 
-          /* Central Golden Card Frame with Luxury Cream or Photo Backdrop */
+          /* Central Golden Card Frame with Luxury Cream or Photo Backdrop (20% reduced size) */
           .card-container {
             position: absolute;
-            top: 160px;
-            left: 55px;
-            width: 970px;
-            height: 1440px;
-            border-radius: 32px;
+            top: 200px;
+            left: 152px;
+            width: 776px;
+            height: 1152px;
+            border-radius: 28px;
             border: 3.5px solid rgba(212, 175, 55, 0.92);
             box-shadow: 0 40px 90px rgba(0, 0, 0, 0.75), 0 0 50px rgba(212, 175, 55, 0.28), inset 0 0 40px rgba(0, 0, 0, 0.25);
             overflow: hidden;
@@ -1419,13 +1420,13 @@ async function buildReel(post, index = 1) {
       const arrowEnableExpr = `gte(t,0.95)*(if(lt(t,1.35),lt(mod(t-0.95,0.16),0.09),lt(t,${tOutEnd})))`;
 
       filterComplex +=
-        `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom0];` +
+        `[${k}:v]zoompan=z='min(zoom+0.00040,1.07)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom0];` +
         `[${celebCutoutInputIdx}:v]format=yuva420p,fade=t=in:st=${tInStart}:d=0.35:alpha=1,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[celeb_fade];` +
         `[${celebArrowInputIdx}:v]rotate=a='${rotExpr}':ow=${cfg.boxSize}:oh=${cfg.boxSize}:c=none,format=yuva420p,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[celeb_arrow_rot];` +
         `[base_zoom0][celeb_fade]overlay=x=${cfg.cutoutLeft}:y='${cutoutYExpr}':enable='between(t,${tInStart},${tOutEnd})'[with_celeb];` +
         `[with_celeb][celeb_arrow_rot]overlay=x='${arrowXExpr}':y='${arrowYExpr}':enable='${arrowEnableExpr}',setsar=1[slide${k}];`;
     } else if (k === 1) {
-      filterComplex += `[${k}:v]zoompan=z='max(1.06-0.00035*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
+      filterComplex += `[${k}:v]zoompan=z='max(1.07-0.00040*on,1.0)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     } else if (k === 2 && cutoutInputIdx !== -1 && arrowInputIdx !== -1) {
       // Slide 2 is the Cameo Slide:
       // Base zoompan + Cameo slide-in from left + Iconic 3D Red Arrow (blinking -> curved orbital sweep with dynamic rotation -> settled rhythmic nudge)
@@ -1495,13 +1496,13 @@ async function buildReel(post, index = 1) {
       const arrowEnableExpr = `gte(t,0.45)*(if(lt(t,0.85),lt(mod(t-0.45,0.16),0.09),lt(t,${tOutEnd})))`;
 
       filterComplex +=
-        `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom2];` +
+        `[${k}:v]zoompan=z='min(zoom+0.00040,1.07)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[base_zoom2];` +
         `[${cutoutInputIdx}:v]format=yuva420p,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[cameo_fade];` +
         `[${arrowInputIdx}:v]rotate=a='${rotExpr}':ow=${cfg.boxSize}:oh=${cfg.boxSize}:c=none,format=yuva420p,fade=t=out:st=${tOutStart}:d=0.55:alpha=1[rot_arrow_fade];` +
         `[base_zoom2][cameo_fade]overlay=x='${cutoutXExpr}':y='${cutoutPosY}':enable='between(t,0,${tOutEnd})'[with_cameo];` +
         `[with_cameo][rot_arrow_fade]overlay=x='${xExpr}':y='${yExpr}':enable='${arrowEnableExpr}',setsar=1[slide${k}];`;
     } else {
-      filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00035,1.06)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
+      filterComplex += `[${k}:v]zoompan=z='min(zoom+0.00040,1.07)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${framesPerSlide}:s=1080x1920:fps=25,setsar=1[slide${k}];`;
     }
   }
 
