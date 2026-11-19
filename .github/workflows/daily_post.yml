@@ -19,6 +19,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: daily-automation-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   daily-automation:
     runs-on: ubuntu-latest
@@ -47,9 +51,10 @@ jobs:
 
       - name: Install System Dependencies (FFmpeg & Espeak-NG)
         if: steps.check_status.outputs.already_done != 'true'
+        timeout-minutes: 4
         run: |
-          sudo apt-get update
-          sudo apt-get install -y ffmpeg espeak-ng fonts-liberation fonts-dejavu-core
+          sudo apt-get update -o Acquire::http::Timeout="20" -o Acquire::Retries="3" || true
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends espeak-ng fonts-liberation fonts-dejavu-core || true
 
       - name: Install Kokoro AI TTS, Whisper Alignment & Multimedia ML
         if: steps.check_status.outputs.already_done != 'true'
