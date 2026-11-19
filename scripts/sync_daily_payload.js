@@ -705,6 +705,29 @@ async function normalizePayload(raw) {
       token_env: pageCfg.token_env
     };
 
+    // Preserve and merge existing tracking/schedule metadata if already populated
+    if (fs.existsSync(TODAY_POSTS_PATH)) {
+      try {
+        const existing = JSON.parse(fs.readFileSync(TODAY_POSTS_PATH, 'utf8'));
+        if (existing.date === dateStr && Array.isArray(existing.posts)) {
+          const match = existing.posts.find(p => p.celebrity_name === celebName || p.id === postObj.id);
+          if (match) {
+            const preserveKeys = [
+              'fb_post_id', 'fb_post_url', 'fb_reel_id', 'facebook_post_id', 'facebook_reel_id',
+              'fb_collage_photo_id', 'collage_cdn_url', 'scheduled_status',
+              'reel_path', 'ig_post_id', 'ig_post_url', 'ig_reel_id',
+              'youtube_video_id', 'youtube_url', 'fb_reel_scheduled_time'
+            ];
+            for (const key of preserveKeys) {
+              if (match[key] !== undefined && postObj[key] === undefined) {
+                postObj[key] = match[key];
+              }
+            }
+          }
+        }
+      } catch (e) {}
+    }
+
     posts.push(postObj);
   }
 
