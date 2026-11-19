@@ -65,7 +65,14 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "ig_post_id": "18497133151109628"
+      "ig_post_id": "18497133151109628",
+      "fb_post_id": "1345901645276194_122120620857506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120620857506930",
+      "facebook_post_id": "1345901645276194_122120620857506930",
+      "fb_reel_id": "1345901645276194_122120620923506930",
+      "facebook_reel_id": "1345901645276194_122120620923506930",
+      "fb_collage_photo_id": "122120620857506930",
+      "scheduled_status": "scheduled"
     },
     {
       "id": "2026-11-19_02_Adam_Driver",
@@ -129,7 +136,14 @@
       "peak_window": "US Lunchtime Peak (1:00 PM EDT / 10:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
-      "token_env": "FB_TOKEN_BORN"
+      "token_env": "FB_TOKEN_BORN",
+      "fb_post_id": "1345901645276194_122120620983506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120620983506930",
+      "facebook_post_id": "1345901645276194_122120620983506930",
+      "fb_reel_id": "1345901645276194_122120621037506930",
+      "facebook_reel_id": "1345901645276194_122120621037506930",
+      "fb_collage_photo_id": "122120620983506930",
+      "scheduled_status": "scheduled"
     },
     {
       "id": "2026-11-19_03_Meg_Ryan",
@@ -193,7 +207,14 @@
       "peak_window": "US Prime Time (6:00 PM EDT / 3:30 AM IST +1)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
-      "token_env": "FB_TOKEN_BORN"
+      "token_env": "FB_TOKEN_BORN",
+      "fb_post_id": "1345901645276194_122120621097506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120621097506930",
+      "facebook_post_id": "1345901645276194_122120621097506930",
+      "fb_reel_id": "1345901645276194_122120621211506930",
+      "facebook_reel_id": "1345901645276194_122120621211506930",
+      "fb_collage_photo_id": "122120621097506930",
+      "scheduled_status": "scheduled"
     }
   ],
   "quiz_posts": [
@@ -228,7 +249,8 @@
       "hashtags": "#AllisonJanney #BornToday #2026-11-19 #HollywoodQuiz #CelebrityTrivia",
       "scheduled_publish_time": 1795096800,
       "scheduled_time_utc": "2026-11-19T14:00:00.000Z",
-      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)"
+      "peak_window": "US Morning Trivia (10:00 AM EDT / 7:30 PM IST)",
+      "fb_post_id": "1345901645276194_122120621343506930"
     },
     {
       "id": "2026-11-19_quiz_02_Barry_Jenkins",
@@ -262,7 +284,8 @@
       "hashtags": "#BarryJenkins #BornToday #2026-11-19 #FaceMatch #HollywoodQuiz",
       "scheduled_publish_time": 1795116600,
       "scheduled_time_utc": "2026-11-19T19:30:00.000Z",
-      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)"
+      "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
+      "fb_reel_id": "1345901645276194_122120621613506930"
     },
     {
       "id": "2026-11-19_quiz_03_Charlie_Kaufman",
@@ -295,7 +318,8 @@
       "hashtags": "#CharlieKaufman #BornToday #2026-11-19 #CelebrityQuiz #ReelQuiz #Shorts",
       "scheduled_publish_time": 1795102200,
       "scheduled_time_utc": "2026-11-19T15:30:00.000Z",
-      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)"
+      "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
+      "fb_post_id": "1345901645276194_122120621451506930"
     },
     {
       "id": "2026-11-19_quiz_04_Terry_Farrell",
@@ -329,7 +353,8 @@
       "hashtags": "#TerryFarrell #BornToday #2026-11-19 #HollywoodTrivia #ReelChallenge #Shorts",
       "scheduled_publish_time": 1795122000,
       "scheduled_time_utc": "2026-11-19T21:00:00.000Z",
-      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)"
+      "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
+      "fb_reel_id": "1345901645276194_122120621667506930"
     }
   ]
 }
