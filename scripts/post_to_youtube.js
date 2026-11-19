@@ -276,6 +276,17 @@ async function main() {
     process.exit(1);
   }
 
+  // Live Channel Video Sync: Prevent duplicate upload attempts if already scheduled on channel
+  let recentUploads = [];
+  try {
+    recentUploads = await searchMyRecentVideos(accessToken);
+    if (recentUploads.length > 0) {
+      console.log(`[🛡️ YouTube Protection] Found ${recentUploads.length} recent videos on YouTube Channel.`);
+    }
+  } catch (e) {
+    console.warn(`[!] Could not fetch channel recent videos: ${e.message}`);
+  }
+
   // Top 3 headliners only for YouTube Shorts to prevent algorithm cannibalization
   const topHeadliners = posts.slice(0, 3);
   console.log(`[i] Processing top ${topHeadliners.length} headliners for YouTube Shorts...\n`);
@@ -284,6 +295,20 @@ async function main() {
     const post = topHeadliners[i];
     const celebName = post.celebrity_name;
     const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
+
+    // Adopt already-uploaded Short if found on channel
+    if (!post.youtube_video_id && recentUploads.length > 0 && !isForce) {
+      const match = recentUploads.find(item => {
+        const title = (item.snippet && item.snippet.title) || '';
+        return title.toLowerCase().includes(celebName.toLowerCase());
+      });
+      if (match && match.id && match.id.videoId) {
+        post.youtube_video_id = match.id.videoId;
+        post.youtube_url = `https://www.youtube.com/shorts/${match.id.videoId}`;
+        console.log(`[🛡️ Adopted] Short already uploaded to YouTube Channel for ${celebName}: ${match.id.videoId}`);
+        fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+      }
+    }
 
     if (isForce && post.youtube_video_id) {
       console.log(`[🔄] Force replace active: deleting old YouTube Short for ${celebName} (${post.youtube_video_id})...`);
@@ -366,6 +391,20 @@ async function main() {
       const q = videoQuizzes[qIdx];
       const celebName = q.celebrity_name;
       const safeName = (celebName || '').replace(/[^a-zA-Z0-9]/g, '_');
+
+      // Adopt already-uploaded Quiz Short if found on channel
+      if (!q.youtube_video_id && recentUploads.length > 0 && !isForce) {
+        const match = recentUploads.find(item => {
+          const title = (item.snippet && item.snippet.title) || '';
+          return title.toLowerCase().includes(celebName.toLowerCase()) || (title.includes('QUIZ') && title.toLowerCase().includes(celebName.toLowerCase()));
+        });
+        if (match && match.id && match.id.videoId) {
+          q.youtube_video_id = match.id.videoId;
+          q.youtube_url = `https://www.youtube.com/shorts/${match.id.videoId}`;
+          console.log(`[🛡️ Adopted] Quiz Short already uploaded to YouTube Channel for ${celebName}: ${match.id.videoId}`);
+          fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+        }
+      }
 
       if (isForce && q.youtube_video_id) {
         console.log(`[🔄] Force replace active: deleting old YouTube Quiz Short for ${celebName} (${q.youtube_video_id})...`);

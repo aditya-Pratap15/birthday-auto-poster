@@ -838,6 +838,44 @@ async function main() {
   console.log(`Page: Born Today Hollywood (${DEFAULT_PAGE_ID})`);
   console.log(`Total Posts Ready: ${posts.length}\n`);
 
+  // Live Facebook Idempotency Guard: Sync already scheduled posts/reels from Meta Planner
+  try {
+    const liveScheduled = await fetchScheduledPosts(DEFAULT_PAGE_ID, DEFAULT_TOKEN);
+    if (Array.isArray(liveScheduled) && liveScheduled.length > 0) {
+      console.log(`[🛡️ Facebook Protection] Found ${liveScheduled.length} scheduled items on Meta Planner.`);
+      posts.forEach(p => {
+        const cName = p.celebrity_name;
+        if (!cName) return;
+        // Check photo collage (message contains celebrity name and does NOT start with "Did you know")
+        if (!p.fb_post_id) {
+          const matchedPhoto = liveScheduled.find(sp => {
+            const msg = sp.message || '';
+            return !msg.startsWith('Did you know') && (msg.includes(cName) || (p.caption && msg.slice(0, 30) === p.caption.slice(0, 30)));
+          });
+          if (matchedPhoto) {
+            p.fb_post_id = matchedPhoto.id;
+            p.fb_post_url = `https://www.facebook.com/${DEFAULT_PAGE_ID}/posts/${matchedPhoto.id.split('_')[1] || matchedPhoto.id}`;
+            console.log(`    [🛡️ Adopted] Photo already scheduled on Meta Planner for ${cName}: ${matchedPhoto.id}`);
+          }
+        }
+        // Check vertical reel (message starts with "Did you know" and contains celebrity name)
+        if (!p.fb_reel_id) {
+          const matchedReel = liveScheduled.find(sp => {
+            const msg = sp.message || '';
+            return msg.startsWith('Did you know') && msg.includes(cName);
+          });
+          if (matchedReel) {
+            p.fb_reel_id = matchedReel.id;
+            console.log(`    [🛡️ Adopted] Reel already scheduled on Meta Planner for ${cName}: ${matchedReel.id}`);
+          }
+        }
+      });
+      fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+    }
+  } catch (e) {
+    console.warn(`[!] Could not query scheduled posts: ${e.message}`);
+  }
+
   // Determine which posts to run
   const arg = process.argv[2];
   let postsToRun = [];

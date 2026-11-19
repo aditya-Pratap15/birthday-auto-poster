@@ -250,6 +250,36 @@ async function main() {
   console.log(`Page: Born Today Hollywood (${DEFAULT_PAGE_ID})`);
   console.log(`Total Quizzes Ready: ${quizPosts.length}\n`);
 
+  // Live Facebook Idempotency Guard for Quizzes
+  try {
+    const liveScheduled = await fetchScheduledPosts(DEFAULT_PAGE_ID, DEFAULT_TOKEN);
+    if (Array.isArray(liveScheduled) && liveScheduled.length > 0) {
+      console.log(`[🛡️ Facebook Protection] Found ${liveScheduled.length} scheduled items on Meta Planner.`);
+      quizPosts.forEach(q => {
+        const qName = q.celebrity_name;
+        if (!qName) return;
+        if (q.type && q.type.startsWith('photo_') && !q.fb_post_id) {
+          const match = liveScheduled.find(sp => (sp.message || '').includes(qName));
+          if (match) {
+            q.fb_post_id = match.id;
+            q.fb_post_url = `https://www.facebook.com/${DEFAULT_PAGE_ID}/posts/${match.id.split('_')[1] || match.id}`;
+            console.log(`    [🛡️ Adopted] Quiz photo already scheduled on Meta Planner for ${qName}: ${match.id}`);
+          }
+        }
+        if (q.type && q.type.startsWith('reel_') && !q.fb_reel_id) {
+          const match = liveScheduled.find(sp => (sp.message || '').includes(qName) || (sp.message || '').includes('REEL QUIZ') || (sp.message || '').includes('CELEBRITY!'));
+          if (match) {
+            q.fb_reel_id = match.id;
+            console.log(`    [🛡️ Adopted] Quiz reel already scheduled on Meta Planner for ${qName}: ${match.id}`);
+          }
+        }
+      });
+      fs.writeFileSync(TODAY_POSTS_PATH, JSON.stringify(data, null, 2), 'utf8');
+    }
+  } catch (e) {
+    console.warn(`[!] Could not query scheduled posts: ${e.message}`);
+  }
+
   const nowTs = Math.floor(Date.now() / 1000);
 
   for (let idx = 0; idx < quizPosts.length; idx++) {

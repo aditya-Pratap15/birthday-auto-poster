@@ -121,5 +121,14 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add -A today_posts.json collages/ reels/ 2>/dev/null || git add -A
           git commit -m "chore(automation): record scheduled drop and sync live comments [skip ci]" || echo "No changes to commit"
-          git pull --rebase origin main || true
-          git push origin main || (sleep 3 && git pull --rebase origin main && git push origin main) || echo "Push bypassed"
+          git fetch origin main
+          git merge origin/main -X ours -m "chore(automation): merge remote updates [skip ci]" || true
+          for i in 1 2 3; do
+            if git push origin main; then
+              echo "Push succeeded on attempt $i"
+              break
+            fi
+            sleep 3
+            git fetch origin main
+            git merge origin/main -X ours -m "chore(automation): retry merge [skip ci]" || true
+          done
