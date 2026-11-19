@@ -60,7 +60,13 @@ function checkDailyStatus() {
     });
   }
 
-  const isCompleted = isToday && allScheduled;
+  const baseDir = path.resolve(__dirname, '..');
+  const headlinerReelsExist = posts.slice(0, 3).every(p => {
+    const safeName = (p.celebrity_name || '').replace(/[^a-zA-Z0-9]/g, '_');
+    return fs.existsSync(path.join(baseDir, 'reels', `${safeName}_Reel.mp4`));
+  });
+
+  const isCompleted = isToday && allScheduled && headlinerReelsExist;
 
   if (isCompleted) {
     console.log('-------------------------------------------------------');
