@@ -65,14 +65,15 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "ig_post_id": "18497133151109628",
-      "fb_post_id": "1345901645276194_122120620857506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120620857506930",
-      "facebook_post_id": "1345901645276194_122120620857506930",
-      "fb_reel_id": "1345901645276194_122120620923506930",
-      "facebook_reel_id": "1345901645276194_122120620923506930",
-      "fb_collage_photo_id": "122120620857506930",
-      "scheduled_status": "scheduled"
+      "reel_path": "reels/Jodie_Foster_Reel.mp4",
+      "fb_post_id": "122120630739506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120630739506930",
+      "fb_collage_photo_id": "122120630739506930",
+      "collage_cdn_url": "https://scontent-sea5-1.xx.fbcdn.net/v/t39.30808-6/911746340_122120630745506930_2151712228691501487_n.jpg?_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=O5crR3VRg0kQ7kNvwEWfnT-&_nc_oc=AdpNqb1--jvIkcvQUIKXsCV7wV3FXOg_3Xwv7TOMSMj9uAwnVqOfVAhQ8DNqbuIUeGg&_nc_zt=23&_nc_ht=scontent-sea5-1.xx&edm=AMAeTUEEAAAA&_nc_gid=itkauE1sQDJnifbnFonx0Q&_nc_tpa=Q5bMBQIPiqXMka9ASXfUgCTdK5JH_mV9EZHXJNv2Bca2y5cWS4sNHUuH46vQ68K1Gys2QIcv5zLAukVuPw&oh=00_AQRj7Ya5Y31hRtvAbttZrKjVdBdWCRb1K5xHCb3TbrrA3Q&oe=6B0462B3",
+      "fb_reel_id": "1695185382395495",
+      "fb_reel_scheduled_time": 1795092000,
+      "youtube_video_id": "6TlAL5Tw5oc",
+      "youtube_url": "https://www.youtube.com/shorts/6TlAL5Tw5oc"
     },
     {
       "id": "2026-11-19_02_Adam_Driver",
@@ -137,13 +138,15 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "fb_post_id": "1345901645276194_122120620983506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120620983506930",
-      "facebook_post_id": "1345901645276194_122120620983506930",
-      "fb_reel_id": "1345901645276194_122120621037506930",
-      "facebook_reel_id": "1345901645276194_122120621037506930",
-      "fb_collage_photo_id": "122120620983506930",
-      "scheduled_status": "scheduled"
+      "reel_path": "reels/Adam_Driver_Reel.mp4",
+      "fb_post_id": "122120630955506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120630955506930",
+      "fb_collage_photo_id": "122120630955506930",
+      "collage_cdn_url": "https://scontent-sea5-1.xx.fbcdn.net/v/t39.30808-6/912375644_122120630961506930_2276825625477967944_n.jpg?_nc_cat=109&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=gYvErmeaDw0Q7kNvwFWb10d&_nc_oc=Adp6ZMhhW0nH88p0wZzKqtvhr8WcvmUzK-ooqCAk8aofd4KBfstNohWWM9zma_axZP4&_nc_zt=23&_nc_ht=scontent-sea5-1.xx&edm=AMAeTUEEAAAA&_nc_gid=bysEVLMAduPgXgkUaXfzmg&_nc_tpa=Q5bMBQIdByITEUR2IcnqlRZbCF2qMsh5cTUtELefgth1lG__0b7gdI76oC2lc4zdHl_q_LsKj1JGRT4dtA&oh=00_AQTp-Otht3XclyS1hQZMGX7WEyrBW7Y9USQ_T2Ta-nHRPQ&oe=6B045A88",
+      "fb_reel_id": "1120478197456077",
+      "fb_reel_scheduled_time": 1795110000,
+      "youtube_video_id": "ABHRC2iSqZY",
+      "youtube_url": "https://www.youtube.com/shorts/ABHRC2iSqZY"
     },
     {
       "id": "2026-11-19_03_Meg_Ryan",
@@ -208,13 +211,13 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "fb_post_id": "1345901645276194_122120621097506930",
-      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120621097506930",
-      "facebook_post_id": "1345901645276194_122120621097506930",
-      "fb_reel_id": "1345901645276194_122120621211506930",
-      "facebook_reel_id": "1345901645276194_122120621211506930",
-      "fb_collage_photo_id": "122120621097506930",
-      "scheduled_status": "scheduled"
+      "reel_path": "reels/Meg_Ryan_Reel.mp4",
+      "fb_post_id": "122120631207506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120631207506930",
+      "fb_collage_photo_id": "122120631207506930",
+      "collage_cdn_url": "https://scontent-sea5-1.xx.fbcdn.net/v/t39.30808-6/914570865_122120631213506930_5159890984733239465_n.jpg?_nc_cat=106&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=6rEiE7Bn6NoQ7kNvwGqanKf&_nc_oc=AdqrLtU60z9iMRVzr8-ruahqjhb3jWOW6ExrcKAieetwW9OyJlJxixSXoMBOCZ7JWDo&_nc_zt=23&_nc_ht=scontent-sea5-1.xx&edm=AMAeTUEEAAAA&_nc_gid=affiCWVGDlzymdfZV5D8JA&_nc_tpa=Q5bMBQLcR1MYQgQxj5EratzqL7n-vowldiFs4AEOZ-dhfvy5nh4PQXgo8g_RvH5K_We1whM7n9jX9iRPRg&oh=00_AQTtkq4mUSNB-nYwp6Xx51ppX8DmKaSoQtxUDfsYZKM1CQ&oe=6B044C5F",
+      "fb_reel_id": "1567927981761757",
+      "fb_reel_scheduled_time": 1795128000
     }
   ],
   "quiz_posts": [
@@ -285,7 +288,9 @@
       "scheduled_publish_time": 1795116600,
       "scheduled_time_utc": "2026-11-19T19:30:00.000Z",
       "peak_window": "US Afternoon Trivia (3:30 PM EDT / 1:00 AM IST +1)",
-      "fb_reel_id": "1345901645276194_122120621613506930"
+      "fb_reel_id": "1345901645276194_122120621613506930",
+      "fb_post_id": "122120631441506930",
+      "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122120631441506930"
     },
     {
       "id": "2026-11-19_quiz_03_Charlie_Kaufman",
@@ -319,7 +324,8 @@
       "scheduled_publish_time": 1795102200,
       "scheduled_time_utc": "2026-11-19T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_post_id": "1345901645276194_122120621451506930"
+      "fb_post_id": "1345901645276194_122120621451506930",
+      "fb_reel_id": "4141721509453515"
     },
     {
       "id": "2026-11-19_quiz_04_Terry_Farrell",
