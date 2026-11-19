@@ -64,7 +64,8 @@
       "peak_window": "US Morning Commute (8:00 AM EDT / 5:30 PM IST)",
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
-      "token_env": "FB_TOKEN_BORN"
+      "token_env": "FB_TOKEN_BORN",
+      "ig_post_id": "18497133151109628"
     },
     {
       "id": "2026-11-19_02_Adam_Driver",
