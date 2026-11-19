@@ -1598,7 +1598,7 @@ async function buildReel(post, index = 1) {
   // Audio Filters:
   // - Voiceover boosted: volume=1.30 (commanding, crystal-clear, steady presence)
   // - BGM: volume=0.14 (soft acoustic background bed)
-  // - SFX decreased by 10%: volume=0.50-0.63 (subtle, crisp accents)
+  // - Transition Whoosh SFX decreased by 18%: volume=0.41 (subtle, crisp accents)
   // - amix: normalize=0:dropout_transition=0 (prevents volume dip in beginning/middle and sudden jump at end)
   // - alimiter: prevents digital clipping peaks across all combined tracks
   // - Smooth 0.7s fade out at video end
@@ -1610,10 +1610,10 @@ async function buildReel(post, index = 1) {
     `[${sfxCameoPopIdx}:a]asplit=2[pop_celeb_raw][pop_cameo_raw];` +
     `[${sfxHookIdx}:a]adelay=${t_hook_ms}|${t_hook_ms},volume=0.58[sfx_hook];` +
     `[pop_celeb_raw]adelay=${t_celeb_ms}|${t_celeb_ms},volume=0.63[sfx_celeb];` +
-    `[w1]adelay=${t_trans1_ms}|${t_trans1_ms},volume=0.50[sfx_w1];` +
-    `[w2]adelay=${t_trans2_ms}|${t_trans2_ms},volume=0.50[sfx_w2];` +
+    `[w1]adelay=${t_trans1_ms}|${t_trans1_ms},volume=0.41[sfx_w1];` +
+    `[w2]adelay=${t_trans2_ms}|${t_trans2_ms},volume=0.41[sfx_w2];` +
     `[pop_cameo_raw]adelay=${t_cameo_ms}|${t_cameo_ms},volume=0.63[sfx_cameo];` +
-    `[w3]adelay=${t_trans3_ms}|${t_trans3_ms},volume=0.50[sfx_w3];` +
+    `[w3]adelay=${t_trans3_ms}|${t_trans3_ms},volume=0.41[sfx_w3];` +
     `[${sfxChimeIdx}:a]adelay=${t_outro_ms}|${t_outro_ms},volume=0.58[sfx_chime];` +
     `[v_boosted][b_gentle][sfx_hook][sfx_celeb][sfx_w1][sfx_w2][sfx_cameo][sfx_w3][sfx_chime]amix=inputs=9:duration=first:dropout_transition=0:normalize=0[amixed];` +
     `[amixed]alimiter=limit=0.95:attack=5:release=50,afade=t=out:st=${fadeOutStart}:d=0.7[aout]`;
