@@ -688,8 +688,8 @@ async function main() {
       }
       let reelPath = targetQuiz.reel_path ? path.resolve(BASE_DIR, targetQuiz.reel_path) : '';
       if (!reelPath || !fs.existsSync(reelPath)) {
-        console.error(`[!] Quiz reel video not found at ${reelPath}.`);
-        process.exit(1);
+        console.warn(`[!] Quiz reel video not found at ${reelPath || 'none'}. Skipping quiz reel drop safely.`);
+        process.exit(0);
       }
 
       console.log(`[🎬 IG] Publishing Quiz Vertical Reel for ${celebName}...`);
@@ -772,18 +772,29 @@ async function main() {
   } else {
     // Auto Discovery: Scans chronological daily timeline:
     // 1. Headliner 1 (Carousel -> Reel)
-    // 2. Quiz 1 Photo (Dylan McDermott)
-    // 3. Quiz 2 Reel (Keith Urban)
+    // 2. Quiz 1 Photo
+    // 3. Quiz 2 Reel
     // 4. Headliner 2 (Carousel -> Reel)
-    // 5. Quiz 3 Photo (Jon Heder)
-    // 6. Quiz 4 Reel (James Pickens Jr)
+    // 5. Quiz 3 Photo
+    // 6. Quiz 4 Reel
     // 7. Headliner 3 (Carousel -> Reel)
+
+    const hasHeadlinerReel = (p) => {
+      if (!p) return false;
+      if (p.reel_path && fs.existsSync(path.resolve(BASE_DIR, p.reel_path))) return true;
+      const safe = (p.celebrity_name || '').replace(/[^a-zA-Z0-9]/g, '_');
+      return fs.existsSync(path.join(BASE_DIR, 'reels', `${safe}_Reel.mp4`));
+    };
+    const hasQuizReel = (q) => {
+      if (!q || !q.reel_path) return false;
+      return fs.existsSync(path.resolve(BASE_DIR, q.reel_path));
+    };
 
     // Check Headliner 1
     const p1 = topHeadliners[0];
     if (p1) {
       if (!p1.ig_post_id && (typeArg === 'auto' || typeArg === 'carousel')) { targetPost = p1; actionType = 'carousel'; }
-      else if (!p1.ig_reel_id && (typeArg === 'auto' || typeArg === 'reel')) { targetPost = p1; actionType = 'reel'; }
+      else if (!p1.ig_reel_id && (typeArg === 'auto' || typeArg === 'reel') && hasHeadlinerReel(p1)) { targetPost = p1; actionType = 'reel'; }
     }
 
     // Check Quiz 1 (Photo) & Quiz 2 (Reel)
@@ -795,7 +806,7 @@ async function main() {
     }
     if (!targetPost && (typeArg === 'auto' || typeArg === 'reel')) {
       const q2 = quizPosts.find(q => q.type === 'reel_quiz_type1' || (q.id && q.id.includes('quiz_03')));
-      if (q2 && !q2.ig_reel_id) {
+      if (q2 && !q2.ig_reel_id && hasQuizReel(q2)) {
         await executeQuizDrop(q2, 'reel', data);
       }
     }
@@ -805,7 +816,7 @@ async function main() {
       const p2 = topHeadliners[1];
       if (p2) {
         if (!p2.ig_post_id && (typeArg === 'auto' || typeArg === 'carousel')) { targetPost = p2; actionType = 'carousel'; }
-        else if (!p2.ig_reel_id && (typeArg === 'auto' || typeArg === 'reel')) { targetPost = p2; actionType = 'reel'; }
+        else if (!p2.ig_reel_id && (typeArg === 'auto' || typeArg === 'reel') && hasHeadlinerReel(p2)) { targetPost = p2; actionType = 'reel'; }
       }
     }
 
@@ -818,7 +829,7 @@ async function main() {
     }
     if (!targetPost && (typeArg === 'auto' || typeArg === 'reel')) {
       const q4 = quizPosts.find(q => q.type === 'reel_quiz_type2' || (q.id && q.id.includes('quiz_04')));
-      if (q4 && !q4.ig_reel_id) {
+      if (q4 && !q4.ig_reel_id && hasQuizReel(q4)) {
         await executeQuizDrop(q4, 'reel', data);
       }
     }
@@ -828,7 +839,7 @@ async function main() {
       const p3 = topHeadliners[2];
       if (p3) {
         if (!p3.ig_post_id && (typeArg === 'auto' || typeArg === 'carousel')) { targetPost = p3; actionType = 'carousel'; }
-        else if (!p3.ig_reel_id && (typeArg === 'auto' || typeArg === 'reel')) { targetPost = p3; actionType = 'reel'; }
+        else if (!p3.ig_reel_id && (typeArg === 'auto' || typeArg === 'reel') && hasHeadlinerReel(p3)) { targetPost = p3; actionType = 'reel'; }
       }
     }
   }
@@ -943,23 +954,25 @@ async function main() {
     }
 
     if (!reelPath || !fs.existsSync(reelPath)) {
-      console.log('  [i] Reel video not found locally on runner. Building on demand for ' + celebName + '...');
-      try {
-        const { buildReel } = require('./build_reel_studio');
-        const targetIdx = topHeadliners.indexOf(targetPost);
-        const generatedPath = await buildReel(targetPost, (targetIdx >= 0 ? targetIdx : 0) + 1);
-        if (generatedPath && fs.existsSync(generatedPath)) {
-          reelPath = generatedPath;
-          targetPost.reel_path = path.relative(BASE_DIR, reelPath).replace(/\\/g, '/');
+      if (process.env.BUILD_ON_DEMAND === 'true') {
+        console.log('  [i] Reel video not found locally on runner. Building on demand for ' + celebName + '...');
+        try {
+          const { buildReel } = require('./build_reel_studio');
+          const targetIdx = topHeadliners.indexOf(targetPost);
+          const generatedPath = await buildReel(targetPost, (targetIdx >= 0 ? targetIdx : 0) + 1);
+          if (generatedPath && fs.existsSync(generatedPath)) {
+            reelPath = generatedPath;
+            targetPost.reel_path = path.relative(BASE_DIR, reelPath).replace(/\\/g, '/');
+          }
+        } catch (buildErr) {
+          console.error('  [!] On-demand build failed:', buildErr.message);
         }
-      } catch (buildErr) {
-        console.error('  [!] On-demand build failed:', buildErr.message);
       }
     }
 
     if (!reelPath || !fs.existsSync(reelPath)) {
-      console.error('  [!] Reel file not found for ' + celebName + ': ' + reelPath);
-      process.exit(1);
+      console.warn('  [!] Reel file not found for ' + celebName + ' (' + (reelPath || 'none') + '). Skipping reel drop safely.');
+      process.exit(0);
     }
 
     console.log(`[🎬 IG] Publishing Vertical Reel for ${celebName}...`);

@@ -1708,8 +1708,12 @@ async function main() {
   console.log(`\n🎉 Reel studio generation finished successfully!`);
 }
 
-main().catch(err => {
-  console.error('[!] Fatal Error in Reel Maker:', err);
-  process.exit(1);
-});
+module.exports = { buildReel };
+
+if (require.main === module) {
+  main().catch(err => {
+    console.error('[!] Fatal Error in Reel Maker:', err);
+    process.exit(1);
+  });
+}
 
