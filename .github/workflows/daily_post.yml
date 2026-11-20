@@ -36,6 +36,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: 'npm'
 
       - name: Check If Today's Posts Already Scheduled
         id: check_status
@@ -49,6 +50,19 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Cache AI Models & Dependencies (Kokoro, Whisper, rembg)
+        if: steps.check_status.outputs.already_done != 'true'
+        uses: actions/cache@v4
+        id: ai_models_cache
+        with:
+          path: |
+            ~/.u2net
+            ~/.cache/huggingface
+            ~/.cache/pip
+          key: ai-models-v1-${{ runner.os }}
+          restore-keys: |
+            ai-models-v1-${{ runner.os }}
+
       - name: Install System Dependencies (FFmpeg & Espeak-NG)
         if: steps.check_status.outputs.already_done != 'true'
         timeout-minutes: 4
@@ -61,6 +75,24 @@ jobs:
         run: |
           pip install --upgrade kokoro faster-whisper soundfile numpy rembg onnxruntime pillow edge-tts
           python -m spacy download en_core_web_sm || pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+
+      - name: Pre-warm AI Models (Fast Model Cache Check)
+        if: steps.check_status.outputs.already_done != 'true' && steps.ai_models_cache.outputs.cache-hit != 'true'
+        run: |
+          python -c "
+          import rembg
+          print('[rembg] Pre-loading u2net model weights...')
+          rembg.new_session('u2net')
+
+          import kokoro
+          print('[kokoro] Pre-loading Kokoro-82M model weights...')
+          kokoro.KPipeline(lang_code='a', repo_id='hexgrad/Kokoro-82M')
+
+          from faster_whisper import WhisperModel
+          print('[whisper] Pre-loading tiny.en model weights...')
+          WhisperModel('tiny.en', device='cpu', compute_type='int8')
+          print('[+] All AI models pre-warmed successfully.')
+          " || echo "[!] Pre-warm finished (on-demand fallback active)."
 
       - name: Install Node Dependencies
         if: steps.check_status.outputs.already_done != 'true'
