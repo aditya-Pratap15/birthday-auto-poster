@@ -267,7 +267,7 @@ async function main() {
           }
         }
         if (q.type && q.type.startsWith('reel_') && !q.fb_reel_id) {
-          const match = liveScheduled.find(sp => (sp.message || '').includes(qName) || (sp.message || '').includes('REEL QUIZ') || (sp.message || '').includes('CELEBRITY!'));
+          const match = liveScheduled.find(sp => (sp.message || '').includes(qName) && (sp.message || '').includes('REEL QUIZ'));
           if (match) {
             q.fb_reel_id = match.id;
             console.log(`    [🛡️ Adopted] Quiz reel already scheduled on Meta Planner for ${qName}: ${match.id}`);
