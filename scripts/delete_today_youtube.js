@@ -159,18 +159,40 @@ async function main() {
     process.exit(1);
   }
 
-  const targets = ['owen wilson', 'delroy lindo', 'elizabeth perkins'];
+  const targets = [
+    'ming-na wen', 'joel mchale', 'sean young',
+    'andrea riseborough', 'bo derek', 'jeremy jordan', 'nadine velazquez'
+  ];
+  const targetIds = ['Fr5cycMNHIg', 'IoS-VuESm2w', 'mph_5AC0Lz0'];
   console.log('Target celebrities to remove from YouTube:', targets);
+  console.log('Target video IDs to delete:', targetIds);
 
   const accessToken = await getYouTubeAccessToken(DEFAULT_CLIENT_ID, DEFAULT_CLIENT_SECRET, DEFAULT_REFRESH_TOKEN);
   console.log('[✓] YouTube Access Token refreshed successfully.');
 
+  let deletedCount = 0;
+
+  // 1. Directly delete known target video IDs
+  for (const id of targetIds) {
+    try {
+      console.log(`[🎯 TARGET ID] Deleting video ${id}...`);
+      const ok = await deleteVideo(accessToken, id);
+      if (ok) {
+        deletedCount++;
+        console.log(`   [✅] Deleted ID: ${id}`);
+      }
+    } catch (e) {
+      console.warn(`   [!] Could not delete ID ${id}:`, e.message);
+    }
+  }
+
+  // 2. Scan channel for any remaining videos matching target celebrities
   const videos = await getAllUploads(accessToken);
   console.log(`[i] Retrieved total ${videos.length} videos from channel.\n`);
 
-  let deletedCount = 0;
   for (const v of videos) {
     if (!v.videoId) continue;
+    if (targetIds.includes(v.videoId)) continue; // already handled
     const titleLower = v.title.toLowerCase();
     const isTarget = targets.some(t => titleLower.includes(t));
 
