@@ -17,7 +17,12 @@ function cleanCaptionBeats(text) {
   return text
     .replace(/\*\*Beat\s*\d+\s*[:\-–—]?\*\*\s*[:\-–—]?\s*/gi, '')
     .replace(/\*Beat\s*\d+\s*[:\-–—]?\*\s*[:\-–—]?\s*/gi, '')
-    .replace(/\bBeat\s*\d+\s*[:\-–—]\s*/gi, '')
+    .replace(/\bBeat\s*\d+\s*[:\-–—]?\s*/gi, '')
+    .split(/\r?\n+/)
+    .map(line => line.trim())
+    .filter(Boolean)
+    .join(' ')
+    .replace(/\s{2,}/g, ' ')
     .trim();
 }
 
@@ -338,11 +343,12 @@ async function main() {
     const ytSchedTs = schedTs ? (schedTs + 3600) : (nowTs + 3600);
 
     const title = `${celebName} Turns ${post.age} Today! 🎬 #shorts #borntoday`.slice(0, 95);
+    const cleanedHighlights = cleanCaptionBeats(post.caption || '');
     const rawDescription = `Happy Birthday to ${celebName}! 🎂 Celebrating their ${post.age}th birthday today!\n\n` +
-      `🎬 Notable roles & career highlights:\n${post.caption || ''}\n\n` +
+      `🎬 Notable roles & career highlights:\n${cleanedHighlights}\n\n` +
       `❓ What is your favorite movie or performance of ${celebName}? Tell us in the comments! 👇\n\n` +
       `#shorts #borntoday #${safeName.toLowerCase()} #celebritybirthdays #hollywood #actor #cinema`;
-      const description = formatUnicodeBold(rawDescription);
+    const description = formatUnicodeBold(rawDescription);
 
     const tags = ['shorts', 'borntoday', 'celebrity birthdays', 'hollywood', celebName, 'entertainment'];
 
@@ -429,7 +435,12 @@ async function main() {
             const title = (q.type === 'reel_quiz_type1'
         ? `Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts`
         : `Which Hollywood Star Turns ${q.age || ''} Today? 🔍 Celebrity Quiz #shorts`).slice(0, 95);
-      const cleanedCaption = cleanCaptionBeats(q.caption || '');
+      const cleanedCaption = (q.caption || '')
+        .replace(/\*\*Beat\s*\d+\s*[:\-–—]?\*\*\s*[:\-–—]?\s*/gi, '')
+        .replace(/\*Beat\s*\d+\s*[:\-–—]?\*\s*[:\-–—]?\s*/gi, '')
+        .replace(/\bBeat\s*\d+\s*[:\-–—]?\s*/gi, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
       const rawDescription = `${cleanedCaption}\n\n` +
         `#shorts #quiz #celebrityquiz #trivia #borntoday #hollywood`;
       const description = formatUnicodeBold(rawDescription);
