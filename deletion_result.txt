@@ -1,0 +1,126 @@
+=== YouTube Specific Video Deletion ===
+Target celebrities to remove from YouTube: [
+  'ming-na wen',
+  'joel mchale',
+  'sean young',
+  'andrea riseborough',
+  'bo derek',
+  'jeremy jordan',
+  'nadine velazquez'
+]
+Target video IDs to delete: [ 'Fr5cycMNHIg', 'IoS-VuESm2w', 'mph_5AC0Lz0' ]
+[✓] YouTube Access Token refreshed successfully.
+[🎯 TARGET ID] Deleting video Fr5cycMNHIg...
+[🗑️] Delete HTTP status for Fr5cycMNHIg: 204 (SUCCESS)
+   [✅] Deleted ID: Fr5cycMNHIg
+[🎯 TARGET ID] Deleting video IoS-VuESm2w...
+[🗑️] Delete HTTP status for IoS-VuESm2w: 204 (SUCCESS)
+   [✅] Deleted ID: IoS-VuESm2w
+[🎯 TARGET ID] Deleting video mph_5AC0Lz0...
+[🗑️] Delete HTTP status for mph_5AC0Lz0: 204 (SUCCESS)
+   [✅] Deleted ID: mph_5AC0Lz0
+[i] Querying search.list (forMine=true)...
+[i] Querying uploads playlist (UU8te6ObjbEJe-878BMqOWYg)...
+[i] Retrieved total 102 videos from channel.
+
+ - Preserving: ABHRC2iSqZY | "Adam Driver Turns 43 Today! 🎬 #shorts #borntoday"
+ - Preserving: 6TlAL5Tw5oc | "Jodie Foster Turns 64 Today! 🎬 #shorts #borntoday"
+ - Preserving: m5-co0xmEbM | "Which Hollywood Star Turns 63 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: Cwa-CleBF10 | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: 5qnS0DXC7L0 | "Meg Ryan Turns 65 Today! 🎬 #shorts #borntoday"
+ - Preserving: hK9BMCmMyAU | "Elizabeth Perkins Turns 66 Today! 🎬 #shorts #borntoday"
+ - Preserving: PSYPdf_ZIPE | "Delroy Lindo Turns 74 Today! 🎬 #shorts #borntoday"
+ - Preserving: VJnMbsYn_Io | "Owen Wilson Turns 58 Today! 🎬 #shorts #borntoday"
+ - Preserving: SqC_W2Bayxk | "Which Hollywood Star Turns 34 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: nHQKeo36KjE | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: zkbe9YWQxcM | "Which Hollywood Star Turns 83 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: hbqDxMRh6QQ | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: CUm0ApIt-Dw | "Martin Scorsese Turns 84 Today! 🎬 #shorts #borntoday"
+ - Preserving: s-N_Rf3QFEs | "Rachel McAdams Turns 48 Today! 🎬 #shorts #borntoday"
+ - Preserving: -MGZMMqY-iI | "Danny DeVito Turns 82 Today! 🎬 #shorts #borntoday"
+ - Preserving: 6DO4NJ6XnEg | "Which Hollywood Star Turns 62 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: VHt5Bmea1B0 | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: qqa1-f1BhOs | "Lisa Bonet Turns 59 Today! 🎬 #shorts #borntoday"
+ - Preserving: 27CHdRe1y3c | "Pete Davidson Turns 33 Today! 🎬 #shorts #borntoday"
+ - Preserving: iaj-JNCPSDg | "Maggie Gyllenhaal Turns 49 Today! 🎬 #shorts #borntoday"
+ - Preserving: xxJGSDm-1kk | "Which Hollywood Star Turns 97 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: 0jbVBFn3QAU | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: xOyBKArg6yc | "Jonny Lee Miller Turns 54 Today! 🎬 #shorts #borntoday"
+ - Preserving: J2-RqOKwdsU | "Winston Duke Turns 40 Today! 🎬 #shorts #borntoday"
+ - Preserving: b0ONLwlUTFs | "Shailene Woodley Turns 35 Today! 🎬 #shorts #borntoday"
+ - Preserving: qwwO21S9mSQ | "Which Hollywood Star Turns 30 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: kWNqlo0dJxI | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: FdXatAmEO-o | "Olga Kurylenko Turns 47 Today! 🎬 #shorts #borntoday"
+ - Preserving: LlLC14U1WiQ | "Patrick Warburton Turns 62 Today! 🎬 #shorts #borntoday"
+ - Preserving: ysyBFvIOAYU | "Josh Duhamel Turns 54 Today! 🎬 #shorts #borntoday"
+ - Preserving: daFLavuvme0 | "Which Hollywood Star Turns 72 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: 0ddZxepiyr0 | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: atd_6bfQln4 | "Jimmy Kimmel Turns 59 Today! 🎬 #shorts #borntoday"
+ - Preserving: sHoLy7uxzGc | "Whoopi Goldberg Turns 71 Today! 🎬 #shorts #borntoday"
+ - Preserving: bQhwi5_flfs | "Gerard Butler Turns 57 Today! 🎬 #shorts #borntoday"
+ - Preserving: M0cSTrv_qgQ | "Walton Goggins Turns 55 Today! 🎬 #shorts #borntoday"
+ - Preserving: FeE8T85H2vg | "Which Hollywood Star Turns 32 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: 4mGesFzpFBY | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: uDY_I9je4kI | "Kiernan Shipka Turns 27 Today! 🎬 #shorts #borntoday"
+ - Preserving: sFdNp6QakEQ | "Walton Goggins Turns 55 Today! 🎬 #shorts #borntoday"
+ - Preserving: vnN-MV_zOVY | "Ellen Pompeo Turns 57 Today! 🎬 #shorts #borntoday"
+ - Preserving: TiHKgSy2MHQ | "Which Hollywood Star Turns 47 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: kUNoaN4QtCU | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: se5uC2-rFNg | "Eric Dane Turns 54 Today! 🎬 #shorts #borntoday"
+ - Preserving: N-8b9GCD0V8 | "Ryan Murphy Turns 61 Today! 🎬 #shorts #borntoday"
+ - Preserving: f8V9BL35_Z4 | "Lou Ferrigno Turns 75 Today! 🎬 #shorts #borntoday"
+ - Preserving: VlnjcHDMRT4 | "Which Hollywood Star Turns 91 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: c7hcenT0FII | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: 0Czi_NfJozY | "Gretchen Mol Turns 54 Today! 🎬 #shorts #borntoday"
+ - Preserving: Cm6awS5BLFc | "Tara Reid Turns 51 Today! 🎬 #shorts #borntoday"
+ - Preserving: d7o4CdyEXbw | "Matthew Rhys Turns 52 Today! 🎬 #shorts #borntoday"
+ - Preserving: 2dXoFV7eKI4 | "Which Hollywood Star Turns 41 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: nu0xtpE3eDA | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: Mk3OiE6nI3c | "Kamal Haasan Turns 72 Today! 🎬 #shorts #borntoday"
+ - Preserving: BxPjF-OL704 | "Adam DeVine Turns 43 Today! 🎬 #shorts #borntoday"
+ - Preserving: _2AtLxOaTqQ | "Which Hollywood Star Turns 36 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: okBqCBHDzuE | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: SHqREaD2WEs | "Sally Field Turns 80 Today! 🎬 #shorts #borntoday"
+ - Preserving: Z0tQSGAIIRo | "Ethan Hawke Turns 56 Today! 🎬 #shorts #borntoday"
+ - Preserving: 4nlREp62fX0 | "Emma Stone Turns 38 Today! 🎬 #shorts #borntoday"
+ - Preserving: KEOtu9y8oyo | "Which Hollywood Star Turns 58 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: i1on2dRbiPg | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: 3IfUZUUR008 | "Robert Patrick Turns 68 Today! 🎬 #shorts #borntoday"
+ - Preserving: pZiTBVpiDWc | "Sam Rockwell Turns 58 Today! 🎬 #shorts #borntoday"
+ - Preserving: 8reep3OeY6s | "Tilda Swinton Turns 66 Today! 🎬 #shorts #borntoday"
+ - Preserving: 8QyMG9RYXYU | "Which Hollywood Star Turns 101 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: 05iC_pk2Vqc | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: Jx0fOe6uV_o | "Kathy Griffin Turns 66 Today! 🎬 #shorts #borntoday"
+ - Preserving: Ax0Et-MhJDI | "Ralph Macchio Turns 65 Today! 🎬 #shorts #borntoday"
+ - Preserving: MsssUUOXAK4 | "Matthew McConaughey Turns 57 Today! 🎬 #shorts #borntoday"
+ - Preserving: Y3gWQeIZYLg | "Which Hollywood Star Turns 29 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: 7A8o1bFOyfM | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: U0ghqJ67yiQ | "Kate Capshaw Turns 73 Today! 🎬 #shorts #borntoday"
+ - Preserving: v5v8-7JqdvY | "Roseanne Barr Turns 74 Today! 🎬 #shorts #borntoday"
+ - Preserving: BXE8t_RKoMM | "Dolph Lundgren Turns 69 Today! 🎬 #shorts #borntoday"
+ - Preserving: eHmF-MPkdmQ | "Anthony Ramos Turns 35 Today! 🎬 #shorts #borntoday"
+ - Preserving: _e6_DqXCJHk | "Penn Badgley Turns 40 Today! 🎬 #shorts #borntoday"
+ - Preserving: b1lnvZZgojM | "Toni Collette Turns 54 Today! 🎬 #shorts #borntoday"
+ - Preserving: cO-yqpaVyHY | "Which Hollywood Star Turns 42 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: -MOI9RahA5c | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: sy25Fwx-O3k | "Anthony Ramos Turns 35 Today! 🎬 #shorts #borntoday"
+ - Preserving: I6-m_jtYUFw | "Penn Badgley Turns 40 Today! 🎬 #shorts #borntoday"
+ - Preserving: 7esC4sVf4mc | "Toni Collette Turns 54 Today! 🎬 #shorts #borntoday"
+ - Preserving: gmFSYR9NaCo | "Which Hollywood Star Turns 34 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: QwrxsSO0sJQ | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: LQ5ZfeE5lik | "John Candy Turns 76 Today! 🎬 #shorts #borntoday"
+ - Preserving: DsnB2RKPCWM | "Letitia Wright Turns 33 Today! 🎬 #shorts #borntoday"
+ - Preserving: 3vmhr-dCvqk | "Peter Jackson Turns 65 Today! 🎬 #shorts #borntoday"
+ - Preserving: pmhSEnbs6hc | "Which Hollywood Star Turns 63 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: JrYLwl1s7J8 | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: Fxp7bCs_rUU | "Kevin Pollak Turns 69 Today! 🎬 #shorts #borntoday"
+ - Preserving: nQ6kyXWRX7w | "Nia Long Turns 56 Today! 🎬 #shorts #borntoday"
+ - Preserving: G5DJ61LOwYw | "Henry Winkler Turns 81 Today! 🎬 #shorts #borntoday"
+ - Preserving: hnZ4S5RropI | "Which Hollywood Star Turns 59 Today? 🔍 Celebrity Quiz #shorts"
+ - Preserving: SGZCHKYOc-w | "Guess The Star Celebrating a Birthday Today! 🎂 10s Trivia #shorts"
+ - Preserving: jljTigxW5Lg | "Tracee Ellis Ross Turns 54 Today! 🎬 #shorts #borntoday"
+ - Preserving: pbOYlp-fhio | "Richard Dreyfuss Turns 79 Today! �� #shorts #borntoday"
+ - Preserving: XXOYrR63EPU | "Winona Ryder Turns 55 Today! 🎬 #shorts #borntoday"
+ - Preserving: AWCNtUYKZRs | "Which Hollywood Star Turns 41 Today? 🔍 Celebrity Quiz #shorts"
+
+[✓] Done! Deleted 3 targeted YouTube Short(s).
