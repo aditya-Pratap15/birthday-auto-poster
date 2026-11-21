@@ -72,7 +72,9 @@
       "ig_post_id": "17868960843677691",
       "reel_path": "reels/Goldie_Hawn_Reel.mp4",
       "fb_reel_id": "1664520541740316",
-      "fb_reel_scheduled_time": 1795264800
+      "fb_reel_scheduled_time": 1795264800,
+      "youtube_video_id": "rb0nj00PUcU",
+      "youtube_url": "https://www.youtube.com/shorts/rb0nj00PUcU"
     },
     {
       "id": "2026-11-21_02_Harold_Ramis",
@@ -144,7 +146,9 @@
       "ig_post_id": "18342501487285567",
       "reel_path": "reels/Harold_Ramis_Reel.mp4",
       "fb_reel_id": "4148831235421724",
-      "fb_reel_scheduled_time": 1795282800
+      "fb_reel_scheduled_time": 1795282800,
+      "youtube_video_id": "LvnWMmLX9W8",
+      "youtube_url": "https://www.youtube.com/shorts/LvnWMmLX9W8"
     },
     {
       "id": "2026-11-21_03_Jena_Malone",
@@ -215,7 +219,9 @@
       "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/917262547_122121469071506930_1912641057721425803_n.jpg?_nc_cat=111&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=WztIaEIoEAMQ7kNvwGsnzNv&_nc_oc=AdpRzWLj0pQxqRn55l0rfY8XYbBfmIsvHadSe5Q-yr86yD7q7ehLxsk0ppw5Gw2ANkQ&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=iQQXVgbKidmC6KKTkNFapg&_nc_tpa=Q5bMBQItVAPUwDftMMFLmlZ34XJsFE7ZgBpV3xNmjQ_C30ZQiANzSsHlomGcZnk4Fm4AFC2cRjGMoz76kg&oh=00_AQRtMf833M0RwQpJbbW9sXDtbBQ7gY8Kf2Hb_UG51jB4Iw&oe=6B06C502",
       "reel_path": "reels/Jena_Malone_Reel.mp4",
       "fb_reel_id": "29489751143983406",
-      "fb_reel_scheduled_time": 1795300800
+      "fb_reel_scheduled_time": 1795300800,
+      "youtube_video_id": "lC8A1Wi90OE",
+      "youtube_url": "https://www.youtube.com/shorts/lC8A1Wi90OE"
     }
   ],
   "quiz_posts": [
@@ -323,7 +329,9 @@
       "scheduled_publish_time": 1795275000,
       "scheduled_time_utc": "2026-11-21T15:30:00.000Z",
       "peak_window": "US Midday Reel Quiz (11:30 AM EDT / 9:00 PM IST)",
-      "fb_reel_id": "29382593718101941"
+      "fb_reel_id": "29382593718101941",
+      "youtube_video_id": "5Ko7GuAGyaM",
+      "youtube_url": "https://www.youtube.com/shorts/5Ko7GuAGyaM"
     },
     {
       "id": "2026-11-21_quiz_04_Cherry_Jones",
@@ -358,7 +366,9 @@
       "scheduled_publish_time": 1795294800,
       "scheduled_time_utc": "2026-11-21T21:00:00.000Z",
       "peak_window": "US Evening Quiz Reel (5:00 PM EDT / 2:30 AM IST +1)",
-      "fb_reel_id": "1888709548952206"
+      "fb_reel_id": "1888709548952206",
+      "youtube_video_id": "s9BTvCwwFSA",
+      "youtube_url": "https://www.youtube.com/shorts/s9BTvCwwFSA"
     }
   ]
 }
