@@ -50,6 +50,12 @@ jobs:
         with:
           python-version: '3.11'
 
+      - name: Setup uv (Fast Python Package & Tool Runner)
+        if: steps.check_status.outputs.already_done != 'true'
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
       - name: Cache AI Models & Dependencies (Kokoro, Whisper, rembg)
         if: steps.check_status.outputs.already_done != 'true'
         uses: actions/cache@v4
@@ -58,28 +64,25 @@ jobs:
           path: |
             ~/.u2net
             ~/.cache/huggingface
+            ~/.cache/uv
             ~/.cache/pip
-          key: ai-models-v1-${{ runner.os }}
+          key: ai-models-v2-${{ runner.os }}
           restore-keys: |
-            ai-models-v1-${{ runner.os }}
+            ai-models-v2-${{ runner.os }}
 
       - name: Install System Dependencies (FFmpeg & Espeak-NG)
         if: steps.check_status.outputs.already_done != 'true'
         timeout-minutes: 4
         run: |
           sudo apt-get update -o Acquire::http::Timeout="20" -o Acquire::Retries="3" || true
-          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends espeak-ng fonts-liberation fonts-dejavu-core || true
-
-      - name: Install Kokoro AI TTS, Whisper Alignment & Multimedia ML
-        if: steps.check_status.outputs.already_done != 'true'
-        run: |
-          pip install --upgrade kokoro faster-whisper soundfile numpy rembg onnxruntime pillow edge-tts
-          python -m spacy download en_core_web_sm || pip install https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+          sudo DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends ffmpeg espeak-ng libespeak-ng-dev fonts-liberation fonts-dejavu-core || true
 
       - name: Pre-warm AI Models (Fast Model Cache Check)
         if: steps.check_status.outputs.already_done != 'true' && steps.ai_models_cache.outputs.cache-hit != 'true'
+        env:
+          PHONEMIZER_ESPEAK_LIBRARY: /usr/lib/x86_64-linux-gnu/libespeak-ng.so.1
         run: |
-          python -c "
+          uv run --with kokoro --with faster-whisper --with soundfile --with numpy --with rembg --with onnxruntime --with pillow python -c "
           import rembg
           print('[rembg] Pre-loading u2net model weights...')
           rembg.new_session('u2net')
@@ -103,6 +106,7 @@ jobs:
         env:
           DISPATCH_PAYLOAD: ${{ toJson(github.event.client_payload) }}
           TMDB_API_KEY: ${{ secrets.TMDB_API_KEY || '09ad47354cf2588cd01875ba6e225d07' }}
+          PHONEMIZER_ESPEAK_LIBRARY: /usr/lib/x86_64-linux-gnu/libespeak-ng.so.1
         run: node scripts/sync_daily_payload.js
 
       - name: Build Pixel-Perfect Collages with Viral Teaser Engine
@@ -111,12 +115,44 @@ jobs:
 
       - name: Build Vertical Reels with Neural Voiceover & Dynamic Captions
         if: steps.check_status.outputs.already_done != 'true'
+        env:
+          PHONEMIZER_ESPEAK_LIBRARY: /usr/lib/x86_64-linux-gnu/libespeak-ng.so.1
         run: node scripts/build_reel_studio.js --all
 
       - name: Build Interactive Celebrity Quiz Posts & Reels
         if: steps.check_status.outputs.already_done != 'true'
         continue-on-error: true
+        env:
+          PHONEMIZER_ESPEAK_LIBRARY: /usr/lib/x86_64-linux-gnu/libespeak-ng.so.1
         run: node scripts/build_quiz_studio.js
+
+      - name: Verify Vertical Reels Staged
+        if: steps.check_status.outputs.already_done != 'true'
+        run: |
+          echo "=== Staged Reels Verification ==="
+          ls -lh reels/ || true
+          node -e "
+          const fs = require('fs');
+          const d = JSON.parse(fs.readFileSync('today_posts.json', 'utf8'));
+          const top3 = (d.posts || []).slice(0, 3);
+          let allOk = true;
+          top3.forEach((p, i) => {
+            const name = (p.celebrity_name || '').replace(/[^a-zA-Z0-9]/g, '_');
+            const reelPath = 'reels/' + name + '_Reel.mp4';
+            if (fs.existsSync(reelPath) && fs.statSync(reelPath).size > 1000000) {
+              const mb = (fs.statSync(reelPath).size / 1048576).toFixed(2);
+              console.log('  [✓] Headliner ' + (i+1) + ' (' + p.celebrity_name + '): ' + mb + ' MB');
+            } else {
+              console.warn('  [!] Headliner ' + (i+1) + ' (' + p.celebrity_name + '): MISSING OR EMPTY!');
+              allOk = false;
+            }
+          });
+          if (!allOk) {
+            console.error('[!] Warning: Not all headliner reels were built successfully.');
+          } else {
+            console.log('[✓] All 3 headliner reels are verified and ready for deployment!');
+          }
+          "
 
       - name: Post to Facebook Pages with Unicode Bold & Pinned Comments
         if: steps.check_status.outputs.already_done != 'true'

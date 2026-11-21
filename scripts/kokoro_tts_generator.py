@@ -16,6 +16,17 @@ import os
 clean_paths = [p for p in os.environ.get("PATH", "").split(os.pathsep) if "msys64" not in p.lower()]
 os.environ["PATH"] = os.pathsep.join(clean_paths)
 
+# 2. Linux espeak-ng auto-detection for phonemizer / Kokoro
+if sys.platform != "win32" and "PHONEMIZER_ESPEAK_LIBRARY" not in os.environ:
+    import glob
+    candidates = (
+        glob.glob("/usr/lib/*/libespeak-ng.so*") +
+        glob.glob("/usr/lib/libespeak-ng.so*") +
+        glob.glob("/usr/local/lib/libespeak-ng.so*")
+    )
+    if candidates:
+        os.environ["PHONEMIZER_ESPEAK_LIBRARY"] = candidates[0]
+
 import json
 import asyncio
 
