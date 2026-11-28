@@ -65,17 +65,17 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Ed_Harris_Reel.mp4",
       "fb_post_id": "122124556335506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122124556335506930",
+      "fb_reel_id": "1767890530981027",
       "fb_collage_photo_id": "122124556335506930",
       "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/923097854_122124556341506930_603880684909658853_n.jpg?_nc_cat=107&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=z4aicDHSc3cQ7kNvwGHZZ9n&_nc_oc=Adp87a9tiWyHBfkwHWjFZTZeFFVPhdawQCd59-knVIRe8_MONp7RG0gv20WoswQNVK8&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=sqdZh7zxhPbBR7aShM8Owg&_nc_tpa=Q5bMBQJE0v7UQpWgmhRTAGAJkYiJxxgJstHfZLwe2Ra7utctOqzmidpEJm6rl_H0jNLJidVUBtZ3wQbEJQ&oh=00_AQVuOANgmGKJ2Iw6oyMe3p26GldG9J4py9767mNjqDaZQw&oe=6B0FFC1C",
-      "fb_reel_id": "1767890530981027",
-      "fb_reel_scheduled_time": 1795869600,
+      "reel_path": "reels/Ed_Harris_Reel.mp4",
+      "ig_post_id": "18137751949787746",
+      "ig_reel_id": "17917438290563818",
       "youtube_video_id": "-X5fpCeGTBU",
       "youtube_url": "https://www.youtube.com/shorts/-X5fpCeGTBU",
-      "ig_post_id": "18137751949787746",
-      "ig_reel_id": "17917438290563818"
+      "fb_reel_scheduled_time": 1795869600
     },
     {
       "id": "2026-11-28_02_Karen_Gillan",
@@ -140,15 +140,15 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Karen_Gillan_Reel.mp4",
       "fb_post_id": "122124556521506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122124556521506930",
+      "fb_reel_id": "981709604674915",
       "fb_collage_photo_id": "122124556521506930",
       "collage_cdn_url": "https://scontent-iad3-2.xx.fbcdn.net/v/t39.30808-6/926077497_122124556527506930_4230128796012169492_n.jpg?_nc_cat=104&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=Geu3tleQv38Q7kNvwF3d5lZ&_nc_oc=AdqWrGk8ULFv9nnl6tlainU82SmLYOrKREN_pXAp4QuZ0kaYw16ODreDXkH6wxGk-rM&_nc_zt=23&_nc_ht=scontent-iad3-2.xx&edm=AMAeTUEEAAAA&_nc_gid=3fFCRok0Guyh0on87f965g&_nc_tpa=Q5bMBQJx7uEddU47Jxte8LwLIdFRcjUni2JGqOIfguNpMQ3G1O3A5P9x3jRUaKd1lCSFQEPw9mIMDy6PZA&oh=00_AQW0zNdorjvIXYsgOEQ-wJw-RcgmE20AzAV5KLJsvNIe7A&oe=6B1016C3",
-      "fb_reel_id": "981709604674915",
-      "fb_reel_scheduled_time": 1795887600,
+      "reel_path": "reels/Karen_Gillan_Reel.mp4",
       "youtube_video_id": "pbo861n5Wl0",
-      "youtube_url": "https://www.youtube.com/shorts/pbo861n5Wl0"
+      "youtube_url": "https://www.youtube.com/shorts/pbo861n5Wl0",
+      "fb_reel_scheduled_time": 1795887600
     },
     {
       "id": "2026-11-28_03_Alan_Ritchson",
@@ -213,15 +213,15 @@
       "page_name": "Born Today Hollywood",
       "page_id_env": "FB_PAGE_ID_BORN",
       "token_env": "FB_TOKEN_BORN",
-      "reel_path": "reels/Alan_Ritchson_Reel.mp4",
       "fb_post_id": "122124556749506930",
       "fb_post_url": "https://www.facebook.com/1345901645276194/posts/122124556749506930",
+      "fb_reel_id": "1870191664429919",
       "fb_collage_photo_id": "122124556749506930",
       "collage_cdn_url": "https://scontent-iad3-1.xx.fbcdn.net/v/t39.30808-6/920965397_122124556761506930_2726659557109472727_n.jpg?_nc_cat=105&_nc_map=urlgen_bucketless&ccb=1-7&_nc_sid=054031&_nc_ohc=MKxC65mKowAQ7kNvwGlEhr-&_nc_oc=AdoPazRMgqKkxANYq1qGpcYPfV-DdeznGEkB0znyAFF74Aw9QyZTAlgCk5Y7MsPB6F8&_nc_zt=23&_nc_ht=scontent-iad3-1.xx&edm=AMAeTUEEAAAA&_nc_gid=oSpx2UBylsw4oFlSRs86IA&_nc_tpa=Q5bMBQKOZ3Oz4UmEikkUcDaMPxKPQjVB223Zk3o8IkccXrKfavQz7I0IKzTbyz15Mcx9fTlrqnIIjJ1u4g&oh=00_AQVbzqs4PFud5X2BDuIF2Ot96O1v9v93MLIAsDKj_RFxcg&oe=6B101FB7",
-      "fb_reel_id": "1870191664429919",
-      "fb_reel_scheduled_time": 1795905600,
+      "reel_path": "reels/Alan_Ritchson_Reel.mp4",
       "youtube_video_id": "hnDjAkyvua4",
-      "youtube_url": "https://www.youtube.com/shorts/hnDjAkyvua4"
+      "youtube_url": "https://www.youtube.com/shorts/hnDjAkyvua4",
+      "fb_reel_scheduled_time": 1795905600
     }
   ],
   "quiz_posts": [
